@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Options","Representation of the application's all configurable values."]]});
+initSidebarItems({"enum":[["Outcome","Enum representing all possible values the application can fail."]],"mod":[["ops",""]],"struct":[["Options","Representation of the application's all configurable values."]]});
