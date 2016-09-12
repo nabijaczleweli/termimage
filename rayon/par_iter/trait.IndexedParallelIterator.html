@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `IndexedParallelIterator` trait in crate `rayon`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, IndexedParallelIterator">
+
+    <title>rayon::par_iter::IndexedParallelIterator - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>rayon</a>::<wbr><a href='index.html'>par_iter</a></p><script>window.sidebarCurrent = {name: 'IndexedParallelIterator', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rayon</a>::<wbr><a href='index.html'>par_iter</a>::<wbr><a class='trait' href=''>IndexedParallelIterator</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2589' class='srclink' href='../../src/rayon/par_iter/mod.rs.html#399-421' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait IndexedParallelIterator: <a class='trait' href='../../rayon/par_iter/trait.ExactParallelIterator.html' title='rayon::par_iter::ExactParallelIterator'>ExactParallelIterator</a> {
+    fn <a href='#method.zip' class='fnname'>zip</a>&lt;ZIP_OP&gt;(self, zip_op: ZIP_OP) -&gt; <a class='struct' href='../../rayon/par_iter/zip/struct.ZipIter.html' title='rayon::par_iter::zip::ZipIter'>ZipIter</a>&lt;Self,&nbsp;ZIP_OP::Iter&gt; <span class='where'>where ZIP_OP: <a class='trait' href='../../rayon/par_iter/trait.IntoParallelIterator.html' title='rayon::par_iter::IntoParallelIterator'>IntoParallelIterator</a>, ZIP_OP::Iter: <a class='trait' href='../../rayon/par_iter/trait.IndexedParallelIterator.html' title='rayon::par_iter::IndexedParallelIterator'>IndexedParallelIterator</a></span> { ... }
+    fn <a href='#method.enumerate' class='fnname'>enumerate</a>(self) -&gt; <a class='struct' href='../../rayon/par_iter/enumerate/struct.Enumerate.html' title='rayon::par_iter::enumerate::Enumerate'>Enumerate</a>&lt;Self&gt; { ... }
+}</pre><div class='docblock'><p>An iterator that supports &quot;random access&quot; to its data, meaning
+that you can split it at arbitrary indices and draw data from
+those points.</p>
+</div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.zip' class='method stab '><code>fn <a href='#method.zip' class='fnname'>zip</a>&lt;ZIP_OP&gt;(self, zip_op: ZIP_OP) -&gt; <a class='struct' href='../../rayon/par_iter/zip/struct.ZipIter.html' title='rayon::par_iter::zip::ZipIter'>ZipIter</a>&lt;Self,&nbsp;ZIP_OP::Iter&gt; <span class='where'>where ZIP_OP: <a class='trait' href='../../rayon/par_iter/trait.IntoParallelIterator.html' title='rayon::par_iter::IntoParallelIterator'>IntoParallelIterator</a>, ZIP_OP::Iter: <a class='trait' href='../../rayon/par_iter/trait.IndexedParallelIterator.html' title='rayon::par_iter::IndexedParallelIterator'>IndexedParallelIterator</a></span></code></h3><div class='docblock'><p>Iterate over tuples <code>(A, B)</code>, where the items <code>A</code> are from
+this iterator and <code>B</code> are from the iterator given as argument.
+Like the <code>zip</code> method on ordinary iterators, if the two
+iterators are of unequal length, you only get the items they
+have in common.</p>
+</div><h3 id='method.enumerate' class='method stab '><code>fn <a href='#method.enumerate' class='fnname'>enumerate</a>(self) -&gt; <a class='struct' href='../../rayon/par_iter/enumerate/struct.Enumerate.html' title='rayon::par_iter::enumerate::Enumerate'>Enumerate</a>&lt;Self&gt;</code></h3><div class='docblock'><p>Yields an index along with each item.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl&lt;M&gt; IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/enumerate/struct.Enumerate.html' title='rayon::par_iter::enumerate::Enumerate'>Enumerate</a>&lt;M&gt; <span class='where'>where M: <a class='trait' href='../../rayon/par_iter/trait.IndexedParallelIterator.html' title='rayon::par_iter::IndexedParallelIterator'>IndexedParallelIterator</a></span></code></li>
+<li><code>impl&lt;'data,&nbsp;T:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> + 'data&gt; IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/slice/struct.SliceIter.html' title='rayon::par_iter::slice::SliceIter'>SliceIter</a>&lt;'data,&nbsp;T&gt;</code></li>
+<li><code>impl&lt;'data,&nbsp;T:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> + 'data&gt; IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/slice/struct.ChunksIter.html' title='rayon::par_iter::slice::ChunksIter'>ChunksIter</a>&lt;'data,&nbsp;T&gt;</code></li>
+<li><code>impl&lt;'data,&nbsp;T:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> + 'data&gt; IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/slice_mut/struct.SliceIterMut.html' title='rayon::par_iter::slice_mut::SliceIterMut'>SliceIterMut</a>&lt;'data,&nbsp;T&gt;</code></li>
+<li><code>impl&lt;'data,&nbsp;T:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> + 'data&gt; IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/slice_mut/struct.ChunksMutIter.html' title='rayon::par_iter::slice_mut::ChunksMutIter'>ChunksMutIter</a>&lt;'data,&nbsp;T&gt;</code></li>
+<li><code>impl&lt;M,&nbsp;MAP_OP&gt; IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/map/struct.Map.html' title='rayon::par_iter::map::Map'>Map</a>&lt;M,&nbsp;MAP_OP&gt; <span class='where'>where M: <a class='trait' href='../../rayon/par_iter/trait.IndexedParallelIterator.html' title='rayon::par_iter::IndexedParallelIterator'>IndexedParallelIterator</a>, MAP_OP: <a class='trait' href='../../rayon/par_iter/map/trait.MapOp.html' title='rayon::par_iter::map::MapOp'>MapOp</a>&lt;M::Item&gt;</span></code></li>
+<li><code>impl&lt;M:&nbsp;<a class='trait' href='../../rayon/par_iter/trait.IndexedParallelIterator.html' title='rayon::par_iter::IndexedParallelIterator'>IndexedParallelIterator</a>&gt; IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/weight/struct.Weight.html' title='rayon::par_iter::weight::Weight'>Weight</a>&lt;M&gt;</code></li>
+<li><code>impl&lt;A,&nbsp;B&gt; IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/zip/struct.ZipIter.html' title='rayon::par_iter::zip::ZipIter'>ZipIter</a>&lt;A,&nbsp;B&gt; <span class='where'>where A: <a class='trait' href='../../rayon/par_iter/trait.IndexedParallelIterator.html' title='rayon::par_iter::IndexedParallelIterator'>IndexedParallelIterator</a>, B: <a class='trait' href='../../rayon/par_iter/trait.IndexedParallelIterator.html' title='rayon::par_iter::IndexedParallelIterator'>IndexedParallelIterator</a></span></code></li>
+<li><code>impl IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/range/struct.RangeIter.html' title='rayon::par_iter::range::RangeIter'>RangeIter</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;</code></li>
+<li><code>impl IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/range/struct.RangeIter.html' title='rayon::par_iter::range::RangeIter'>RangeIter</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a>&gt;</code></li>
+<li><code>impl IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/range/struct.RangeIter.html' title='rayon::par_iter::range::RangeIter'>RangeIter</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>&gt;</code></li>
+<li><code>impl IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/range/struct.RangeIter.html' title='rayon::par_iter::range::RangeIter'>RangeIter</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;</code></li>
+<li><code>impl IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/range/struct.RangeIter.html' title='rayon::par_iter::range::RangeIter'>RangeIter</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a>&gt;</code></li>
+<li><code>impl IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/range/struct.RangeIter.html' title='rayon::par_iter::range::RangeIter'>RangeIter</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a>&gt;</code></li>
+<li><code>impl IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/range/struct.RangeIter.html' title='rayon::par_iter::range::RangeIter'>RangeIter</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;</code></li>
+<li><code>impl IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/range/struct.RangeIter.html' title='rayon::par_iter::range::RangeIter'>RangeIter</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.isize.html'>isize</a>&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt; IndexedParallelIterator for <a class='struct' href='../../rayon/par_iter/vec/struct.VecIter.html' title='rayon::par_iter::vec::VecIter'>VecIter</a>&lt;T&gt;</code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/rayon/par_iter/trait.IndexedParallelIterator.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rayon";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
