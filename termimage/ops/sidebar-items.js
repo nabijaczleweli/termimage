@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["guess_format",""],["load_image",""],["resize_image",""]]});
+initSidebarItems({"fn":[["guess_format","Guess the image format from its extension."],["load_image","Load an image from the specified file as the specified format."],["resize_image","Resize the specified image to the specified size, optionally preserving its aspect ratio."]]});

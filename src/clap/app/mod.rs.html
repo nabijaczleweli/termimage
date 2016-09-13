@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/app/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.12.1/src/app/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -1605,6 +1605,34 @@
 <span id="1561">1561</span>
 <span id="1562">1562</span>
 <span id="1563">1563</span>
+<span id="1564">1564</span>
+<span id="1565">1565</span>
+<span id="1566">1566</span>
+<span id="1567">1567</span>
+<span id="1568">1568</span>
+<span id="1569">1569</span>
+<span id="1570">1570</span>
+<span id="1571">1571</span>
+<span id="1572">1572</span>
+<span id="1573">1573</span>
+<span id="1574">1574</span>
+<span id="1575">1575</span>
+<span id="1576">1576</span>
+<span id="1577">1577</span>
+<span id="1578">1578</span>
+<span id="1579">1579</span>
+<span id="1580">1580</span>
+<span id="1581">1581</span>
+<span id="1582">1582</span>
+<span id="1583">1583</span>
+<span id="1584">1584</span>
+<span id="1585">1585</span>
+<span id="1586">1586</span>
+<span id="1587">1587</span>
+<span id="1588">1588</span>
+<span id="1589">1589</span>
+<span id="1590">1590</span>
+<span id="1591">1591</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>settings</span>;
@@ -2185,6 +2213,34 @@
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_term_width</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>width</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>term_w</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>width</span>);
+        <span class='self'>self</span>
+    }
+
+    <span class='doccomment'>/// Sets the max terminal width at which to wrap help messages. Using `0` will ignore terminal</span>
+    <span class='doccomment'>/// widths and use source formatting.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// `clap` automatically tries to determine the terminal width on Unix, Linux, OSX and Windows</span>
+    <span class='doccomment'>/// if the `wrap_help` cargo &quot;feature&quot; has been used while compiling, but one might want to</span>
+    <span class='doccomment'>/// limit the size (e.g. when the terminal is running fullscreen).</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** This setting applies globally and *not* on a per-command basis.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** This setting must be set **before** any subcommands are added!</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Platform Specific</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Only Unix, Linux, OSX and Windows support automatic determination of terminal width.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```no_run</span>
+    <span class='doccomment'>/// # use clap::App;</span>
+    <span class='doccomment'>/// App::new(&quot;myprog&quot;)</span>
+    <span class='doccomment'>///     .max_term_width(100)</span>
+    <span class='doccomment'>/// # ;</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>max_term_width</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>w</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>max_w</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>w</span>);
         <span class='self'>self</span>
     }
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/usage_parser.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.12.1/src/usage_parser.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>usage_parser.rs.html -- source</title>
@@ -1258,6 +1258,13 @@
 <span id="1214">1214</span>
 <span id="1215">1215</span>
 <span id="1216">1216</span>
+<span id="1217">1217</span>
+<span id="1218">1218</span>
+<span id="1219">1219</span>
+<span id="1220">1220</span>
+<span id="1221">1221</span>
+<span id="1222">1222</span>
+<span id="1223">1223</span>
 </pre><pre class='rust '>
 <span class='comment'>// Third Party</span>
 <span class='kw'>use</span> <span class='ident'>vec_map</span>::<span class='ident'>VecMap</span>;
@@ -1292,7 +1299,7 @@
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>UsageParser</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>usage</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;exec=new; usage={:?}&quot;</span>, <span class='ident'>usage</span>);
+        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=new; usage={:?}&quot;</span>, <span class='ident'>usage</span>);
         <span class='ident'>UsageParser</span> {
             <span class='ident'>usage</span>: <span class='ident'>usage</span>,
             <span class='ident'>pos</span>: <span class='number'>0</span>,
@@ -1435,6 +1442,13 @@
                     <span class='kw'>if</span> <span class='ident'>dot_counter</span> <span class='op'>==</span> <span class='number'>3</span> {
                         <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;setting multiple&quot;</span>);
                         <span class='ident'>arg</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>);
+                        <span class='kw'>if</span> <span class='ident'>arg</span>.<span class='ident'>settings</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>) {
+                            <span class='ident'>arg</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>UseValueDelimiter</span>);
+                            <span class='ident'>arg</span>.<span class='ident'>unsetb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>ValueDelimiterNotSet</span>);
+                            <span class='kw'>if</span> <span class='ident'>arg</span>.<span class='ident'>val_delim</span>.<span class='ident'>is_none</span>() {
+                                <span class='ident'>arg</span>.<span class='ident'>val_delim</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='string'>&#39;,&#39;</span>);
+                            }
+                        }
                         <span class='self'>self</span>.<span class='ident'>prev</span> <span class='op'>=</span> <span class='ident'>UsageToken</span>::<span class='ident'>Multiple</span>;
                         <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='number'>1</span>;
                         <span class='kw'>break</span>;

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/fmt.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.12.1/src/fmt.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>fmt.rs.html -- source</title>
@@ -248,7 +248,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;color&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_a_tty</span>(<span class='ident'>stderr</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;exec=is_a_tty;&quot;</span>);
+    <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=is_a_tty;&quot;</span>);
     <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;Use stderr...{:?}&quot;</span>, <span class='ident'>stderr</span>);
     <span class='kw'>let</span> <span class='ident'>fd</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>stderr</span> { <span class='ident'>STDERR</span> } <span class='kw'>else</span> { <span class='ident'>STDOUT</span> };
     <span class='kw'>unsafe</span> { <span class='ident'>libc</span>::<span class='ident'>isatty</span>(<span class='ident'>fd</span>) <span class='op'>!=</span> <span class='number'>0</span> }
@@ -256,7 +256,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;color&quot;</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_a_tty</span>(_: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;exec=is_a_tty;&quot;</span>);
+    <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=is_a_tty;&quot;</span>);
     <span class='bool-val'>false</span>
 }
 
@@ -284,28 +284,28 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>good</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>msg</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Format</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='op'>+</span> <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>
     {
-        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;exec=good;&quot;</span>);
+        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=good;&quot;</span>);
         <span class='macro'>color</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>Good</span>, <span class='ident'>msg</span>)
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>warning</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>msg</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Format</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='op'>+</span> <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>
     {
-        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;exec=warning;&quot;</span>);
+        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=warning;&quot;</span>);
         <span class='macro'>color</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>Warning</span>, <span class='ident'>msg</span>)
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>error</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>msg</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Format</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='op'>+</span> <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>
     {
-        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;exec=error;&quot;</span>);
+        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=error;&quot;</span>);
         <span class='macro'>color</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>Error</span>, <span class='ident'>msg</span>)
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>none</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>msg</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Format</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='op'>+</span> <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>
     {
-        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;exec=none;&quot;</span>);
+        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=none;&quot;</span>);
         <span class='ident'>Format</span>::<span class='prelude-val'>None</span>(<span class='ident'>msg</span>)
     }
 }
