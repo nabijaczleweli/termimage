@@ -5,6 +5,35 @@ use std::io::BufReader;
 use std::fs::File;
 
 
+/// Guess the image format from its extension.
+///
+/// # Examples
+///
+/// Correct:
+///
+/// ```
+/// # extern crate image;
+/// # extern crate termimage;
+/// # use image::ImageFormat;
+/// # use std::path::PathBuf;
+/// # use termimage::ops::guess_format;
+/// # fn main() {
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.png"))), Ok(ImageFormat::PNG));
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.jpg"))), Ok(ImageFormat::JPEG));
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.gif"))), Ok(ImageFormat::GIF));
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.bmp"))), Ok(ImageFormat::BMP));
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.ico"))), Ok(ImageFormat::ICO));
+/// # }
+/// ```
+///
+/// Incorrect:
+///
+/// ```
+/// # use std::path::PathBuf;
+/// # use termimage::Outcome;
+/// # use termimage::ops::guess_format;
+/// assert_eq!(guess_format(&("../ops.rs".to_string(), PathBuf::from("ops.rs"))), Err(Outcome::GuessingFormatFailed("../ops.rs".to_string())));
+/// ```
 pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
     file.1
         .extension()
@@ -24,10 +53,15 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
         .ok_or_else(|| Outcome::GuessingFormatFailed(file.0.clone()))
 }
 
+/// Load an image from the specified file as the specified format.
+///
+/// Get the image fromat with `guess_format()`.
 pub fn load_image(file: &(String, PathBuf), format: ImageFormat) -> DynamicImage {
     image::load(BufReader::new(File::open(&file.1).unwrap()), format).unwrap()
 }
 
+
+/// Resize the specified image to the specified size, optionally preserving its aspect ratio.
 pub fn resize_image(img: &DynamicImage, size: (u32, u32), preserve_aspect: bool) -> DynamicImage {
     if preserve_aspect {
         img.resize(size.0, size.1, FilterType::Nearest)
