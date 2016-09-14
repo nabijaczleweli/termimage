@@ -1,7 +1,6 @@
 extern crate termimage;
 extern crate image;
 
-use image::GenericImage;
 use std::process::exit;
 use std::io::{stdout, stderr};
 
