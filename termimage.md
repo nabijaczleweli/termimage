@@ -26,6 +26,8 @@ with ANSI output a sane default is assumed.
     By default this is autodetected to match the output terminal's resolution,
     but is required when outputting to a file.
 
+    Format: NxM
+
   -f --force
 
     By default the image's aspect ratio will be preserved when downscaling,
