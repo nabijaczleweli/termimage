@@ -28,5 +28,12 @@ fn result_main() -> Result<(), termimage::Outcome> {
     let resized = termimage::ops::resize_image(&img, opts.size, opts.preserve_aspect);
     println!("{:?}", resized.dimensions());
 
+    if opts.ansi_out {
+        // TODO
+        println!("ANSI output unimplemented");
+    } else {
+        termimage::ops::write_no_ansi(&resized);
+    }
+
     Ok(())
 }

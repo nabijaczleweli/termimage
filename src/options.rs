@@ -33,6 +33,8 @@ pub struct Options {
     pub size: (u32, u32),
     /// Whether to preserve the image's aspect ratio when resizing. Default: `true`.
     pub preserve_aspect: bool,
+    /// Whether to output ANSI escapes. Default: `true` on non-Windows and when writing to file on Windooze.
+    pub ansi_out: bool,
 }
 
 impl Options {
@@ -40,10 +42,14 @@ impl Options {
     pub fn parse() -> Options {
         let szarg_def;
         let mut szarg = Arg::from_usage("-s --size [size] 'Image file to display'").validator(Options::size_validator);
-        if let Some((w, h)) = term_size::dimensions() {
+        let have_dimms = if let Some((w, h)) = term_size::dimensions() {
             szarg_def = format!("{}x{}", w, h);
             szarg = szarg.default_value(&szarg_def);
-        }
+            true
+        } else {
+            szarg = szarg.required(true);
+            false
+        };
 
         let matches = App::new("termimage")
             .version(crate_version!())
@@ -53,6 +59,7 @@ impl Options {
             .arg(Arg::from_usage("<IMAGE> 'Image file to display'").validator(Options::image_file_validator))
             .arg(szarg)
             .arg(Arg::from_usage("-f --force 'Don\\'t preserve the image\\'s aspect ratio'"))
+            .arg(Arg::from_usage("-a --ansi 'Force output ANSI escapes'"))
             .get_matches();
 
         let image = matches.value_of("IMAGE").unwrap();
@@ -60,6 +67,7 @@ impl Options {
             image: (image.to_string(), fs::canonicalize(image).unwrap()),
             size: Options::parse_size(matches.value_of("size").unwrap()).unwrap(),
             preserve_aspect: !matches.is_present("force"),
+            ansi_out: cfg!(not(target_os = "windows")) || !have_dimms || matches.is_present("ansi"),
         }
     }
 

@@ -4,6 +4,10 @@ use std::path::PathBuf;
 use std::io::BufReader;
 use std::fs::File;
 
+mod no_ansi;
+
+pub use self::no_ansi::write_no_ansi;
+
 
 /// Guess the image format from its extension.
 ///
