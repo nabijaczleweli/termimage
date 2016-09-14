@@ -1,7 +1,8 @@
-use image::{self, DynamicImage, ImageFormat, FilterType};
+use image::{self, GenericImage, DynamicImage, ImageFormat, FilterType, Pixel};
+use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_COLOURS, closest_colour};
+use std::io::{BufReader, Write};
 use self::super::Outcome;
 use std::path::PathBuf;
-use std::io::BufReader;
 use std::fs::File;
 
 mod no_ansi;
@@ -36,7 +37,8 @@ pub use self::no_ansi::write_no_ansi;
 /// # use std::path::PathBuf;
 /// # use termimage::Outcome;
 /// # use termimage::ops::guess_format;
-/// assert_eq!(guess_format(&("../ops.rs".to_string(), PathBuf::from("ops.rs"))), Err(Outcome::GuessingFormatFailed("../ops.rs".to_string())));
+/// assert_eq!(guess_format(&("../ops.rs".to_string(), PathBuf::from("ops.rs"))),
+/// Err(Outcome::GuessingFormatFailed("../ops.rs".to_string())));
 /// ```
 pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
     file.1
@@ -71,5 +73,18 @@ pub fn resize_image(img: &DynamicImage, size: (u32, u32), preserve_aspect: bool)
         img.resize(size.0, size.1, FilterType::Nearest)
     } else {
         img.resize_exact(size.0, size.1, FilterType::Nearest)
+    }
+}
+
+/// Display the specified image in the default console using ANSI escape codes.
+pub fn write_ansi<W: Write>(out: &mut W, img: &DynamicImage) {
+    let (width, height) = img.dimensions();
+
+    for y in 0..height {
+        for x in 0..width {
+            let closest_clr = closest_colour(img.get_pixel(x, y).to_rgb(), ANSI_COLOURS);
+            write!(out, "{} ", ANSI_BG_COLOUR_ESCAPES[closest_clr]).unwrap();
+        }
+        writeln!(out, "{}", ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
     }
 }

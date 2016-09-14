@@ -3,7 +3,7 @@ extern crate image;
 
 use image::GenericImage;
 use std::process::exit;
-use std::io::stderr;
+use std::io::{stdout, stderr};
 
 
 fn main() {
@@ -29,8 +29,7 @@ fn result_main() -> Result<(), termimage::Outcome> {
     println!("{:?}", resized.dimensions());
 
     if opts.ansi_out {
-        // TODO
-        println!("ANSI output unimplemented");
+        termimage::ops::write_ansi(&mut stdout(), &resized);
     } else {
         termimage::ops::write_no_ansi(&resized);
     }

@@ -6,6 +6,26 @@ use image::Rgb;
 use std::ops::Index;
 
 
+/// "Standard" ANSI colours, in the same order as `ANSI_COLOUR_ESCAPES`.
+///
+/// Acquired from screenshot provided by [@Ell](https://github.com/elliotpotts):
+///
+/// ![Terminal screenshot](https://cloud.githubusercontent.com/assets/6709544/18532811/e7e87a6e-7ade-11e6-868f-f6d2f9faec27.png)
+///
+/// Might not be representative, because white bg, though...
+pub static ANSI_COLOURS: &'static [Rgb<u8>] = &[Rgb { data: [0xee, 0xe8, 0xd5] },
+                                                Rgb { data: [0xdc, 0x32, 0x2f] },
+                                                Rgb { data: [0x85, 0x99, 0x00] },
+                                                Rgb { data: [0xb5, 0x89, 0x00] },
+                                                Rgb { data: [0x26, 0x8b, 0xd2] },
+                                                Rgb { data: [0xd3, 0x36, 0x82] },
+                                                Rgb { data: [0x2a, 0xa1, 0x98] },
+                                                Rgb { data: [0x07, 0x36, 0x42] }];
+
+/// ANSI bacground colour escapes.
+pub static ANSI_BG_COLOUR_ESCAPES: &'static [&'static str] = &["\x1B[40m", "\x1B[41m", "\x1B[42m", "\x1B[43m", "\x1B[44m", "\x1B[45m", "\x1B[46m", "\x1B[47m"];
+
+
 /// Create a string consisting of `n` repetitions of `what`.
 ///
 /// # Examples
