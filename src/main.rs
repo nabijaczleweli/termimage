@@ -19,14 +19,11 @@ fn actual_main() -> i32 {
 
 fn result_main() -> Result<(), termimage::Outcome> {
     let opts = termimage::Options::parse();
-    println!("{:#?}", opts);
 
     let format = try!(termimage::ops::guess_format(&opts.image));
     let img = termimage::ops::load_image(&opts.image, format);
 
-    println!("{:?}", img.dimensions());
     let resized = termimage::ops::resize_image(&img, opts.size, opts.preserve_aspect);
-    println!("{:?}", resized.dimensions());
 
     if opts.ansi_out {
         termimage::ops::write_ansi(&mut stdout(), &resized);
