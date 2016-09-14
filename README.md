@@ -3,3 +3,11 @@ Display images in your terminal, kind of
 
 ## [Documentation](https://cdn.rawgit.com/nabijaczleweli/termimage/doc/termimage/index.html)
 ## [Manpages](https://cdn.rawgit.com/nabijaczleweli/termimage/man/termimage.1.html)
+
+### Usage
+
+```sh
+termimage IMAGE_PATH
+```
+
+![DS3 image after](assets/DS3-result.jpg)
