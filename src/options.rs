@@ -41,7 +41,7 @@ impl Options {
     /// Parse `env`-wide command-line arguments into an `Options` instance
     pub fn parse() -> Options {
         let szarg_def;
-        let mut szarg = Arg::from_usage("-s --size [size] 'Image file to display'").validator(Options::size_validator);
+        let mut szarg = Arg::from_usage("-s --size [size] 'Output image resolution'").validator(Options::size_validator);
         let have_dimms = if let Some((w, h)) = term_size::dimensions() {
             szarg_def = format!("{}x{}", w, h);
             szarg = szarg.default_value(&szarg_def);
