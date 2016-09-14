@@ -123,6 +123,14 @@
 <span id="79">79</span>
 <span id="80">80</span>
 <span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! This module contains the configuration of the application.</span>
 <span class='doccomment'>//!</span>
@@ -159,6 +167,8 @@
     <span class='kw'>pub</span> <span class='ident'>size</span>: (<span class='ident'>u32</span>, <span class='ident'>u32</span>),
     <span class='doccomment'>/// Whether to preserve the image&#39;s aspect ratio when resizing. Default: `true`.</span>
     <span class='kw'>pub</span> <span class='ident'>preserve_aspect</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Whether to output ANSI escapes. Default: `true` on non-Windows and when writing to file on Windooze.</span>
+    <span class='kw'>pub</span> <span class='ident'>ansi_out</span>: <span class='ident'>bool</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>Options</span> {
@@ -166,10 +176,14 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>parse</span>() <span class='op'>-&gt;</span> <span class='ident'>Options</span> {
         <span class='kw'>let</span> <span class='ident'>szarg_def</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>szarg</span> <span class='op'>=</span> <span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='string'>&quot;-s --size [size] &#39;Image file to display&#39;&quot;</span>).<span class='ident'>validator</span>(<span class='ident'>Options</span>::<span class='ident'>size_validator</span>);
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>w</span>, <span class='ident'>h</span>)) <span class='op'>=</span> <span class='ident'>term_size</span>::<span class='ident'>dimensions</span>() {
+        <span class='kw'>let</span> <span class='ident'>have_dimms</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>w</span>, <span class='ident'>h</span>)) <span class='op'>=</span> <span class='ident'>term_size</span>::<span class='ident'>dimensions</span>() {
             <span class='ident'>szarg_def</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}x{}&quot;</span>, <span class='ident'>w</span>, <span class='ident'>h</span>);
             <span class='ident'>szarg</span> <span class='op'>=</span> <span class='ident'>szarg</span>.<span class='ident'>default_value</span>(<span class='kw-2'>&amp;</span><span class='ident'>szarg_def</span>);
-        }
+            <span class='bool-val'>true</span>
+        } <span class='kw'>else</span> {
+            <span class='ident'>szarg</span> <span class='op'>=</span> <span class='ident'>szarg</span>.<span class='ident'>required</span>(<span class='bool-val'>true</span>);
+            <span class='bool-val'>false</span>
+        };
 
         <span class='kw'>let</span> <span class='ident'>matches</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='string'>&quot;termimage&quot;</span>)
             .<span class='ident'>version</span>(<span class='macro'>crate_version</span><span class='macro'>!</span>())
@@ -179,6 +193,7 @@
             .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='string'>&quot;&lt;IMAGE&gt; &#39;Image file to display&#39;&quot;</span>).<span class='ident'>validator</span>(<span class='ident'>Options</span>::<span class='ident'>image_file_validator</span>))
             .<span class='ident'>arg</span>(<span class='ident'>szarg</span>)
             .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='string'>&quot;-f --force &#39;Don\\&#39;t preserve the image\\&#39;s aspect ratio&#39;&quot;</span>))
+            .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='string'>&quot;-a --ansi &#39;Force output ANSI escapes&#39;&quot;</span>))
             .<span class='ident'>get_matches</span>();
 
         <span class='kw'>let</span> <span class='ident'>image</span> <span class='op'>=</span> <span class='ident'>matches</span>.<span class='ident'>value_of</span>(<span class='string'>&quot;IMAGE&quot;</span>).<span class='ident'>unwrap</span>();
@@ -186,6 +201,7 @@
             <span class='ident'>image</span>: (<span class='ident'>image</span>.<span class='ident'>to_string</span>(), <span class='ident'>fs</span>::<span class='ident'>canonicalize</span>(<span class='ident'>image</span>).<span class='ident'>unwrap</span>()),
             <span class='ident'>size</span>: <span class='ident'>Options</span>::<span class='ident'>parse_size</span>(<span class='ident'>matches</span>.<span class='ident'>value_of</span>(<span class='string'>&quot;size&quot;</span>).<span class='ident'>unwrap</span>()).<span class='ident'>unwrap</span>(),
             <span class='ident'>preserve_aspect</span>: <span class='op'>!</span><span class='ident'>matches</span>.<span class='ident'>is_present</span>(<span class='string'>&quot;force&quot;</span>),
+            <span class='ident'>ansi_out</span>: <span class='macro'>cfg</span><span class='macro'>!</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)) <span class='op'>||</span> <span class='op'>!</span><span class='ident'>have_dimms</span> <span class='op'>||</span> <span class='ident'>matches</span>.<span class='ident'>is_present</span>(<span class='string'>&quot;ansi&quot;</span>),
         }
     }
 
