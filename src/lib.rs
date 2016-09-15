@@ -12,8 +12,9 @@
 //! Options::parse()
 //! |> guess_format()
 //! |> load_image()
+//! |> image_resized_size()
 //! |> resize_image()
-//! |> write_[no_]ansi()
+//! |> write_[no_]ansi[_truecolor]()
 //! ```
 //!
 //! # Executable manpage
