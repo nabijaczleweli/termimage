@@ -45,7 +45,7 @@ pub fn write_no_ansi(img: &DynamicImage) {
 
             unsafe {
                 FillConsoleOutputAttribute(console_h,
-                                           (console_info.wAttributes & 0xFF00) | (closest_upper_clr << 4) | closest_lower_clr,
+                                           (console_info.wAttributes & 0xFF00) | (closest_lower_clr << 4) | closest_upper_clr,
                                            1,
                                            COORD {
                                                X: x as i16,
