@@ -10,4 +10,9 @@ Display images in your terminal, kind of
 termimage IMAGE_PATH
 ```
 
+Windows:
 ![DS3 image after](assets/DS3-result.jpg)
+
+Linux with truecolor support:
+![rust logo image after](assets/rust-logo-truecolor.png)
+![playing dice image after](assets/playing-dice-truecolor.png)
