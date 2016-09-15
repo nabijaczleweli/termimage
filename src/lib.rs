@@ -60,7 +60,7 @@
 //! Format: NxM
 //! ```
 //!
-//! -a --ansi &lt;<ANSI_type>&gt;
+//! -a --ansi &lt;ANSI_type&gt;
 //!
 //! ```text
 //! Force ANSI output of the specified kind,
