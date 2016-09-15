@@ -56,6 +56,7 @@ with ANSI output a sane default is assumed.
 ## AUTHOR
 
 Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;
+       and Josh Triplett &lt;<josh@joshtriplett.org>&gt;
 
 ## REPORTING BUGS
 
