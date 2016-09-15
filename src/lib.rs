@@ -78,7 +78,7 @@
 //!
 //! ## EXAMPLES
 //!
-//! `checksums` [`-s` *NxM*] [`-f`] *assets/image.png*
+//! `termimage` [`-s` *NxM*] [`-f`] *assets/image.png*
 //!
 //! ```text
 //! Display assets/image.png in the terminal, optionally not preserving
