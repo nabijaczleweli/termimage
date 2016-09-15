@@ -48,7 +48,7 @@ with ANSI output a sane default is assumed.
 
 ## EXAMPLES
 
-  `checksums` [`-s` *NxM*] [`-f`] *assets/image.png*
+  `termimage` [`-s` *NxM*] [`-f`] *assets/image.png*
 
     Display assets/image.png in the terminal, optionally not preserving
     the aspect ratio.
