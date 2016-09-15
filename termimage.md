@@ -19,6 +19,10 @@ with ANSI output a sane default is assumed.
 
 ## OPTIONS
 
+  &lt;<IMAGE>&gt;
+
+  Image to display, must end in a recognisable image format extension.
+
   -s --size &lt;<size>&gt;
 
     Output image resolution.
@@ -39,6 +43,13 @@ with ANSI output a sane default is assumed.
 
     This really applies only on Windows, as there's no non-ANSI alternatives
     on other platforms.
+
+## EXAMPLES
+
+  `checksums` [`-s` *NxM*] [`-f`] *assets/image.png*
+
+    Display assets/image.png in the terminal, optionally not preserving
+    the aspect ratio.
 
 ## AUTHOR
 
