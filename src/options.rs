@@ -33,8 +33,12 @@ pub struct Options {
     pub size: (u32, u32),
     /// Whether to preserve the image's aspect ratio when resizing. Default: `true`.
     pub preserve_aspect: bool,
-    /// Whether to output ANSI escapes. Default: `true` on non-Windows and when writing to file on Windooze.
-    pub ansi_out: bool,
+    /// Whether to output ANSI escapes. Default: `None` on Windooze when not writing to a file.
+    ///
+    /// `None` -- WinAPI
+    /// `Some(true)` -- truecolor ANSI 24-bit colour
+    /// `Some(false)` -- dumb ANSI 3-bit colour
+    pub ansi_out: Option<bool>,
 }
 
 impl Options {
@@ -59,7 +63,7 @@ impl Options {
             .arg(Arg::from_usage("<IMAGE> 'Image file to display'").validator(Options::image_file_validator))
             .arg(szarg)
             .arg(Arg::from_usage("-f --force 'Don\\'t preserve the image\\'s aspect ratio'"))
-            .arg(Arg::from_usage("-a --ansi 'Force output ANSI escapes'"))
+            .arg(Arg::from_usage("-a --ansi [ANSI] 'Force output ANSI escapes'").possible_values(&["simple", "truecolor"]))
             .get_matches();
 
         let image = matches.value_of("IMAGE").unwrap();
@@ -67,7 +71,15 @@ impl Options {
             image: (image.to_string(), fs::canonicalize(image).unwrap()),
             size: Options::parse_size(matches.value_of("size").unwrap()).unwrap(),
             preserve_aspect: !matches.is_present("force"),
-            ansi_out: cfg!(not(target_os = "windows")) || !have_dimms || matches.is_present("ansi"),
+            ansi_out: if cfg!(not(target_os = "windows")) || !have_dimms || matches.is_present("ansi") {
+                match matches.value_of("ansi").unwrap_or("truecolor") {
+                    "simple" => Some(false),
+                    "truecolor" => Some(true),
+                    _ => unreachable!(),
+                }
+            } else {
+                None
+            },
         }
     }
 

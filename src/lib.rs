@@ -60,6 +60,18 @@
 //! Format: NxM
 //! ```
 //!
+//! -a --ansi &lt;<ANSI_type>&gt;
+//!
+//! ```text
+//! Force ANSI output of the specified kind,
+//!
+//! The accepted values are "simple" and "truecolor", truecolor is the default
+//! on non-Windows.
+//!
+//! Simple ANSI output uses 3-bit background colours, while truecolor supports
+//! the whole 24-bit pallette.
+//! ```
+//!
 //! -f --force
 //!
 //! ```text
@@ -67,22 +79,20 @@
 //! use this option to override that behaviour.
 //! ```
 //!
-//! -a --ansi
-//!
-//! ```text
-//! Force ANSI output.
-//!
-//! This really applies only on Windows, as there's no non-ANSI alternatives
-//! on other platforms.
-//! ```
-//!
 //! ## EXAMPLES
 //!
 //! `termimage` [`-s` *NxM*] [`-f`] *assets/image.png*
 //!
 //! ```text
-//! Display assets/image.png in the terminal, optionally not preserving
-//! the aspect ratio.
+//! Display assets/image.png in the terminal using the default output type,
+//! optionally not preserving the aspect ratio.
+//! ```
+//!
+//! `termimage` [`-s` *NxM*] [`-f`] [`-a` *simple*] *assets/image.png*
+//!
+//! ```text
+//! Display assets/image.png in the terminal using the simple ANSI output type,
+//! optionally not preserving the aspect ratio.
 //! ```
 
 #[macro_use]

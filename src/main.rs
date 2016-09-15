@@ -24,10 +24,10 @@ fn result_main() -> Result<(), termimage::Outcome> {
 
     let resized = termimage::ops::resize_image(&img, opts.size, opts.preserve_aspect);
 
-    if opts.ansi_out {
-        termimage::ops::write_ansi_truecolor(&mut stdout(), &resized);
-    } else {
-        termimage::ops::write_no_ansi(&resized);
+    match opts.ansi_out {
+        Some(true) => termimage::ops::write_ansi_truecolor(&mut stdout(), &resized),
+        Some(false) => termimage::ops::write_ansi(&mut stdout(), &resized),
+        None => termimage::ops::write_no_ansi(&resized),
     }
 
     Ok(())
