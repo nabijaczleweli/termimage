@@ -137,7 +137,7 @@ pub fn write_ansi<W: Write>(out: &mut W, img: &DynamicImage) {
             let closest_lower_clr = closest_colour(img.get_pixel(x, lower_y).to_rgb(), ANSI_BG_COLOURS);
 
             write!(out,
-                   "{}{}▀",
+                   "{}{}\u{2580}", // ▀
                    ANSI_COLOUR_ESCAPES[closest_upper_clr],
                    ANSI_BG_COLOUR_ESCAPES[closest_lower_clr])
                 .unwrap();
@@ -161,7 +161,7 @@ pub fn write_ansi_truecolor<W: Write>(out: &mut W, img: &DynamicImage) {
 
             write!(out,
                    "\x1B[38;2;{};{};{}m\
-                    \x1B[48;2;{};{};{}m▀",
+                    \x1B[48;2;{};{};{}m\u{2580}", // ▀
                    upper_pixel[0],
                    upper_pixel[1],
                    upper_pixel[2],
