@@ -66,7 +66,7 @@ fn hdr() {
 
 #[test]
 fn unknown() {
-    let p = "../tests/ops/guess_format.rs".to_string();
+    let p = "tests/ops/guess_format.rs".to_string();
     assert_eq!(guess_format(&(p.clone(), PathBuf::from(&p))), Err(Outcome::GuessingFormatFailed(p)));
 }
 

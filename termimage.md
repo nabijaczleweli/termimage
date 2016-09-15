@@ -21,7 +21,9 @@ with ANSI output a sane default is assumed.
 
   &lt;<IMAGE>&gt;
 
-  Image to display, must end in a recognisable image format extension.
+  Image to display.
+
+  The format is guessed from the extension or magic.
 
   -s --size &lt;<size>&gt;
 

@@ -6,8 +6,10 @@ use std::io::Write;
 pub enum Outcome {
     /// No errors occured, everything executed correctly.
     NoError,
-    /// The specified file would need to be overriden but was not allowed to.
+    /// Failed to guess the image format.
     GuessingFormatFailed(String),
+    /// Failed to open image file.
+    OpeningImageFailed(String),
 }
 
 impl Outcome {
@@ -26,9 +28,8 @@ impl Outcome {
     pub fn print_error<W: Write>(&self, err_out: &mut W) {
         match *self {
             Outcome::NoError => (),
-            Outcome::GuessingFormatFailed(ref fname) => {
-                writeln!(err_out, "Failed to guess format of \"{}\".", fname).unwrap();
-            }
+            Outcome::GuessingFormatFailed(ref fname) => writeln!(err_out, "Failed to guess format of \"{}\".", fname).unwrap(),
+            Outcome::OpeningImageFailed(ref fname) => writeln!(err_out, "Failed to open image file \"{}\".", fname).unwrap(),
         }
     }
 
@@ -45,6 +46,7 @@ impl Outcome {
         match *self {
             Outcome::NoError => 0,
             Outcome::GuessingFormatFailed(_) => 1,
+            Outcome::OpeningImageFailed(_) => 2,
         }
     }
 }

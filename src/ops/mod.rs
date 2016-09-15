@@ -5,9 +5,9 @@
 //! resize it to terminal size with `resize_image()`
 //! and display it with `write_[no_]ansi()`.
 
+use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_COLOURS, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC, GIF_MAGIC, PNG_MAGIC, closest_colour};
 use image::{self, GenericImage, DynamicImage, ImageFormat, FilterType, Pixel};
-use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_COLOURS, closest_colour};
-use std::io::{BufReader, Write};
+use std::io::{BufReader, Write, Read};
 use self::super::Outcome;
 use std::path::PathBuf;
 use std::fs::File;
@@ -17,7 +17,7 @@ mod no_ansi;
 pub use self::no_ansi::write_no_ansi;
 
 
-/// Guess the image format from its extension.
+/// Guess the image format from its extension or magic.
 ///
 /// # Examples
 ///
@@ -44,26 +44,44 @@ pub use self::no_ansi::write_no_ansi;
 /// # use std::path::PathBuf;
 /// # use termimage::Outcome;
 /// # use termimage::ops::guess_format;
-/// assert_eq!(guess_format(&("../ops.rs".to_string(), PathBuf::from("ops.rs"))),
-/// Err(Outcome::GuessingFormatFailed("../ops.rs".to_string())));
+/// assert_eq!(guess_format(&("src/ops.rs".to_string(), PathBuf::from("src/ops/mod.rs"))),
+/// Err(Outcome::GuessingFormatFailed("src/ops.rs".to_string())));
 /// ```
 pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
     file.1
         .extension()
         .and_then(|ext| match &ext.to_str().unwrap().to_lowercase()[..] {
-            "png" => Some(ImageFormat::PNG),
-            "jpg" | "jpeg" | "jpe" | "jif" | "jfif" | "jfi" => Some(ImageFormat::JPEG),
-            "gif" => Some(ImageFormat::GIF),
-            "webp" => Some(ImageFormat::WEBP),
-            "ppm" => Some(ImageFormat::PPM),
-            "tiff" | "tif" => Some(ImageFormat::TIFF),
-            "tga" => Some(ImageFormat::TGA),
-            "bmp" | "dib" => Some(ImageFormat::BMP),
-            "ico" => Some(ImageFormat::ICO),
-            "hdr" => Some(ImageFormat::HDR),
+            "png" => Some(Ok(ImageFormat::PNG)),
+            "jpg" | "jpeg" | "jpe" | "jif" | "jfif" | "jfi" => Some(Ok(ImageFormat::JPEG)),
+            "gif" => Some(Ok(ImageFormat::GIF)),
+            "webp" => Some(Ok(ImageFormat::WEBP)),
+            "ppm" => Some(Ok(ImageFormat::PPM)),
+            "tiff" | "tif" => Some(Ok(ImageFormat::TIFF)),
+            "tga" => Some(Ok(ImageFormat::TGA)),
+            "bmp" | "dib" => Some(Ok(ImageFormat::BMP)),
+            "ico" => Some(Ok(ImageFormat::ICO)),
+            "hdr" => Some(Ok(ImageFormat::HDR)),
             _ => None,
         })
-        .ok_or_else(|| Outcome::GuessingFormatFailed(file.0.clone()))
+        .unwrap_or_else(|| {
+            let mut buf = [0; 32];
+            let read = try!(File::open(&file.1).map_err(|_| Outcome::OpeningImageFailed(file.0.clone()))).read(&mut buf).unwrap();
+            let buf = &buf[..read];
+
+            if buf.len() >= PNG_MAGIC.len() && &buf[..PNG_MAGIC.len()] == PNG_MAGIC {
+                Ok(ImageFormat::PNG)
+            } else if buf.len() >= JPEG_MAGIC.len() && &buf[..JPEG_MAGIC.len()] == JPEG_MAGIC {
+                Ok(ImageFormat::JPEG)
+            } else if buf.len() >= GIF_MAGIC.len() && &buf[..GIF_MAGIC.len()] == GIF_MAGIC {
+                Ok(ImageFormat::GIF)
+            } else if buf.len() >= BMP_MAGIC.len() && &buf[..BMP_MAGIC.len()] == BMP_MAGIC {
+                Ok(ImageFormat::BMP)
+            } else if buf.len() >= ICO_MAGIC.len() && &buf[..ICO_MAGIC.len()] == ICO_MAGIC {
+                Ok(ImageFormat::ICO)
+            } else {
+                Err(Outcome::GuessingFormatFailed(file.0.clone()))
+            }
+        })
 }
 
 /// Load an image from the specified file as the specified format.
@@ -72,7 +90,6 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
 pub fn load_image(file: &(String, PathBuf), format: ImageFormat) -> DynamicImage {
     image::load(BufReader::new(File::open(&file.1).unwrap()), format).unwrap()
 }
-
 
 /// Resize the specified image to the specified size, optionally preserving its aspect ratio.
 pub fn resize_image(img: &DynamicImage, size: (u32, u32), preserve_aspect: bool) -> DynamicImage {

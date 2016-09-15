@@ -6,6 +6,31 @@ use image::Rgb;
 use std::ops::Index;
 
 
+/// Magic number used for determining whether an image is a BMP.
+///
+/// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
+pub static BMP_MAGIC: &'static [u8] = &[0x42, 0x4D];
+
+/// Magic number used for determining whether an image is an ICO.
+///
+/// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
+pub static ICO_MAGIC: &'static [u8] = &[0x00, 0x00, 0x01, 0x00];
+
+/// Magic number used for determining whether an image is a GIF.
+///
+/// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
+pub static GIF_MAGIC: &'static [u8] = &[0x47, 0x49, 0x46, 0x38];
+
+/// Magic number used for determining whether an image is a PNG.
+///
+/// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
+pub static PNG_MAGIC: &'static [u8] = &[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
+
+/// Magic number used for determining whether an image is a JPEG.
+///
+/// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
+pub static JPEG_MAGIC: &'static [u8] = &[0xFF, 0xD8, 0xFF, 0xE0];
+
 /// "Standard" ANSI colours, in the same order as `ANSI_COLOUR_ESCAPES`.
 ///
 /// Acquired from screenshot provided by [@Ell](https://github.com/elliotpotts):
