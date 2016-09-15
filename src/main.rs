@@ -25,7 +25,7 @@ fn result_main() -> Result<(), termimage::Outcome> {
     let resized = termimage::ops::resize_image(&img, opts.size, opts.preserve_aspect);
 
     if opts.ansi_out {
-        termimage::ops::write_ansi(&mut stdout(), &resized);
+        termimage::ops::write_ansi_truecolor(&mut stdout(), &resized);
     } else {
         termimage::ops::write_no_ansi(&resized);
     }

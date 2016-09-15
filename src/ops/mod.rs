@@ -114,3 +114,16 @@ pub fn write_ansi<W: Write>(out: &mut W, img: &DynamicImage) {
         writeln!(out, "{}", ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
     }
 }
+
+/// Display the specified image in the default console using ANSI 24-bit escape colour codes.
+pub fn write_ansi_truecolor<W: Write>(out: &mut W, img: &DynamicImage) {
+    let (width, height) = img.dimensions();
+
+    for y in 0..height {
+        for x in 0..width {
+            let pixel = img.get_pixel(x, y).to_rgb();
+            write!(out, "\x1B[48;2;{};{};{}m ", pixel[0], pixel[1], pixel[2]).unwrap();
+        }
+        writeln!(out, "{}", ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
+    }
+}
