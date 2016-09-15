@@ -1,3 +1,10 @@
+//! Main functions doing actual work.
+//!
+//! Use `guess_format()` to get teh image format from a path,
+//! then read the image using `load_image()`,
+//! resize it to terminal size with `resize_image()`
+//! and display it with `write_[no_]ansi()`.
+
 use image::{self, GenericImage, DynamicImage, ImageFormat, FilterType, Pixel};
 use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_COLOURS, closest_colour};
 use std::io::{BufReader, Write};

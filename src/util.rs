@@ -12,7 +12,7 @@ use std::ops::Index;
 ///
 /// ![Terminal screenshot](https://cloud.githubusercontent.com/assets/6709544/18532811/e7e87a6e-7ade-11e6-868f-f6d2f9faec27.png)
 ///
-/// Might not be representative, because white bg, though...
+/// Might not be representative due to white bg though...
 pub static ANSI_COLOURS: &'static [Rgb<u8>] = &[Rgb { data: [0xee, 0xe8, 0xd5] },
                                                 Rgb { data: [0xdc, 0x32, 0x2f] },
                                                 Rgb { data: [0x85, 0x99, 0x00] },
@@ -22,7 +22,7 @@ pub static ANSI_COLOURS: &'static [Rgb<u8>] = &[Rgb { data: [0xee, 0xe8, 0xd5] }
                                                 Rgb { data: [0x2a, 0xa1, 0x98] },
                                                 Rgb { data: [0x07, 0x36, 0x42] }];
 
-/// ANSI bacground colour escapes.
+/// ANSI background colour escapes.
 pub static ANSI_BG_COLOUR_ESCAPES: &'static [&'static str] = &["\x1B[40m", "\x1B[41m", "\x1B[42m", "\x1B[43m", "\x1B[44m", "\x1B[45m", "\x1B[46m", "\x1B[47m"];
 
 
