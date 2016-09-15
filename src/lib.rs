@@ -26,7 +26,7 @@
 //!
 //! ## SYNOPSIS
 //!
-//! `termimage` [OPTIONS] &lt;<IMAGE>&gt;
+//! `termimage` [OPTIONS] &lt;IMAGE&gt;
 //!
 //! ## DESCRIPTION
 //!
