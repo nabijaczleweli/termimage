@@ -22,6 +22,7 @@
 //!
 //! ```text
 //! 1 - failed to guess the file's format
+//! 2 - failed to open the image file
 //! ```
 //!
 //! ## SYNOPSIS

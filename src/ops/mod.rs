@@ -87,8 +87,10 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
 /// Load an image from the specified file as the specified format.
 ///
 /// Get the image fromat with `guess_format()`.
-pub fn load_image(file: &(String, PathBuf), format: ImageFormat) -> DynamicImage {
-    image::load(BufReader::new(File::open(&file.1).unwrap()), format).unwrap()
+pub fn load_image(file: &(String, PathBuf), format: ImageFormat) -> Result<DynamicImage, Outcome> {
+    Ok(image::load(BufReader::new(try!(File::open(&file.1).map_err(|_| Outcome::OpeningImageFailed(file.0.clone())))),
+                   format)
+        .unwrap())
 }
 
 /// Resize the specified image to the specified size, optionally preserving its aspect ratio.

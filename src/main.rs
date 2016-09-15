@@ -20,7 +20,7 @@ fn result_main() -> Result<(), termimage::Outcome> {
     let opts = termimage::Options::parse();
 
     let format = try!(termimage::ops::guess_format(&opts.image));
-    let img = termimage::ops::load_image(&opts.image, format);
+    let img = try!(termimage::ops::load_image(&opts.image, format));
 
     let resized = termimage::ops::resize_image(&img, opts.size, opts.preserve_aspect);
 
