@@ -47,14 +47,85 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/termimage/src/lib.rs.html#1-20' title='goto source code'>[src]</a></span></h1>
-<h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+               </span><a id='src-0' class='srclink' href='../src/termimage/src/lib.rs.html#1-106' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Display images in your terminal, kind of</p>
+
+<p><img src="https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/DS3-result.jpg" alt="DS3 SS example"></p>
+
+<h1 id='library-doc' class='section-header'><a href='#library-doc'>Library doc</a></h1>
+<p>This library is used by <code>termimage</code> itself for all its function and is therefore contains all necessary functions.</p>
+
+<h2 id='data-flow' class='section-header'><a href='#data-flow'>Data flow</a></h2>
+<pre><code class="language-plaintext">Options::parse()
+|&gt; guess_format()
+|&gt; load_image()
+|&gt; resize_image()
+|&gt; write_[no_]ansi()
+</code></pre>
+
+<h1 id='executable-manpage' class='section-header'><a href='#executable-manpage'>Executable manpage</a></h1>
+<p>Exit values and possible errors:</p>
+
+<pre><code class="language-text">1 - failed to guess the file&#39;s format
+</code></pre>
+
+<h2 id='synopsis' class='section-header'><a href='#synopsis'>SYNOPSIS</a></h2>
+<p><code>termimage</code> [OPTIONS] &lt;<IMAGE>&gt;</p>
+
+<h2 id='description' class='section-header'><a href='#description'>DESCRIPTION</a></h2>
+<p>Show images in your terminal.</p>
+
+<p>The images are automatically downscaled to the terminal&#39;s size and their
+colours are approximated to match the terminal&#39;s display colours.</p>
+
+<p>With ANSI output this means a 3-bit colour resolution, with WinAPI - 4-bit.</p>
+
+<p>With WinAPI output the output colours are acquired from the console itself,
+with ANSI output a sane default is assumed.</p>
+
+<h2 id='options' class='section-header'><a href='#options'>OPTIONS</a></h2>
+<p>&lt;IMAGE&gt;</p>
+
+<pre><code class="language-text">Image to display, must end in a recognisable image format extension.
+</code></pre>
+
+<p>-s --size &lt;size&gt;</p>
+
+<pre><code class="language-text">Output image resolution.
+
+By default this is autodetected to match the output terminal&#39;s resolution,
+but is required when outputting to a file.
+
+Format: NxM
+</code></pre>
+
+<p>-f --force</p>
+
+<pre><code class="language-text">By default the image&#39;s aspect ratio will be preserved when downscaling,
+use this option to override that behaviour.
+</code></pre>
+
+<p>-a --ansi</p>
+
+<pre><code class="language-text">Force ANSI output.
+
+This really applies only on Windows, as there&#39;s no non-ANSI alternatives
+on other platforms.
+</code></pre>
+
+<h2 id='examples' class='section-header'><a href='#examples'>EXAMPLES</a></h2>
+<p><code>checksums</code> [<code>-s</code> <em>NxM</em>] [<code>-f</code>] <em>assets/image.png</em></p>
+
+<pre><code class="language-text">Display assets/image.png in the terminal, optionally not preserving
+the aspect ratio.
+</code></pre>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='mod' href='ops/index.html'
                                   title='termimage::ops'>ops</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Main functions doing actual work.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
