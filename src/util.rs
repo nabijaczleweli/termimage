@@ -31,6 +31,22 @@ pub static PNG_MAGIC: &'static [u8] = &[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A
 /// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
 pub static JPEG_MAGIC: &'static [u8] = &[0xFF, 0xD8, 0xFF, 0xE0];
 
+/// "Standard" ANSI background colours, in the same order as `ANSI_BG_COLOUR_ESCAPES`.
+///
+/// Acquired from screenshot provided by [@Ell](https://github.com/elliotpotts):
+///
+/// ![Terminal screenshot](https://cloud.githubusercontent.com/assets/6709544/18532811/e7e87a6e-7ade-11e6-868f-f6d2f9faec27.png)
+///
+/// Might not be representative due to white bg though...
+pub static ANSI_BG_COLOURS: &'static [Rgb<u8>] = &[Rgb { data: [0xEE, 0xE8, 0xD5] },
+                                                   Rgb { data: [0xDC, 0x32, 0x2F] },
+                                                   Rgb { data: [0x85, 0x99, 0x00] },
+                                                   Rgb { data: [0xB5, 0x89, 0x00] },
+                                                   Rgb { data: [0x26, 0x8B, 0xD2] },
+                                                   Rgb { data: [0xD3, 0x36, 0x82] },
+                                                   Rgb { data: [0x2A, 0xA1, 0x98] },
+                                                   Rgb { data: [0x07, 0x36, 0x42] }];
+
 /// "Standard" ANSI colours, in the same order as `ANSI_COLOUR_ESCAPES`.
 ///
 /// Acquired from screenshot provided by [@Ell](https://github.com/elliotpotts):
@@ -38,14 +54,40 @@ pub static JPEG_MAGIC: &'static [u8] = &[0xFF, 0xD8, 0xFF, 0xE0];
 /// ![Terminal screenshot](https://cloud.githubusercontent.com/assets/6709544/18532811/e7e87a6e-7ade-11e6-868f-f6d2f9faec27.png)
 ///
 /// Might not be representative due to white bg though...
-pub static ANSI_COLOURS: &'static [Rgb<u8>] = &[Rgb { data: [0xee, 0xe8, 0xd5] },
-                                                Rgb { data: [0xdc, 0x32, 0x2f] },
+pub static ANSI_COLOURS: &'static [Rgb<u8>] = &[Rgb { data: [0xEE, 0xE8, 0xD5] },
+                                                Rgb { data: [0xDC, 0x32, 0x2F] },
                                                 Rgb { data: [0x85, 0x99, 0x00] },
-                                                Rgb { data: [0xb5, 0x89, 0x00] },
-                                                Rgb { data: [0x26, 0x8b, 0xd2] },
-                                                Rgb { data: [0xd3, 0x36, 0x82] },
-                                                Rgb { data: [0x2a, 0xa1, 0x98] },
-                                                Rgb { data: [0x07, 0x36, 0x42] }];
+                                                Rgb { data: [0xB5, 0x89, 0x00] },
+                                                Rgb { data: [0x26, 0x8B, 0xD2] },
+                                                Rgb { data: [0xD3, 0x36, 0x82] },
+                                                Rgb { data: [0x2A, 0xA1, 0x98] },
+                                                Rgb { data: [0x07, 0x36, 0x42] },
+                                                Rgb { data: [0xFD, 0xF6, 0xE3] },
+                                                Rgb { data: [0xCB, 0x4B, 0x16] },
+                                                Rgb { data: [0x93, 0xA1, 0xA1] },
+                                                Rgb { data: [0x83, 0x94, 0x96] },
+                                                Rgb { data: [0x65, 0x7B, 0x83] },
+                                                Rgb { data: [0x6C, 0x71, 0xC4] },
+                                                Rgb { data: [0x58, 0x6E, 0x75] },
+                                                Rgb { data: [0x00, 0x2B, 0x36] }];
+
+/// ANSI background colour escapes.
+pub static ANSI_COLOUR_ESCAPES: &'static [&'static str] = &["\x1B[0;30m",
+                                                            "\x1B[0;31m",
+                                                            "\x1B[0;32m",
+                                                            "\x1B[0;33m",
+                                                            "\x1B[0;34m",
+                                                            "\x1B[0;35m",
+                                                            "\x1B[0;36m",
+                                                            "\x1B[0;37m",
+                                                            "\x1B[1;30m",
+                                                            "\x1B[1;31m",
+                                                            "\x1B[1;32m",
+                                                            "\x1B[1;33m",
+                                                            "\x1B[1;34m",
+                                                            "\x1B[1;35m",
+                                                            "\x1B[1;36m",
+                                                            "\x1B[1;37m"];
 
 /// ANSI background colour escapes.
 pub static ANSI_BG_COLOUR_ESCAPES: &'static [&'static str] = &["\x1B[40m", "\x1B[41m", "\x1B[42m", "\x1B[43m", "\x1B[44m", "\x1B[45m", "\x1B[46m", "\x1B[47m"];

@@ -5,7 +5,8 @@
 //! resize it to terminal size with `resize_image()`
 //! and display it with `write_[no_]ansi()`.
 
-use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_COLOURS, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC, GIF_MAGIC, PNG_MAGIC, closest_colour};
+use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_COLOUR_ESCAPES, ANSI_BG_COLOURS, ANSI_COLOURS, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC, GIF_MAGIC, PNG_MAGIC,
+                        closest_colour};
 use image::{self, GenericImage, DynamicImage, ImageFormat, FilterType, Pixel};
 use std::io::{BufReader, Write, Read};
 use self::super::Outcome;
@@ -93,36 +94,81 @@ pub fn load_image(file: &(String, PathBuf), format: ImageFormat) -> Result<Dynam
         .unwrap())
 }
 
-/// Resize the specified image to the specified size, optionally preserving its aspect ratio.
-pub fn resize_image(img: &DynamicImage, size: (u32, u32), preserve_aspect: bool) -> DynamicImage {
-    if preserve_aspect {
-        img.resize(size.0, size.1, FilterType::Nearest)
-    } else {
-        img.resize_exact(size.0, size.1, FilterType::Nearest)
+/// Get the image size to downscale to, given its size, the terminal's size and whether to preserve its aspect.
+///
+/// The resulting image size is twice as tall as the terminal size because we print two pixels per cell (height-wise).
+pub fn image_resized_size(size: (u32, u32), term_size: (u32, u32), preserve_aspect: bool) -> (u32, u32) {
+    if !preserve_aspect {
+        return (term_size.0, term_size.1 * 2);
     }
+
+    let nwidth = term_size.0;
+    let nheight = term_size.1 * 2;
+    let (width, height) = size;
+
+    let ratio = width as f32 / height as f32;
+    let nratio = nwidth as f32 / nheight as f32;
+
+    let scale = if nratio > ratio {
+        nheight as f32 / height as f32
+    } else {
+        nwidth as f32 / width as f32
+    };
+
+    ((width as f32 * scale) as u32, (height as f32 * scale) as u32)
+}
+
+/// Resize the specified image to the specified size.
+pub fn resize_image(img: &DynamicImage, size: (u32, u32)) -> DynamicImage {
+    img.resize_exact(size.0, size.1, FilterType::Nearest)
 }
 
 /// Display the specified image in the default console using ANSI escape codes.
 pub fn write_ansi<W: Write>(out: &mut W, img: &DynamicImage) {
     let (width, height) = img.dimensions();
+    let term_h = height / 2;
 
-    for y in 0..height {
+    for y in 0..term_h {
+        let upper_y = y * 2;
+        let lower_y = upper_y + 1;
+
         for x in 0..width {
-            let closest_clr = closest_colour(img.get_pixel(x, y).to_rgb(), ANSI_COLOURS);
-            write!(out, "{} ", ANSI_BG_COLOUR_ESCAPES[closest_clr]).unwrap();
+            let closest_upper_clr = closest_colour(img.get_pixel(x, upper_y).to_rgb(), ANSI_COLOURS);
+            let closest_lower_clr = closest_colour(img.get_pixel(x, lower_y).to_rgb(), ANSI_BG_COLOURS);
+
+            write!(out,
+                   "{}{}▀",
+                   ANSI_COLOUR_ESCAPES[closest_upper_clr],
+                   ANSI_BG_COLOUR_ESCAPES[closest_lower_clr])
+                .unwrap();
         }
-        writeln!(out, "{}", ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
+        writeln!(out, "{}{}", ANSI_COLOUR_ESCAPES[15], ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
     }
 }
 
 /// Display the specified image in the default console using ANSI 24-bit escape colour codes.
 pub fn write_ansi_truecolor<W: Write>(out: &mut W, img: &DynamicImage) {
     let (width, height) = img.dimensions();
+    let term_h = height / 2;
 
-    for y in 0..height {
+    for y in 0..term_h {
+        let upper_y = y * 2;
+        let lower_y = upper_y + 1;
+
         for x in 0..width {
-            let pixel = img.get_pixel(x, y).to_rgb();
-            write!(out, "\x1B[48;2;{};{};{}m ", pixel[0], pixel[1], pixel[2]).unwrap();
+            let upper_pixel = img.get_pixel(x, upper_y).to_rgb();
+            let lower_pixel = img.get_pixel(x, lower_y).to_rgb();
+
+            write!(out,
+                   "\x1B[38;2;{};{};{}m\
+                    \x1B[48;2;{};{};{}m▀",
+                   upper_pixel[0],
+                   upper_pixel[1],
+                   upper_pixel[2],
+                   lower_pixel[0],
+                   lower_pixel[1],
+                   lower_pixel[2])
+                .unwrap();
         }
         writeln!(out, "{}", ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
     }

@@ -11,7 +11,8 @@ use std::mem;
 #[cfg(target_os = "windows")]
 pub fn write_no_ansi(img: &DynamicImage) {
     let (width, height) = img.dimensions();
-    print!("{}", mul_str("\n", height as usize));
+    let term_h = height / 2;
+    print!("{}", mul_str(&format!("{}\n", mul_str("▀", width as usize)), term_h as usize));
 
     let console_h = unsafe { GetStdHandle(STD_OUTPUT_HANDLE) };
     let mut console_info = CONSOLE_SCREEN_BUFFER_INFOEX {
@@ -34,16 +35,21 @@ pub fn write_no_ansi(img: &DynamicImage) {
     let colors =
         console_info.ColorTable.iter().map(|cr| image::Rgb([(cr & 0xFF) as u8, ((cr & 0xFF00) >> 8) as u8, ((cr & 0xFF0000) >> 16) as u8])).collect::<Vec<_>>();
 
-    for y in 0..height {
+    for y in 0..term_h {
+        let upper_y = y * 2;
+        let lower_y = upper_y + 1;
+
         for x in 0..width {
-            let closest_clr = closest_colour(img.get_pixel(x, y).to_rgb(), &colors) as u16;
+            let closest_upper_clr = closest_colour(img.get_pixel(x, upper_y).to_rgb(), &colors) as u16;
+            let closest_lower_clr = closest_colour(img.get_pixel(x, lower_y).to_rgb(), &colors) as u16;
+
             unsafe {
                 FillConsoleOutputAttribute(console_h,
-                                           (console_info.wAttributes & 0xFF0F) | (closest_clr << 4),
+                                           (console_info.wAttributes & 0xFF00) | (closest_upper_clr << 4) | closest_lower_clr,
                                            1,
                                            COORD {
                                                X: x as i16,
-                                               Y: console_info.dwCursorPosition.Y - (height as i16 - y as i16),
+                                               Y: console_info.dwCursorPosition.Y - (term_h as i16 - y as i16),
                                            },
                                            &mut 0);
             }

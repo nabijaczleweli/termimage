@@ -2,6 +2,7 @@ extern crate termimage;
 extern crate image;
 
 use std::process::exit;
+use image::GenericImage;
 use std::io::{stdout, stderr};
 
 
@@ -22,7 +23,8 @@ fn result_main() -> Result<(), termimage::Outcome> {
     let format = try!(termimage::ops::guess_format(&opts.image));
     let img = try!(termimage::ops::load_image(&opts.image, format));
 
-    let resized = termimage::ops::resize_image(&img, opts.size, opts.preserve_aspect);
+    let img_s = termimage::ops::image_resized_size(img.dimensions(), opts.size, opts.preserve_aspect);
+    let resized = termimage::ops::resize_image(&img, img_s);
 
     match opts.ansi_out {
         Some(true) => termimage::ops::write_ansi_truecolor(&mut stdout(), &resized),
