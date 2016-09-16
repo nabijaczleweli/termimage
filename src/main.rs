@@ -12,12 +12,15 @@ fn main() {
 }
 
 fn actual_main() -> i32 {
-    let err = result_main().err().unwrap_or(termimage::Outcome::NoError);
-    err.print_error(&mut stderr());
-    err.exit_value()
+    if let Err(err) = result_main() {
+        err.print_error(&mut stderr());
+        err.exit_value()
+    } else {
+        0
+    }
 }
 
-fn result_main() -> Result<(), termimage::Outcome> {
+fn result_main() -> Result<(), termimage::Error> {
     let opts = termimage::Options::parse();
 
     let format = try!(termimage::ops::guess_format(&opts.image));

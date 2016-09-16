@@ -119,11 +119,11 @@ extern crate regex;
 #[macro_use]
 extern crate clap;
 
+mod error;
 mod options;
-mod outcome;
 
 pub mod ops;
 pub mod util;
 
+pub use error::Error;
 pub use options::Options;
-pub use outcome::Outcome;

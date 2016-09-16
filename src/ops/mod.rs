@@ -9,7 +9,7 @@ use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_COLOUR_ESCAPES, ANSI_BG_COL
                         closest_colour};
 use image::{self, GenericImage, DynamicImage, ImageFormat, FilterType, Pixel};
 use std::io::{BufReader, Write, Read};
-use self::super::Outcome;
+use self::super::Error;
 use std::path::PathBuf;
 use std::fs::File;
 
@@ -43,12 +43,12 @@ pub use self::no_ansi::write_no_ansi;
 ///
 /// ```
 /// # use std::path::PathBuf;
-/// # use termimage::Outcome;
+/// # use termimage::Error;
 /// # use termimage::ops::guess_format;
 /// assert_eq!(guess_format(&("src/ops.rs".to_string(), PathBuf::from("src/ops/mod.rs"))),
-/// Err(Outcome::GuessingFormatFailed("src/ops.rs".to_string())));
+/// Err(Error::GuessingFormatFailed("src/ops.rs".to_string())));
 /// ```
-pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
+pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Error> {
     file.1
         .extension()
         .and_then(|ext| match &ext.to_str().unwrap().to_lowercase()[..] {
@@ -66,7 +66,7 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
         })
         .unwrap_or_else(|| {
             let mut buf = [0; 32];
-            let read = try!(File::open(&file.1).map_err(|_| Outcome::OpeningImageFailed(file.0.clone()))).read(&mut buf).unwrap();
+            let read = try!(File::open(&file.1).map_err(|_| Error::OpeningImageFailed(file.0.clone()))).read(&mut buf).unwrap();
             let buf = &buf[..read];
 
             if buf.len() >= PNG_MAGIC.len() && &buf[..PNG_MAGIC.len()] == PNG_MAGIC {
@@ -80,7 +80,7 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
             } else if buf.len() >= ICO_MAGIC.len() && &buf[..ICO_MAGIC.len()] == ICO_MAGIC {
                 Ok(ImageFormat::ICO)
             } else {
-                Err(Outcome::GuessingFormatFailed(file.0.clone()))
+                Err(Error::GuessingFormatFailed(file.0.clone()))
             }
         })
 }
@@ -88,8 +88,8 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Outcome> {
 /// Load an image from the specified file as the specified format.
 ///
 /// Get the image fromat with `guess_format()`.
-pub fn load_image(file: &(String, PathBuf), format: ImageFormat) -> Result<DynamicImage, Outcome> {
-    Ok(image::load(BufReader::new(try!(File::open(&file.1).map_err(|_| Outcome::OpeningImageFailed(file.0.clone())))),
+pub fn load_image(file: &(String, PathBuf), format: ImageFormat) -> Result<DynamicImage, Error> {
+    Ok(image::load(BufReader::new(try!(File::open(&file.1).map_err(|_| Error::OpeningImageFailed(file.0.clone())))),
                    format)
         .unwrap())
 }

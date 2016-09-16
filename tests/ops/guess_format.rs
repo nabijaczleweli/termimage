@@ -2,8 +2,8 @@ extern crate image;
 extern crate termimage;
 
 use std::path::PathBuf;
+use self::termimage::Error;
 use self::image::ImageFormat;
-use self::termimage::Outcome;
 use self::termimage::ops::guess_format;
 
 
@@ -67,7 +67,7 @@ fn hdr() {
 #[test]
 fn unknown() {
     let p = "tests/ops/guess_format.rs".to_string();
-    assert_eq!(guess_format(&(p.clone(), PathBuf::from(&p))), Err(Outcome::GuessingFormatFailed(p)));
+    assert_eq!(guess_format(&(p.clone(), PathBuf::from(&p))), Err(Error::GuessingFormatFailed(p)));
 }
 
 
