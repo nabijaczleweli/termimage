@@ -47,7 +47,7 @@ impl Options {
         let szarg_def;
         let mut szarg = Arg::from_usage("-s --size [size] 'Output image resolution'").validator(Options::size_validator);
         let have_dimms = if let Some((w, h)) = term_size::dimensions() {
-            szarg_def = format!("{}x{}", w, h);
+            szarg_def = format!("{}x{}", w, h - 1);
             szarg = szarg.default_value(&szarg_def);
             true
         } else {
