@@ -6,9 +6,21 @@ Display images in your terminal, kind of
 
 ### Usage
 
+Display an image
+
 ```sh
 termimage IMAGE_PATH
 ```
+
+Print all images in a dir to a file.
+
+```sh
+(for f in $(find image_dir -type f); do termimage -s 150x33 $f; done) > out_file
+```
+
+For more usage examples see [the documentation](https://cdn.rawgit.com/nabijaczleweli/termimage/doc/termimage/index.html).
+
+### Examples
 
 Windows:
 ![DS3 image after](assets/DS3-result.jpg)

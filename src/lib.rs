@@ -97,6 +97,14 @@
 //! Display assets/image.png in the terminal using the simple ANSI output type,
 //! optionally not preserving the aspect ratio.
 //! ```
+//!
+//! (for f in $(find *image_dir* -type f); do `termimage -s` *NxM* [`-f`] [`-a` *ANSI_type*] $f; done) > *out_file*
+//!
+//! ```text
+//! Print all images in image_dir to out_file.
+//!
+//! Note the --size option being specified, since it's required when outputting to a file.
+//! ```
 
 #[macro_use]
 extern crate lazy_static;

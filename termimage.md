@@ -61,6 +61,12 @@ with ANSI output a sane default is assumed.
     Display assets/image.png in the terminal using the simple ANSI output type,
     optionally not preserving the aspect ratio.
 
+  (for f in $(find *image_dir* -type f); do `termimage -s` *NxM* [`-f`] [`-a` *ANSI_type*] $f; done) > *out_file*
+
+    Print all images in image_dir to out_file.
+
+    Note the --size option being specified, since it's required when outputting to a file.
+
 ## AUTHOR
 
 Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;
