@@ -229,7 +229,7 @@
                         <span class='ident'>closest_colour</span>};
 <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='self'>self</span>, <span class='ident'>GenericImage</span>, <span class='ident'>DynamicImage</span>, <span class='ident'>ImageFormat</span>, <span class='ident'>FilterType</span>, <span class='ident'>Pixel</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufReader</span>, <span class='ident'>Write</span>, <span class='ident'>Read</span>};
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>Outcome</span>;
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>Error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 
@@ -263,12 +263,12 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>/// # use std::path::PathBuf;</span>
-<span class='doccomment'>/// # use termimage::Outcome;</span>
+<span class='doccomment'>/// # use termimage::Error;</span>
 <span class='doccomment'>/// # use termimage::ops::guess_format;</span>
 <span class='doccomment'>/// assert_eq!(guess_format(&amp;(&quot;src/ops.rs&quot;.to_string(), PathBuf::from(&quot;src/ops/mod.rs&quot;))),</span>
-<span class='doccomment'>/// Err(Outcome::GuessingFormatFailed(&quot;src/ops.rs&quot;.to_string())));</span>
+<span class='doccomment'>/// Err(Error::GuessingFormatFailed(&quot;src/ops.rs&quot;.to_string())));</span>
 <span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>guess_format</span>(<span class='ident'>file</span>: <span class='kw-2'>&amp;</span>(<span class='ident'>String</span>, <span class='ident'>PathBuf</span>)) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ImageFormat</span>, <span class='ident'>Outcome</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>guess_format</span>(<span class='ident'>file</span>: <span class='kw-2'>&amp;</span>(<span class='ident'>String</span>, <span class='ident'>PathBuf</span>)) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ImageFormat</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> {
     <span class='ident'>file</span>.<span class='number'>1</span>
         .<span class='ident'>extension</span>()
         .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>ext</span><span class='op'>|</span> <span class='kw'>match</span> <span class='kw-2'>&amp;</span><span class='ident'>ext</span>.<span class='ident'>to_str</span>().<span class='ident'>unwrap</span>().<span class='ident'>to_lowercase</span>()[..] {
@@ -286,7 +286,7 @@
         })
         .<span class='ident'>unwrap_or_else</span>(<span class='op'>||</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>32</span>];
-            <span class='kw'>let</span> <span class='ident'>read</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='ident'>file</span>.<span class='number'>1</span>).<span class='ident'>map_err</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>Outcome</span>::<span class='ident'>OpeningImageFailed</span>(<span class='ident'>file</span>.<span class='number'>0</span>.<span class='ident'>clone</span>()))).<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>).<span class='ident'>unwrap</span>();
+            <span class='kw'>let</span> <span class='ident'>read</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='ident'>file</span>.<span class='number'>1</span>).<span class='ident'>map_err</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>Error</span>::<span class='ident'>OpeningImageFailed</span>(<span class='ident'>file</span>.<span class='number'>0</span>.<span class='ident'>clone</span>()))).<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>).<span class='ident'>unwrap</span>();
             <span class='kw'>let</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>buf</span>[..<span class='ident'>read</span>];
 
             <span class='kw'>if</span> <span class='ident'>buf</span>.<span class='ident'>len</span>() <span class='op'>&gt;=</span> <span class='ident'>PNG_MAGIC</span>.<span class='ident'>len</span>() <span class='op'>&amp;&amp;</span> <span class='kw-2'>&amp;</span><span class='ident'>buf</span>[..<span class='ident'>PNG_MAGIC</span>.<span class='ident'>len</span>()] <span class='op'>==</span> <span class='ident'>PNG_MAGIC</span> {
@@ -300,7 +300,7 @@
             } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>buf</span>.<span class='ident'>len</span>() <span class='op'>&gt;=</span> <span class='ident'>ICO_MAGIC</span>.<span class='ident'>len</span>() <span class='op'>&amp;&amp;</span> <span class='kw-2'>&amp;</span><span class='ident'>buf</span>[..<span class='ident'>ICO_MAGIC</span>.<span class='ident'>len</span>()] <span class='op'>==</span> <span class='ident'>ICO_MAGIC</span> {
                 <span class='prelude-val'>Ok</span>(<span class='ident'>ImageFormat</span>::<span class='ident'>ICO</span>)
             } <span class='kw'>else</span> {
-                <span class='prelude-val'>Err</span>(<span class='ident'>Outcome</span>::<span class='ident'>GuessingFormatFailed</span>(<span class='ident'>file</span>.<span class='number'>0</span>.<span class='ident'>clone</span>()))
+                <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>GuessingFormatFailed</span>(<span class='ident'>file</span>.<span class='number'>0</span>.<span class='ident'>clone</span>()))
             }
         })
 }
@@ -308,8 +308,8 @@
 <span class='doccomment'>/// Load an image from the specified file as the specified format.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// Get the image fromat with `guess_format()`.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load_image</span>(<span class='ident'>file</span>: <span class='kw-2'>&amp;</span>(<span class='ident'>String</span>, <span class='ident'>PathBuf</span>), <span class='ident'>format</span>: <span class='ident'>ImageFormat</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>DynamicImage</span>, <span class='ident'>Outcome</span><span class='op'>&gt;</span> {
-    <span class='prelude-val'>Ok</span>(<span class='ident'>image</span>::<span class='ident'>load</span>(<span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='ident'>file</span>.<span class='number'>1</span>).<span class='ident'>map_err</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>Outcome</span>::<span class='ident'>OpeningImageFailed</span>(<span class='ident'>file</span>.<span class='number'>0</span>.<span class='ident'>clone</span>())))),
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load_image</span>(<span class='ident'>file</span>: <span class='kw-2'>&amp;</span>(<span class='ident'>String</span>, <span class='ident'>PathBuf</span>), <span class='ident'>format</span>: <span class='ident'>ImageFormat</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>DynamicImage</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>image</span>::<span class='ident'>load</span>(<span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='ident'>file</span>.<span class='number'>1</span>).<span class='ident'>map_err</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>Error</span>::<span class='ident'>OpeningImageFailed</span>(<span class='ident'>file</span>.<span class='number'>0</span>.<span class='ident'>clone</span>())))),
                    <span class='ident'>format</span>)
         .<span class='ident'>unwrap</span>())
 }
