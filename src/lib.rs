@@ -20,6 +20,50 @@
 //! |> write_[no_]ansi[_truecolor]()
 //! ```
 //!
+//! ### Prose explanation
+//!
+//! First, get an `Options` instance, be it via a struct-literal or `Options::parse()`;
+//! or don't and just create the individual arguments manually.
+//!
+//! Then, use `ops::load_image()`. If you know your image's format, great. If you don't, get it via `ops::guess_format()`.
+//!
+//! After that resize the image to an output-ready size provided by `ops::image_resized_size()` with `resize_image()`.
+//! `ops::image_resized_size()` takes into consideration using two pixels per cell in the output functions,
+//! so the size it returns is twice as tall as the terminal output size passed to it.
+//!
+//! Finally, call `ops::write_ansi()`/`ops::write_ansi_truecolor()`/`ops::write_no_ansi()` depending on your liking with the resulting image.
+//!
+//! ### Example
+//!
+//! This is a complete example, from parsing the commandline to displaying the result.
+//!
+//! ```no_run
+//! # extern crate termimage;
+//! # extern crate image;
+//! # use image::GenericImage;
+//! # use std::io::stdout;
+//! # use termimage::*;
+//! # fn main() {
+//! #   not_main();
+//! # }
+//! # fn not_main() -> Result<(), Error> {
+//! let opts = Options::parse();
+//!
+//! let format = try!(ops::guess_format(&opts.image));
+//! let img = try!(ops::load_image(&opts.image, format));
+//!
+//! let img_s = ops::image_resized_size(img.dimensions(), opts.size, opts.preserve_aspect);
+//! let resized = ops::resize_image(&img, img_s);
+//!
+//! match opts.ansi_out {
+//!     Some(true) => ops::write_ansi_truecolor(&mut stdout(), &resized),
+//!     Some(false) => ops::write_ansi(&mut stdout(), &resized),
+//!     None => ops::write_no_ansi(&resized),
+//! }
+//! # Ok(())
+//! # }
+//! ```
+//!
 //! # Executable manpage
 //!
 //! Exit values and possible errors:

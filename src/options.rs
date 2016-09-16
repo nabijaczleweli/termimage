@@ -28,6 +28,8 @@ lazy_static! {
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Options {
     /// Image file to display.
+    ///
+    /// This tuple contains the plaintext name (user-friendly) and a normalised path (programmer-friendly).
     pub image: (String, PathBuf),
     /// Output size. Default: detected from terminal size or no default.
     pub size: (u32, u32),
