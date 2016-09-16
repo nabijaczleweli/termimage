@@ -1,10 +1,15 @@
+pub use image::DynamicImage;
 #[cfg(target_os = "windows")]
-use kernel32::{GetConsoleScreenBufferInfoEx, FillConsoleOutputAttribute, GetStdHandle};
+use self::imports::*;
+
 #[cfg(target_os = "windows")]
-use winapi::{CONSOLE_SCREEN_BUFFER_INFOEX, STD_OUTPUT_HANDLE, SMALL_RECT, COORD};
-use self::super::super::util::{closest_colour, mul_str};
-use image::{self, GenericImage, DynamicImage, Pixel};
-use std::mem;
+mod imports {
+    pub use kernel32::{GetConsoleScreenBufferInfoEx, FillConsoleOutputAttribute, GetStdHandle};
+    pub use winapi::{CONSOLE_SCREEN_BUFFER_INFOEX, STD_OUTPUT_HANDLE, SMALL_RECT, COORD};
+    pub use self::super::super::super::util::{closest_colour, mul_str};
+    pub use image::{GenericImage, Pixel, Rgb};
+    pub use std::mem;
+}
 
 
 /// Display the specified image in the default console using WinAPI.
@@ -33,7 +38,7 @@ pub fn write_no_ansi(img: &DynamicImage) {
     };
     unsafe { GetConsoleScreenBufferInfoEx(console_h, &mut console_info) };
     let colors =
-        console_info.ColorTable.iter().map(|cr| image::Rgb([(cr & 0xFF) as u8, ((cr & 0xFF00) >> 8) as u8, ((cr & 0xFF0000) >> 16) as u8])).collect::<Vec<_>>();
+        console_info.ColorTable.iter().map(|cr| Rgb([(cr & 0xFF) as u8, ((cr & 0xFF00) >> 8) as u8, ((cr & 0xFF0000) >> 16) as u8])).collect::<Vec<_>>();
 
     for y in 0..term_h {
         let upper_y = y * 2;
