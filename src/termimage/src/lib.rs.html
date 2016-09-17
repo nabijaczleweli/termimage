@@ -171,6 +171,39 @@
 <span id="127">127</span>
 <span id="128">128</span>
 <span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Display images in your terminal, kind of</span>
 <span class='doccomment'>//!</span>
@@ -192,6 +225,39 @@
 <span class='doccomment'>//! |&gt; image_resized_size()</span>
 <span class='doccomment'>//! |&gt; resize_image()</span>
 <span class='doccomment'>//! |&gt; write_[no_]ansi[_truecolor]()</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ### Prose explanation</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! First, get an `Options` instance, be it via a struct-literal or `Options::parse()`;</span>
+<span class='doccomment'>//! or don&#39;t and just create the individual arguments manually.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Then, use `ops::load_image()`. If you know your image&#39;s format, great. If you don&#39;t, get it via `ops::guess_format()`.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! After that resize the image to an output-ready size provided by `ops::image_resized_size()` with `resize_image()`.</span>
+<span class='doccomment'>//! `ops::image_resized_size()` takes into consideration using two pixels per cell in the output functions,</span>
+<span class='doccomment'>//! so the size it returns is twice as tall as the terminal output size passed to it.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Finally, call `ops::write_ansi()`/`ops::write_ansi_truecolor()`/`ops::write_no_ansi()` depending on your liking with the resulting image.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ### Example</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! This is a complete example, from parsing the commandline to displaying the result.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```no_run</span>
+<span class='doccomment'>//! let opts = termimage::Options::parse();</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let format = try!(termimage::ops::guess_format(&amp;opts.image));</span>
+<span class='doccomment'>//! let img = try!(termimage::ops::load_image(&amp;opts.image, format));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let img_s = termimage::ops::image_resized_size(img.dimensions(), opts.size, opts.preserve_aspect);</span>
+<span class='doccomment'>//! let resized = termimage::ops::resize_image(&amp;img, img_s);</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! match opts.ansi_out {</span>
+<span class='doccomment'>//!     Some(true) =&gt; termimage::ops::write_ansi_truecolor(&amp;mut stdout(), &amp;resized),</span>
+<span class='doccomment'>//!     Some(false) =&gt; termimage::ops::write_ansi(&amp;mut stdout(), &amp;resized),</span>
+<span class='doccomment'>//!     None =&gt; termimage::ops::write_no_ansi(&amp;resized),</span>
+<span class='doccomment'>//! }</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! # Executable manpage</span>
