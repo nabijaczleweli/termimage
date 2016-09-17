@@ -217,13 +217,46 @@
 <span id="173">173</span>
 <span id="174">174</span>
 <span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Main functions doing actual work.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Use `guess_format()` to get teh image format from a path,</span>
-<span class='doccomment'>//! then read the image using `load_image()`,</span>
+<span class='doccomment'>//! Use `guess_format()` to get the image format from a path,</span>
+<span class='doccomment'>//! then read the image using `load_image()` to the size given by `image_resized_size()`,</span>
 <span class='doccomment'>//! resize it to terminal size with `resize_image()`</span>
-<span class='doccomment'>//! and display it with `write_[no_]ansi()`.</span>
+<span class='doccomment'>//! and display it with `write_[no_]ansi[_truecolor]()`,</span>
+<span class='doccomment'>//! or display it yourself with approximations from `create_colourtable()`.</span>
 
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>util</span>::{<span class='ident'>ANSI_BG_COLOUR_ESCAPES</span>, <span class='ident'>ANSI_COLOUR_ESCAPES</span>, <span class='ident'>ANSI_BG_COLOURS</span>, <span class='ident'>ANSI_COLOURS</span>, <span class='ident'>JPEG_MAGIC</span>, <span class='ident'>BMP_MAGIC</span>, <span class='ident'>ICO_MAGIC</span>, <span class='ident'>GIF_MAGIC</span>, <span class='ident'>PNG_MAGIC</span>,
                         <span class='ident'>closest_colour</span>};
@@ -231,6 +264,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufReader</span>, <span class='ident'>Write</span>, <span class='ident'>Read</span>};
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>Error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Index</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 
 <span class='kw'>mod</span> <span class='ident'>no_ansi</span>;
@@ -343,23 +377,53 @@
     <span class='ident'>img</span>.<span class='ident'>resize_exact</span>(<span class='ident'>size</span>.<span class='number'>0</span>, <span class='ident'>size</span>.<span class='number'>1</span>, <span class='ident'>FilterType</span>::<span class='ident'>Nearest</span>)
 }
 
-<span class='doccomment'>/// Display the specified image in the default console using ANSI escape codes.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_ansi</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='ident'>out</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>, <span class='ident'>img</span>: <span class='kw-2'>&amp;</span><span class='ident'>DynamicImage</span>) {
+<span class='doccomment'>/// Create a line-major table of (upper, lower) colour approximation indices given the supported colours therefor.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Approximate `img` to ANSI and display it to stdout.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// # extern crate termimage;</span>
+<span class='doccomment'>/// # extern crate image;</span>
+<span class='doccomment'>/// # use termimage::util::{ANSI_COLOURS, ANSI_BG_COLOURS, ANSI_COLOUR_ESCAPES, ANSI_BG_COLOUR_ESCAPES};</span>
+<span class='doccomment'>/// # use termimage::ops::create_colourtable;</span>
+<span class='doccomment'>/// # fn main() {</span>
+<span class='doccomment'>/// # let img = image::DynamicImage::new_rgb8(16, 16);</span>
+<span class='doccomment'>/// for line in create_colourtable(&amp;img, ANSI_COLOURS, ANSI_BG_COLOURS) {</span>
+<span class='doccomment'>///     for (upper_clr, lower_clr) in line {</span>
+<span class='doccomment'>///         print!(&quot;{}{}\u{2580}&quot;, // ▀</span>
+<span class='doccomment'>///                ANSI_COLOUR_ESCAPES[upper_clr],</span>
+<span class='doccomment'>///                ANSI_BG_COLOUR_ESCAPES[lower_clr]);</span>
+<span class='doccomment'>///     }</span>
+<span class='doccomment'>///     println!(&quot;{}{}&quot;, ANSI_COLOUR_ESCAPES[15], ANSI_BG_COLOUR_ESCAPES[0]);</span>
+<span class='doccomment'>/// }</span>
+<span class='doccomment'>/// # }</span>
+<span class='doccomment'>/// ```</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>create_colourtable</span><span class='op'>&lt;</span><span class='ident'>C</span>: <span class='ident'>Index</span><span class='op'>&lt;</span><span class='ident'>usize</span>, <span class='ident'>Output</span> <span class='op'>=</span> <span class='ident'>u8</span><span class='op'>&gt;&gt;</span>(<span class='ident'>img</span>: <span class='kw-2'>&amp;</span><span class='ident'>DynamicImage</span>, <span class='ident'>upper_colours</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>C</span>], <span class='ident'>lower_colours</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>C</span>]) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>usize</span>)<span class='op'>&gt;&gt;</span> {
     <span class='kw'>let</span> (<span class='ident'>width</span>, <span class='ident'>height</span>) <span class='op'>=</span> <span class='ident'>img</span>.<span class='ident'>dimensions</span>();
     <span class='kw'>let</span> <span class='ident'>term_h</span> <span class='op'>=</span> <span class='ident'>height</span> <span class='op'>/</span> <span class='number'>2</span>;
 
-    <span class='kw'>for</span> <span class='ident'>y</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>term_h</span> {
-        <span class='kw'>let</span> <span class='ident'>upper_y</span> <span class='op'>=</span> <span class='ident'>y</span> <span class='op'>*</span> <span class='number'>2</span>;
-        <span class='kw'>let</span> <span class='ident'>lower_y</span> <span class='op'>=</span> <span class='ident'>upper_y</span> <span class='op'>+</span> <span class='number'>1</span>;
+    (<span class='number'>0</span>..<span class='ident'>term_h</span>)
+        .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>y</span><span class='op'>|</span> {
+            <span class='kw'>let</span> <span class='ident'>upper_y</span> <span class='op'>=</span> <span class='ident'>y</span> <span class='op'>*</span> <span class='number'>2</span>;
+            <span class='kw'>let</span> <span class='ident'>lower_y</span> <span class='op'>=</span> <span class='ident'>upper_y</span> <span class='op'>+</span> <span class='number'>1</span>;
 
-        <span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>width</span> {
-            <span class='kw'>let</span> <span class='ident'>closest_upper_clr</span> <span class='op'>=</span> <span class='ident'>closest_colour</span>(<span class='ident'>img</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x</span>, <span class='ident'>upper_y</span>).<span class='ident'>to_rgb</span>(), <span class='ident'>ANSI_COLOURS</span>);
-            <span class='kw'>let</span> <span class='ident'>closest_lower_clr</span> <span class='op'>=</span> <span class='ident'>closest_colour</span>(<span class='ident'>img</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x</span>, <span class='ident'>lower_y</span>).<span class='ident'>to_rgb</span>(), <span class='ident'>ANSI_BG_COLOURS</span>);
+            (<span class='number'>0</span>..<span class='ident'>width</span>)
+                .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> (<span class='ident'>closest_colour</span>(<span class='ident'>img</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x</span>, <span class='ident'>upper_y</span>).<span class='ident'>to_rgb</span>(), <span class='ident'>upper_colours</span>), <span class='ident'>closest_colour</span>(<span class='ident'>img</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x</span>, <span class='ident'>lower_y</span>).<span class='ident'>to_rgb</span>(), <span class='ident'>lower_colours</span>)))
+                .<span class='ident'>collect</span>()
+        })
+        .<span class='ident'>collect</span>()
+}
 
+<span class='doccomment'>/// Display the specified image in the default console using ANSI escape codes.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_ansi</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='ident'>out</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>, <span class='ident'>img</span>: <span class='kw-2'>&amp;</span><span class='ident'>DynamicImage</span>) {
+    <span class='kw'>for</span> <span class='ident'>line</span> <span class='kw'>in</span> <span class='ident'>create_colourtable</span>(<span class='ident'>img</span>, <span class='ident'>ANSI_COLOURS</span>, <span class='ident'>ANSI_BG_COLOURS</span>) {
+        <span class='kw'>for</span> (<span class='ident'>upper_clr</span>, <span class='ident'>lower_clr</span>) <span class='kw'>in</span> <span class='ident'>line</span> {
             <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>out</span>,
                    <span class='string'>&quot;{}{}\u{2580}&quot;</span>, <span class='comment'>// ▀</span>
-                   <span class='ident'>ANSI_COLOUR_ESCAPES</span>[<span class='ident'>closest_upper_clr</span>],
-                   <span class='ident'>ANSI_BG_COLOUR_ESCAPES</span>[<span class='ident'>closest_lower_clr</span>])
+                   <span class='ident'>ANSI_COLOUR_ESCAPES</span>[<span class='ident'>upper_clr</span>],
+                   <span class='ident'>ANSI_BG_COLOUR_ESCAPES</span>[<span class='ident'>lower_clr</span>])
                 .<span class='ident'>unwrap</span>();
         }
         <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>out</span>, <span class='string'>&quot;{}{}&quot;</span>, <span class='ident'>ANSI_COLOUR_ESCAPES</span>[<span class='number'>15</span>], <span class='ident'>ANSI_BG_COLOUR_ESCAPES</span>[<span class='number'>0</span>]).<span class='ident'>unwrap</span>();
