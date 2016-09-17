@@ -7,6 +7,7 @@ mod imports {
     pub use kernel32::{GetConsoleScreenBufferInfoEx, FillConsoleOutputAttribute, GetStdHandle};
     pub use winapi::{CONSOLE_SCREEN_BUFFER_INFOEX, STD_OUTPUT_HANDLE, SMALL_RECT, COORD};
     pub use self::super::super::super::util::{closest_colour, mul_str};
+    pub use self::super::super::create_colourtable;
     pub use image::{GenericImage, Pixel, Rgb};
     pub use std::mem;
 }
@@ -37,20 +38,14 @@ pub fn write_no_ansi(img: &DynamicImage) {
         ColorTable: [0; 16],
     };
     unsafe { GetConsoleScreenBufferInfoEx(console_h, &mut console_info) };
-    let colors =
+    let colours =
         console_info.ColorTable.iter().map(|cr| Rgb([(cr & 0xFF) as u8, ((cr & 0xFF00) >> 8) as u8, ((cr & 0xFF0000) >> 16) as u8])).collect::<Vec<_>>();
 
-    for y in 0..term_h {
-        let upper_y = y * 2;
-        let lower_y = upper_y + 1;
-
-        for x in 0..width {
-            let closest_upper_clr = closest_colour(img.get_pixel(x, upper_y).to_rgb(), &colors) as u16;
-            let closest_lower_clr = closest_colour(img.get_pixel(x, lower_y).to_rgb(), &colors) as u16;
-
+    for (y, line) in create_colourtable(img, &colours, &colours).into_iter().enumerate() {
+        for (x, (upper_clr, lower_clr)) in line.into_iter().enumerate() {
             unsafe {
                 FillConsoleOutputAttribute(console_h,
-                                           (console_info.wAttributes & 0xFF00) | (closest_lower_clr << 4) | closest_upper_clr,
+                                           (console_info.wAttributes & 0xFF00) | ((lower_clr as u16) << 4) | (upper_clr as u16),
                                            1,
                                            COORD {
                                                X: x as i16,

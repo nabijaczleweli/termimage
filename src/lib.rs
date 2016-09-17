@@ -31,7 +31,11 @@
 //! `ops::image_resized_size()` takes into consideration using two pixels per cell in the output functions,
 //! so the size it returns is twice as tall as the terminal output size passed to it.
 //!
-//! Finally, call `ops::write_ansi()`/`ops::write_ansi_truecolor()`/`ops::write_no_ansi()` depending on your liking with the resulting image.
+//! Finally, call `ops::write_ansi()`/`ops::write_ansi_truecolor()`/`ops::write_no_ansi()` depending on your liking with the
+//! resulting image.
+//!
+//! Or, if you want to display images manually, use `ops::create_colourtable()` to create an approximate colours table and
+//! display it, for example, with `ncurses`.
 //!
 //! ### Example
 //!
