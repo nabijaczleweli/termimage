@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.4.2/src/thread_pool.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.6.0/src/thread_pool.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>thread_pool.rs.html -- source</title>
@@ -391,24 +391,145 @@
 <span id="347">347</span>
 <span id="348">348</span>
 <span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>Configuration</span>;
 <span class='kw'>use</span> <span class='ident'>deque</span>;
 <span class='kw'>use</span> <span class='ident'>deque</span>::{<span class='ident'>Worker</span>, <span class='ident'>Stealer</span>, <span class='ident'>Stolen</span>};
-<span class='kw'>use</span> <span class='ident'>job</span>::<span class='ident'>JobRef</span>;
+<span class='kw'>use</span> <span class='ident'>job</span>::{<span class='ident'>JobRef</span>, <span class='ident'>JobMode</span>};
 <span class='kw'>use</span> <span class='ident'>latch</span>::{<span class='ident'>Latch</span>, <span class='ident'>LockLatch</span>, <span class='ident'>SpinLatch</span>};
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_imports</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>log</span>::<span class='ident'>Event</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>rand</span>;
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='self'>self</span>, <span class='ident'>Rng</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Condvar</span>, <span class='ident'>Mutex</span>, <span class='ident'>Once</span>, <span class='ident'>ONCE_INIT</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>VecDeque</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
+<span class='kw'>use</span> <span class='ident'>unwind</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>leak</span>;
 <span class='kw'>use</span> <span class='ident'>num_cpus</span>;
 
-<span class='comment'>///////////////////////////////////////////////////////////////////////////</span>
+<span class='doccomment'>/// ////////////////////////////////////////////////////////////////////////</span>
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Registry</span> {
     <span class='ident'>thread_infos</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ThreadInfo</span><span class='op'>&gt;</span>,
@@ -422,8 +543,8 @@
     <span class='ident'>injected_jobs</span>: <span class='ident'>VecDeque</span><span class='op'>&lt;</span><span class='ident'>JobRef</span><span class='op'>&gt;</span>,
 }
 
-<span class='comment'>///////////////////////////////////////////////////////////////////////////</span>
-<span class='comment'>// Initialization</span>
+<span class='doccomment'>/// ////////////////////////////////////////////////////////////////////////</span>
+<span class='doccomment'>/// Initialization</span>
 
 <span class='kw'>static</span> <span class='kw-2'>mut</span> <span class='ident'>THE_REGISTRY</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>Registry</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 <span class='kw'>static</span> <span class='ident'>THE_REGISTRY_SET</span>: <span class='ident'>Once</span> <span class='op'>=</span> <span class='ident'>ONCE_INIT</span>;
@@ -462,15 +583,15 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>num_threads</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Registry</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>limit_value</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>num_threads</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>value</span>) <span class='op'>=&gt;</span> <span class='ident'>value</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>num_cpus</span>::<span class='ident'>get</span>()
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>num_cpus</span>::<span class='ident'>get</span>(),
         };
 
-        <span class='kw'>let</span> (<span class='ident'>workers</span>, <span class='ident'>stealers</span>) : (<span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span>) <span class='op'>=</span>
-            (<span class='number'>0</span>..<span class='ident'>limit_value</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>deque</span>::<span class='ident'>new</span>()).<span class='ident'>unzip</span>();
+        <span class='kw'>let</span> (<span class='ident'>workers</span>, <span class='ident'>stealers</span>): (<span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span>) <span class='op'>=</span> (<span class='number'>0</span>..<span class='ident'>limit_value</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>deque</span>::<span class='ident'>new</span>()).<span class='ident'>unzip</span>();
 
         <span class='kw'>let</span> <span class='ident'>registry</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Registry</span> {
-            <span class='ident'>thread_infos</span>: <span class='ident'>stealers</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>ThreadInfo</span>::<span class='ident'>new</span>(<span class='ident'>s</span>))
-                                          .<span class='ident'>collect</span>(),
+            <span class='ident'>thread_infos</span>: <span class='ident'>stealers</span>.<span class='ident'>into_iter</span>()
+                .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>ThreadInfo</span>::<span class='ident'>new</span>(<span class='ident'>s</span>))
+                .<span class='ident'>collect</span>(),
             <span class='ident'>state</span>: <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>RegistryState</span>::<span class='ident'>new</span>()),
             <span class='ident'>work_available</span>: <span class='ident'>Condvar</span>::<span class='ident'>new</span>(),
         });
@@ -481,6 +602,13 @@
         }
 
         <span class='ident'>registry</span>
+    }
+
+    <span class='doccomment'>/// Returns an opaque identifier for this registry.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RegistryId</span> {
+        <span class='comment'>// We can rely on `self` not to change since we only ever create</span>
+        <span class='comment'>// registries that are boxed up in an `Arc` (see `new()` above).</span>
+        <span class='ident'>RegistryId</span> { <span class='ident'>addr</span>: <span class='self'>self</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='self'>Self</span> <span class='kw'>as</span> <span class='ident'>usize</span> }
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>num_threads</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
@@ -497,38 +625,43 @@
         }
     }
 
-    <span class='comment'>///////////////////////////////////////////////////////////////////////////</span>
-    <span class='comment'>// MAIN LOOP</span>
-    <span class='comment'>//</span>
-    <span class='comment'>// So long as all of the worker threads are hanging out in their</span>
-    <span class='comment'>// top-level loop, there is no work to be done.</span>
+    <span class='doccomment'>/// ////////////////////////////////////////////////////////////////////////</span>
+    <span class='doccomment'>/// MAIN LOOP</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// So long as all of the worker threads are hanging out in their</span>
+    <span class='doccomment'>/// top-level loop, there is no work to be done.</span>
 
     <span class='kw'>fn</span> <span class='ident'>start_working</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) {
         <span class='macro'>log</span><span class='macro'>!</span>(<span class='ident'>StartWorking</span> { <span class='ident'>index</span>: <span class='ident'>index</span> });
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>state</span>.<span class='ident'>threads_at_work</span> <span class='op'>+=</span> <span class='number'>1</span>;
+        {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+            <span class='ident'>state</span>.<span class='ident'>threads_at_work</span> <span class='op'>+=</span> <span class='number'>1</span>;
+        }
         <span class='self'>self</span>.<span class='ident'>work_available</span>.<span class='ident'>notify_all</span>();
     }
 
     <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>inject</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>injected_jobs</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>JobRef</span>]) {
         <span class='macro'>log</span><span class='macro'>!</span>(<span class='ident'>InjectJobs</span> { <span class='ident'>count</span>: <span class='ident'>injected_jobs</span>.<span class='ident'>len</span>() });
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
-        <span class='kw'>if</span> <span class='ident'>state</span>.<span class='ident'>terminate</span> {
-            <span class='ident'>drop</span>(<span class='ident'>state</span>);
-            <span class='comment'>// We can only reach this point if these conditions are met:</span>
-            <span class='comment'>// 1) This must be the global thread pool</span>
-            <span class='comment'>// 2) The only way to terminate the global thread pool is if a</span>
-            <span class='comment'>//    worker thread panics.</span>
-            <span class='comment'>// 3) A worker thread can only panic if a job panicked and was not</span>
-            <span class='comment'>//    caught by panic::recover.</span>
-            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;rayon thread pool is contaminated by a previous panic; recovery is only available on nightly compilers&quot;</span>);
+        {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+
+            <span class='comment'>// It should not be possible for `state.terminate` to be true</span>
+            <span class='comment'>// here. It is only set to true when the user creates (and</span>
+            <span class='comment'>// drops) a `ThreadPool`; and, in that case, they cannot be</span>
+            <span class='comment'>// calling `inject()` later, since they dropped their</span>
+            <span class='comment'>// `ThreadPool`.</span>
+            <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>state</span>.<span class='ident'>terminate</span>, <span class='string'>&quot;inject() sees state.terminate as true&quot;</span>);
+
+            <span class='ident'>state</span>.<span class='ident'>injected_jobs</span>.<span class='ident'>extend</span>(<span class='ident'>injected_jobs</span>);
         }
-        <span class='ident'>state</span>.<span class='ident'>injected_jobs</span>.<span class='ident'>extend</span>(<span class='ident'>injected_jobs</span>);
         <span class='self'>self</span>.<span class='ident'>work_available</span>.<span class='ident'>notify_all</span>();
     }
 
     <span class='kw'>fn</span> <span class='ident'>wait_for_work</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_worker</span>: <span class='ident'>usize</span>, <span class='ident'>was_active</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Work</span> {
-        <span class='macro'>log</span><span class='macro'>!</span>(<span class='ident'>WaitForWork</span> { <span class='ident'>worker</span>: <span class='ident'>_worker</span>, <span class='ident'>was_active</span>: <span class='ident'>was_active</span> });
+        <span class='macro'>log</span><span class='macro'>!</span>(<span class='ident'>WaitForWork</span> {
+            <span class='ident'>worker</span>: <span class='ident'>_worker</span>,
+            <span class='ident'>was_active</span>: <span class='ident'>was_active</span>,
+        });
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
 
@@ -563,15 +696,22 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>terminate</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>state</span>.<span class='ident'>terminate</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-        <span class='kw'>for</span> <span class='ident'>job</span> <span class='kw'>in</span> <span class='ident'>state</span>.<span class='ident'>injected_jobs</span>.<span class='ident'>drain</span>(..) {
-            <span class='kw'>unsafe</span> {
-                (<span class='op'>*</span><span class='ident'>job</span>.<span class='number'>0</span>).<span class='ident'>abort</span>();
+        {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+            <span class='ident'>state</span>.<span class='ident'>terminate</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class='kw'>for</span> <span class='ident'>job</span> <span class='kw'>in</span> <span class='ident'>state</span>.<span class='ident'>injected_jobs</span>.<span class='ident'>drain</span>(..) {
+                <span class='kw'>unsafe</span> {
+                    <span class='ident'>job</span>.<span class='ident'>execute</span>(<span class='ident'>JobMode</span>::<span class='ident'>Abort</span>);
+                }
             }
         }
         <span class='self'>self</span>.<span class='ident'>work_available</span>.<span class='ident'>notify_all</span>();
     }
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialOrd</span>, <span class='ident'>Ord</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RegistryId</span> {
+    <span class='ident'>addr</span>: <span class='ident'>usize</span>
 }
 
 <span class='kw'>impl</span> <span class='ident'>RegistryState</span> {
@@ -600,13 +740,56 @@
     }
 }
 
-<span class='comment'>///////////////////////////////////////////////////////////////////////////</span>
-<span class='comment'>// WorkerThread identifiers</span>
+<span class='doccomment'>/// ////////////////////////////////////////////////////////////////////////</span>
+<span class='doccomment'>/// WorkerThread identifiers</span>
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WorkerThread</span> {
     <span class='ident'>worker</span>: <span class='ident'>Worker</span><span class='op'>&lt;</span><span class='ident'>JobRef</span><span class='op'>&gt;</span>,
     <span class='ident'>stealers</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Stealer</span><span class='op'>&lt;</span><span class='ident'>JobRef</span><span class='op'>&gt;&gt;</span>,
-    <span class='ident'>index</span>: <span class='ident'>usize</span>
+    <span class='ident'>index</span>: <span class='ident'>usize</span>,
+
+    <span class='doccomment'>/// A counter tracking how many calls to `Scope::spawn` occurred</span>
+    <span class='doccomment'>/// on the current thread; this is used by the scope code to</span>
+    <span class='doccomment'>/// ensure that the depth of the local deque is maintained.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The actual logic here is a bit subtle. Perhaps more subtle</span>
+    <span class='doccomment'>/// than it has to be. The problem is this: if you have only join,</span>
+    <span class='doccomment'>/// then you can easily pair each push onto the deque with a pop.</span>
+    <span class='doccomment'>/// But when you have spawn, you push onto the deque without a</span>
+    <span class='doccomment'>/// corresponding pop. The `spawn_count` is used to track how many</span>
+    <span class='doccomment'>/// of these &quot;unpaired pushes&quot; have occurred.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The basic pattern is that people record the spawned count</span>
+    <span class='doccomment'>/// before they execute a task (let&#39;s call it N). Then, if they</span>
+    <span class='doccomment'>/// want to pop the local tasks that this task may have spawned,</span>
+    <span class='doccomment'>/// they invoke `pop_spawned_jobs` with N. `pop_spawned_jobs` will</span>
+    <span class='doccomment'>/// pop things from the local deque and execute them until the</span>
+    <span class='doccomment'>/// spawn count drops to N, or the deque is empty, whichever</span>
+    <span class='doccomment'>/// happens first. (Either way, it resets the spawn count to N.)</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// So e.g. join will push the right task, record the spawn count</span>
+    <span class='doccomment'>/// as N, run the left task, and then pop spawned jobs. Once pop</span>
+    <span class='doccomment'>/// spawned jobs returns, we can go ahead and try to pop the right</span>
+    <span class='doccomment'>/// task -- it has either been stolen, or should be on the top of the deque.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Similarly, `scope` will record the spawn count and run the</span>
+    <span class='doccomment'>/// main task.  It can then pop the spawned jobs. At this point,</span>
+    <span class='doccomment'>/// until the &quot;all done!&quot; latch is set, it can go and steal from</span>
+    <span class='doccomment'>/// other people, confident in the knowledge that the local deque</span>
+    <span class='doccomment'>/// is empty. This is a bit subtle: basically, since all the</span>
+    <span class='doccomment'>/// locally spawned tasks were popped, the only way that we are</span>
+    <span class='doccomment'>/// not all done is if one was stolen. If one was stolen, the</span>
+    <span class='doccomment'>/// stuff pushed before the scope was stolen too.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Finally, we have to make sure to pop spawned tasks after we</span>
+    <span class='doccomment'>/// steal, so as to maintain the invariant that our local deque is</span>
+    <span class='doccomment'>/// empty when we go to steal.</span>
+    <span class='ident'>spawn_count</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// A weak random number generator.</span>
+    <span class='ident'>rng</span>: <span class='ident'>rand</span>::<span class='ident'>XorShiftRng</span>,
+
+    <span class='ident'>registry</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Registry</span><span class='op'>&gt;</span>,
 }
 
 <span class='comment'>// This is a bit sketchy, but basically: the WorkerThread is</span>
@@ -615,8 +798,8 @@
 <span class='comment'>// worker is fully unwound. Using an unsafe pointer avoids the need</span>
 <span class='comment'>// for a RefCell&lt;T&gt; etc.</span>
 <span class='macro'>thread_local</span><span class='macro'>!</span> {
-    <span class='kw'>static</span> <span class='ident'>WORKER_THREAD_STATE</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw'>const</span> <span class='ident'>WorkerThread</span><span class='op'>&gt;</span> <span class='op'>=</span>
-        <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>WorkerThread</span>)
+    <span class='kw'>static</span> <span class='ident'>WORKER_THREAD_STATE</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>WorkerThread</span><span class='op'>&gt;</span> <span class='op'>=</span>
+        <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>WorkerThread</span>)
 }
 
 <span class='kw'>impl</span> <span class='ident'>WorkerThread</span> {
@@ -624,22 +807,65 @@
     <span class='doccomment'>/// NULL if this is not a worker thread. This pointer is valid</span>
     <span class='doccomment'>/// anywhere on the current thread.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>current</span>() <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>WorkerThread</span> {
+    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>current</span>() <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>WorkerThread</span> {
         <span class='ident'>WORKER_THREAD_STATE</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> <span class='ident'>t</span>.<span class='ident'>get</span>())
     }
 
     <span class='doccomment'>/// Sets `self` as the worker thread index for the current thread.</span>
     <span class='doccomment'>/// This is done during worker thread startup.</span>
-    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>set_current</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>set_current</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='ident'>WORKER_THREAD_STATE</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> {
             <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>t</span>.<span class='ident'>get</span>().<span class='ident'>is_null</span>());
             <span class='ident'>t</span>.<span class='ident'>set</span>(<span class='self'>self</span>);
         });
     }
 
+    <span class='doccomment'>/// Returns the registry that owns this worker thread.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>registry</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Registry</span><span class='op'>&gt;</span> {
+        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>registry</span>
+    }
+
+    <span class='doccomment'>/// Our index amongst the worker threads (ranges from `0..self.num_threads()`).</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>index</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
         <span class='self'>self</span>.<span class='ident'>index</span>
+    }
+
+    <span class='doccomment'>/// Read current value of the spawn counter.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// See the `spawn_count` field for an extensive comment on the</span>
+    <span class='doccomment'>/// meaning of the spawn counter.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>current_spawn_count</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='self'>self</span>.<span class='ident'>spawn_count</span>.<span class='ident'>get</span>()
+    }
+
+    <span class='doccomment'>/// Increment the spawn count by 1.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// See the `spawn_count` field for an extensive comment on the</span>
+    <span class='doccomment'>/// meaning of the spawn counter.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bump_spawn_count</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='self'>self</span>.<span class='ident'>spawn_count</span>.<span class='ident'>set</span>(<span class='self'>self</span>.<span class='ident'>spawn_count</span>.<span class='ident'>get</span>() <span class='op'>+</span> <span class='number'>1</span>);
+    }
+
+    <span class='doccomment'>/// Pops spawned (async) jobs until our spawn count reaches</span>
+    <span class='doccomment'>/// `start_count` or the deque is empty. This routine is used to</span>
+    <span class='doccomment'>/// ensure that the local deque is &quot;balanced&quot;.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// See the `spawn_count` field for an extensive comment on the</span>
+    <span class='doccomment'>/// meaning of the spawn counter and use of this function.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>pop_spawned_jobs</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>start_count</span>: <span class='ident'>usize</span>) {
+        <span class='kw'>while</span> <span class='self'>self</span>.<span class='ident'>spawn_count</span>.<span class='ident'>get</span>() <span class='op'>!=</span> <span class='ident'>start_count</span> {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>job_ref</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pop</span>() {
+                <span class='self'>self</span>.<span class='ident'>spawn_count</span>.<span class='ident'>set</span>(<span class='self'>self</span>.<span class='ident'>spawn_count</span>.<span class='ident'>get</span>() <span class='op'>-</span> <span class='number'>1</span>);
+                <span class='ident'>job_ref</span>.<span class='ident'>execute</span>(<span class='ident'>JobMode</span>::<span class='ident'>Execute</span>);
+            } <span class='kw'>else</span> {
+                <span class='self'>self</span>.<span class='ident'>spawn_count</span>.<span class='ident'>set</span>(<span class='ident'>start_count</span>);
+                <span class='kw'>break</span>;
+            }
+        }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -650,27 +876,23 @@
     <span class='doccomment'>/// Pop `job` from top of stack, returning `false` if it has been</span>
     <span class='doccomment'>/// stolen.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>pop</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>worker</span>.<span class='ident'>pop</span>().<span class='ident'>is_some</span>()
+    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>pop</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>JobRef</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>worker</span>.<span class='ident'>pop</span>()
     }
 
+    <span class='doccomment'>/// Keep stealing jobs until the latch is set.</span>
     <span class='attribute'>#[<span class='ident'>cold</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>steal_until</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>latch</span>: <span class='kw-2'>&amp;</span><span class='ident'>SpinLatch</span>) {
+    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>steal_until</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>latch</span>: <span class='kw-2'>&amp;</span><span class='ident'>SpinLatch</span>) {
+        <span class='kw'>let</span> <span class='ident'>spawn_count</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>spawn_count</span>.<span class='ident'>get</span>();
+
         <span class='comment'>// If another thread stole our job when we panic, we must halt unwinding</span>
         <span class='comment'>// until that thread is finished using it.</span>
-        <span class='kw'>struct</span> <span class='ident'>PanicGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>SpinLatch</span>);
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>PanicGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-                <span class='kw'>while</span> <span class='op'>!</span><span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>probe</span>() {
-                    <span class='ident'>thread</span>::<span class='ident'>yield_now</span>();
-                }
-            }
-        }
-
-        <span class='kw'>let</span> <span class='ident'>guard</span> <span class='op'>=</span> <span class='ident'>PanicGuard</span>(<span class='kw-2'>&amp;</span><span class='ident'>latch</span>);
+        <span class='kw'>let</span> <span class='ident'>guard</span> <span class='op'>=</span> <span class='ident'>unwind</span>::<span class='ident'>finally</span>(<span class='kw-2'>&amp;</span><span class='ident'>latch</span>, <span class='op'>|</span><span class='ident'>latch</span><span class='op'>|</span> <span class='ident'>latch</span>.<span class='ident'>spin</span>());
         <span class='kw'>while</span> <span class='op'>!</span><span class='ident'>latch</span>.<span class='ident'>probe</span>() {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>job</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>steal_work</span>() {
-                (<span class='op'>*</span><span class='ident'>job</span>.<span class='number'>0</span>).<span class='ident'>execute</span>();
+                <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>spawn_count</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>spawn_count</span>);
+                <span class='ident'>job</span>.<span class='ident'>execute</span>(<span class='ident'>JobMode</span>::<span class='ident'>Execute</span>);
+                <span class='self'>self</span>.<span class='ident'>pop_spawned_jobs</span>(<span class='ident'>spawn_count</span>);
             } <span class='kw'>else</span> {
                 <span class='ident'>thread</span>::<span class='ident'>yield_now</span>();
             }
@@ -678,68 +900,86 @@
         <span class='ident'>mem</span>::<span class='ident'>forget</span>(<span class='ident'>guard</span>);
     }
 
-    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>steal_work</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>JobRef</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>stealers</span>.<span class='ident'>is_empty</span>() { <span class='kw'>return</span> <span class='prelude-val'>None</span> }
-        <span class='kw'>let</span> <span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>rand</span>::<span class='ident'>random</span>::<span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>() <span class='op'>%</span> <span class='self'>self</span>.<span class='ident'>stealers</span>.<span class='ident'>len</span>();
-        <span class='kw'>let</span> (<span class='ident'>lo</span>, <span class='ident'>hi</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>stealers</span>.<span class='ident'>split_at</span>(<span class='ident'>start</span>);
-        <span class='ident'>hi</span>.<span class='ident'>iter</span>().<span class='ident'>chain</span>(<span class='ident'>lo</span>)
-            .<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>stealer</span><span class='op'>|</span> <span class='kw'>match</span> <span class='ident'>stealer</span>.<span class='ident'>steal</span>() {
-                <span class='ident'>Stolen</span>::<span class='ident'>Empty</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
-                <span class='ident'>Stolen</span>::<span class='ident'>Abort</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>, <span class='comment'>// loop?</span>
-                <span class='ident'>Stolen</span>::<span class='ident'>Data</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>),
+    <span class='doccomment'>/// Steal a single job and return it.</span>
+    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>steal_work</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>JobRef</span><span class='op'>&gt;</span> {
+        <span class='comment'>// at no point should we try to steal unless our local deque is empty</span>
+        <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>pop</span>().<span class='ident'>is_none</span>());
+
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>stealers</span>.<span class='ident'>is_empty</span>() {
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
+        }
+        <span class='kw'>let</span> <span class='ident'>start</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>rng</span>.<span class='ident'>next_u32</span>() <span class='op'>%</span> <span class='self'>self</span>.<span class='ident'>stealers</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>u32</span>;
+        <span class='kw'>let</span> (<span class='ident'>lo</span>, <span class='ident'>hi</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>stealers</span>.<span class='ident'>split_at</span>(<span class='ident'>start</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
+        <span class='ident'>hi</span>.<span class='ident'>iter</span>()
+            .<span class='ident'>chain</span>(<span class='ident'>lo</span>)
+            .<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>stealer</span><span class='op'>|</span> {
+                <span class='kw'>match</span> <span class='ident'>stealer</span>.<span class='ident'>steal</span>() {
+                    <span class='ident'>Stolen</span>::<span class='ident'>Empty</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+                    <span class='ident'>Stolen</span>::<span class='ident'>Abort</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>, <span class='comment'>// loop?</span>
+                    <span class='ident'>Stolen</span>::<span class='ident'>Data</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>),
+                }
             })
             .<span class='ident'>next</span>()
     }
 }
 
-<span class='comment'>///////////////////////////////////////////////////////////////////////////</span>
+<span class='doccomment'>/// ////////////////////////////////////////////////////////////////////////</span>
 
 <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>main_loop</span>(<span class='ident'>worker</span>: <span class='ident'>Worker</span><span class='op'>&lt;</span><span class='ident'>JobRef</span><span class='op'>&gt;</span>, <span class='ident'>registry</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Registry</span><span class='op'>&gt;</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) {
-    <span class='kw'>let</span> <span class='ident'>stealers</span> <span class='op'>=</span> <span class='ident'>registry</span>.<span class='ident'>thread_infos</span>.<span class='ident'>iter</span>()
-        .<span class='ident'>enumerate</span>().<span class='ident'>filter</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>i</span>, _)<span class='op'>|</span> <span class='ident'>i</span> <span class='op'>!=</span> <span class='ident'>index</span>)
+    <span class='kw'>let</span> <span class='ident'>stealers</span> <span class='op'>=</span> <span class='ident'>registry</span>.<span class='ident'>thread_infos</span>
+        .<span class='ident'>iter</span>()
+        .<span class='ident'>enumerate</span>()
+        .<span class='ident'>filter</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>i</span>, _)<span class='op'>|</span> <span class='ident'>i</span> <span class='op'>!=</span> <span class='ident'>index</span>)
         .<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='ident'>ti</span>)<span class='op'>|</span> <span class='ident'>ti</span>.<span class='ident'>stealer</span>.<span class='ident'>clone</span>())
-        .<span class='ident'>collect</span>();
+        .<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
-    <span class='kw'>let</span> <span class='ident'>worker_thread</span> <span class='op'>=</span> <span class='ident'>WorkerThread</span> {
+    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>stealers</span>.<span class='ident'>len</span>() <span class='op'>&lt;</span> ::<span class='ident'>std</span>::<span class='ident'>u32</span>::<span class='ident'>MAX</span> <span class='kw'>as</span> <span class='ident'>usize</span>,
+            <span class='string'>&quot;We assume this is not going to happen!&quot;</span>);
+
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>worker_thread</span> <span class='op'>=</span> <span class='ident'>WorkerThread</span> {
         <span class='ident'>worker</span>: <span class='ident'>worker</span>,
         <span class='ident'>stealers</span>: <span class='ident'>stealers</span>,
         <span class='ident'>index</span>: <span class='ident'>index</span>,
+        <span class='ident'>spawn_count</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
+        <span class='ident'>rng</span>: <span class='ident'>rand</span>::<span class='ident'>weak_rng</span>(),
+        <span class='ident'>registry</span>: <span class='ident'>registry</span>.<span class='ident'>clone</span>(),
     };
     <span class='ident'>worker_thread</span>.<span class='ident'>set_current</span>();
 
     <span class='comment'>// let registry know we are ready to do work</span>
     <span class='ident'>registry</span>.<span class='ident'>thread_infos</span>[<span class='ident'>index</span>].<span class='ident'>primed</span>.<span class='ident'>set</span>();
 
-    <span class='comment'>// If a worker thread panics, bring down the entire thread pool</span>
-    <span class='kw'>struct</span> <span class='ident'>PanicGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Registry</span>);
-    <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>PanicGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-        <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-            <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>terminate</span>();
-        }
-    }
-    <span class='kw'>let</span> <span class='ident'>_guard</span> <span class='op'>=</span> <span class='ident'>PanicGuard</span>(<span class='kw-2'>&amp;</span><span class='ident'>registry</span>);
+    <span class='comment'>// Worker threads should not panic. If they do, just abort, as the</span>
+    <span class='comment'>// internal state of the threadpool is corrupted. Note that if</span>
+    <span class='comment'>// **user code** panics, we should catch that and redirect.</span>
+    <span class='kw'>let</span> <span class='ident'>abort_guard</span> <span class='op'>=</span> <span class='ident'>unwind</span>::<span class='ident'>AbortIfPanic</span>;
 
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>was_active</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
     <span class='kw'>loop</span> {
         <span class='kw'>match</span> <span class='ident'>registry</span>.<span class='ident'>wait_for_work</span>(<span class='ident'>index</span>, <span class='ident'>was_active</span>) {
             <span class='ident'>Work</span>::<span class='ident'>Job</span>(<span class='ident'>injected_job</span>) <span class='op'>=&gt;</span> {
-                (<span class='op'>*</span><span class='ident'>injected_job</span>.<span class='number'>0</span>).<span class='ident'>execute</span>();
+                <span class='ident'>injected_job</span>.<span class='ident'>execute</span>(<span class='ident'>JobMode</span>::<span class='ident'>Execute</span>);
                 <span class='ident'>was_active</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                 <span class='kw'>continue</span>;
             }
             <span class='ident'>Work</span>::<span class='ident'>Terminate</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>,
-            <span class='ident'>Work</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {},
+            <span class='ident'>Work</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {}
         }
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>stolen_job</span>) <span class='op'>=</span> <span class='ident'>worker_thread</span>.<span class='ident'>steal_work</span>() {
             <span class='macro'>log</span><span class='macro'>!</span>(<span class='ident'>StoleWork</span> { <span class='ident'>worker</span>: <span class='ident'>index</span> });
             <span class='ident'>registry</span>.<span class='ident'>start_working</span>(<span class='ident'>index</span>);
-            (<span class='op'>*</span><span class='ident'>stolen_job</span>.<span class='number'>0</span>).<span class='ident'>execute</span>();
+            <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='ident'>worker_thread</span>.<span class='ident'>spawn_count</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='number'>0</span>);
+            <span class='ident'>stolen_job</span>.<span class='ident'>execute</span>(<span class='ident'>JobMode</span>::<span class='ident'>Execute</span>);
+            <span class='ident'>worker_thread</span>.<span class='ident'>pop_spawned_jobs</span>(<span class='number'>0</span>);
             <span class='ident'>was_active</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
         } <span class='kw'>else</span> {
             <span class='ident'>was_active</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
         }
     }
+
+    <span class='comment'>// Normal termination, do not abort.</span>
+    <span class='ident'>mem</span>::<span class='ident'>forget</span>(<span class='ident'>abort_guard</span>);
 }
 </pre>
 </section>
@@ -798,11 +1038,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

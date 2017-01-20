@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.4.2/src/api.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.6.0/src/api.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>api.rs.html -- source</title>
@@ -287,16 +287,54 @@
 <span id="243">243</span>
 <span id="244">244</span>
 <span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>latch</span>::{<span class='ident'>LockLatch</span>, <span class='ident'>SpinLatch</span>};
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_imports</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>log</span>::<span class='ident'>Event</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>job</span>::<span class='ident'>JobImpl</span>;
+<span class='kw'>use</span> <span class='ident'>job</span>::<span class='ident'>StackJob</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 <span class='kw'>use</span> <span class='ident'>thread_pool</span>::{<span class='self'>self</span>, <span class='ident'>Registry</span>, <span class='ident'>WorkerThread</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::{<span class='ident'>thread</span>, <span class='ident'>mem</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
+<span class='kw'>use</span> <span class='ident'>unwind</span>;
 
 <span class='doccomment'>/// Custom error type for the rayon thread pool configuration.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>PartialEq</span>)]</span>
@@ -312,11 +350,15 @@
 <span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>InitError</span> {
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>InitError</span>::<span class='ident'>NumberOfThreadsZero</span> <span class='op'>=&gt;</span>
-                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;The number of threads was set to zero but must be greater than zero.&quot;</span>),
-            <span class='ident'>InitError</span>::<span class='ident'>GlobalPoolAlreadyInitialized</span> <span class='op'>=&gt;</span>
-                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;The gobal thread pool has already been initialized with a different \
-                           configuration. Only one valid configuration is allowed.&quot;</span>)
+            <span class='ident'>InitError</span>::<span class='ident'>NumberOfThreadsZero</span> <span class='op'>=&gt;</span> {
+                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>,
+                       <span class='string'>&quot;The number of threads was set to zero but must be greater than zero.&quot;</span>)
+            }
+            <span class='ident'>InitError</span>::<span class='ident'>GlobalPoolAlreadyInitialized</span> <span class='op'>=&gt;</span> {
+                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>,
+                       <span class='string'>&quot;The gobal thread pool has already been initialized with a different \
+                        configuration. Only one valid configuration is allowed.&quot;</span>)
+            }
         }
     }
 }
@@ -324,10 +366,10 @@
 <span class='kw'>impl</span> <span class='ident'>Error</span> <span class='kw'>for</span> <span class='ident'>InitError</span> {
     <span class='kw'>fn</span> <span class='ident'>description</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>str</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>InitError</span>::<span class='ident'>NumberOfThreadsZero</span> <span class='op'>=&gt;</span>
-                <span class='string'>&quot;number of threads set to zero&quot;</span>,
-            <span class='ident'>InitError</span>::<span class='ident'>GlobalPoolAlreadyInitialized</span> <span class='op'>=&gt;</span>
+            <span class='ident'>InitError</span>::<span class='ident'>NumberOfThreadsZero</span> <span class='op'>=&gt;</span> <span class='string'>&quot;number of threads set to zero&quot;</span>,
+            <span class='ident'>InitError</span>::<span class='ident'>GlobalPoolAlreadyInitialized</span> <span class='op'>=&gt;</span> {
                 <span class='string'>&quot;global thread pool has already been initialized&quot;</span>
+            }
         }
     }
 }
@@ -336,7 +378,7 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Configuration</span> {
     <span class='doccomment'>/// The number of threads in the rayon thread pool. Must not be zero.</span>
-    <span class='ident'>num_threads</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>
+    <span class='ident'>num_threads</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>Configuration</span> {
@@ -416,13 +458,14 @@
     <span class='macro'>dump_stats</span><span class='macro'>!</span>();
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>join</span><span class='op'>&lt;</span><span class='ident'>A</span>,<span class='ident'>B</span>,<span class='ident'>RA</span>,<span class='ident'>RB</span><span class='op'>&gt;</span>(<span class='ident'>oper_a</span>: <span class='ident'>A</span>,
-                       <span class='ident'>oper_b</span>: <span class='ident'>B</span>)
-                       <span class='op'>-&gt;</span> (<span class='ident'>RA</span>, <span class='ident'>RB</span>)
+<span class='doccomment'>/// The `join` function takes two closures and potentially runs them in parallel but is not</span>
+<span class='doccomment'>/// guaranteed to. However, the call to `join` incurs low overhead and is much different compared</span>
+<span class='doccomment'>/// to spawning two separate threads.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>join</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>B</span>, <span class='ident'>RA</span>, <span class='ident'>RB</span><span class='op'>&gt;</span>(<span class='ident'>oper_a</span>: <span class='ident'>A</span>, <span class='ident'>oper_b</span>: <span class='ident'>B</span>) <span class='op'>-&gt;</span> (<span class='ident'>RA</span>, <span class='ident'>RB</span>)
     <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>RA</span> <span class='op'>+</span> <span class='ident'>Send</span>,
           <span class='ident'>B</span>: <span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>RB</span> <span class='op'>+</span> <span class='ident'>Send</span>,
           <span class='ident'>RA</span>: <span class='ident'>Send</span>,
-          <span class='ident'>RB</span>: <span class='ident'>Send</span>,
+          <span class='ident'>RB</span>: <span class='ident'>Send</span>
 {
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='ident'>worker_thread</span> <span class='op'>=</span> <span class='ident'>WorkerThread</span>::<span class='ident'>current</span>();
@@ -437,35 +480,34 @@
         <span class='comment'>// create virtual wrapper for task b; this all has to be</span>
         <span class='comment'>// done here so that the stack frame can keep it all live</span>
         <span class='comment'>// long enough</span>
-        <span class='kw'>let</span> <span class='ident'>job_b</span> <span class='op'>=</span> <span class='ident'>JobImpl</span>::<span class='ident'>new</span>(<span class='ident'>oper_b</span>, <span class='ident'>SpinLatch</span>::<span class='ident'>new</span>());
+        <span class='kw'>let</span> <span class='ident'>job_b</span> <span class='op'>=</span> <span class='ident'>StackJob</span>::<span class='ident'>new</span>(<span class='ident'>oper_b</span>, <span class='ident'>SpinLatch</span>::<span class='ident'>new</span>());
         (<span class='op'>*</span><span class='ident'>worker_thread</span>).<span class='ident'>push</span>(<span class='ident'>job_b</span>.<span class='ident'>as_job_ref</span>());
 
-        <span class='comment'>// If another thread stole our job when we panic, we must halt unwinding</span>
-        <span class='comment'>// until that thread is finished using it.</span>
-        <span class='kw'>struct</span> <span class='ident'>PanicGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>SpinLatch</span>);
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>PanicGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-                <span class='kw'>unsafe</span> {
-                    <span class='kw'>if</span> <span class='op'>!</span>(<span class='op'>*</span><span class='ident'>WorkerThread</span>::<span class='ident'>current</span>()).<span class='ident'>pop</span>() {
-                        <span class='kw'>while</span> <span class='op'>!</span><span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>probe</span>() {
-                            <span class='ident'>thread</span>::<span class='ident'>yield_now</span>();
-                        }
-                    }
-                }
-            }
-        }
+        <span class='comment'>// record how many async spawns have occurred on this thread</span>
+        <span class='comment'>// before task A is executed</span>
+        <span class='kw'>let</span> <span class='ident'>spawn_count</span> <span class='op'>=</span> (<span class='op'>*</span><span class='ident'>worker_thread</span>).<span class='ident'>current_spawn_count</span>();
 
         <span class='comment'>// execute task a; hopefully b gets stolen</span>
         <span class='kw'>let</span> <span class='ident'>result_a</span>;
         {
-            <span class='kw'>let</span> <span class='ident'>guard</span> <span class='op'>=</span> <span class='ident'>PanicGuard</span>(<span class='kw-2'>&amp;</span><span class='ident'>job_b</span>.<span class='ident'>latch</span>);
+            <span class='kw'>let</span> <span class='ident'>guard</span> <span class='op'>=</span> <span class='ident'>unwind</span>::<span class='ident'>finally</span>(<span class='kw-2'>&amp;</span><span class='ident'>job_b</span>.<span class='ident'>latch</span>, <span class='op'>|</span><span class='ident'>job_b_latch</span><span class='op'>|</span> {
+                <span class='comment'>// If another thread stole our job when we panic, we must halt unwinding</span>
+                <span class='comment'>// until that thread is finished using it.</span>
+                <span class='kw'>if</span> (<span class='op'>*</span><span class='ident'>WorkerThread</span>::<span class='ident'>current</span>()).<span class='ident'>pop</span>().<span class='ident'>is_none</span>() {
+                    <span class='ident'>job_b_latch</span>.<span class='ident'>spin</span>();
+                }
+            });
             <span class='ident'>result_a</span> <span class='op'>=</span> <span class='ident'>oper_a</span>();
             <span class='ident'>mem</span>::<span class='ident'>forget</span>(<span class='ident'>guard</span>);
         }
 
+        <span class='comment'>// before we can try to pop b, we have to first pop off any async spawns</span>
+        <span class='comment'>// that have occurred on this thread</span>
+        (<span class='op'>*</span><span class='ident'>worker_thread</span>).<span class='ident'>pop_spawned_jobs</span>(<span class='ident'>spawn_count</span>);
+
         <span class='comment'>// if b was not stolen, do it ourselves, else wait for the thief to finish</span>
         <span class='kw'>let</span> <span class='ident'>result_b</span>;
-        <span class='kw'>if</span> (<span class='op'>*</span><span class='ident'>worker_thread</span>).<span class='ident'>pop</span>() {
+        <span class='kw'>if</span> (<span class='op'>*</span><span class='ident'>worker_thread</span>).<span class='ident'>pop</span>().<span class='ident'>is_some</span>() {
             <span class='macro'>log</span><span class='macro'>!</span>(<span class='ident'>PoppedJob</span> { <span class='ident'>worker</span>: (<span class='op'>*</span><span class='ident'>worker_thread</span>).<span class='ident'>index</span>() });
             <span class='ident'>result_b</span> <span class='op'>=</span> <span class='ident'>job_b</span>.<span class='ident'>run_inline</span>(); <span class='comment'>// not stolen, let&#39;s do it!</span>
         } <span class='kw'>else</span> {
@@ -480,16 +522,14 @@
 }
 
 <span class='attribute'>#[<span class='ident'>cold</span>]</span> <span class='comment'>// cold path</span>
-<span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>join_inject</span><span class='op'>&lt;</span><span class='ident'>A</span>,<span class='ident'>B</span>,<span class='ident'>RA</span>,<span class='ident'>RB</span><span class='op'>&gt;</span>(<span class='ident'>oper_a</span>: <span class='ident'>A</span>,
-                                 <span class='ident'>oper_b</span>: <span class='ident'>B</span>)
-                                 <span class='op'>-&gt;</span> (<span class='ident'>RA</span>, <span class='ident'>RB</span>)
+<span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>join_inject</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>B</span>, <span class='ident'>RA</span>, <span class='ident'>RB</span><span class='op'>&gt;</span>(<span class='ident'>oper_a</span>: <span class='ident'>A</span>, <span class='ident'>oper_b</span>: <span class='ident'>B</span>) <span class='op'>-&gt;</span> (<span class='ident'>RA</span>, <span class='ident'>RB</span>)
     <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>RA</span> <span class='op'>+</span> <span class='ident'>Send</span>,
           <span class='ident'>B</span>: <span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>RB</span> <span class='op'>+</span> <span class='ident'>Send</span>,
           <span class='ident'>RA</span>: <span class='ident'>Send</span>,
-          <span class='ident'>RB</span>: <span class='ident'>Send</span>,
+          <span class='ident'>RB</span>: <span class='ident'>Send</span>
 {
-    <span class='kw'>let</span> <span class='ident'>job_a</span> <span class='op'>=</span> <span class='ident'>JobImpl</span>::<span class='ident'>new</span>(<span class='ident'>oper_a</span>, <span class='ident'>LockLatch</span>::<span class='ident'>new</span>());
-    <span class='kw'>let</span> <span class='ident'>job_b</span> <span class='op'>=</span> <span class='ident'>JobImpl</span>::<span class='ident'>new</span>(<span class='ident'>oper_b</span>, <span class='ident'>LockLatch</span>::<span class='ident'>new</span>());
+    <span class='kw'>let</span> <span class='ident'>job_a</span> <span class='op'>=</span> <span class='ident'>StackJob</span>::<span class='ident'>new</span>(<span class='ident'>oper_a</span>, <span class='ident'>LockLatch</span>::<span class='ident'>new</span>());
+    <span class='kw'>let</span> <span class='ident'>job_b</span> <span class='op'>=</span> <span class='ident'>StackJob</span>::<span class='ident'>new</span>(<span class='ident'>oper_b</span>, <span class='ident'>LockLatch</span>::<span class='ident'>new</span>());
 
     <span class='ident'>thread_pool</span>::<span class='ident'>get_registry</span>().<span class='ident'>inject</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>job_a</span>.<span class='ident'>as_job_ref</span>(), <span class='ident'>job_b</span>.<span class='ident'>as_job_ref</span>()]);
 
@@ -500,30 +540,64 @@
 }
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ThreadPool</span> {
-    <span class='ident'>registry</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Registry</span><span class='op'>&gt;</span>
+    <span class='ident'>registry</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Registry</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>ThreadPool</span> {
     <span class='doccomment'>/// Constructs a new thread pool with the given configuration. If</span>
     <span class='doccomment'>/// the configuration is not valid, returns a suitable `Err`</span>
     <span class='doccomment'>/// result.  See `InitError` for more details.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>configuration</span>: <span class='ident'>Configuration</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ThreadPool</span>,<span class='ident'>InitError</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>configuration</span>: <span class='ident'>Configuration</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ThreadPool</span>, <span class='ident'>InitError</span><span class='op'>&gt;</span> {
         <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>configuration</span>.<span class='ident'>validate</span>());
-        <span class='prelude-val'>Ok</span>(<span class='ident'>ThreadPool</span> {
-            <span class='ident'>registry</span>: <span class='ident'>Registry</span>::<span class='ident'>new</span>(<span class='ident'>configuration</span>.<span class='ident'>num_threads</span>)
-        })
+        <span class='prelude-val'>Ok</span>(<span class='ident'>ThreadPool</span> { <span class='ident'>registry</span>: <span class='ident'>Registry</span>::<span class='ident'>new</span>(<span class='ident'>configuration</span>.<span class='ident'>num_threads</span>) })
     }
 
     <span class='doccomment'>/// Executes `op` within the threadpool. Any attempts to `join`</span>
     <span class='doccomment'>/// which occur there will then operate within that threadpool.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>install</span><span class='op'>&lt;</span><span class='ident'>OP</span>,<span class='ident'>R</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>op</span>: <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>install</span><span class='op'>&lt;</span><span class='ident'>OP</span>, <span class='ident'>R</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>op</span>: <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
         <span class='kw'>where</span> <span class='ident'>OP</span>: <span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>R</span> <span class='op'>+</span> <span class='ident'>Send</span>
     {
         <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>job_a</span> <span class='op'>=</span> <span class='ident'>JobImpl</span>::<span class='ident'>new</span>(<span class='ident'>op</span>, <span class='ident'>LockLatch</span>::<span class='ident'>new</span>());
+            <span class='kw'>let</span> <span class='ident'>job_a</span> <span class='op'>=</span> <span class='ident'>StackJob</span>::<span class='ident'>new</span>(<span class='ident'>op</span>, <span class='ident'>LockLatch</span>::<span class='ident'>new</span>());
             <span class='self'>self</span>.<span class='ident'>registry</span>.<span class='ident'>inject</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>job_a</span>.<span class='ident'>as_job_ref</span>()]);
             <span class='ident'>job_a</span>.<span class='ident'>latch</span>.<span class='ident'>wait</span>();
             <span class='ident'>job_a</span>.<span class='ident'>into_result</span>()
+        }
+    }
+
+    <span class='doccomment'>/// Returns the number of threads in the thread pool.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>num_threads</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='self'>self</span>.<span class='ident'>registry</span>.<span class='ident'>num_threads</span>()
+    }
+
+    <span class='doccomment'>/// If called from a Rayon worker thread in this thread-pool,</span>
+    <span class='doccomment'>/// returns the index of that thread; if not called from a Rayon</span>
+    <span class='doccomment'>/// thread, or called from a Rayon thread that belongs to a</span>
+    <span class='doccomment'>/// different thread-pool, returns `None`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The index for a given thread will not change over the thread&#39;s</span>
+    <span class='doccomment'>/// lifetime. However, multiple threads may share the same index if</span>
+    <span class='doccomment'>/// they are in distinct thread-pools.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ### Future compatibility note</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Currently, every thread-pool (including the global thread-pool)</span>
+    <span class='doccomment'>/// has a fixed number of threads, but this may change in future Rayon</span>
+    <span class='doccomment'>/// versions. In that case, the index for a thread would not change</span>
+    <span class='doccomment'>/// during its lifetime, but thread indices may wind up being reused</span>
+    <span class='doccomment'>/// if threads are terminated and restarted. (If this winds up being</span>
+    <span class='doccomment'>/// an untenable policy, then a semver-incompatible version can be</span>
+    <span class='doccomment'>/// used.)</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>current_thread_index</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='ident'>curr</span> <span class='op'>=</span> <span class='ident'>WorkerThread</span>::<span class='ident'>current</span>();
+            <span class='kw'>if</span> <span class='ident'>curr</span>.<span class='ident'>is_null</span>() {
+                <span class='prelude-val'>None</span>
+            } <span class='kw'>else</span> <span class='kw'>if</span> (<span class='op'>*</span><span class='ident'>curr</span>).<span class='ident'>registry</span>().<span class='ident'>id</span>() <span class='op'>!=</span> <span class='self'>self</span>.<span class='ident'>registry</span>.<span class='ident'>id</span>() {
+                <span class='prelude-val'>None</span>
+            } <span class='kw'>else</span> {
+                <span class='prelude-val'>Some</span>((<span class='op'>*</span><span class='ident'>curr</span>).<span class='ident'>index</span>())
+            }
         }
     }
 }
@@ -590,11 +664,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

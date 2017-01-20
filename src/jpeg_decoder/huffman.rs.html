@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.6/src/huffman.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.11/src/huffman.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>huffman.rs.html -- source</title>
@@ -422,8 +422,8 @@
         <span class='self'>self</span>.<span class='ident'>num_bits</span> <span class='op'>=</span> <span class='number'>0</span>;
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>take_marker</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Marker</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>marker</span>.<span class='ident'>take</span>()
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>take_marker</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>reader</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Marker</span><span class='op'>&gt;&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>read_bits</span>(<span class='ident'>reader</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>marker</span>.<span class='ident'>take</span>())
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -662,11 +662,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "jpeg_decoder";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

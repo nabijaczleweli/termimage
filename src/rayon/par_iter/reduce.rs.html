@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.4.2/src/par_iter/reduce.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.6.0/src/par_iter/reduce.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>reduce.rs.html -- source</title>
@@ -259,90 +259,7 @@
 <span id="215">215</span>
 <span id="216">216</span>
 <span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
-<span id="228">228</span>
-<span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
-<span id="233">233</span>
-<span id="234">234</span>
-<span id="235">235</span>
-<span id="236">236</span>
-<span id="237">237</span>
-<span id="238">238</span>
-<span id="239">239</span>
-<span id="240">240</span>
-<span id="241">241</span>
-<span id="242">242</span>
-<span id="243">243</span>
-<span id="244">244</span>
-<span id="245">245</span>
-<span id="246">246</span>
-<span id="247">247</span>
-<span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
-<span id="252">252</span>
-<span id="253">253</span>
-<span id="254">254</span>
-<span id="255">255</span>
-<span id="256">256</span>
-<span id="257">257</span>
-<span id="258">258</span>
-<span id="259">259</span>
-<span id="260">260</span>
-<span id="261">261</span>
-<span id="262">262</span>
-<span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
-<span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
-<span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
-<span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
-<span id="279">279</span>
-<span id="280">280</span>
-<span id="281">281</span>
-<span id="282">282</span>
-<span id="283">283</span>
-<span id="284">284</span>
-<span id="285">285</span>
-<span id="286">286</span>
-<span id="287">287</span>
-<span id="288">288</span>
-<span id="289">289</span>
-<span id="290">290</span>
-<span id="291">291</span>
-<span id="292">292</span>
-<span id="293">293</span>
-<span id="294">294</span>
-<span id="295">295</span>
-<span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
 </pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>ParallelIterator</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>len</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>internal</span>::<span class='op'>*</span>;
@@ -376,10 +293,10 @@
     <span class='kw'>fn</span> <span class='ident'>reduce</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value1</span>: <span class='ident'>T</span>, <span class='ident'>value2</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>;
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>reduce</span><span class='op'>&lt;</span><span class='ident'>PAR_ITER</span>,<span class='ident'>REDUCE_OP</span>,<span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>pi</span>: <span class='ident'>PAR_ITER</span>, <span class='ident'>reduce_op</span>: <span class='kw-2'>&amp;</span><span class='ident'>REDUCE_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>
-    <span class='kw'>where</span> <span class='ident'>PAR_ITER</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>T</span><span class='op'>&gt;</span>,
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>reduce</span><span class='op'>&lt;</span><span class='ident'>PAR_ITER</span>, <span class='ident'>REDUCE_OP</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>pi</span>: <span class='ident'>PAR_ITER</span>, <span class='ident'>reduce_op</span>: <span class='kw-2'>&amp;</span><span class='ident'>REDUCE_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>
+    <span class='kw'>where</span> <span class='ident'>PAR_ITER</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;</span>,
           <span class='ident'>REDUCE_OP</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>,
-          <span class='ident'>T</span>: <span class='ident'>Send</span>,
+          <span class='ident'>T</span>: <span class='ident'>Send</span>
 {
     <span class='kw'>let</span> <span class='ident'>consumer</span> <span class='op'>=</span> <span class='ident'>ReduceConsumer</span> { <span class='ident'>reduce_op</span>: <span class='ident'>reduce_op</span> };
     <span class='ident'>pi</span>.<span class='ident'>drive_unindexed</span>(<span class='ident'>consumer</span>)
@@ -389,16 +306,17 @@
     <span class='ident'>reduce_op</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>REDUCE_OP</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span> <span class='ident'>Copy</span> <span class='kw'>for</span> <span class='ident'>ReduceConsumer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span> {
-}
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span> <span class='ident'>Copy</span> <span class='kw'>for</span> <span class='ident'>ReduceConsumer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span> {}
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>ReduceConsumer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> { <span class='op'>*</span><span class='self'>self</span> }
+    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='op'>*</span><span class='self'>self</span>
+    }
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span>, <span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='ident'>Consumer</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ReduceConsumer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>REDUCE_OP</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span>,
-          <span class='ident'>ITEM</span>: <span class='ident'>Send</span>,
+          <span class='ident'>ITEM</span>: <span class='ident'>Send</span>
 {
     <span class='kw'>type</span> <span class='ident'>Folder</span> <span class='op'>=</span> <span class='ident'>ReduceFolder</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span>, <span class='ident'>ITEM</span><span class='op'>&gt;</span>;
     <span class='kw'>type</span> <span class='ident'>Reducer</span> <span class='op'>=</span> <span class='self'>Self</span>;
@@ -414,14 +332,16 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>into_folder</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ReduceFolder</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span>, <span class='ident'>ITEM</span><span class='op'>&gt;</span> {
-        <span class='ident'>ReduceFolder</span> { <span class='ident'>reduce_op</span>: <span class='self'>self</span>.<span class='ident'>reduce_op</span>,
-                       <span class='ident'>item</span>: <span class='self'>self</span>.<span class='ident'>reduce_op</span>.<span class='ident'>start_value</span>() }
+        <span class='ident'>ReduceFolder</span> {
+            <span class='ident'>reduce_op</span>: <span class='self'>self</span>.<span class='ident'>reduce_op</span>,
+            <span class='ident'>item</span>: <span class='self'>self</span>.<span class='ident'>reduce_op</span>.<span class='ident'>start_value</span>(),
+        }
     }
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span>, <span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='ident'>UnindexedConsumer</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ReduceConsumer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>REDUCE_OP</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span>,
-          <span class='ident'>ITEM</span>: <span class='ident'>Send</span>,
+          <span class='ident'>ITEM</span>: <span class='ident'>Send</span>
 {
     <span class='kw'>fn</span> <span class='ident'>split_off</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>ReduceConsumer</span> { <span class='ident'>reduce_op</span>: <span class='self'>self</span>.<span class='ident'>reduce_op</span> }
@@ -433,7 +353,7 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span>, <span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='ident'>Reducer</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ReduceConsumer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>REDUCE_OP</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span>,
+    <span class='kw'>where</span> <span class='ident'>REDUCE_OP</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span>
 {
     <span class='kw'>fn</span> <span class='ident'>reduce</span>(<span class='self'>self</span>, <span class='ident'>left</span>: <span class='ident'>ITEM</span>, <span class='ident'>right</span>: <span class='ident'>ITEM</span>) <span class='op'>-&gt;</span> <span class='ident'>ITEM</span> {
         <span class='self'>self</span>.<span class='ident'>reduce_op</span>.<span class='ident'>reduce</span>(<span class='ident'>left</span>, <span class='ident'>right</span>)
@@ -446,13 +366,16 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span>, <span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='ident'>Folder</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ReduceFolder</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>REDUCE_OP</span>, <span class='ident'>ITEM</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>REDUCE_OP</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span>,
+    <span class='kw'>where</span> <span class='ident'>REDUCE_OP</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span>
 {
     <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='ident'>ITEM</span>;
 
     <span class='kw'>fn</span> <span class='ident'>consume</span>(<span class='self'>self</span>, <span class='ident'>item</span>: <span class='ident'>ITEM</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>let</span> <span class='ident'>item</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>reduce_op</span>.<span class='ident'>reduce</span>(<span class='self'>self</span>.<span class='ident'>item</span>, <span class='ident'>item</span>);
-        <span class='ident'>ReduceFolder</span> { <span class='ident'>reduce_op</span>: <span class='self'>self</span>.<span class='ident'>reduce_op</span>, <span class='ident'>item</span>: <span class='ident'>item</span> }
+        <span class='ident'>ReduceFolder</span> {
+            <span class='ident'>reduce_op</span>: <span class='self'>self</span>.<span class='ident'>reduce_op</span>,
+            <span class='ident'>item</span>: <span class='ident'>item</span>,
+        }
     }
 
     <span class='kw'>fn</span> <span class='ident'>complete</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ITEM</span> {
@@ -460,8 +383,8 @@
     }
 }
 
-<span class='comment'>///////////////////////////////////////////////////////////////////////////</span>
-<span class='comment'>// Specific operations</span>
+<span class='doccomment'>/// ////////////////////////////////////////////////////////////////////////</span>
+<span class='doccomment'>/// Specific operations</span>
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SumOp</span>;
 
@@ -470,9 +393,11 @@
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>sum_rule</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
         <span class='kw'>impl</span> <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>SumOp</span> {
+            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>start_value</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span> {
                 <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span>
             }
+            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>reduce</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value1</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>, <span class='ident'>value2</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span> {
                 <span class='ident'>value1</span> <span class='op'>+</span> <span class='ident'>value2</span>
             }
@@ -493,16 +418,18 @@
 <span class='macro'>sum_rule</span><span class='macro'>!</span>(<span class='ident'>f32</span>, <span class='number'>0.0</span>);
 <span class='macro'>sum_rule</span><span class='macro'>!</span>(<span class='ident'>f64</span>, <span class='number'>0.0</span>);
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MulOp</span>;
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ProductOp</span>;
 
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>MUL</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>MulOp</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>MulOp</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>PRODUCT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>ProductOp</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>ProductOp</span>;
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>mul_rule</span> {
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>product_rule</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
-        <span class='kw'>impl</span> <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>MulOp</span> {
+        <span class='kw'>impl</span> <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ProductOp</span> {
+            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>start_value</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span> {
                 <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span>
             }
+            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>reduce</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value1</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>, <span class='ident'>value2</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span> {
                 <span class='ident'>value1</span> <span class='op'>*</span> <span class='ident'>value2</span>
             }
@@ -510,118 +437,26 @@
     }
 }
 
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>i8</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>i16</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>i32</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>i64</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>isize</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>u8</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>u16</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>u32</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>u64</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>usize</span>, <span class='number'>1</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>f32</span>, <span class='number'>1.0</span>);
-<span class='macro'>mul_rule</span><span class='macro'>!</span>(<span class='ident'>f64</span>, <span class='number'>1.0</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>i8</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>i16</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>i32</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>i64</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>isize</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>u8</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>u16</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>u32</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>u64</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>usize</span>, <span class='number'>1</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>f32</span>, <span class='number'>1.0</span>);
+<span class='macro'>product_rule</span><span class='macro'>!</span>(<span class='ident'>f64</span>, <span class='number'>1.0</span>);
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MinOp</span>;
-
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>MIN</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>MinOp</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>MinOp</span>;
-
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>min_rule</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>f</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
-        <span class='kw'>impl</span> <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>MinOp</span> {
-            <span class='kw'>fn</span> <span class='ident'>start_value</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span> {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span>
-            }
-            <span class='kw'>fn</span> <span class='ident'>reduce</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value1</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>, <span class='ident'>value2</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span> {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>f</span>(<span class='ident'>value1</span>, <span class='ident'>value2</span>)
-            }
-        }
-    }
-}
-
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>i8</span>, <span class='ident'>std</span>::<span class='ident'>i8</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>i16</span>, <span class='ident'>std</span>::<span class='ident'>i16</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>i32</span>, <span class='ident'>std</span>::<span class='ident'>i32</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>i64</span>, <span class='ident'>std</span>::<span class='ident'>i64</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>isize</span>, <span class='ident'>std</span>::<span class='ident'>isize</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>u8</span>, <span class='ident'>std</span>::<span class='ident'>u8</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>u16</span>, <span class='ident'>std</span>::<span class='ident'>u16</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>u32</span>, <span class='ident'>std</span>::<span class='ident'>u32</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>u64</span>, <span class='ident'>std</span>::<span class='ident'>u64</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>usize</span>, <span class='ident'>std</span>::<span class='ident'>usize</span>::<span class='ident'>MAX</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>f32</span>, <span class='ident'>std</span>::<span class='ident'>f32</span>::<span class='ident'>INFINITY</span>, <span class='ident'>f32</span>::<span class='ident'>min</span>);
-<span class='macro'>min_rule</span><span class='macro'>!</span>(<span class='ident'>f64</span>, <span class='ident'>std</span>::<span class='ident'>f64</span>::<span class='ident'>INFINITY</span>, <span class='ident'>f64</span>::<span class='ident'>min</span>);
-
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MaxOp</span>;
-
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>MAX</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>MaxOp</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>MaxOp</span>;
-
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>max_rule</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>f</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
-        <span class='kw'>impl</span> <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>MaxOp</span> {
-            <span class='kw'>fn</span> <span class='ident'>start_value</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span> {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span>
-            }
-            <span class='kw'>fn</span> <span class='ident'>reduce</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value1</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>, <span class='ident'>value2</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>i</span> {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>f</span>(<span class='ident'>value1</span>, <span class='ident'>value2</span>)
-            }
-        }
-    }
-}
-
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>i8</span>, <span class='ident'>std</span>::<span class='ident'>i8</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>i16</span>, <span class='ident'>std</span>::<span class='ident'>i16</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>i32</span>, <span class='ident'>std</span>::<span class='ident'>i32</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>i64</span>, <span class='ident'>std</span>::<span class='ident'>i64</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>isize</span>, <span class='ident'>std</span>::<span class='ident'>isize</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>u8</span>, <span class='ident'>std</span>::<span class='ident'>u8</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>u16</span>, <span class='ident'>std</span>::<span class='ident'>u16</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>u32</span>, <span class='ident'>std</span>::<span class='ident'>u32</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>u64</span>, <span class='ident'>std</span>::<span class='ident'>u64</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>usize</span>, <span class='ident'>std</span>::<span class='ident'>usize</span>::<span class='ident'>MIN</span>, <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>f32</span>, <span class='ident'>std</span>::<span class='ident'>f32</span>::<span class='ident'>NEG_INFINITY</span>, <span class='ident'>f32</span>::<span class='ident'>max</span>);
-<span class='macro'>max_rule</span><span class='macro'>!</span>(<span class='ident'>f64</span>, <span class='ident'>std</span>::<span class='ident'>f64</span>::<span class='ident'>NEG_INFINITY</span>, <span class='ident'>f64</span>::<span class='ident'>max</span>);
-
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ReduceWithOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>OP</span>: <span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> {
-    <span class='ident'>op</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>OP</span>
-}
-
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> <span class='ident'>ReduceWithOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>op</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='ident'>ReduceWithOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> {
-        <span class='ident'>ReduceWithOp</span> {
-            <span class='ident'>op</span>: <span class='ident'>op</span>
-        }
-    }
-}
-
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>ITEM</span>,<span class='ident'>OP</span><span class='op'>&gt;</span> <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>ReduceWithOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>OP</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>OP</span>: <span class='ident'>Fn</span>(<span class='ident'>ITEM</span>, <span class='ident'>ITEM</span>) <span class='op'>-&gt;</span> <span class='ident'>ITEM</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;r</span>
-{
-    <span class='kw'>fn</span> <span class='ident'>start_value</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>None</span>
-    }
-
-    <span class='kw'>fn</span> <span class='ident'>reduce</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value1</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span>, <span class='ident'>value2</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>value1</span>) <span class='op'>=</span> <span class='ident'>value1</span> {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>value2</span>) <span class='op'>=</span> <span class='ident'>value2</span> {
-                <span class='prelude-val'>Some</span>((<span class='self'>self</span>.<span class='ident'>op</span>)(<span class='ident'>value1</span>, <span class='ident'>value2</span>))
-            } <span class='kw'>else</span> {
-                <span class='prelude-val'>Some</span>(<span class='ident'>value1</span>)
-            }
-        } <span class='kw'>else</span> {
-            <span class='ident'>value2</span>
-        }
-    }
-}
-
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ReduceWithIdentityOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>ITEM</span>: <span class='lifetime'>&#39;r</span>, <span class='ident'>OP</span>: <span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> {
-    <span class='ident'>identity</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>ITEM</span>,
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ReduceWithIdentityOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>IDENTITY</span>: <span class='lifetime'>&#39;r</span>, <span class='ident'>OP</span>: <span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> {
+    <span class='ident'>identity</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>IDENTITY</span>,
     <span class='ident'>op</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>OP</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>ITEM</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> <span class='ident'>ReduceWithIdentityOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>ITEM</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>identity</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>ITEM</span>, <span class='ident'>op</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='ident'>ReduceWithIdentityOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>ITEM</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>IDENTITY</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> <span class='ident'>ReduceWithIdentityOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>IDENTITY</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>identity</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>IDENTITY</span>, <span class='ident'>op</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='ident'>ReduceWithIdentityOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>IDENTITY</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> {
         <span class='ident'>ReduceWithIdentityOp</span> {
             <span class='ident'>identity</span>: <span class='ident'>identity</span>,
             <span class='ident'>op</span>: <span class='ident'>op</span>,
@@ -629,12 +464,13 @@
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>ITEM</span>, <span class='ident'>OP</span><span class='op'>&gt;</span> <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ReduceWithIdentityOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>ITEM</span>, <span class='ident'>OP</span><span class='op'>&gt;</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>IDENTITY</span>, <span class='ident'>OP</span>, <span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='ident'>ITEM</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ReduceWithIdentityOp</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>IDENTITY</span>, <span class='ident'>OP</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>OP</span>: <span class='ident'>Fn</span>(<span class='ident'>ITEM</span>, <span class='ident'>ITEM</span>) <span class='op'>-&gt;</span> <span class='ident'>ITEM</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
-          <span class='ident'>ITEM</span>: <span class='lifetime'>&#39;r</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
+          <span class='ident'>IDENTITY</span>: <span class='ident'>Fn</span>() <span class='op'>-&gt;</span> <span class='ident'>ITEM</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
+          <span class='ident'>ITEM</span>: <span class='lifetime'>&#39;r</span>
 {
     <span class='kw'>fn</span> <span class='ident'>start_value</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ITEM</span> {
-        <span class='self'>self</span>.<span class='ident'>identity</span>.<span class='ident'>clone</span>()
+        (<span class='self'>self</span>.<span class='ident'>identity</span>)()
     }
 
     <span class='kw'>fn</span> <span class='ident'>reduce</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value1</span>: <span class='ident'>ITEM</span>, <span class='ident'>value2</span>: <span class='ident'>ITEM</span>) <span class='op'>-&gt;</span> <span class='ident'>ITEM</span> {
@@ -698,11 +534,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

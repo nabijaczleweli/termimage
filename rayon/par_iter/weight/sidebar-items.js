@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Weight",""],["WeightProducer",""]]});
+initSidebarItems({"struct":[["Weight",""],["WeightProducer","////////////////////////////////////////////////////////////////////////"]]});

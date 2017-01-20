@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.4.2/src/latch.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.6.0/src/latch.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>latch.rs.html -- source</title>
@@ -112,9 +112,17 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicBool</span>, <span class='ident'>Ordering</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Mutex</span>, <span class='ident'>Condvar</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Latch</span> {
     <span class='kw'>fn</span> <span class='ident'>set</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>);
@@ -123,21 +131,27 @@
 <span class='doccomment'>/// A Latch starts as false and eventually becomes true. You can block</span>
 <span class='doccomment'>/// until it becomes true.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SpinLatch</span> {
-    <span class='ident'>b</span>: <span class='ident'>AtomicBool</span>
+    <span class='ident'>b</span>: <span class='ident'>AtomicBool</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>SpinLatch</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>SpinLatch</span> {
-        <span class='ident'>SpinLatch</span> {
-            <span class='ident'>b</span>: <span class='ident'>AtomicBool</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>)
-        }
+        <span class='ident'>SpinLatch</span> { <span class='ident'>b</span>: <span class='ident'>AtomicBool</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>) }
     }
 
     <span class='doccomment'>/// Test if latch is set.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>probe</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='self'>self</span>.<span class='ident'>b</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>Acquire</span>)
+    }
+
+    <span class='doccomment'>/// Block until latch is set. Use with caution.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>spin</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='kw'>while</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>probe</span>() {
+            <span class='ident'>thread</span>::<span class='ident'>yield_now</span>();
+        }
     }
 }
 
@@ -240,11 +254,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

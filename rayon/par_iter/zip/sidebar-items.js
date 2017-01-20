@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ZipIter",""],["ZipProducer",""]]});
+initSidebarItems({"struct":[["ZipIter",""],["ZipProducer","////////////////////////////////////////////////////////////////////////"]]});

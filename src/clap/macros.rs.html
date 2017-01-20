@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.12.1/src/macros.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.19.3/src/macros.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>macros.rs.html -- source</title>
@@ -705,6 +705,10 @@
 <span id="661">661</span>
 <span id="662">662</span>
 <span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
 </pre><pre class='rust '>
 <span class='doccomment'>/// A convenience macro for loading the YAML file at compile time (relative to the current file,</span>
 <span class='doccomment'>/// like modules work). That YAML object can then be passed to this function.</span>
@@ -721,11 +725,15 @@
 <span class='doccomment'>/// of an `App` struct.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// ```ignore</span>
+<span class='doccomment'>/// # #[macro_use]</span>
+<span class='doccomment'>/// # extern crate clap;</span>
 <span class='doccomment'>/// # use clap::App;</span>
+<span class='doccomment'>/// # fn main() {</span>
 <span class='doccomment'>/// let yml = load_yaml!(&quot;app.yml&quot;);</span>
 <span class='doccomment'>/// let app = App::from_yaml(yml);</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// // continued logic goes here, such as `app.get_matches()` etc.</span>
+<span class='doccomment'>/// # }</span>
 <span class='doccomment'>/// ```</span>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
@@ -1120,9 +1128,9 @@
     };
 }
 
-<span class='doccomment'>/// App, Arg, SubCommand and Group builder macro (Usage-string like input) must be compiled with</span>
-<span class='doccomment'>/// the `unstable` feature in order to use.</span>
-<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;unstable&quot;</span>, <span class='ident'>macro_export</span>)]</span>
+<span class='doccomment'>/// Build `App`, `Arg`s, `SubCommand`s and `Group`s with Usage-string like input</span>
+<span class='doccomment'>/// but without the parsing.</span>
+<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>clap_app</span> {
     (@<span class='ident'>app</span> (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>builder</span>:<span class='ident'>expr</span>)) <span class='op'>=&gt;</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>builder</span> };
     (@<span class='ident'>app</span> (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>builder</span>:<span class='ident'>expr</span>) (@<span class='ident'>arg</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>: $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tail</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tt</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> {
@@ -1341,7 +1349,7 @@
 <span class='comment'>//    src/app/mod.rs</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>write_nspaces</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dst</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>num</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> ({
-        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;macro=write_spaces!;&quot;</span>);
+        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;macro=write_spaces!;num={}&quot;</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>num</span>);
         <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>num</span> {
             <span class='macro'>try</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dst</span>.<span class='ident'>write</span>(<span class='string'>b&quot; &quot;</span>));
         }
@@ -1351,7 +1359,7 @@
 <span class='comment'>// convenience macro for remove an item from a vec</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>vec_remove</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>vec</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>to_rem</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
-        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;macro=vec_remove!;&quot;</span>);
+        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;macro=vec_remove!;to_rem={:?}&quot;</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>to_rem</span>);
         <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> (<span class='number'>0</span> .. <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>vec</span>.<span class='ident'>len</span>()).<span class='ident'>rev</span>() {
             <span class='kw'>let</span> <span class='ident'>should_remove</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>vec</span>[<span class='ident'>i</span>] <span class='op'>==</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>to_rem</span>;
             <span class='kw'>if</span> <span class='ident'>should_remove</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>vec</span>.<span class='ident'>swap_remove</span>(<span class='ident'>i</span>); }
@@ -1362,7 +1370,7 @@
 <span class='comment'>// convenience macro for remove an item from a vec</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>vec_remove_all</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>vec</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>to_rem</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
-        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;macro=vec_remove!;&quot;</span>);
+        <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;macro=vec_remove_all!;to_rem={:?}&quot;</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>to_rem</span>);
         <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> (<span class='number'>0</span> .. <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>vec</span>.<span class='ident'>len</span>()).<span class='ident'>rev</span>() {
             <span class='kw'>let</span> <span class='ident'>should_remove</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>to_rem</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>vec</span>[<span class='ident'>i</span>]);
             <span class='kw'>if</span> <span class='ident'>should_remove</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>vec</span>.<span class='ident'>swap_remove</span>(<span class='ident'>i</span>); }
@@ -1426,11 +1434,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "clap";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

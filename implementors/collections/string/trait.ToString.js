@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["regex_syntax"] = [];
+implementors["lazy_static"] = [];implementors["enum_primitive"] = [];implementors["regex_syntax"] = [];implementors["libc"] = [];implementors["image"] = [];implementors["termimage"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

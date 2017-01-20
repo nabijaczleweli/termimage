@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/flate2-0.2.14/src/zio.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/flate2-0.2.17/src/zio.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>zio.rs.html -- source</title>
@@ -228,6 +228,7 @@
 <span id="184">184</span>
 <span id="185">185</span>
 <span id="186">186</span>
+<span id="187">187</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
@@ -326,7 +327,7 @@
             <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>dump</span>());
 
             <span class='kw'>let</span> <span class='ident'>before</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>total_out</span>();
-            <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>run_vec</span>(<span class='kw-2'>&amp;</span>[], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>buf</span>, <span class='ident'>Flush</span>::<span class='ident'>Finish</span>).<span class='ident'>unwrap</span>();
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>run_vec</span>(<span class='kw-2'>&amp;</span>[], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>buf</span>, <span class='ident'>Flush</span>::<span class='ident'>Finish</span>));
             <span class='kw'>if</span> <span class='ident'>before</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>total_out</span>() {
                 <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(())
             }
@@ -389,6 +390,8 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>flush</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>run_vec</span>(<span class='kw-2'>&amp;</span>[], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>buf</span>, <span class='ident'>Flush</span>::<span class='ident'>Sync</span>).<span class='ident'>unwrap</span>();
+
         <span class='comment'>// Unfortunately miniz doesn&#39;t actually tell us when we&#39;re done with</span>
         <span class='comment'>// pulling out all the data from the internal stream. To remedy this we</span>
         <span class='comment'>// have to continually ask the stream for more memory until it doesn&#39;t</span>
@@ -396,9 +399,8 @@
         <span class='comment'>// at which point we assume it&#39;s reached the end.</span>
         <span class='kw'>loop</span> {
             <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>dump</span>());
-
             <span class='kw'>let</span> <span class='ident'>before</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>total_out</span>();
-            <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>run_vec</span>(<span class='kw-2'>&amp;</span>[], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>buf</span>, <span class='ident'>Flush</span>::<span class='ident'>Sync</span>).<span class='ident'>unwrap</span>();
+            <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>run_vec</span>(<span class='kw-2'>&amp;</span>[], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>buf</span>, <span class='ident'>Flush</span>::<span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>();
             <span class='kw'>if</span> <span class='ident'>before</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>total_out</span>() {
                 <span class='kw'>break</span>
             }
@@ -472,11 +474,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "flate2";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

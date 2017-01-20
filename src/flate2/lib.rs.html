@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/flate2-0.2.14/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/flate2-0.2.17/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -253,12 +253,14 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! A DEFLATE-based stream compression/decompression library</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! This library is meant to supplement/replace the standard distributon&#39;s</span>
 <span class='doccomment'>//! libflate library by providing a streaming encoder/decoder rather than purely</span>
-<span class='doccomment'>//! in in-memory encoder/decoder.</span>
+<span class='doccomment'>//! an in-memory encoder/decoder.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! Like with libflate, flate2 is based on [`miniz.c`][1]</span>
 <span class='doccomment'>//!</span>
@@ -266,21 +268,21 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! # Organization</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! This crate consists mainly of two modules, `reader` and `writer`. Each</span>
+<span class='doccomment'>//! This crate consists mainly of two modules, `read` and `write`. Each</span>
 <span class='doccomment'>//! module contains a number of types used to encode and decode various streams</span>
-<span class='doccomment'>//! of data. All types in the `writer` module work on instances of `Writer`,</span>
-<span class='doccomment'>//! whereas all types in the `reader` module work on instances of `Reader`.</span>
+<span class='doccomment'>//! of data. All types in the `write` module work on instances of `Write`,</span>
+<span class='doccomment'>//! whereas all types in the `read` module work on instances of `Read`.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! Other various types are provided at the top-level of the crate for</span>
-<span class='doccomment'>//! mangement and dealing with encoders/decoders.</span>
+<span class='doccomment'>//! management and dealing with encoders/decoders.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! # Helper traits</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! There are two helper traits, provided, `FlateReader` and `FlateWriter`.</span>
+<span class='doccomment'>//! There are two helper traits provided: `FlateReader` and `FlateWriter`.</span>
 <span class='doccomment'>//! These provide convenience methods for creating a decoder/encoder out of an</span>
 <span class='doccomment'>//! already existing stream to chain construction.</span>
 
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;http://alexcrichton.com/flate2-rs&quot;</span>)]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;https://docs.rs/flate2/0.2&quot;</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>missing_docs</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>trivial_numeric_casts</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>test</span>, <span class='ident'>deny</span>(<span class='ident'>warnings</span>))]</span>
@@ -288,6 +290,8 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>quickcheck</span>;
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
@@ -522,11 +526,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "flate2";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

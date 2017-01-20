@@ -47,19 +47,37 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-151' class='srclink' href='../src/rayon/api.rs.html#212-214' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct ThreadPool {
-    // some fields omitted
-}</pre><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rayon/struct.ThreadPool.html' title='rayon::ThreadPool'>ThreadPool</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-153' class='srclink' href='../src/rayon/api.rs.html#216-239' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(configuration: <a class='struct' href='../rayon/struct.Configuration.html' title='rayon::Configuration'>Configuration</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../rayon/struct.ThreadPool.html' title='rayon::ThreadPool'>ThreadPool</a>,&nbsp;<a class='enum' href='../rayon/enum.InitError.html' title='rayon::InitError'>InitError</a>&gt;</code></h4>
+               </span><a id='src-70' class='srclink' href='../src/rayon/api.rs.html#215-217' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ThreadPool { /* fields omitted */ }</pre><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../rayon/struct.ThreadPool.html' title='rayon::ThreadPool'>ThreadPool</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-72' class='srclink' href='../src/rayon/api.rs.html#219-276' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(configuration: <a class='struct' href='../rayon/struct.Configuration.html' title='rayon::Configuration'>Configuration</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../rayon/struct.ThreadPool.html' title='rayon::ThreadPool'>ThreadPool</a>, <a class='enum' href='../rayon/enum.InitError.html' title='rayon::InitError'>InitError</a>&gt;</code></span></h4>
 <div class='docblock'><p>Constructs a new thread pool with the given configuration. If
 the configuration is not valid, returns a suitable <code>Err</code>
 result.  See <code>InitError</code> for more details.</p>
-</div><h4 id='method.install' class='method'><code>fn <a href='#method.install' class='fnname'>install</a>&lt;OP,&nbsp;R&gt;(&amp;self, op: OP) -&gt; R <span class='where'>where OP: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html' title='core::ops::FnOnce'>FnOnce</a>() -&gt; R + <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a></span></code></h4>
+</div><h4 id='method.install' class='method'><span id='install.v' class='invisible'><code>fn <a href='#method.install' class='fnname'>install</a>&lt;OP, R&gt;(&amp;self, op: OP) -&gt; R <span class='where'>where OP: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html' title='core::ops::FnOnce'>FnOnce</a>() -&gt; R + <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a></span></code></span></h4>
 <div class='docblock'><p>Executes <code>op</code> within the threadpool. Any attempts to <code>join</code>
 which occur there will then operate within that threadpool.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../rayon/struct.ThreadPool.html' title='rayon::ThreadPool'>ThreadPool</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-164' class='srclink' href='../src/rayon/api.rs.html#241-245' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div><h4 id='method.num_threads' class='method'><span id='num_threads.v' class='invisible'><code>fn <a href='#method.num_threads' class='fnname'>num_threads</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h4>
+<div class='docblock'><p>Returns the number of threads in the thread pool.</p>
+</div><h4 id='method.current_thread_index' class='method'><span id='current_thread_index.v' class='invisible'><code>fn <a href='#method.current_thread_index' class='fnname'>current_thread_index</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;</code></span></h4>
+<div class='docblock'><p>If called from a Rayon worker thread in this thread-pool,
+returns the index of that thread; if not called from a Rayon
+thread, or called from a Rayon thread that belongs to a
+different thread-pool, returns <code>None</code>.</p>
+
+<p>The index for a given thread will not change over the thread&#39;s
+lifetime. However, multiple threads may share the same index if
+they are in distinct thread-pools.</p>
+
+<h3 id='future-compatibility-note' class='section-header'><a href='#future-compatibility-note'>Future compatibility note</a></h3>
+<p>Currently, every thread-pool (including the global thread-pool)
+has a fixed number of threads, but this may change in future Rayon
+versions. In that case, the index for a thread would not change
+during its lifetime, but thread indices may wind up being reused
+if threads are terminated and restarted. (If this winds up being
+an untenable policy, then a semver-incompatible version can be
+used.)</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../rayon/struct.ThreadPool.html' title='rayon::ThreadPool'>ThreadPool</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-86' class='srclink' href='../src/rayon/api.rs.html#278-282' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.drop' class='method'><span id='drop.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></span></h4>
 <div class='docblock'><p>A method called when the value goes out of scope. <a href="https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop">Read more</a></p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
@@ -117,11 +135,9 @@ which occur there will then operate within that threadpool.</p>
     <script>
         window.rootPath = "../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

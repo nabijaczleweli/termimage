@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.4.2/src/par_iter/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.6.0/src/par_iter/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -497,6 +497,385 @@
 <span id="453">453</span>
 <span id="454">454</span>
 <span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
 
@@ -512,6 +891,7 @@
 <span class='doccomment'>//! good place to start.</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>f64</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::{<span class='self'>self</span>, <span class='ident'>Ordering</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Fn</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>chain</span>::<span class='ident'>ChainIter</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>collect</span>::<span class='ident'>collect_into</span>;
@@ -519,27 +899,33 @@
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>filter</span>::<span class='ident'>Filter</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>filter_map</span>::<span class='ident'>FilterMap</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>flat_map</span>::<span class='ident'>FlatMap</span>;
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>from_par_iter</span>::<span class='ident'>FromParallelIterator</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>map</span>::{<span class='ident'>Map</span>, <span class='ident'>MapFn</span>, <span class='ident'>MapCloned</span>, <span class='ident'>MapInspect</span>};
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>reduce</span>::{<span class='ident'>reduce</span>, <span class='ident'>ReduceOp</span>, <span class='ident'>SumOp</span>, <span class='ident'>MulOp</span>, <span class='ident'>MinOp</span>, <span class='ident'>MaxOp</span>, <span class='ident'>ReduceWithOp</span>,
-                   <span class='ident'>ReduceWithIdentityOp</span>, <span class='ident'>SUM</span>, <span class='ident'>MUL</span>, <span class='ident'>MIN</span>, <span class='ident'>MAX</span>};
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>reduce</span>::{<span class='ident'>reduce</span>, <span class='ident'>ReduceOp</span>, <span class='ident'>SumOp</span>, <span class='ident'>ProductOp</span>, <span class='ident'>ReduceWithIdentityOp</span>, <span class='ident'>SUM</span>, <span class='ident'>PRODUCT</span>};
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>skip</span>::<span class='ident'>Skip</span>;
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>take</span>::<span class='ident'>Take</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>internal</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>weight</span>::<span class='ident'>Weight</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>zip</span>::<span class='ident'>ZipIter</span>;
 
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>find</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>chain</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>collect</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>enumerate</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>filter</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>filter_map</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>flat_map</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>from_par_iter</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>internal</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>len</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>for_each</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;unstable&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>fold</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>reduce</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>skip</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>take</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>slice</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>slice_mut</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>string</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>map</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>weight</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>zip</span>;
@@ -547,25 +933,26 @@
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>vec</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>option</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>collections</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>noop</span>;
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>test</span>;
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>IntoParallelIterator</span> {
-    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
+    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
     <span class='kw'>type</span> <span class='ident'>Item</span>: <span class='ident'>Send</span>;
 
     <span class='kw'>fn</span> <span class='ident'>into_par_iter</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Iter</span>;
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>IntoParallelRefIterator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> {
-    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
+    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
     <span class='kw'>type</span> <span class='ident'>Item</span>: <span class='ident'>Send</span> <span class='op'>+</span> <span class='lifetime'>&#39;data</span>;
 
     <span class='kw'>fn</span> <span class='ident'>par_iter</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Iter</span>;
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>I</span>: <span class='lifetime'>&#39;data</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>IntoParallelRefIterator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>I</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>I</span>: <span class='lifetime'>&#39;data</span> <span class='op'>+</span> <span class='question-mark'>?</span><span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>IntoParallelRefIterator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>I</span>
     <span class='kw'>where</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span>
 {
     <span class='kw'>type</span> <span class='ident'>Iter</span> <span class='op'>=</span> <span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='ident'>I</span> <span class='kw'>as</span> <span class='ident'>IntoParallelIterator</span><span class='op'>&gt;</span>::<span class='ident'>Iter</span>;
@@ -577,13 +964,13 @@
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>IntoParallelRefMutIterator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> {
-    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
+    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
     <span class='kw'>type</span> <span class='ident'>Item</span>: <span class='ident'>Send</span> <span class='op'>+</span> <span class='lifetime'>&#39;data</span>;
 
     <span class='kw'>fn</span> <span class='ident'>par_iter_mut</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Iter</span>;
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>I</span>: <span class='lifetime'>&#39;data</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>IntoParallelRefMutIterator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>I</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>I</span>: <span class='lifetime'>&#39;data</span> <span class='op'>+</span> <span class='question-mark'>?</span><span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>IntoParallelRefMutIterator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>I</span>
     <span class='kw'>where</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='kw-2'>mut</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span>
 {
     <span class='kw'>type</span> <span class='ident'>Iter</span> <span class='op'>=</span> <span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='kw-2'>mut</span> <span class='ident'>I</span> <span class='kw'>as</span> <span class='ident'>IntoParallelIterator</span><span class='op'>&gt;</span>::<span class='ident'>Iter</span>;
@@ -595,7 +982,7 @@
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>ToParallelChunks</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> {
-    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> [<span class='self'>Self</span>::<span class='ident'>Item</span>]<span class='op'>&gt;</span>;
+    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> [<span class='self'>Self</span>::<span class='ident'>Item</span>]<span class='op'>&gt;</span>;
     <span class='kw'>type</span> <span class='ident'>Item</span>: <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;data</span>;
 
     <span class='doccomment'>/// Returns a parallel iterator over at most `size` elements of</span>
@@ -610,7 +997,7 @@
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>ToParallelChunksMut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> {
-    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='kw-2'>mut</span> [<span class='self'>Self</span>::<span class='ident'>Item</span>]<span class='op'>&gt;</span>;
+    <span class='kw'>type</span> <span class='ident'>Iter</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='kw-2'>mut</span> [<span class='self'>Self</span>::<span class='ident'>Item</span>]<span class='op'>&gt;</span>;
     <span class='kw'>type</span> <span class='ident'>Item</span>: <span class='ident'>Send</span> <span class='op'>+</span> <span class='lifetime'>&#39;data</span>;
 
     <span class='doccomment'>/// Returns a parallel iterator over at most `size` elements of</span>
@@ -622,6 +1009,14 @@
     <span class='doccomment'>/// implementation should strive to maximize chunk size when</span>
     <span class='doccomment'>/// possible.</span>
     <span class='kw'>fn</span> <span class='ident'>par_chunks_mut</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>size</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Iter</span>;
+}
+
+<span class='doccomment'>/// Parallel extensions for strings.</span>
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>ParallelString</span> {
+    <span class='kw'>type</span> <span class='ident'>Chars</span>;
+
+    <span class='doccomment'>/// Returns a parallel iterator over the characters of a string.</span>
+    <span class='kw'>fn</span> <span class='ident'>par_chars</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Chars</span>;
 }
 
 <span class='doccomment'>/// The `ParallelIterator` interface.</span>
@@ -657,9 +1052,14 @@
         <span class='ident'>for_each</span>::<span class='ident'>for_each</span>(<span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='ident'>op</span>)
     }
 
+    <span class='doccomment'>/// Counts the number of items in this parallel iterator.</span>
+    <span class='kw'>fn</span> <span class='ident'>count</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='self'>self</span>.<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='number'>1</span>).<span class='ident'>sum</span>()
+    }
+
     <span class='doccomment'>/// Applies `map_op` to each item of this iterator, producing a new</span>
     <span class='doccomment'>/// iterator with the results.</span>
-    <span class='kw'>fn</span> <span class='ident'>map</span><span class='op'>&lt;</span><span class='ident'>MAP_OP</span>,<span class='ident'>R</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>map_op</span>: <span class='ident'>MAP_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>Map</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>MapFn</span><span class='op'>&lt;</span><span class='ident'>MAP_OP</span><span class='op'>&gt;&gt;</span>
+    <span class='kw'>fn</span> <span class='ident'>map</span><span class='op'>&lt;</span><span class='ident'>MAP_OP</span>, <span class='ident'>R</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>map_op</span>: <span class='ident'>MAP_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>Map</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>MapFn</span><span class='op'>&lt;</span><span class='ident'>MAP_OP</span><span class='op'>&gt;&gt;</span>
         <span class='kw'>where</span> <span class='ident'>MAP_OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span> <span class='op'>+</span> <span class='ident'>Sync</span>
     {
         <span class='ident'>Map</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>MapFn</span>(<span class='ident'>map_op</span>))
@@ -668,7 +1068,8 @@
     <span class='doccomment'>/// Creates an iterator which clones all of its elements.  This may be</span>
     <span class='doccomment'>/// useful when you have an iterator over `&amp;T`, but you need `T`.</span>
     <span class='kw'>fn</span> <span class='ident'>cloned</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Map</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>MapCloned</span><span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>T</span>: <span class='lifetime'>&#39;a</span> <span class='op'>+</span> <span class='ident'>Clone</span>, <span class='self'>Self</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>T</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>T</span>: <span class='lifetime'>&#39;a</span> <span class='op'>+</span> <span class='ident'>Clone</span>,
+              <span class='self'>Self</span>: <span class='ident'>ParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>T</span><span class='op'>&gt;</span>
     {
         <span class='ident'>Map</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>MapCloned</span>)
     }
@@ -692,7 +1093,7 @@
 
     <span class='doccomment'>/// Applies `filter_op` to each item of this iterator to get an `Option`,</span>
     <span class='doccomment'>/// producing a new iterator with only the items from `Some` results.</span>
-    <span class='kw'>fn</span> <span class='ident'>filter_map</span><span class='op'>&lt;</span><span class='ident'>FILTER_OP</span>,<span class='ident'>R</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>filter_op</span>: <span class='ident'>FILTER_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>FilterMap</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>FILTER_OP</span><span class='op'>&gt;</span>
+    <span class='kw'>fn</span> <span class='ident'>filter_map</span><span class='op'>&lt;</span><span class='ident'>FILTER_OP</span>, <span class='ident'>R</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>filter_op</span>: <span class='ident'>FILTER_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>FilterMap</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>FILTER_OP</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>FILTER_OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Sync</span>
     {
         <span class='ident'>FilterMap</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>filter_op</span>)
@@ -700,117 +1101,234 @@
 
     <span class='doccomment'>/// Applies `map_op` to each item of this iterator to get nested iterators,</span>
     <span class='doccomment'>/// producing a new iterator that flattens these back into one.</span>
-    <span class='kw'>fn</span> <span class='ident'>flat_map</span><span class='op'>&lt;</span><span class='ident'>MAP_OP</span>,<span class='ident'>PI</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>map_op</span>: <span class='ident'>MAP_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>FlatMap</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>MAP_OP</span><span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>MAP_OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>PI</span> <span class='op'>+</span> <span class='ident'>Sync</span>, <span class='ident'>PI</span>: <span class='ident'>IntoParallelIterator</span>
+    <span class='kw'>fn</span> <span class='ident'>flat_map</span><span class='op'>&lt;</span><span class='ident'>MAP_OP</span>, <span class='ident'>PI</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>map_op</span>: <span class='ident'>MAP_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>FlatMap</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>MAP_OP</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>MAP_OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>PI</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
+              <span class='ident'>PI</span>: <span class='ident'>IntoParallelIterator</span>
     {
         <span class='ident'>FlatMap</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>map_op</span>)
     }
 
     <span class='doccomment'>/// Reduces the items in the iterator into one item using `op`.</span>
-    <span class='doccomment'>/// See also `sum`, `mul`, `min`, etc, which are slightly more</span>
-    <span class='doccomment'>/// efficient. Returns `None` if the iterator is empty.</span>
+    <span class='doccomment'>/// The argument `identity` should be a closure that can produce</span>
+    <span class='doccomment'>/// &quot;identity&quot; value which may be inserted into the sequence as</span>
+    <span class='doccomment'>/// needed to create opportunities for parallel execution. So, for</span>
+    <span class='doccomment'>/// example, if you are doing a summation, then `identity()` ought</span>
+    <span class='doccomment'>/// to produce something that represents the zero for your type</span>
+    <span class='doccomment'>/// (but consider just calling `sum()` in that case).</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note: unlike in a sequential iterator, the order in which `op`</span>
-    <span class='doccomment'>/// will be applied to reduce the result is not specified. So `op`</span>
-    <span class='doccomment'>/// should be commutative and associative or else the results will</span>
-    <span class='doccomment'>/// be non-deterministic.</span>
-    <span class='kw'>fn</span> <span class='ident'>reduce_with</span><span class='op'>&lt;</span><span class='ident'>OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>op</span>: <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    <span class='doccomment'>/// Example:</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// // Iterate over a sequence of pairs `(x0, y0), ..., (xN, yN)`</span>
+    <span class='doccomment'>/// // and use reduce to compute one pair `(x0 + ... + xN, y0 + ... + yN)`</span>
+    <span class='doccomment'>/// // where the first/second elements are summed separately.</span>
+    <span class='doccomment'>/// use rayon::prelude::*;</span>
+    <span class='doccomment'>/// let sums = [(0, 1), (5, 6), (16, 2), (8, 9)]</span>
+    <span class='doccomment'>///            .par_iter()        // iterating over &amp;(i32, i32)</span>
+    <span class='doccomment'>///            .cloned()          // iterating over (i32, i32)</span>
+    <span class='doccomment'>///            .reduce(|| (0, 0), // the &quot;identity&quot; is 0 in both columns</span>
+    <span class='doccomment'>///                    |a, b| (a.0 + b.0, a.1 + b.1));</span>
+    <span class='doccomment'>/// assert_eq!(sums, (0 + 5 + 16 + 8, 1 + 6 + 2 + 9));</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **Note:** unlike a sequential `fold` operation, the order in</span>
+    <span class='doccomment'>/// which `op` will be applied to reduce the result is not fully</span>
+    <span class='doccomment'>/// specified. So `op` should be [associative] or else the results</span>
+    <span class='doccomment'>/// will be non-deterministic. And of course `identity()` should</span>
+    <span class='doccomment'>/// produce a true identity.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// [associative]: https://en.wikipedia.org/wiki/Associative_property</span>
+    <span class='kw'>fn</span> <span class='ident'>reduce</span><span class='op'>&lt;</span><span class='ident'>OP</span>, <span class='ident'>IDENTITY</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>identity</span>: <span class='ident'>IDENTITY</span>, <span class='ident'>op</span>: <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span>
         <span class='kw'>where</span> <span class='ident'>OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>, <span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
-    {
-        <span class='ident'>reduce</span>(<span class='self'>self</span>.<span class='ident'>map</span>(<span class='prelude-val'>Some</span>), <span class='kw-2'>&amp;</span><span class='ident'>ReduceWithOp</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>op</span>))
-    }
-
-    <span class='doccomment'>/// Reduces the items in the iterator into one item using `op`.</span>
-    <span class='doccomment'>/// The argument `identity` represents an &quot;identity&quot; value which</span>
-    <span class='doccomment'>/// may be inserted into the sequence as needed to create</span>
-    <span class='doccomment'>/// opportunities for parallel execution. So, for example, if you</span>
-    <span class='doccomment'>/// are doing a summation, then `identity` ought to be something</span>
-    <span class='doccomment'>/// that represents the zero for your type (but consider just</span>
-    <span class='doccomment'>/// calling `sum()` in that case).</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Example `vectors.par_iter().reduce_with_identity(Vector::zero(), Vector::add)`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note: unlike in a sequential iterator, the order in which `op`</span>
-    <span class='doccomment'>/// will be applied to reduce the result is not specified. So `op`</span>
-    <span class='doccomment'>/// should be commutative and associative or else the results will</span>
-    <span class='doccomment'>/// be non-deterministic. And of course `identity` should be a</span>
-    <span class='doccomment'>/// true identity.</span>
-    <span class='kw'>fn</span> <span class='ident'>reduce_with_identity</span><span class='op'>&lt;</span><span class='ident'>OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>identity</span>: <span class='self'>Self</span>::<span class='ident'>Item</span>, <span class='ident'>op</span>: <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span>
-        <span class='kw'>where</span> <span class='ident'>OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>, <span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
-              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
+              <span class='ident'>IDENTITY</span>: <span class='ident'>Fn</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span> <span class='op'>+</span> <span class='ident'>Sync</span>
     {
         <span class='ident'>reduce</span>(<span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='ident'>ReduceWithIdentityOp</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>identity</span>, <span class='kw-2'>&amp;</span><span class='ident'>op</span>))
     }
 
-    <span class='doccomment'>/// A variant on the typical `map/reduce` pattern. Parallel fold</span>
-    <span class='doccomment'>/// is similar to sequential fold except that the sequence of</span>
-    <span class='doccomment'>/// items may be subdivided before it is folded. The resulting</span>
-    <span class='doccomment'>/// values are then reduced together using `reduce_op`.  Typically</span>
-    <span class='doccomment'>/// `fold_op` and `reduce_op` will be doing the same conceptual</span>
-    <span class='doccomment'>/// operation, but on different types, or with a different twist.</span>
+    <span class='doccomment'>/// Reduces the items in the iterator into one item using `op`.</span>
+    <span class='doccomment'>/// If the iterator is empty, `None` is returned; otherwise,</span>
+    <span class='doccomment'>/// `Some` is returned.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Here is how to visualize what is happening. Imagine an input</span>
-    <span class='doccomment'>/// sequence with 7 values as shown:</span>
+    <span class='doccomment'>/// This version of `reduce` is simple but somewhat less</span>
+    <span class='doccomment'>/// efficient. If possible, it is better to call `reduce()`, which</span>
+    <span class='doccomment'>/// requires an identity element.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// [ 0 1 2 3 4 5 6 ]</span>
-    <span class='doccomment'>///   |     | |   |</span>
-    <span class='doccomment'>///   +--X--+ +-Y-+ // &lt;-- fold_op</span>
-    <span class='doccomment'>///      |      |</span>
-    <span class='doccomment'>///      +---Z--+   // &lt;-- reduce_op</span>
-    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// **Note:** unlike a sequential `fold` operation, the order in</span>
+    <span class='doccomment'>/// which `op` will be applied to reduce the result is not fully</span>
+    <span class='doccomment'>/// specified. So `op` should be [associative] or else the results</span>
+    <span class='doccomment'>/// will be non-deterministic.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// These values will be first divided into contiguous chunks of</span>
-    <span class='doccomment'>/// some size (the precise sizes will depend on how many cores are</span>
-    <span class='doccomment'>/// present and how active they are). These are folded using</span>
-    <span class='doccomment'>/// `fold_op`. Here, the chunk `[0, 1, 2, 3]` was folded into `X`</span>
-    <span class='doccomment'>/// and the chunk `[4, 5, 6]` was folded into `Y`. Note that `X`</span>
-    <span class='doccomment'>/// and `Y` may, in general, have different types than the</span>
-    <span class='doccomment'>/// original input sequence. Now the results from these folds are</span>
-    <span class='doccomment'>/// themselves *reduced* using `reduce_op` (again, in some</span>
-    <span class='doccomment'>/// unspecified order). So now `X` and `Y` are reduced to `Z`,</span>
-    <span class='doccomment'>/// which is the final result. Note that `reduce_op` must consume</span>
-    <span class='doccomment'>/// and produce values of the same type.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note that `fold` can always be expressed using map/reduce. For</span>
-    <span class='doccomment'>/// example, a call `self.fold(identity, fold_op, reduce_op)` could</span>
-    <span class='doccomment'>/// also be expressed as follows:</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// self.map(|elem| fold_op(identity.clone(), elem))</span>
-    <span class='doccomment'>///     .reduce_with_identity(identity, reduce_op)</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This is equivalent to an execution of `fold` where the</span>
-    <span class='doccomment'>/// subsequences that were folded sequentially would up being of</span>
-    <span class='doccomment'>/// length 1.  However, this would rarely happen in practice,</span>
-    <span class='doccomment'>/// typically the subsequences would be larger, and hence a call</span>
-    <span class='doccomment'>/// to `fold` *can* be more efficient than map/reduce,</span>
-    <span class='doccomment'>/// particularly if the `fold_op` is more efficient when applied</span>
-    <span class='doccomment'>/// to a large sequence.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **This method is marked as unstable** because it is</span>
-    <span class='doccomment'>/// particularly likely to change its name and/or signature, or go</span>
-    <span class='doccomment'>/// away entirely.</span>
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;unstable&quot;</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>fold</span><span class='op'>&lt;</span><span class='ident'>I</span>,<span class='ident'>FOLD_OP</span>,<span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>,
-                                 <span class='ident'>identity</span>: <span class='ident'>I</span>,
-                                 <span class='ident'>fold_op</span>: <span class='ident'>FOLD_OP</span>,
-                                 <span class='ident'>reduce_op</span>: <span class='ident'>REDUCE_OP</span>)
-                                 <span class='op'>-&gt;</span> <span class='ident'>I</span>
-        <span class='kw'>where</span> <span class='ident'>FOLD_OP</span>: <span class='ident'>Fn</span>(<span class='ident'>I</span>, <span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>I</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
-              <span class='ident'>REDUCE_OP</span>: <span class='ident'>Fn</span>(<span class='ident'>I</span>, <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>I</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
-              <span class='ident'>I</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='ident'>Send</span>,
+    <span class='doccomment'>/// [associative]: https://en.wikipedia.org/wiki/Associative_property</span>
+    <span class='kw'>fn</span> <span class='ident'>reduce_with</span><span class='op'>&lt;</span><span class='ident'>OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>op</span>: <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>, <span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span> <span class='op'>+</span> <span class='ident'>Sync</span>
     {
-        <span class='ident'>fold</span>::<span class='ident'>fold</span>(<span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='ident'>identity</span>, <span class='kw-2'>&amp;</span><span class='ident'>fold_op</span>, <span class='kw-2'>&amp;</span><span class='ident'>reduce_op</span>)
+        <span class='self'>self</span>.<span class='ident'>map</span>(<span class='prelude-val'>Some</span>)
+            .<span class='ident'>reduce</span>(<span class='op'>||</span> <span class='prelude-val'>None</span>, <span class='op'>|</span><span class='ident'>opt_a</span>, <span class='ident'>opt_b</span><span class='op'>|</span> <span class='kw'>match</span> (<span class='ident'>opt_a</span>, <span class='ident'>opt_b</span>) {
+                (<span class='prelude-val'>Some</span>(<span class='ident'>a</span>), <span class='prelude-val'>Some</span>(<span class='ident'>b</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>op</span>(<span class='ident'>a</span>, <span class='ident'>b</span>)),
+                (<span class='prelude-val'>Some</span>(<span class='ident'>v</span>), <span class='prelude-val'>None</span>) <span class='op'>|</span> (<span class='prelude-val'>None</span>, <span class='prelude-val'>Some</span>(<span class='ident'>v</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>),
+                (<span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+            })
+    }
+
+    <span class='doccomment'>/// Deprecated. Use `reduce()` instead.</span>
+    <span class='attribute'>#[<span class='ident'>deprecated</span>(<span class='ident'>since</span> <span class='op'>=</span> <span class='string'>&quot;v0.5.0&quot;</span>, <span class='ident'>note</span> <span class='op'>=</span> <span class='string'>&quot;call `reduce` instead&quot;</span>)]</span>
+    <span class='kw'>fn</span> <span class='ident'>reduce_with_identity</span><span class='op'>&lt;</span><span class='ident'>OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>identity</span>: <span class='self'>Self</span>::<span class='ident'>Item</span>, <span class='ident'>op</span>: <span class='ident'>OP</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span>
+        <span class='kw'>where</span> <span class='ident'>OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>, <span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
+              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Sync</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>reduce</span>(<span class='op'>||</span> <span class='ident'>identity</span>.<span class='ident'>clone</span>(), <span class='ident'>op</span>)
+    }
+
+    <span class='doccomment'>/// Parallel fold is similar to sequential fold except that the</span>
+    <span class='doccomment'>/// sequence of items may be subdivided before it is</span>
+    <span class='doccomment'>/// folded. Consider a list of numbers like `22 3 77 89 46`. If</span>
+    <span class='doccomment'>/// you used sequential fold to add them (`fold(0, |a,b| a+b)`,</span>
+    <span class='doccomment'>/// you would wind up first adding 0 + 22, then 22 + 3, then 25 +</span>
+    <span class='doccomment'>/// 77, and so forth. The **parallel fold** works similarly except</span>
+    <span class='doccomment'>/// that it first breaks up your list into sublists, and hence</span>
+    <span class='doccomment'>/// instead of yielding up a single sum at the end, it yields up</span>
+    <span class='doccomment'>/// multiple sums. The number of results is nondeterministic, as</span>
+    <span class='doccomment'>/// is the point where the breaks occur.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// So if did the same parallel fold (`fold(0, |a,b| a+b)`) on</span>
+    <span class='doccomment'>/// our example list, we might wind up with a sequence of two numbers,</span>
+    <span class='doccomment'>/// like so:</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```notrust</span>
+    <span class='doccomment'>/// 22 3 77 89 46</span>
+    <span class='doccomment'>///       |     |</span>
+    <span class='doccomment'>///     102   135</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Or perhaps these three numbers:</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```notrust</span>
+    <span class='doccomment'>/// 22 3 77 89 46</span>
+    <span class='doccomment'>///       |  |  |</span>
+    <span class='doccomment'>///     102 89 46</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// In general, Rayon will attempt to find good breaking points</span>
+    <span class='doccomment'>/// that keep all of your cores busy.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ### Fold versus reduce</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The `fold()` and `reduce()` methods each take an identity element</span>
+    <span class='doccomment'>/// and a combining function, but they operate rather differently.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// `reduce()` requires that the identity function has the same</span>
+    <span class='doccomment'>/// type as the things you are iterating over, and it fully</span>
+    <span class='doccomment'>/// reduces the list of items into a single item. So, for example,</span>
+    <span class='doccomment'>/// imagine we are iterating over a list of bytes `bytes: [128_u8,</span>
+    <span class='doccomment'>/// 64_u8, 64_u8]`. If we used `bytes.reduce(|| 0_u8, |a: u8, b:</span>
+    <span class='doccomment'>/// u8| a + b)`, we would get an overflow. This is because `0`,</span>
+    <span class='doccomment'>/// `a`, and `b` here are all bytes, just like the numbers in the</span>
+    <span class='doccomment'>/// list (I wrote the types explicitly above, but those are the</span>
+    <span class='doccomment'>/// only types you can use). To avoid the overflow, we would need</span>
+    <span class='doccomment'>/// to do something like `bytes.map(|b| b as u32).reduce(|| 0, |a,</span>
+    <span class='doccomment'>/// b| a + b)`, in which case our result would be `256`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// In contrast, with `fold()`, the identity function does not</span>
+    <span class='doccomment'>/// have to have the same type as the things you are iterating</span>
+    <span class='doccomment'>/// over, and you potentially get back many results. So, if we</span>
+    <span class='doccomment'>/// continue with the `bytes` example from the previous paragraph,</span>
+    <span class='doccomment'>/// we could do `bytes.fold(|| 0_u32, |a, b| a + (b as u32))` to</span>
+    <span class='doccomment'>/// convert our bytes into `u32`. And of course we might not get</span>
+    <span class='doccomment'>/// back a single sum.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// There is a more subtle distinction as well, though it&#39;s</span>
+    <span class='doccomment'>/// actually implied by the above points. When you use `reduce()`,</span>
+    <span class='doccomment'>/// your reduction function is sometimes called with values that</span>
+    <span class='doccomment'>/// were never part of your original parallel iterator (for</span>
+    <span class='doccomment'>/// example, both the left and right might be a partial sum). With</span>
+    <span class='doccomment'>/// `fold()`, in contrast, the left value in the fold function is</span>
+    <span class='doccomment'>/// always the accumulator, and the right value is always from</span>
+    <span class='doccomment'>/// your original sequence.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ### Fold vs Map/Reduce</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Fold makes sense if you have some operation where it is</span>
+    <span class='doccomment'>/// cheaper to groups of elements at a time. For example, imagine</span>
+    <span class='doccomment'>/// collecting characters into a string. If you were going to use</span>
+    <span class='doccomment'>/// map/reduce, you might try this:</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// use rayon::prelude::*;</span>
+    <span class='doccomment'>/// let s =</span>
+    <span class='doccomment'>///     [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+    <span class='doccomment'>///     .par_iter()</span>
+    <span class='doccomment'>///     .map(|c: &amp;char| format!(&quot;{}&quot;, c))</span>
+    <span class='doccomment'>///     .reduce(|| String::new(),</span>
+    <span class='doccomment'>///             |mut a: String, b: String| { a.push_str(&amp;b); a });</span>
+    <span class='doccomment'>/// assert_eq!(s, &quot;abcde&quot;);</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Because reduce produces the same type of element as its input,</span>
+    <span class='doccomment'>/// you have to first map each character into a string, and then</span>
+    <span class='doccomment'>/// you can reduce them. This means we create one string per</span>
+    <span class='doccomment'>/// element in ou iterator -- not so great. Using `fold`, we can</span>
+    <span class='doccomment'>/// do this instead:</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// use rayon::prelude::*;</span>
+    <span class='doccomment'>/// let s =</span>
+    <span class='doccomment'>///     [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+    <span class='doccomment'>///     .par_iter()</span>
+    <span class='doccomment'>///     .fold(|| String::new(),</span>
+    <span class='doccomment'>///             |mut s: String, c: &amp;char| { s.push(*c); s })</span>
+    <span class='doccomment'>///     .reduce(|| String::new(),</span>
+    <span class='doccomment'>///             |mut a: String, b: String| { a.push_str(&amp;b); a });</span>
+    <span class='doccomment'>/// assert_eq!(s, &quot;abcde&quot;);</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Now `fold` will process groups of our characters at a time,</span>
+    <span class='doccomment'>/// and we only make one string per group. We should wind up with</span>
+    <span class='doccomment'>/// some small-ish number of strings roughly proportional to the</span>
+    <span class='doccomment'>/// number of CPUs you have (it will ultimately depend on how busy</span>
+    <span class='doccomment'>/// your processors are). Note that we still need to do a reduce</span>
+    <span class='doccomment'>/// afterwards to combine those groups of strings into a single</span>
+    <span class='doccomment'>/// string.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// You could use a similar trick to save partial results (e.g., a</span>
+    <span class='doccomment'>/// cache) or something similar.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ### Combining fold with other operations</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// You can combine `fold` with `reduce` if you want to produce a</span>
+    <span class='doccomment'>/// single value. This is then roughly equivalent to a map/reduce</span>
+    <span class='doccomment'>/// combination in effect:</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// use rayon::prelude::*;</span>
+    <span class='doccomment'>/// let bytes = 0..22_u8; // series of u8 bytes</span>
+    <span class='doccomment'>/// let sum = bytes.into_par_iter()</span>
+    <span class='doccomment'>///                .fold(|| 0_u32, |a: u32, b: u8| a + (b as u32))</span>
+    <span class='doccomment'>///                .sum();</span>
+    <span class='doccomment'>/// assert_eq!(sum, (0..22).sum()); // compare to sequential</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='kw'>fn</span> <span class='ident'>fold</span><span class='op'>&lt;</span><span class='ident'>IDENTITY_ITEM</span>, <span class='ident'>IDENTITY</span>, <span class='ident'>FOLD_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>,
+                                              <span class='ident'>identity</span>: <span class='ident'>IDENTITY</span>,
+                                              <span class='ident'>fold_op</span>: <span class='ident'>FOLD_OP</span>)
+                                              <span class='op'>-&gt;</span> <span class='ident'>fold</span>::<span class='ident'>Fold</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>IDENTITY</span>, <span class='ident'>FOLD_OP</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>FOLD_OP</span>: <span class='ident'>Fn</span>(<span class='ident'>IDENTITY_ITEM</span>, <span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>IDENTITY_ITEM</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
+              <span class='ident'>IDENTITY</span>: <span class='ident'>Fn</span>() <span class='op'>-&gt;</span> <span class='ident'>IDENTITY_ITEM</span> <span class='op'>+</span> <span class='ident'>Sync</span>,
+              <span class='ident'>IDENTITY_ITEM</span>: <span class='ident'>Send</span>
+    {
+        <span class='ident'>fold</span>::<span class='ident'>fold</span>(<span class='self'>self</span>, <span class='ident'>identity</span>, <span class='ident'>fold_op</span>)
     }
 
     <span class='doccomment'>/// Sums up the items in the iterator.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Note that the order in items will be reduced is not specified,</span>
-    <span class='doccomment'>/// so if the `+` operator is not truly commutative and</span>
-    <span class='doccomment'>/// associative (as is the case for floating point numbers), then</span>
-    <span class='doccomment'>/// the results are not fully deterministic.</span>
+    <span class='doccomment'>/// so if the `+` operator is not truly [associative] (as is the</span>
+    <span class='doccomment'>/// case for floating point numbers), then the results are not</span>
+    <span class='doccomment'>/// fully deterministic.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// [associative]: https://en.wikipedia.org/wiki/Associative_property</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Basically equivalent to `self.reduce(|| 0, |a, b| a + b)`,</span>
+    <span class='doccomment'>/// except that the type of `0` and the `+` operation may vary</span>
+    <span class='doccomment'>/// depending on the type of value being produced.</span>
     <span class='kw'>fn</span> <span class='ident'>sum</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span>
         <span class='kw'>where</span> <span class='ident'>SumOp</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
     {
@@ -820,63 +1338,183 @@
     <span class='doccomment'>/// Multiplies all the items in the iterator.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Note that the order in items will be reduced is not specified,</span>
-    <span class='doccomment'>/// so if the `*` operator is not truly commutative and</span>
-    <span class='doccomment'>/// associative (as is the case for floating point numbers), then</span>
-    <span class='doccomment'>/// the results are not fully deterministic.</span>
+    <span class='doccomment'>/// so if the `*` operator is not truly [associative] (as is the</span>
+    <span class='doccomment'>/// case for floating point numbers), then the results are not</span>
+    <span class='doccomment'>/// fully deterministic.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// [associative]: https://en.wikipedia.org/wiki/Associative_property</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Basically equivalent to `self.reduce(|| 1, |a, b| a * b)`,</span>
+    <span class='doccomment'>/// except that the type of `1` and the `*` operation may vary</span>
+    <span class='doccomment'>/// depending on the type of value being produced.</span>
+    <span class='kw'>fn</span> <span class='ident'>product</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span>
+        <span class='kw'>where</span> <span class='ident'>ProductOp</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    {
+        <span class='ident'>reduce</span>(<span class='self'>self</span>, <span class='ident'>PRODUCT</span>)
+    }
+
+    <span class='doccomment'>/// DEPRECATED</span>
+    <span class='attribute'>#[<span class='ident'>deprecated</span>(<span class='ident'>since</span> <span class='op'>=</span> <span class='string'>&quot;v0.6.0&quot;</span>,
+        <span class='ident'>note</span> <span class='op'>=</span> <span class='string'>&quot;name changed to `product()` to match sequential iterators&quot;</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>mul</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span>
-        <span class='kw'>where</span> <span class='ident'>MulOp</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>ProductOp</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
     {
-        <span class='ident'>reduce</span>(<span class='self'>self</span>, <span class='ident'>MUL</span>)
+        <span class='ident'>reduce</span>(<span class='self'>self</span>, <span class='ident'>PRODUCT</span>)
     }
 
-    <span class='doccomment'>/// Computes the minimum of all the items in the iterator.</span>
+    <span class='doccomment'>/// Computes the minimum of all the items in the iterator. If the</span>
+    <span class='doccomment'>/// iterator is empty, `None` is returned; otherwise, `Some(min)`</span>
+    <span class='doccomment'>/// is returned.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note that the order in items will be reduced is not specified,</span>
-    <span class='doccomment'>/// so if the `Ord` impl is not truly commutative and associative</span>
-    <span class='doccomment'>/// (as is the case for floating point numbers), then the results</span>
-    <span class='doccomment'>/// are not deterministic.</span>
-    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span>
-        <span class='kw'>where</span> <span class='ident'>MinOp</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    <span class='doccomment'>/// Note that the order in which the items will be reduced is not</span>
+    <span class='doccomment'>/// specified, so if the `Ord` impl is not truly associative, then</span>
+    <span class='doccomment'>/// the results are not deterministic.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Basically equivalent to `self.reduce_with(|a, b| cmp::min(a, b))`.</span>
+    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>Ord</span>
     {
-        <span class='ident'>reduce</span>(<span class='self'>self</span>, <span class='ident'>MIN</span>)
+        <span class='self'>self</span>.<span class='ident'>reduce_with</span>(<span class='ident'>cmp</span>::<span class='ident'>min</span>)
     }
 
-    <span class='doccomment'>/// Computes the maximum of all the items in the iterator.</span>
+    <span class='doccomment'>/// Computes the item that yields the minimum value for the given</span>
+    <span class='doccomment'>/// function. If the iterator is empty, `None` is returned;</span>
+    <span class='doccomment'>/// otherwise, `Some(item)` is returned.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note that the order in items will be reduced is not specified,</span>
-    <span class='doccomment'>/// so if the `Ord` impl is not truly commutative and associative</span>
-    <span class='doccomment'>/// (as is the case for floating point numbers), then the results</span>
-    <span class='doccomment'>/// are not deterministic.</span>
-    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span>
-        <span class='kw'>where</span> <span class='ident'>MaxOp</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    <span class='doccomment'>/// Note that the order in which the items will be reduced is not</span>
+    <span class='doccomment'>/// specified, so if the `Ord` impl is not truly associative, then</span>
+    <span class='doccomment'>/// the results are not deterministic.</span>
+    <span class='kw'>fn</span> <span class='ident'>min_by_key</span><span class='op'>&lt;</span><span class='ident'>K</span>, <span class='ident'>F</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>f</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>K</span>: <span class='ident'>Ord</span> <span class='op'>+</span> <span class='ident'>Send</span>,
+              <span class='ident'>F</span>: <span class='ident'>Sync</span> <span class='op'>+</span> <span class='ident'>Fn</span>(<span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>K</span>
     {
-        <span class='ident'>reduce</span>(<span class='self'>self</span>, <span class='ident'>MAX</span>)
+        <span class='self'>self</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> (<span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='ident'>x</span>), <span class='ident'>x</span>))
+            .<span class='ident'>reduce_with</span>(<span class='op'>|</span><span class='ident'>a</span>, <span class='ident'>b</span><span class='op'>|</span> <span class='kw'>match</span> (<span class='ident'>a</span>.<span class='number'>0</span>).<span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='ident'>b</span>.<span class='number'>0</span>) {
+                <span class='ident'>Ordering</span>::<span class='ident'>Greater</span> <span class='op'>=&gt;</span> <span class='ident'>b</span>,
+                _ <span class='op'>=&gt;</span> <span class='ident'>a</span>,
+            })
+            .<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='ident'>x</span>)<span class='op'>|</span> <span class='ident'>x</span>)
     }
 
-    <span class='doccomment'>/// Reduces the items using the given &quot;reduce operator&quot;. You may</span>
-    <span class='doccomment'>/// prefer `reduce_with` for a simpler interface.</span>
+    <span class='doccomment'>/// Computes the maximum of all the items in the iterator. If the</span>
+    <span class='doccomment'>/// iterator is empty, `None` is returned; otherwise, `Some(max)`</span>
+    <span class='doccomment'>/// is returned.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note that the order in items will be reduced is not specified,</span>
-    <span class='doccomment'>/// so if the `reduce_op` impl is not truly commutative and</span>
-    <span class='doccomment'>/// associative, then the results are not deterministic.</span>
-    <span class='kw'>fn</span> <span class='ident'>reduce</span><span class='op'>&lt;</span><span class='ident'>REDUCE_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>reduce_op</span>: <span class='kw-2'>&amp;</span><span class='ident'>REDUCE_OP</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Item</span>
-        <span class='kw'>where</span> <span class='ident'>REDUCE_OP</span>: <span class='ident'>ReduceOp</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    <span class='doccomment'>/// Note that the order in which the items will be reduced is not</span>
+    <span class='doccomment'>/// specified, so if the `Ord` impl is not truly associative, then</span>
+    <span class='doccomment'>/// the results are not deterministic.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Basically equivalent to `self.reduce_with(|a, b| cmp::max(a, b))`.</span>
+    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>Ord</span>
     {
-        <span class='ident'>reduce</span>(<span class='self'>self</span>, <span class='ident'>reduce_op</span>)
+        <span class='self'>self</span>.<span class='ident'>reduce_with</span>(<span class='ident'>cmp</span>::<span class='ident'>max</span>)
+    }
+
+    <span class='doccomment'>/// Computes the item that yields the maximum value for the given</span>
+    <span class='doccomment'>/// function. If the iterator is empty, `None` is returned;</span>
+    <span class='doccomment'>/// otherwise, `Some(item)` is returned.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Note that the order in which the items will be reduced is not</span>
+    <span class='doccomment'>/// specified, so if the `Ord` impl is not truly associative, then</span>
+    <span class='doccomment'>/// the results are not deterministic.</span>
+    <span class='kw'>fn</span> <span class='ident'>max_by_key</span><span class='op'>&lt;</span><span class='ident'>K</span>, <span class='ident'>F</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>f</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>K</span>: <span class='ident'>Ord</span> <span class='op'>+</span> <span class='ident'>Send</span>,
+              <span class='ident'>F</span>: <span class='ident'>Sync</span> <span class='op'>+</span> <span class='ident'>Fn</span>(<span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>K</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> (<span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='ident'>x</span>), <span class='ident'>x</span>))
+            .<span class='ident'>reduce_with</span>(<span class='op'>|</span><span class='ident'>a</span>, <span class='ident'>b</span><span class='op'>|</span> <span class='kw'>match</span> (<span class='ident'>a</span>.<span class='number'>0</span>).<span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='ident'>b</span>.<span class='number'>0</span>) {
+                <span class='ident'>Ordering</span>::<span class='ident'>Greater</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>,
+                _ <span class='op'>=&gt;</span> <span class='ident'>b</span>,
+            })
+            .<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='ident'>x</span>)<span class='op'>|</span> <span class='ident'>x</span>)
     }
 
     <span class='doccomment'>/// Takes two iterators and creates a new iterator over both.</span>
     <span class='kw'>fn</span> <span class='ident'>chain</span><span class='op'>&lt;</span><span class='ident'>CHAIN</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>chain</span>: <span class='ident'>CHAIN</span>) <span class='op'>-&gt;</span> <span class='ident'>ChainIter</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>CHAIN</span>::<span class='ident'>Iter</span><span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>CHAIN</span>: <span class='ident'>IntoParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>CHAIN</span>: <span class='ident'>IntoParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
     {
         <span class='ident'>ChainIter</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>chain</span>.<span class='ident'>into_par_iter</span>())
+    }
+
+    <span class='doccomment'>/// Searches for **some** item in the parallel iterator that</span>
+    <span class='doccomment'>/// matches the given predicate and returns it. This operation</span>
+    <span class='doccomment'>/// is similar to [`find` on sequential iterators][find] but</span>
+    <span class='doccomment'>/// the item returned may not be the **first** one in the parallel</span>
+    <span class='doccomment'>/// sequence which matches, since we search the entire sequence in parallel.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Once a match is found, we will attempt to stop processing</span>
+    <span class='doccomment'>/// the rest of the items in the iterator as soon as possible</span>
+    <span class='doccomment'>/// (just as `find` stops iterating once a match is found).</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// [find]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.find</span>
+    <span class='kw'>fn</span> <span class='ident'>find_any</span><span class='op'>&lt;</span><span class='ident'>FIND_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>predicate</span>: <span class='ident'>FIND_OP</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>FIND_OP</span>: <span class='ident'>Fn</span>(<span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> <span class='op'>+</span> <span class='ident'>Sync</span>
+    {
+        <span class='ident'>find</span>::<span class='ident'>find</span>(<span class='self'>self</span>, <span class='ident'>predicate</span>)
+    }
+
+    <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>deprecated</span>(<span class='ident'>note</span> <span class='op'>=</span> <span class='string'>&quot;parallel `find` does not search in order -- use `find_any`&quot;</span>)]</span>
+    <span class='kw'>fn</span> <span class='ident'>find</span><span class='op'>&lt;</span><span class='ident'>FIND_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>predicate</span>: <span class='ident'>FIND_OP</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>FIND_OP</span>: <span class='ident'>Fn</span>(<span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> <span class='op'>+</span> <span class='ident'>Sync</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>find_any</span>(<span class='ident'>predicate</span>)
+    }
+
+    <span class='doccomment'>/// Searches for **some** item in the parallel iterator that</span>
+    <span class='doccomment'>/// matches the given predicate, and if so returns true.  Once</span>
+    <span class='doccomment'>/// a match is found, we&#39;ll attempt to stop process the rest</span>
+    <span class='doccomment'>/// of the items.  Proving that there&#39;s no match, returning false,</span>
+    <span class='doccomment'>/// does require visiting every item.</span>
+    <span class='kw'>fn</span> <span class='ident'>any</span><span class='op'>&lt;</span><span class='ident'>ANY_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>predicate</span>: <span class='ident'>ANY_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+        <span class='kw'>where</span> <span class='ident'>ANY_OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> <span class='op'>+</span> <span class='ident'>Sync</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>map</span>(<span class='ident'>predicate</span>).<span class='ident'>find_any</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>p</span><span class='op'>|</span> <span class='ident'>p</span>).<span class='ident'>is_some</span>()
+    }
+
+    <span class='doccomment'>/// Tests that every item in the parallel iterator matches the given</span>
+    <span class='doccomment'>/// predicate, and if so returns true.  If a counter-example is found,</span>
+    <span class='doccomment'>/// we&#39;ll attempt to stop processing more items, then return false.</span>
+    <span class='kw'>fn</span> <span class='ident'>all</span><span class='op'>&lt;</span><span class='ident'>ALL_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>predicate</span>: <span class='ident'>ALL_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+        <span class='kw'>where</span> <span class='ident'>ALL_OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> <span class='op'>+</span> <span class='ident'>Sync</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>map</span>(<span class='ident'>predicate</span>).<span class='ident'>find_any</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>p</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>p</span>).<span class='ident'>is_none</span>()
     }
 
     <span class='doccomment'>/// Internal method used to define the behavior of this parallel</span>
     <span class='doccomment'>/// iterator. You should not need to call this directly.</span>
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>drive_unindexed</span><span class='op'>&lt;</span><span class='ident'>C</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>consumer</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>C</span>::<span class='prelude-ty'>Result</span>
-        <span class='kw'>where</span> <span class='ident'>C</span>: <span class='ident'>UnindexedConsumer</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>drive_unindexed</span><span class='op'>&lt;</span><span class='ident'>C</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>consumer</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>C</span>::<span class='prelude-ty'>Result</span> <span class='kw'>where</span> <span class='ident'>C</span>: <span class='ident'>UnindexedConsumer</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
+
+    <span class='doccomment'>/// Returns the number of items produced by this iterator, if known</span>
+    <span class='doccomment'>/// statically. This can be used by consumers to trigger special fast</span>
+    <span class='doccomment'>/// paths. Therefore, if `Some(_)` is returned, this iterator must only</span>
+    <span class='doccomment'>/// use the (indexed) `Consumer` methods when driving a consumer, such</span>
+    <span class='doccomment'>/// as `split_at()`. Calling `UnindexedConsumer::split_off()` or other</span>
+    <span class='doccomment'>/// `UnindexedConsumer` methods -- or returning an inaccurate value --</span>
+    <span class='doccomment'>/// may result in panics.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This is hidden &amp; considered internal for now, until we decide</span>
+    <span class='doccomment'>/// whether it makes sense for a public API.  Right now it is only used</span>
+    <span class='doccomment'>/// to optimize `collect`  for want of true Rust specialization.</span>
+    <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+    <span class='kw'>fn</span> <span class='ident'>opt_len</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
+        <span class='prelude-val'>None</span>
+    }
+
+    <span class='doccomment'>/// Create a fresh collection containing all the element produced</span>
+    <span class='doccomment'>/// by this parallel iterator.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// You may prefer to use `collect_into()`, which allocates more</span>
+    <span class='doccomment'>/// efficiently with precise knowledge of how many elements the</span>
+    <span class='doccomment'>/// iterator contains, and even allows you to reuse an existing</span>
+    <span class='doccomment'>/// vector&#39;s backing store rather than allocating a fresh vector.</span>
+    <span class='kw'>fn</span> <span class='ident'>collect</span><span class='op'>&lt;</span><span class='ident'>C</span><span class='op'>&gt;</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>C</span>
+        <span class='kw'>where</span> <span class='ident'>C</span>: <span class='ident'>FromParallelIterator</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    {
+        <span class='ident'>C</span>::<span class='ident'>from_par_iter</span>(<span class='self'>self</span>)
+    }
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>ParallelIterator</span><span class='op'>&gt;</span> <span class='ident'>IntoParallelIterator</span> <span class='kw'>for</span> <span class='ident'>T</span> {
@@ -897,10 +1535,7 @@
     <span class='doccomment'>/// Internal method used to define the behavior of this parallel</span>
     <span class='doccomment'>/// iterator. You should not need to call this directly.</span>
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>drive</span><span class='op'>&lt;</span><span class='lifetime'>&#39;c</span>, <span class='ident'>C</span>: <span class='ident'>Consumer</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;&gt;</span>(<span class='self'>self</span>,
-                                                   <span class='ident'>consumer</span>: <span class='ident'>C</span>)
-                                                   <span class='op'>-&gt;</span> <span class='ident'>C</span>::<span class='prelude-ty'>Result</span>;
-
+    <span class='kw'>fn</span> <span class='ident'>drive</span><span class='op'>&lt;</span><span class='lifetime'>&#39;c</span>, <span class='ident'>C</span>: <span class='ident'>Consumer</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;&gt;</span>(<span class='self'>self</span>, <span class='ident'>consumer</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>C</span>::<span class='prelude-ty'>Result</span>;
 }
 
 <span class='doccomment'>/// A trait for parallel iterators items where the precise number of</span>
@@ -910,11 +1545,6 @@
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>ExactParallelIterator</span>: <span class='ident'>BoundedParallelIterator</span> {
     <span class='doccomment'>/// Produces an exact count of how many items this iterator will</span>
     <span class='doccomment'>/// produce, presuming no panic occurs.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Safety note</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Returning an incorrect value here could lead to **undefined</span>
-    <span class='doccomment'>/// behavior**.</span>
     <span class='kw'>fn</span> <span class='ident'>len</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span>;
 
     <span class='doccomment'>/// Collects the results of the iterator into the specified</span>
@@ -942,17 +1572,145 @@
     <span class='doccomment'>/// iterators are of unequal length, you only get the items they</span>
     <span class='doccomment'>/// have in common.</span>
     <span class='kw'>fn</span> <span class='ident'>zip</span><span class='op'>&lt;</span><span class='ident'>ZIP_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>zip_op</span>: <span class='ident'>ZIP_OP</span>) <span class='op'>-&gt;</span> <span class='ident'>ZipIter</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>ZIP_OP</span>::<span class='ident'>Iter</span><span class='op'>&gt;</span>
-        <span class='kw'>where</span> <span class='ident'>ZIP_OP</span>: <span class='ident'>IntoParallelIterator</span>, <span class='ident'>ZIP_OP</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>
+        <span class='kw'>where</span> <span class='ident'>ZIP_OP</span>: <span class='ident'>IntoParallelIterator</span>,
+              <span class='ident'>ZIP_OP</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>
     {
         <span class='ident'>ZipIter</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>zip_op</span>.<span class='ident'>into_par_iter</span>())
+    }
+
+    <span class='doccomment'>/// Lexicographically compares the elements of this `ParallelIterator` with those of</span>
+    <span class='doccomment'>/// another.</span>
+    <span class='kw'>fn</span> <span class='ident'>cmp</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>Ordering</span>
+        <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>,
+              <span class='ident'>I</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>,
+              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>Ord</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>zip</span>(<span class='ident'>other</span>.<span class='ident'>into_par_iter</span>())
+            .<span class='ident'>map</span>(<span class='op'>|</span>(<span class='ident'>x</span>, <span class='ident'>y</span>)<span class='op'>|</span> <span class='ident'>Ord</span>::<span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='ident'>x</span>, <span class='kw-2'>&amp;</span><span class='ident'>y</span>))
+            .<span class='ident'>reduce</span>(<span class='op'>||</span> <span class='ident'>Ordering</span>::<span class='ident'>Equal</span>,
+                    <span class='op'>|</span><span class='ident'>cmp_a</span>, <span class='ident'>cmp_b</span><span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>cmp_a</span> <span class='op'>==</span> <span class='ident'>Ordering</span>::<span class='ident'>Equal</span> {
+                        <span class='ident'>cmp_b</span>
+                    } <span class='kw'>else</span> {
+                        <span class='ident'>cmp_a</span>
+                    })
+    }
+
+    <span class='doccomment'>/// Lexicographically compares the elements of this `ParallelIterator` with those of</span>
+    <span class='doccomment'>/// another.</span>
+    <span class='kw'>fn</span> <span class='ident'>partial_cmp</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Ordering</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span>,
+              <span class='ident'>I</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>,
+              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>PartialOrd</span><span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>zip</span>(<span class='ident'>other</span>.<span class='ident'>into_par_iter</span>())
+            .<span class='ident'>map</span>(<span class='op'>|</span>(<span class='ident'>x</span>, <span class='ident'>y</span>)<span class='op'>|</span> <span class='ident'>PartialOrd</span>::<span class='ident'>partial_cmp</span>(<span class='kw-2'>&amp;</span><span class='ident'>x</span>, <span class='kw-2'>&amp;</span><span class='ident'>y</span>))
+            .<span class='ident'>reduce</span>(<span class='op'>||</span> <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Equal</span>), <span class='op'>|</span><span class='ident'>cmp_a</span>, <span class='ident'>cmp_b</span><span class='op'>|</span> <span class='kw'>match</span> <span class='ident'>cmp_a</span> {
+                <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Equal</span>) <span class='op'>=&gt;</span> <span class='ident'>cmp_b</span>,
+                <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='ident'>cmp_a</span>,
+                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+            })
+    }
+
+    <span class='doccomment'>/// Determines if the elements of this `ParallelIterator`</span>
+    <span class='doccomment'>/// are equal to those of another</span>
+    <span class='kw'>fn</span> <span class='ident'>eq</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+        <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span>,
+              <span class='ident'>I</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>,
+              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>PartialEq</span><span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>zip</span>(<span class='ident'>other</span>.<span class='ident'>into_par_iter</span>())
+            .<span class='ident'>all</span>(<span class='op'>|</span>(<span class='ident'>x</span>, <span class='ident'>y</span>)<span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='ident'>y</span>))
+    }
+
+    <span class='doccomment'>/// Determines if the elements of this `ParallelIterator`</span>
+    <span class='doccomment'>/// are unequal to those of another</span>
+    <span class='kw'>fn</span> <span class='ident'>ne</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+        <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span>,
+              <span class='ident'>I</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>,
+              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>PartialEq</span><span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    {
+        <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>eq</span>(<span class='ident'>other</span>)
+    }
+
+    <span class='doccomment'>/// Determines if the elements of this `ParallelIterator`</span>
+    <span class='doccomment'>/// are lexicographically less than those of another.</span>
+    <span class='kw'>fn</span> <span class='ident'>lt</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+        <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span>,
+              <span class='ident'>I</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>,
+              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>PartialOrd</span><span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>partial_cmp</span>(<span class='ident'>other</span>) <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Less</span>)
+    }
+
+    <span class='doccomment'>/// Determines if the elements of this `ParallelIterator`</span>
+    <span class='doccomment'>/// are less or equal to those of another.</span>
+    <span class='kw'>fn</span> <span class='ident'>le</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+        <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span>,
+              <span class='ident'>I</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>,
+              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>PartialOrd</span><span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    {
+        <span class='kw'>let</span> <span class='ident'>ord</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>partial_cmp</span>(<span class='ident'>other</span>);
+        <span class='ident'>ord</span> <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Equal</span>) <span class='op'>||</span> <span class='ident'>ord</span> <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Less</span>)
+    }
+
+    <span class='doccomment'>/// Determines if the elements of this `ParallelIterator`</span>
+    <span class='doccomment'>/// are lexicographically greater than those of another.</span>
+    <span class='kw'>fn</span> <span class='ident'>gt</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+        <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span>,
+              <span class='ident'>I</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>,
+              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>PartialOrd</span><span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>partial_cmp</span>(<span class='ident'>other</span>) <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Greater</span>)
+    }
+
+    <span class='doccomment'>/// Determines if the elements of this `ParallelIterator`</span>
+    <span class='doccomment'>/// are less or equal to those of another.</span>
+    <span class='kw'>fn</span> <span class='ident'>ge</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+        <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoParallelIterator</span>,
+              <span class='ident'>I</span>::<span class='ident'>Iter</span>: <span class='ident'>IndexedParallelIterator</span>,
+              <span class='self'>Self</span>::<span class='ident'>Item</span>: <span class='ident'>PartialOrd</span><span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
+    {
+        <span class='kw'>let</span> <span class='ident'>ord</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>partial_cmp</span>(<span class='ident'>other</span>);
+        <span class='ident'>ord</span> <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Equal</span>) <span class='op'>||</span> <span class='ident'>ord</span> <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Greater</span>)
     }
 
     <span class='doccomment'>/// Yields an index along with each item.</span>
     <span class='kw'>fn</span> <span class='ident'>enumerate</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Enumerate</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>Enumerate</span>::<span class='ident'>new</span>(<span class='self'>self</span>)
     }
-}
 
+    <span class='doccomment'>/// Creates an iterator that skips the first `n` elements.</span>
+    <span class='kw'>fn</span> <span class='ident'>skip</span>(<span class='self'>self</span>, <span class='ident'>n</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>Skip</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
+        <span class='ident'>Skip</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>n</span>)
+    }
+
+    <span class='doccomment'>/// Creates an iterator that yields the first `n` elements.</span>
+    <span class='kw'>fn</span> <span class='ident'>take</span>(<span class='self'>self</span>, <span class='ident'>n</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>Take</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
+        <span class='ident'>Take</span>::<span class='ident'>new</span>(<span class='self'>self</span>, <span class='ident'>n</span>)
+    }
+
+    <span class='doccomment'>/// Searches for **some** item in the parallel iterator that</span>
+    <span class='doccomment'>/// matches the given predicate, and returns its index.  Like</span>
+    <span class='doccomment'>/// `ParallelIterator::find_any`, the parallel search will not</span>
+    <span class='doccomment'>/// necessarily find the **first** match, and once a match is</span>
+    <span class='doccomment'>/// found we&#39;ll attempt to stop processing any more.</span>
+    <span class='kw'>fn</span> <span class='ident'>position_any</span><span class='op'>&lt;</span><span class='ident'>POSITION_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>predicate</span>: <span class='ident'>POSITION_OP</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>POSITION_OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> <span class='op'>+</span> <span class='ident'>Sync</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>map</span>(<span class='ident'>predicate</span>)
+            .<span class='ident'>enumerate</span>()
+            .<span class='ident'>find_any</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(_, <span class='ident'>p</span>)<span class='op'>|</span> <span class='ident'>p</span>)
+            .<span class='ident'>map</span>(<span class='op'>|</span>(<span class='ident'>i</span>, _)<span class='op'>|</span> <span class='ident'>i</span>)
+    }
+
+    <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>deprecated</span>(<span class='ident'>note</span> <span class='op'>=</span> <span class='string'>&quot;parallel `position` does not search in order -- use `position_any`&quot;</span>)]</span>
+    <span class='kw'>fn</span> <span class='ident'>position</span><span class='op'>&lt;</span><span class='ident'>POSITION_OP</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>predicate</span>: <span class='ident'>POSITION_OP</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>
+        <span class='kw'>where</span> <span class='ident'>POSITION_OP</span>: <span class='ident'>Fn</span>(<span class='self'>Self</span>::<span class='ident'>Item</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> <span class='op'>+</span> <span class='ident'>Sync</span>
+    {
+        <span class='self'>self</span>.<span class='ident'>position_any</span>(<span class='ident'>predicate</span>)
+    }
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
@@ -1010,11 +1768,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

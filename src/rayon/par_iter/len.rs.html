@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.4.2/src/par_iter/len.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.6.0/src/par_iter/len.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>len.rs.html -- source</title>
@@ -82,6 +82,10 @@
 <span id="38">38</span>
 <span id="39">39</span>
 <span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ParallelLen</span> {
@@ -104,15 +108,19 @@
 
 <span class='kw'>impl</span> <span class='ident'>ParallelLen</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>left_cost</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>mid</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>ParallelLen</span> {
-        <span class='ident'>ParallelLen</span> { <span class='ident'>maximal_len</span>: <span class='ident'>mid</span>,
-                      <span class='ident'>cost</span>: <span class='self'>self</span>.<span class='ident'>cost</span> <span class='op'>/</span> <span class='number'>2.0</span>,
-                      <span class='ident'>sparse</span>: <span class='self'>self</span>.<span class='ident'>sparse</span> }
+        <span class='ident'>ParallelLen</span> {
+            <span class='ident'>maximal_len</span>: <span class='ident'>mid</span>,
+            <span class='ident'>cost</span>: <span class='self'>self</span>.<span class='ident'>cost</span> <span class='op'>/</span> <span class='number'>2.0</span>,
+            <span class='ident'>sparse</span>: <span class='self'>self</span>.<span class='ident'>sparse</span>,
+        }
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>right_cost</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>mid</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>ParallelLen</span> {
-        <span class='ident'>ParallelLen</span> { <span class='ident'>maximal_len</span>: <span class='self'>self</span>.<span class='ident'>maximal_len</span> <span class='op'>-</span> <span class='ident'>mid</span>,
-                      <span class='ident'>cost</span>: <span class='self'>self</span>.<span class='ident'>cost</span> <span class='op'>/</span> <span class='number'>2.0</span>,
-                      <span class='ident'>sparse</span>: <span class='self'>self</span>.<span class='ident'>sparse</span> }
+        <span class='ident'>ParallelLen</span> {
+            <span class='ident'>maximal_len</span>: <span class='self'>self</span>.<span class='ident'>maximal_len</span> <span class='op'>-</span> <span class='ident'>mid</span>,
+            <span class='ident'>cost</span>: <span class='self'>self</span>.<span class='ident'>cost</span> <span class='op'>/</span> <span class='number'>2.0</span>,
+            <span class='ident'>sparse</span>: <span class='self'>self</span>.<span class='ident'>sparse</span>,
+        }
     }
 }
 
@@ -180,11 +188,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

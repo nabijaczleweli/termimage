@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.4.2/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.6.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -66,10 +66,20 @@
 <span id="22">22</span>
 <span id="23">23</span>
 <span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>non_camel_case_types</span>)]</span> <span class='comment'>// I prefer to use ALL_CAPS for type parameters</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>test</span>, <span class='ident'>feature</span>(<span class='ident'>conservative_impl_trait</span>))]</span>
 
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>deque</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_cpus</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
 
@@ -81,8 +91,12 @@
 <span class='kw'>mod</span> <span class='ident'>job</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>par_iter</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>prelude</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span> <span class='kw'>mod</span> <span class='ident'>test</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
+<span class='kw'>mod</span> <span class='ident'>test</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;unstable&quot;</span>)]</span>
+<span class='kw'>mod</span> <span class='ident'>scope</span>;
 <span class='kw'>mod</span> <span class='ident'>thread_pool</span>;
+<span class='kw'>mod</span> <span class='ident'>unwind</span>;
 <span class='kw'>mod</span> <span class='ident'>util</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>Configuration</span>;
@@ -91,6 +105,8 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>initialize</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>join</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>ThreadPool</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;unstable&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>scope</span>::{<span class='ident'>scope</span>, <span class='ident'>Scope</span>};
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
@@ -148,11 +164,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

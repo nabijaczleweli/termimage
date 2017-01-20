@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.4.2/src/par_iter/slice.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.6.0/src/par_iter/slice.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>slice.rs.html -- source</title>
@@ -205,12 +205,32 @@
 <span id="161">161</span>
 <span id="162">162</span>
 <span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
 </pre><pre class='rust '>
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>internal</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SliceIter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span>: <span class='lifetime'>&#39;data</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span> {
-    <span class='ident'>slice</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> [<span class='ident'>T</span>]
+    <span class='ident'>slice</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> [<span class='ident'>T</span>],
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span>: <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> <span class='ident'>IntoParallelIterator</span> <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> [<span class='ident'>T</span>] {
@@ -236,7 +256,10 @@
     <span class='kw'>type</span> <span class='ident'>Iter</span> <span class='op'>=</span> <span class='ident'>ChunksIter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span><span class='op'>&gt;</span>;
 
     <span class='kw'>fn</span> <span class='ident'>par_chunks</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> <span class='self'>self</span>, <span class='ident'>chunk_size</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Iter</span> {
-        <span class='ident'>ChunksIter</span> { <span class='ident'>chunk_size</span>: <span class='ident'>chunk_size</span>, <span class='ident'>slice</span>: <span class='self'>self</span> }
+        <span class='ident'>ChunksIter</span> {
+            <span class='ident'>chunk_size</span>: <span class='ident'>chunk_size</span>,
+            <span class='ident'>slice</span>: <span class='self'>self</span>,
+        }
     }
 }
 
@@ -247,6 +270,10 @@
         <span class='kw'>where</span> <span class='ident'>C</span>: <span class='ident'>UnindexedConsumer</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
     {
         <span class='ident'>bridge</span>(<span class='self'>self</span>, <span class='ident'>consumer</span>)
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>opt_len</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
+        <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>len</span>())
     }
 }
 
@@ -289,6 +316,10 @@
     {
         <span class='ident'>bridge</span>(<span class='self'>self</span>, <span class='ident'>consumer</span>)
     }
+
+    <span class='kw'>fn</span> <span class='ident'>opt_len</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
+        <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>len</span>())
+    }
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span>: <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;data</span><span class='op'>&gt;</span> <span class='ident'>BoundedParallelIterator</span> <span class='kw'>for</span> <span class='ident'>ChunksIter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
@@ -313,14 +344,17 @@
     <span class='kw'>fn</span> <span class='ident'>with_producer</span><span class='op'>&lt;</span><span class='ident'>CB</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>callback</span>: <span class='ident'>CB</span>) <span class='op'>-&gt;</span> <span class='ident'>CB</span>::<span class='ident'>Output</span>
         <span class='kw'>where</span> <span class='ident'>CB</span>: <span class='ident'>ProducerCallback</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>
     {
-        <span class='ident'>callback</span>.<span class='ident'>callback</span>(<span class='ident'>SliceChunksProducer</span> { <span class='ident'>chunk_size</span>: <span class='self'>self</span>.<span class='ident'>chunk_size</span>, <span class='ident'>slice</span>: <span class='self'>self</span>.<span class='ident'>slice</span> })
+        <span class='ident'>callback</span>.<span class='ident'>callback</span>(<span class='ident'>SliceChunksProducer</span> {
+            <span class='ident'>chunk_size</span>: <span class='self'>self</span>.<span class='ident'>chunk_size</span>,
+            <span class='ident'>slice</span>: <span class='self'>self</span>.<span class='ident'>slice</span>,
+        })
     }
 }
 
-<span class='comment'>///////////////////////////////////////////////////////////////////////////</span>
+<span class='doccomment'>/// ////////////////////////////////////////////////////////////////////////</span>
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SliceProducer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span>: <span class='lifetime'>&#39;data</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span> {
-    <span class='ident'>slice</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> [<span class='ident'>T</span>]
+    <span class='ident'>slice</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> [<span class='ident'>T</span>],
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span>: <span class='lifetime'>&#39;data</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span> <span class='ident'>Producer</span> <span class='kw'>for</span> <span class='ident'>SliceProducer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
@@ -345,7 +379,7 @@
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SliceChunksProducer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span>: <span class='lifetime'>&#39;data</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span> {
     <span class='ident'>chunk_size</span>: <span class='ident'>usize</span>,
-    <span class='ident'>slice</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> [<span class='ident'>T</span>]
+    <span class='ident'>slice</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;data</span> [<span class='ident'>T</span>],
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span>: <span class='lifetime'>&#39;data</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span> <span class='ident'>Producer</span> <span class='kw'>for</span> <span class='ident'>SliceChunksProducer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;data</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
@@ -356,8 +390,14 @@
     <span class='kw'>fn</span> <span class='ident'>split_at</span>(<span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> (<span class='self'>Self</span>, <span class='self'>Self</span>) {
         <span class='kw'>let</span> <span class='ident'>elem_index</span> <span class='op'>=</span> <span class='ident'>index</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>chunk_size</span>;
         <span class='kw'>let</span> (<span class='ident'>left</span>, <span class='ident'>right</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>slice</span>.<span class='ident'>split_at</span>(<span class='ident'>elem_index</span>);
-        (<span class='ident'>SliceChunksProducer</span> { <span class='ident'>chunk_size</span>: <span class='self'>self</span>.<span class='ident'>chunk_size</span>, <span class='ident'>slice</span>: <span class='ident'>left</span> },
-         <span class='ident'>SliceChunksProducer</span> { <span class='ident'>chunk_size</span>: <span class='self'>self</span>.<span class='ident'>chunk_size</span>, <span class='ident'>slice</span>: <span class='ident'>right</span> })
+        (<span class='ident'>SliceChunksProducer</span> {
+             <span class='ident'>chunk_size</span>: <span class='self'>self</span>.<span class='ident'>chunk_size</span>,
+             <span class='ident'>slice</span>: <span class='ident'>left</span>,
+         },
+         <span class='ident'>SliceChunksProducer</span> {
+             <span class='ident'>chunk_size</span>: <span class='self'>self</span>.<span class='ident'>chunk_size</span>,
+             <span class='ident'>slice</span>: <span class='ident'>right</span>,
+         })
     }
 }
 
@@ -426,11 +466,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

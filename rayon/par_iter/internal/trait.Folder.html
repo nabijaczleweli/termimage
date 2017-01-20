@@ -47,23 +47,32 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-864' class='srclink' href='../../../src/rayon/par_iter/internal.rs.html#50-58' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1072' class='srclink' href='../../../src/rayon/par_iter/internal.rs.html#65-79' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Folder&lt;Item&gt; {
     type <a href='#associatedtype.Result' class='type'>Result</a>;
     fn <a href='#tymethod.consume' class='fnname'>consume</a>(self, item: Item) -&gt; Self;
-    fn <a href='#tymethod.complete' class='fnname'>complete</a>(self) -&gt; Self::<a class='trait' href='../../../rayon/par_iter/internal/trait.Folder.html' title='rayon::par_iter::internal::Folder'>Result</a>;
+    fn <a href='#tymethod.complete' class='fnname'>complete</a>(self) -&gt; Self::Result;
+
+    fn <a href='#method.full' class='fnname'>full</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a> { ... }
 }</pre>
             <h2 id='associated-types'>Associated Types</h2>
             <div class='methods'>
-        <h3 id='associatedtype.Result' class='method stab '><code>type <a href='#associatedtype.Result' class='type'>Result</a></code></h3></div>
+        <h3 id='associatedtype.Result' class='method stab '><span id='Result.t' class='invisible'><code>type <a href='#associatedtype.Result' class='type'>Result</a></code></span></h3></div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.consume' class='method stab '><code>fn <a href='#tymethod.consume' class='fnname'>consume</a>(self, item: Item) -&gt; Self</code></h3><div class='docblock'><p>Consume next item and return new sequential state.</p>
-</div><h3 id='tymethod.complete' class='method stab '><code>fn <a href='#tymethod.complete' class='fnname'>complete</a>(self) -&gt; Self::<a class='trait' href='../../../rayon/par_iter/internal/trait.Folder.html' title='rayon::par_iter::internal::Folder'>Result</a></code></h3><div class='docblock'><p>Finish consuming items, produce final result.</p>
+        <h3 id='tymethod.consume' class='method stab '><span id='consume.v' class='invisible'><code>fn <a href='#tymethod.consume' class='fnname'>consume</a>(self, item: Item) -&gt; Self</code></span></h3><div class='docblock'><p>Consume next item and return new sequential state.</p>
+</div><h3 id='tymethod.complete' class='method stab '><span id='complete.v' class='invisible'><code>fn <a href='#tymethod.complete' class='fnname'>complete</a>(self) -&gt; Self::Result</code></span></h3><div class='docblock'><p>Finish consuming items, produce final result.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.full' class='method stab '><span id='full.v' class='invisible'><code>fn <a href='#method.full' class='fnname'>full</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><div class='docblock'><p>Hint whether this <code>Folder</code> would like to stop processing
+further items, e.g. if a search has been completed.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl&lt;'r,&nbsp;REDUCE_OP,&nbsp;ITEM&gt; Folder&lt;ITEM&gt; for <a class='struct' href='../../../rayon/par_iter/reduce/struct.ReduceFolder.html' title='rayon::par_iter::reduce::ReduceFolder'>ReduceFolder</a>&lt;'r,&nbsp;REDUCE_OP,&nbsp;ITEM&gt; <span class='where'>where REDUCE_OP: <a class='trait' href='../../../rayon/par_iter/reduce/trait.ReduceOp.html' title='rayon::par_iter::reduce::ReduceOp'>ReduceOp</a>&lt;ITEM&gt;</span></code></li>
+    <li><code>impl&lt;'r, C, IDENTITY, FOLD_OP, ITEM&gt; Folder&lt;ITEM&gt; for <a class='struct' href='../../../rayon/par_iter/fold/struct.FoldFolder.html' title='rayon::par_iter::fold::FoldFolder'>FoldFolder</a>&lt;'r, C, IDENTITY, FOLD_OP&gt; <span class='where'>where C: <a class='trait' href='../../../rayon/par_iter/internal/trait.Folder.html' title='rayon::par_iter::internal::Folder'>Folder</a>&lt;IDENTITY&gt;, FOLD_OP: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(IDENTITY, ITEM) -&gt; IDENTITY + <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a></span></code></li>
+<li><code>impl&lt;'r, REDUCE_OP, ITEM&gt; Folder&lt;ITEM&gt; for <a class='struct' href='../../../rayon/par_iter/reduce/struct.ReduceFolder.html' title='rayon::par_iter::reduce::ReduceFolder'>ReduceFolder</a>&lt;'r, REDUCE_OP, ITEM&gt; <span class='where'>where REDUCE_OP: <a class='trait' href='../../../rayon/par_iter/reduce/trait.ReduceOp.html' title='rayon::par_iter::reduce::ReduceOp'>ReduceOp</a>&lt;ITEM&gt;</span></code></li>
+<li><code>impl&lt;ITEM&gt; Folder&lt;ITEM&gt; for <a class='struct' href='../../../rayon/par_iter/noop/struct.NoopConsumer.html' title='rayon::par_iter::noop::NoopConsumer'>NoopConsumer</a></code></li>
 </ul><script type="text/javascript" async
                          src="../../../implementors/rayon/par_iter/internal/trait.Folder.js">
                  </script></section>
@@ -122,11 +131,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "rayon";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

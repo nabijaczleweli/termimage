@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/flate2-0.2.14/src/gz.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/flate2-0.2.17/src/gz.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>gz.rs.html -- source</title>
@@ -696,6 +696,26 @@
 <span id="652">652</span>
 <span id="653">653</span>
 <span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! gzip compression/decompression</span>
 <span class='doccomment'>//!</span>
@@ -1350,6 +1370,26 @@
         <span class='ident'>d</span>.<span class='ident'>read_to_string</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>s</span>).<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;foo bar baz&quot;</span>);
     }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>qc_reader</span>() {
+        ::<span class='ident'>quickcheck</span>::<span class='ident'>quickcheck</span>(<span class='ident'>test</span> <span class='kw'>as</span> <span class='kw'>fn</span>(_) <span class='op'>-&gt;</span> _);
+
+        <span class='kw'>fn</span> <span class='ident'>test</span>(<span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+            <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>EncoderReader</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>v</span>[..], <span class='ident'>Default</span>);
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>DecoderReader</span>::<span class='ident'>new</span>(<span class='ident'>r</span>).<span class='ident'>unwrap</span>();
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v2</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+            <span class='ident'>r</span>.<span class='ident'>read_to_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>v2</span>).<span class='ident'>unwrap</span>();
+            <span class='ident'>v</span> <span class='op'>==</span> <span class='ident'>v2</span>
+        }
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>flush_after_write</span>() {
+		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>EncoderWriter</span>::<span class='ident'>new</span>(<span class='ident'>Vec</span>::<span class='ident'>new</span>(), <span class='ident'>Default</span>);
+		<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Hello world&quot;</span>).<span class='ident'>unwrap</span>();
+		<span class='ident'>f</span>.<span class='ident'>flush</span>().<span class='ident'>unwrap</span>();
+    }
 }
 </pre>
 </section>
@@ -1408,11 +1448,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "flate2";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

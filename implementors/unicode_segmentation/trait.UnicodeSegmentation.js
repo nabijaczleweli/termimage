@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["unicode_segmentation"] = [];
+implementors["unicode_segmentation"] = [];implementors["termimage"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

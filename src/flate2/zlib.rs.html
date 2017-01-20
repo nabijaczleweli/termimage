@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/flate2-0.2.14/src/zlib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/flate2-0.2.17/src/zlib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>zlib.rs.html -- source</title>
@@ -551,6 +551,42 @@
 <span id="507">507</span>
 <span id="508">508</span>
 <span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! ZLIB compression and decompression of streams</span>
 
@@ -574,7 +610,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// This structure implements a `Read` interface and will read uncompressed</span>
 <span class='doccomment'>/// data from an underlying stream and emit a stream of compressed data.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EncoderReader</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EncoderReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
     <span class='ident'>inner</span>: <span class='ident'>EncoderReaderBuf</span><span class='op'>&lt;</span><span class='ident'>BufReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span>,
 }
 
@@ -582,7 +618,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// This structure implements a `BufRead` interface and will read uncompressed</span>
 <span class='doccomment'>/// data from an underlying stream and emit a stream of compressed data.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EncoderReaderBuf</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>BufRead</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EncoderReaderBuf</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
     <span class='ident'>obj</span>: <span class='ident'>R</span>,
     <span class='ident'>data</span>: <span class='ident'>Compress</span>,
 }
@@ -591,7 +627,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// This structure implements a `Read` interface and takes a stream of</span>
 <span class='doccomment'>/// compressed data as input, providing the decompressed data when read from.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DecoderReader</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DecoderReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
     <span class='ident'>inner</span>: <span class='ident'>DecoderReaderBuf</span><span class='op'>&lt;</span><span class='ident'>BufReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span>,
 }
 
@@ -599,7 +635,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// This structure implements a `BufRead` interface and takes a stream of</span>
 <span class='doccomment'>/// compressed data as input, providing the decompressed data when read from.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DecoderReaderBuf</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>BufRead</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DecoderReaderBuf</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
     <span class='ident'>obj</span>: <span class='ident'>R</span>,
     <span class='ident'>data</span>: <span class='ident'>Decompress</span>,
 }
@@ -943,6 +979,7 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 
     <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>thread_rng</span>, <span class='ident'>Rng</span>};
 
@@ -1060,6 +1097,41 @@
             <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span> <span class='op'>==</span> <span class='ident'>b</span> <span class='op'>&amp;&amp;</span> <span class='ident'>b</span> <span class='op'>==</span> <span class='ident'>c</span> <span class='op'>&amp;&amp;</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='ident'>v</span>);
         }
     }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>bad_input</span>() {
+        <span class='comment'>// regress tests: previously caused a panic on drop</span>
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>out</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='ident'>data</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> (<span class='number'>0</span>..<span class='number'>255</span>).<span class='ident'>cycle</span>().<span class='ident'>take</span>(<span class='number'>1024</span>).<span class='ident'>collect</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>w</span> <span class='op'>=</span> <span class='ident'>DecoderWriter</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>out</span>);
+        <span class='kw'>match</span> <span class='ident'>w</span>.<span class='ident'>write_all</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[..]) {
+            <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Expected an error to be returned!&quot;</span>),
+            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>e</span>.<span class='ident'>kind</span>(), <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>InvalidInput</span>),
+        }
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>qc_reader</span>() {
+        ::<span class='ident'>quickcheck</span>::<span class='ident'>quickcheck</span>(<span class='ident'>test</span> <span class='kw'>as</span> <span class='kw'>fn</span>(_) <span class='op'>-&gt;</span> _);
+
+        <span class='kw'>fn</span> <span class='ident'>test</span>(<span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>DecoderReader</span>::<span class='ident'>new</span>(<span class='ident'>EncoderReader</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>v</span>[..], <span class='ident'>Default</span>));
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v2</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+            <span class='ident'>r</span>.<span class='ident'>read_to_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>v2</span>).<span class='ident'>unwrap</span>();
+            <span class='ident'>v</span> <span class='op'>==</span> <span class='ident'>v2</span>
+        }
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>qc_writer</span>() {
+        ::<span class='ident'>quickcheck</span>::<span class='ident'>quickcheck</span>(<span class='ident'>test</span> <span class='kw'>as</span> <span class='kw'>fn</span>(_) <span class='op'>-&gt;</span> _);
+
+        <span class='kw'>fn</span> <span class='ident'>test</span>(<span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>w</span> <span class='op'>=</span> <span class='ident'>EncoderWriter</span>::<span class='ident'>new</span>(<span class='ident'>DecoderWriter</span>::<span class='ident'>new</span>(<span class='ident'>Vec</span>::<span class='ident'>new</span>()), <span class='ident'>Default</span>);
+            <span class='ident'>w</span>.<span class='ident'>write_all</span>(<span class='kw-2'>&amp;</span><span class='ident'>v</span>).<span class='ident'>unwrap</span>();
+            <span class='ident'>v</span> <span class='op'>==</span> <span class='ident'>w</span>.<span class='ident'>finish</span>().<span class='ident'>unwrap</span>().<span class='ident'>finish</span>().<span class='ident'>unwrap</span>()
+        }
+    }
 }
 </pre>
 </section>
@@ -1118,11 +1190,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "flate2";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

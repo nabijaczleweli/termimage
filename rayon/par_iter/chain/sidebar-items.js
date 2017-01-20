@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ChainIter",""],["ChainProducer",""]]});
+initSidebarItems({"struct":[["ChainIter",""],["ChainProducer","////////////////////////////////////////////////////////////////////////"]]});

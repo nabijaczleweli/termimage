@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Enumerate",""],["EnumerateProducer",""]]});
+initSidebarItems({"struct":[["Enumerate",""],["EnumerateProducer","//////////////////////////////////////////////////////////////////////// Producer implementation"]]});

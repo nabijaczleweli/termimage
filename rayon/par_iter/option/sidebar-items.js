@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["OptionIter",""],["OptionProducer",""]]});
+initSidebarItems({"struct":[["OptionIter",""],["OptionProducer","////////////////////////////////////////////////////////////////////////"]]});

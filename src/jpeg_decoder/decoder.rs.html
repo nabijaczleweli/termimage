@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.6/src/decoder.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.11/src/decoder.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>decoder.rs.html -- source</title>
@@ -894,6 +894,60 @@
 <span id="850">850</span>
 <span id="851">851</span>
 <span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>byteorder</span>::<span class='ident'>ReadBytesExt</span>;
 <span class='kw'>use</span> <span class='ident'>error</span>::{<span class='ident'>Error</span>, <span class='prelude-ty'>Result</span>, <span class='ident'>UnsupportedFeature</span>};
@@ -901,8 +955,7 @@
 <span class='kw'>use</span> <span class='ident'>marker</span>::<span class='ident'>Marker</span>;
 <span class='kw'>use</span> <span class='ident'>parser</span>::{<span class='ident'>AdobeColorTransform</span>, <span class='ident'>AppData</span>, <span class='ident'>CodingProcess</span>, <span class='ident'>Component</span>, <span class='ident'>Dimensions</span>, <span class='ident'>EntropyCoding</span>, <span class='ident'>FrameInfo</span>,
              <span class='ident'>parse_app</span>, <span class='ident'>parse_com</span>, <span class='ident'>parse_dht</span>, <span class='ident'>parse_dqt</span>, <span class='ident'>parse_dri</span>, <span class='ident'>parse_sof</span>, <span class='ident'>parse_sos</span>, <span class='ident'>ScanInfo</span>};
-<span class='kw'>use</span> <span class='ident'>rayon</span>::<span class='ident'>par_iter</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>resampler</span>::<span class='ident'>Resampler</span>;
+<span class='kw'>use</span> <span class='ident'>upsampler</span>::<span class='ident'>Upsampler</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Read</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
@@ -924,20 +977,29 @@
     <span class='number'>53</span>, <span class='number'>60</span>, <span class='number'>61</span>, <span class='number'>54</span>, <span class='number'>47</span>, <span class='number'>55</span>, <span class='number'>62</span>, <span class='number'>63</span>,
 ];
 
+<span class='doccomment'>/// An enumeration over combinations of color spaces and bit depths a pixel can have.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>PixelFormat</span> {
-    <span class='ident'>L8</span>,     <span class='comment'>// Luminance, 8 bits per channel</span>
-    <span class='ident'>RGB24</span>,  <span class='comment'>// RGB, 8 bits per channel</span>
-    <span class='ident'>CMYK32</span>, <span class='comment'>// CMYK, 8 bits per channel</span>
+    <span class='doccomment'>/// Luminance (grayscale), 8 bits</span>
+    <span class='ident'>L8</span>,
+    <span class='doccomment'>/// RGB, 8 bits per channel</span>
+    <span class='ident'>RGB24</span>,
+    <span class='doccomment'>/// CMYK, 8 bits per channel</span>
+    <span class='ident'>CMYK32</span>,
 }
 
+<span class='doccomment'>/// Represents metadata of an image.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ImageInfo</span> {
+    <span class='doccomment'>/// The width of the image, in pixels.</span>
     <span class='kw'>pub</span> <span class='ident'>width</span>: <span class='ident'>u16</span>,
+    <span class='doccomment'>/// The height of the image, in pixels.</span>
     <span class='kw'>pub</span> <span class='ident'>height</span>: <span class='ident'>u16</span>,
+    <span class='doccomment'>/// The pixel format of the image.</span>
     <span class='kw'>pub</span> <span class='ident'>pixel_format</span>: <span class='ident'>PixelFormat</span>,
 }
 
+<span class='doccomment'>/// JPEG decoder</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Decoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
     <span class='ident'>reader</span>: <span class='ident'>R</span>,
 
@@ -957,6 +1019,7 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span> <span class='ident'>Decoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
+    <span class='doccomment'>/// Creates a new `Decoder` using the reader `reader`.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>reader</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>Decoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
         <span class='ident'>Decoder</span> {
             <span class='ident'>reader</span>: <span class='ident'>reader</span>,
@@ -972,6 +1035,10 @@
         }
     }
 
+    <span class='doccomment'>/// Returns metadata about the image.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The returned value will be `None` until a call to either `read_info` or `decode` has</span>
+    <span class='doccomment'>/// returned `Ok`.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>info</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ImageInfo</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>frame</span> {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>frame</span>) <span class='op'>=&gt;</span> {
@@ -992,10 +1059,14 @@
         }
     }
 
+    <span class='doccomment'>/// Tries to read metadata from the image without decoding it.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// If successful, the metadata can be obtained using the `info` method.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>read_info</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>decode_internal</span>(<span class='bool-val'>true</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> ())
     }
 
+    <span class='doccomment'>/// Decodes the image and returns the decoded pixels if successful.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>decode</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>decode_internal</span>(<span class='bool-val'>false</span>)
     }
@@ -1055,14 +1126,7 @@
                     }
 
                     <span class='comment'>// Make sure we support the subsampling ratios used.</span>
-                    <span class='kw'>let</span> _ <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Resampler</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame</span>.<span class='ident'>components</span>));
-
-                    <span class='kw'>if</span> <span class='ident'>frame</span>.<span class='ident'>coding_process</span> <span class='op'>==</span> <span class='ident'>CodingProcess</span>::<span class='ident'>DctProgressive</span> {
-                        <span class='self'>self</span>.<span class='ident'>coefficients</span> <span class='op'>=</span> <span class='ident'>frame</span>.<span class='ident'>components</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> {
-                            <span class='kw'>let</span> <span class='ident'>block_count</span> <span class='op'>=</span> <span class='ident'>c</span>.<span class='ident'>block_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>c</span>.<span class='ident'>block_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
-                            <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='ident'>block_count</span> <span class='op'>*</span> <span class='number'>64</span>]
-                        }).<span class='ident'>collect</span>();
-                    }
+                    <span class='kw'>let</span> _ <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Upsampler</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame</span>.<span class='ident'>components</span>, <span class='ident'>frame</span>.<span class='ident'>image_size</span>.<span class='ident'>width</span>, <span class='ident'>frame</span>.<span class='ident'>image_size</span>.<span class='ident'>height</span>));
 
                     <span class='self'>self</span>.<span class='ident'>frame</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>);
 
@@ -1084,6 +1148,13 @@
 
                     <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>clone</span>().<span class='ident'>unwrap</span>();
                     <span class='kw'>let</span> <span class='ident'>scan</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>parse_sos</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>reader</span>, <span class='kw-2'>&amp;</span><span class='ident'>frame</span>));
+
+                    <span class='kw'>if</span> <span class='ident'>frame</span>.<span class='ident'>coding_process</span> <span class='op'>==</span> <span class='ident'>CodingProcess</span>::<span class='ident'>DctProgressive</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>coefficients</span>.<span class='ident'>is_empty</span>() {
+                        <span class='self'>self</span>.<span class='ident'>coefficients</span> <span class='op'>=</span> <span class='ident'>frame</span>.<span class='ident'>components</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> {
+                            <span class='kw'>let</span> <span class='ident'>block_count</span> <span class='op'>=</span> <span class='ident'>c</span>.<span class='ident'>block_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>c</span>.<span class='ident'>block_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
+                            <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='ident'>block_count</span> <span class='op'>*</span> <span class='number'>64</span>]
+                        }).<span class='ident'>collect</span>();
+                    }
 
                     <span class='kw'>if</span> <span class='ident'>scan</span>.<span class='ident'>successive_approximation_low</span> <span class='op'>==</span> <span class='number'>0</span> {
                         <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='ident'>i</span> <span class='kw'>in</span> <span class='ident'>scan</span>.<span class='ident'>component_indices</span>.<span class='ident'>iter</span>() {
@@ -1168,6 +1239,14 @@
                                 <span class='self'>self</span>.<span class='ident'>is_jfif</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                             },
                         }
+                    }
+                },
+                <span class='comment'>// Restart</span>
+                <span class='ident'>Marker</span>::<span class='ident'>RST</span>(..) <span class='op'>=&gt;</span> {
+                    <span class='comment'>// Some encoders emit a final RST marker after entropy-coded data, which</span>
+                    <span class='comment'>// decode_scan does not take care of. So if we encounter one, we ignore it.</span>
+                    <span class='kw'>if</span> <span class='ident'>previous_marker</span> <span class='op'>!=</span> <span class='ident'>Marker</span>::<span class='ident'>SOS</span> {
+                        <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Format</span>(<span class='string'>&quot;RST found outside of entropy-coded data&quot;</span>.<span class='ident'>to_owned</span>()));
                     }
                 },
 
@@ -1320,16 +1399,15 @@
                         };
 
                         <span class='kw'>if</span> <span class='ident'>scan</span>.<span class='ident'>successive_approximation_high</span> <span class='op'>==</span> <span class='number'>0</span> {
-                            <span class='kw'>let</span> <span class='ident'>dc_diff</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>decode_block</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>reader</span>,
-                                                            <span class='ident'>coefficients</span>,
-                                                            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>huffman</span>,
-                                                            <span class='self'>self</span>.<span class='ident'>dc_huffman_tables</span>[<span class='ident'>scan</span>.<span class='ident'>dc_table_indices</span>[<span class='ident'>i</span>]].<span class='ident'>as_ref</span>(),
-                                                            <span class='self'>self</span>.<span class='ident'>ac_huffman_tables</span>[<span class='ident'>scan</span>.<span class='ident'>ac_table_indices</span>[<span class='ident'>i</span>]].<span class='ident'>as_ref</span>(),
-                                                            <span class='ident'>scan</span>.<span class='ident'>spectral_selection</span>.<span class='ident'>clone</span>(),
-                                                            <span class='ident'>scan</span>.<span class='ident'>successive_approximation_low</span>,
-                                                            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>eob_run</span>,
-                                                            <span class='ident'>dc_predictors</span>[<span class='ident'>i</span>]));
-                            <span class='ident'>dc_predictors</span>[<span class='ident'>i</span>] <span class='op'>+=</span> <span class='ident'>dc_diff</span>;
+                            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>decode_block</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>reader</span>,
+                                              <span class='ident'>coefficients</span>,
+                                              <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>huffman</span>,
+                                              <span class='self'>self</span>.<span class='ident'>dc_huffman_tables</span>[<span class='ident'>scan</span>.<span class='ident'>dc_table_indices</span>[<span class='ident'>i</span>]].<span class='ident'>as_ref</span>(),
+                                              <span class='self'>self</span>.<span class='ident'>ac_huffman_tables</span>[<span class='ident'>scan</span>.<span class='ident'>ac_table_indices</span>[<span class='ident'>i</span>]].<span class='ident'>as_ref</span>(),
+                                              <span class='ident'>scan</span>.<span class='ident'>spectral_selection</span>.<span class='ident'>clone</span>(),
+                                              <span class='ident'>scan</span>.<span class='ident'>successive_approximation_low</span>,
+                                              <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>eob_run</span>,
+                                              <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>dc_predictors</span>[<span class='ident'>i</span>]));
                         }
                         <span class='kw'>else</span> {
                             <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>decode_block_successive_approximation</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>reader</span>,
@@ -1348,29 +1426,24 @@
                     <span class='ident'>mcus_left_until_restart</span> <span class='op'>-=</span> <span class='number'>1</span>;
 
                     <span class='kw'>if</span> <span class='ident'>mcus_left_until_restart</span> <span class='op'>==</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>is_last_mcu</span> {
-                        <span class='kw'>match</span> <span class='ident'>huffman</span>.<span class='ident'>take_marker</span>() {
-                            <span class='prelude-val'>Some</span>(<span class='ident'>marker</span>) <span class='op'>=&gt;</span> {
-                                <span class='kw'>match</span> <span class='ident'>marker</span> {
-                                    <span class='ident'>Marker</span>::<span class='ident'>RST</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> {
-                                        <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>!=</span> <span class='ident'>expected_rst_num</span> {
-                                            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Format</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;found RST {:?} where {:?} was expected&quot;</span>, <span class='ident'>n</span>, <span class='ident'>expected_rst_num</span>)));
-                                        }
-
-                                        <span class='ident'>expected_rst_num</span> <span class='op'>=</span> (<span class='ident'>expected_rst_num</span> <span class='op'>+</span> <span class='number'>1</span>) <span class='op'>%</span> <span class='number'>8</span>;
-                                    },
-                                    _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Format</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;found marker {:?} inside scan where RST was expected&quot;</span>, <span class='ident'>marker</span>))),
+                        <span class='kw'>match</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>huffman</span>.<span class='ident'>take_marker</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>reader</span>)) {
+                            <span class='prelude-val'>Some</span>(<span class='ident'>Marker</span>::<span class='ident'>RST</span>(<span class='ident'>n</span>)) <span class='op'>=&gt;</span> {
+                                <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>!=</span> <span class='ident'>expected_rst_num</span> {
+                                    <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Format</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;found RST{} where RST{} was expected&quot;</span>, <span class='ident'>n</span>, <span class='ident'>expected_rst_num</span>)));
                                 }
+
+                                <span class='ident'>huffman</span>.<span class='ident'>reset</span>();
+                                <span class='comment'>// Section F.2.1.3.1</span>
+                                <span class='ident'>dc_predictors</span> <span class='op'>=</span> [<span class='number'>0i16</span>; <span class='ident'>MAX_COMPONENTS</span>];
+                                <span class='comment'>// Section G.1.2.2</span>
+                                <span class='ident'>eob_run</span> <span class='op'>=</span> <span class='number'>0</span>;
+
+                                <span class='ident'>expected_rst_num</span> <span class='op'>=</span> (<span class='ident'>expected_rst_num</span> <span class='op'>+</span> <span class='number'>1</span>) <span class='op'>%</span> <span class='number'>8</span>;
+                                <span class='ident'>mcus_left_until_restart</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>restart_interval</span>;
                             },
-                            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Format</span>(<span class='string'>&quot;no marker found where RST was expected&quot;</span>.<span class='ident'>to_owned</span>())),
+                            <span class='prelude-val'>Some</span>(<span class='ident'>marker</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Format</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;found marker {:?} inside scan where RST{} was expected&quot;</span>, <span class='ident'>marker</span>, <span class='ident'>expected_rst_num</span>))),
+                            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Format</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;no marker found where RST{} was expected&quot;</span>, <span class='ident'>expected_rst_num</span>))),
                         }
-
-                        <span class='ident'>huffman</span>.<span class='ident'>reset</span>();
-                        <span class='comment'>// Section F.2.1.3.1</span>
-                        <span class='ident'>dc_predictors</span> <span class='op'>=</span> [<span class='number'>0i16</span>; <span class='ident'>MAX_COMPONENTS</span>];
-                        <span class='comment'>// Section G.1.2.2</span>
-                        <span class='ident'>eob_run</span> <span class='op'>=</span> <span class='number'>0</span>;
-
-                        <span class='ident'>mcus_left_until_restart</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>restart_interval</span>;
                     }
                 }
             }
@@ -1392,6 +1465,8 @@
             }
         }
 
+        <span class='kw'>let</span> <span class='ident'>marker</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>huffman</span>.<span class='ident'>take_marker</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>reader</span>));
+
         <span class='kw'>if</span> <span class='ident'>produce_data</span> {
             <span class='comment'>// Retrieve all the data from the worker thread.</span>
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Vec</span>::<span class='ident'>new</span>(); <span class='ident'>frame</span>.<span class='ident'>components</span>.<span class='ident'>len</span>()];
@@ -1403,10 +1478,10 @@
                 <span class='ident'>data</span>[<span class='ident'>component_index</span>] <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>rx</span>.<span class='ident'>recv</span>());
             }
 
-            <span class='prelude-val'>Ok</span>((<span class='ident'>huffman</span>.<span class='ident'>take_marker</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>data</span>)))
+            <span class='prelude-val'>Ok</span>((<span class='ident'>marker</span>, <span class='prelude-val'>Some</span>(<span class='ident'>data</span>)))
         }
         <span class='kw'>else</span> {
-            <span class='prelude-val'>Ok</span>((<span class='ident'>huffman</span>.<span class='ident'>take_marker</span>(), <span class='prelude-val'>None</span>))
+            <span class='prelude-val'>Ok</span>((<span class='ident'>marker</span>, <span class='prelude-val'>None</span>))
         }
     }
 }
@@ -1419,10 +1494,8 @@
                          <span class='ident'>spectral_selection</span>: <span class='ident'>Range</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
                          <span class='ident'>successive_approximation_low</span>: <span class='ident'>u8</span>,
                          <span class='ident'>eob_run</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>u16</span>,
-                         <span class='ident'>dc_predictor</span>: <span class='ident'>i16</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>i16</span><span class='op'>&gt;</span> {
+                         <span class='ident'>dc_predictor</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>i16</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
     <span class='macro'>debug_assert_eq</span><span class='macro'>!</span>(<span class='ident'>coefficients</span>.<span class='ident'>len</span>(), <span class='number'>64</span>);
-
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dc_diff</span> <span class='op'>=</span> <span class='number'>0</span>;
 
     <span class='kw'>if</span> <span class='ident'>spectral_selection</span>.<span class='ident'>start</span> <span class='op'>==</span> <span class='number'>0</span> {
         <span class='comment'>// Section F.2.2.1</span>
@@ -1441,15 +1514,17 @@
             },
         };
 
-        <span class='ident'>coefficients</span>[<span class='number'>0</span>] <span class='op'>=</span> (<span class='ident'>dc_predictor</span> <span class='op'>+</span> <span class='ident'>diff</span>) <span class='op'>&lt;&lt;</span> <span class='ident'>successive_approximation_low</span>;
-        <span class='ident'>dc_diff</span> <span class='op'>=</span> <span class='ident'>diff</span>;
+        <span class='comment'>// Malicious JPEG files can cause this add to overflow, therefore we use wrapping_add.</span>
+        <span class='comment'>// One example of such a file is tests/crashtest/images/dc-predictor-overflow.jpg</span>
+        <span class='op'>*</span><span class='ident'>dc_predictor</span> <span class='op'>=</span> <span class='ident'>dc_predictor</span>.<span class='ident'>wrapping_add</span>(<span class='ident'>diff</span>);
+        <span class='ident'>coefficients</span>[<span class='number'>0</span>] <span class='op'>=</span> <span class='op'>*</span><span class='ident'>dc_predictor</span> <span class='op'>&lt;&lt;</span> <span class='ident'>successive_approximation_low</span>;
     }
 
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='ident'>cmp</span>::<span class='ident'>max</span>(<span class='ident'>spectral_selection</span>.<span class='ident'>start</span>, <span class='number'>1</span>);
 
     <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&lt;</span> <span class='ident'>spectral_selection</span>.<span class='ident'>end</span> <span class='op'>&amp;&amp;</span> <span class='op'>*</span><span class='ident'>eob_run</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
         <span class='op'>*</span><span class='ident'>eob_run</span> <span class='op'>-=</span> <span class='number'>1</span>;
-        <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>dc_diff</span>);
+        <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(());
     }
 
     <span class='comment'>// Section F.1.2.2.1</span>
@@ -1496,7 +1571,7 @@
         }
     }
 
-    <span class='prelude-val'>Ok</span>(<span class='ident'>dc_diff</span>)
+    <span class='prelude-val'>Ok</span>(())
 }
 
 <span class='kw'>fn</span> <span class='ident'>decode_block_successive_approximation</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span>(<span class='ident'>reader</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>R</span>,
@@ -1647,23 +1722,56 @@
         <span class='prelude-val'>Ok</span>(<span class='ident'>buffer</span>)
     }
     <span class='kw'>else</span> {
-        <span class='kw'>let</span> <span class='ident'>color_convert_func</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>choose_color_convert_func</span>(<span class='ident'>components</span>.<span class='ident'>len</span>(), <span class='ident'>is_jfif</span>, <span class='ident'>color_transform</span>));
-        <span class='kw'>let</span> <span class='ident'>resampler</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Resampler</span>::<span class='ident'>new</span>(<span class='ident'>components</span>));
-        <span class='kw'>let</span> <span class='ident'>line_size</span> <span class='op'>=</span> <span class='ident'>output_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>components</span>.<span class='ident'>len</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>image</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0u8</span>; <span class='ident'>line_size</span> <span class='op'>*</span> <span class='ident'>output_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>usize</span>];
-
-        <span class='ident'>image</span>.<span class='ident'>chunks_mut</span>(<span class='ident'>line_size</span>)
-             .<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]<span class='op'>&gt;&gt;</span>()
-             .<span class='ident'>par_iter_mut</span>()
-             .<span class='ident'>weight_max</span>()
-             .<span class='ident'>enumerate</span>()
-             .<span class='ident'>for_each</span>(<span class='op'>|</span>(<span class='ident'>row</span>, <span class='ident'>line</span>)<span class='op'>|</span> {
-                 <span class='ident'>resampler</span>.<span class='ident'>resample_and_interleave_row</span>(<span class='ident'>data</span>, <span class='ident'>row</span>, <span class='ident'>output_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span>, <span class='op'>*</span><span class='ident'>line</span>);
-                 <span class='ident'>color_convert_func</span>(<span class='op'>*</span><span class='ident'>line</span>, <span class='ident'>output_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
-             });
-
-        <span class='prelude-val'>Ok</span>(<span class='ident'>image</span>)
+        <span class='ident'>compute_image_parallel</span>(<span class='ident'>components</span>, <span class='ident'>data</span>, <span class='ident'>output_size</span>, <span class='ident'>is_jfif</span>, <span class='ident'>color_transform</span>)
     }
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span><span class='op'>=</span><span class='string'>&quot;rayon&quot;</span>)]</span>
+<span class='kw'>fn</span> <span class='ident'>compute_image_parallel</span>(<span class='ident'>components</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Component</span>],
+                 <span class='ident'>data</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>],
+                 <span class='ident'>output_size</span>: <span class='ident'>Dimensions</span>,
+                 <span class='ident'>is_jfif</span>: <span class='ident'>bool</span>,
+                 <span class='ident'>color_transform</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>AdobeColorTransform</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span> {
+    <span class='kw'>use</span> <span class='ident'>rayon</span>::<span class='ident'>par_iter</span>::<span class='op'>*</span>;
+
+    <span class='kw'>let</span> <span class='ident'>color_convert_func</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>choose_color_convert_func</span>(<span class='ident'>components</span>.<span class='ident'>len</span>(), <span class='ident'>is_jfif</span>, <span class='ident'>color_transform</span>));
+    <span class='kw'>let</span> <span class='ident'>upsampler</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Upsampler</span>::<span class='ident'>new</span>(<span class='ident'>components</span>, <span class='ident'>output_size</span>.<span class='ident'>width</span>, <span class='ident'>output_size</span>.<span class='ident'>height</span>));
+    <span class='kw'>let</span> <span class='ident'>line_size</span> <span class='op'>=</span> <span class='ident'>output_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>components</span>.<span class='ident'>len</span>();
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>image</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0u8</span>; <span class='ident'>line_size</span> <span class='op'>*</span> <span class='ident'>output_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>usize</span>];
+
+    <span class='ident'>image</span>.<span class='ident'>chunks_mut</span>(<span class='ident'>line_size</span>)
+         .<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]<span class='op'>&gt;&gt;</span>()
+         .<span class='ident'>par_iter_mut</span>()
+         .<span class='ident'>weight_max</span>()
+         .<span class='ident'>enumerate</span>()
+         .<span class='ident'>for_each</span>(<span class='op'>|</span>(<span class='ident'>row</span>, <span class='ident'>line</span>)<span class='op'>|</span> {
+             <span class='ident'>upsampler</span>.<span class='ident'>upsample_and_interleave_row</span>(<span class='ident'>data</span>, <span class='ident'>row</span>, <span class='ident'>output_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span>, <span class='op'>*</span><span class='ident'>line</span>);
+             <span class='ident'>color_convert_func</span>(<span class='op'>*</span><span class='ident'>line</span>, <span class='ident'>output_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
+         });
+
+    <span class='prelude-val'>Ok</span>(<span class='ident'>image</span>)
+ }
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span><span class='op'>=</span><span class='string'>&quot;rayon&quot;</span>))]</span>
+<span class='kw'>fn</span> <span class='ident'>compute_image_parallel</span>(<span class='ident'>components</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Component</span>],
+                 <span class='ident'>data</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>],
+                 <span class='ident'>output_size</span>: <span class='ident'>Dimensions</span>,
+                 <span class='ident'>is_jfif</span>: <span class='ident'>bool</span>,
+                 <span class='ident'>color_transform</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>AdobeColorTransform</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span> {
+    <span class='kw'>let</span> <span class='ident'>color_convert_func</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>choose_color_convert_func</span>(<span class='ident'>components</span>.<span class='ident'>len</span>(), <span class='ident'>is_jfif</span>, <span class='ident'>color_transform</span>));
+    <span class='kw'>let</span> <span class='ident'>upsampler</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Upsampler</span>::<span class='ident'>new</span>(<span class='ident'>components</span>, <span class='ident'>output_size</span>.<span class='ident'>width</span>, <span class='ident'>output_size</span>.<span class='ident'>height</span>));
+    <span class='kw'>let</span> <span class='ident'>line_size</span> <span class='op'>=</span> <span class='ident'>output_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>components</span>.<span class='ident'>len</span>();
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>image</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0u8</span>; <span class='ident'>line_size</span> <span class='op'>*</span> <span class='ident'>output_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>usize</span>];
+
+    <span class='kw'>for</span> (<span class='ident'>row</span>, <span class='ident'>line</span>) <span class='kw'>in</span> <span class='ident'>image</span>.<span class='ident'>chunks_mut</span>(<span class='ident'>line_size</span>)
+         .<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]<span class='op'>&gt;&gt;</span>()
+         .<span class='ident'>iter_mut</span>()
+         .<span class='ident'>enumerate</span>() {
+             <span class='ident'>upsampler</span>.<span class='ident'>upsample_and_interleave_row</span>(<span class='ident'>data</span>, <span class='ident'>row</span>, <span class='ident'>output_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span>, <span class='op'>*</span><span class='ident'>line</span>);
+             <span class='ident'>color_convert_func</span>(<span class='op'>*</span><span class='ident'>line</span>, <span class='ident'>output_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
+         }
+
+    <span class='prelude-val'>Ok</span>(<span class='ident'>image</span>)
 }
 
 <span class='kw'>fn</span> <span class='ident'>choose_color_convert_func</span>(<span class='ident'>component_count</span>: <span class='ident'>usize</span>,
@@ -1804,11 +1912,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "jpeg_decoder";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>
