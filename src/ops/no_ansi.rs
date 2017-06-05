@@ -18,7 +18,7 @@ mod imports {
 pub fn write_no_ansi(img: &DynamicImage) {
     let (width, height) = img.dimensions();
     let term_h = height / 2;
-    print!("{}", mul_str(&format!("{}\n", mul_str("\u{2580}", width as usize)), term_h as usize));  // ▀
+    print!("{}", mul_str(&format!("{}\n", mul_str("\u{2580}", width as usize)), term_h as usize)); // ▀
 
     let console_h = unsafe { GetStdHandle(STD_OUTPUT_HANDLE) };
     let mut console_info = CONSOLE_SCREEN_BUFFER_INFOEX {

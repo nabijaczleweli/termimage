@@ -92,6 +92,9 @@ pub static ANSI_COLOUR_ESCAPES: &'static [&'static str] = &["\x1B[0;30m",
 /// ANSI background colour escapes.
 pub static ANSI_BG_COLOUR_ESCAPES: &'static [&'static str] = &["\x1B[40m", "\x1B[41m", "\x1B[42m", "\x1B[43m", "\x1B[44m", "\x1B[45m", "\x1B[46m", "\x1B[47m"];
 
+/// Reset ANSI attributes
+pub static ANSI_RESET_ATTRIBUTES: &str = "\x1B[0m";
+
 
 /// Create a string consisting of `n` repetitions of `what`.
 ///

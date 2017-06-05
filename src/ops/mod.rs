@@ -6,8 +6,8 @@
 //! and display it with `write_[no_]ansi[_truecolor]()`,
 //! or display it yourself with approximations from `create_colourtable()`.
 
-use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_COLOUR_ESCAPES, ANSI_BG_COLOURS, ANSI_COLOURS, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC, GIF_MAGIC, PNG_MAGIC,
-                        closest_colour};
+use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_RESET_ATTRIBUTES, ANSI_COLOUR_ESCAPES, ANSI_BG_COLOURS, ANSI_COLOURS, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC,
+                        GIF_MAGIC, PNG_MAGIC, closest_colour};
 use image::{self, GenericImage, DynamicImage, ImageFormat, FilterType, Pixel};
 use std::io::{BufReader, Write, Read};
 use self::super::Error;
@@ -176,6 +176,7 @@ pub fn write_ansi<W: Write>(out: &mut W, img: &DynamicImage) {
         }
         writeln!(out, "{}{}", ANSI_COLOUR_ESCAPES[15], ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
     }
+    write!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
 }
 
 /// Display the specified image in the default console using ANSI 24-bit escape colour codes.
@@ -204,4 +205,5 @@ pub fn write_ansi_truecolor<W: Write>(out: &mut W, img: &DynamicImage) {
         }
         writeln!(out, "{}", ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
     }
+    write!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
 }
