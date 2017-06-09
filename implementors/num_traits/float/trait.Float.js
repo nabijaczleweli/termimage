@@ -1,5 +1,8 @@
 (function() {var implementors = {};
-implementors["num_traits"] = [];implementors["enum_primitive"] = [];implementors["image"] = [];implementors["termimage"] = [];
+implementors["enum_primitive"] = [];
+implementors["image"] = [];
+implementors["num_traits"] = [];
+implementors["termimage"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

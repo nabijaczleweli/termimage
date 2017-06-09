@@ -9,6 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -192,156 +193,156 @@
 <span id="148">148</span>
 <span id="149">149</span>
 <span id="150">150</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! This crate provides native rust implementations of</span>
-<span class='doccomment'>//! image encoders and decoders and basic image manipulation</span>
-<span class='doccomment'>//! functions.</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! This crate provides native rust implementations of</span>
+<span class="doccomment">//! image encoders and decoders and basic image manipulation</span>
+<span class="doccomment">//! functions.</span>
 
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>unused_qualifications</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>missing_copy_implementations</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>all</span>(<span class='ident'>test</span>, <span class='ident'>benchmarks</span>), <span class='ident'>feature</span>(<span class='ident'>test</span>))]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">warn</span>(<span class="ident">unused_qualifications</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">deny</span>(<span class="ident">missing_copy_implementations</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">cfg_attr</span>(<span class="ident">all</span>(<span class="ident">test</span>, <span class="ident">benchmarks</span>), <span class="ident">feature</span>(<span class="ident">test</span>))]</span>
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>byteorder</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_iter</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_rational</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_traits</span>;
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>enum_primitive</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>test</span>, <span class='ident'>benchmarks</span>))]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>test</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">byteorder</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_iter</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_rational</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_traits</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">enum_primitive</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">test</span>, <span class="ident">benchmarks</span>))]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test</span>;
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Write</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>color</span>::<span class='ident'>ColorType</span>::{
-    <span class='self'>self</span>,
-    <span class='ident'>Gray</span>,
-    <span class='ident'>RGB</span>,
-    <span class='ident'>Palette</span>,
-    <span class='ident'>GrayA</span>,
-    <span class='ident'>RGBA</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::{
+    <span class="self">self</span>,
+    <span class="ident">Gray</span>,
+    <span class="ident">RGB</span>,
+    <span class="ident">Palette</span>,
+    <span class="ident">GrayA</span>,
+    <span class="ident">RGBA</span>
 };
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>color</span>::{
-    <span class='ident'>Luma</span>,
-    <span class='ident'>LumaA</span>,
-    <span class='ident'>Rgb</span>,
-    <span class='ident'>Rgba</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">color</span>::{
+    <span class="ident">Luma</span>,
+    <span class="ident">LumaA</span>,
+    <span class="ident">Rgb</span>,
+    <span class="ident">Rgba</span>
 };
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{
-    <span class='ident'>ImageDecoder</span>,
-    <span class='ident'>ImageError</span>,
-    <span class='ident'>ImageResult</span>,
-    <span class='ident'>DecodingResult</span>,
-    <span class='ident'>SubImage</span>,
-    <span class='ident'>GenericImage</span>,
-    <span class='comment'>// Iterators</span>
-    <span class='ident'>Pixels</span>,
-    <span class='ident'>MutPixels</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">image</span>::{
+    <span class="ident">ImageDecoder</span>,
+    <span class="ident">ImageError</span>,
+    <span class="ident">ImageResult</span>,
+    <span class="ident">DecodingResult</span>,
+    <span class="ident">SubImage</span>,
+    <span class="ident">GenericImage</span>,
+    <span class="comment">// Iterators</span>
+    <span class="ident">Pixels</span>,
+    <span class="ident">MutPixels</span>
 };
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>imageops</span>::<span class='ident'>FilterType</span>::{
-    <span class='self'>self</span>,
-    <span class='ident'>Triangle</span>,
-    <span class='ident'>Nearest</span>,
-    <span class='ident'>CatmullRom</span>,
-    <span class='ident'>Gaussian</span>,
-    <span class='ident'>Lanczos3</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">imageops</span>::<span class="ident">FilterType</span>::{
+    <span class="self">self</span>,
+    <span class="ident">Triangle</span>,
+    <span class="ident">Nearest</span>,
+    <span class="ident">CatmullRom</span>,
+    <span class="ident">Gaussian</span>,
+    <span class="ident">Lanczos3</span>
 };
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::{
-    <span class='self'>self</span>,
-    <span class='ident'>PNG</span>,
-    <span class='ident'>JPEG</span>,
-    <span class='ident'>GIF</span>,
-    <span class='ident'>WEBP</span>,
-    <span class='ident'>PPM</span>,
-    <span class='ident'>BMP</span>,
-    <span class='ident'>ICO</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::{
+    <span class="self">self</span>,
+    <span class="ident">PNG</span>,
+    <span class="ident">JPEG</span>,
+    <span class="ident">GIF</span>,
+    <span class="ident">WEBP</span>,
+    <span class="ident">PPM</span>,
+    <span class="ident">BMP</span>,
+    <span class="ident">ICO</span>
 };
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>buffer</span>::{
-    <span class='ident'>Pixel</span>,
-    <span class='ident'>ConvertBuffer</span>,
-    <span class='comment'>// Image types</span>
-    <span class='ident'>ImageBuffer</span>,
-    <span class='ident'>RgbImage</span>,
-    <span class='ident'>RgbaImage</span>,
-    <span class='ident'>GrayImage</span>,
-    <span class='ident'>GrayAlphaImage</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">buffer</span>::{
+    <span class="ident">Pixel</span>,
+    <span class="ident">ConvertBuffer</span>,
+    <span class="comment">// Image types</span>
+    <span class="ident">ImageBuffer</span>,
+    <span class="ident">RgbImage</span>,
+    <span class="ident">RgbaImage</span>,
+    <span class="ident">GrayImage</span>,
+    <span class="ident">GrayAlphaImage</span>
 };
 
-<span class='comment'>// Traits</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>traits</span>::<span class='ident'>Primitive</span>;
+<span class="comment">// Traits</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">traits</span>::<span class="ident">Primitive</span>;
 
-<span class='comment'>// Opening and loading images</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dynimage</span>::{
-    <span class='ident'>open</span>,
-    <span class='ident'>load</span>,
-    <span class='ident'>load_from_memory</span>,
-    <span class='ident'>load_from_memory_with_format</span>,
-    <span class='ident'>guess_format</span>,
-    <span class='ident'>save_buffer</span>
+<span class="comment">// Opening and loading images</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dynimage</span>::{
+    <span class="ident">open</span>,
+    <span class="ident">load</span>,
+    <span class="ident">load_from_memory</span>,
+    <span class="ident">load_from_memory_with_format</span>,
+    <span class="ident">guess_format</span>,
+    <span class="ident">save_buffer</span>
 };
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dynimage</span>::<span class='ident'>DynamicImage</span>::{
-    <span class='self'>self</span>,
-    <span class='ident'>ImageRgb8</span>,
-    <span class='ident'>ImageRgba8</span>,
-    <span class='ident'>ImageLuma8</span>,
-    <span class='ident'>ImageLumaA8</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dynimage</span>::<span class="ident">DynamicImage</span>::{
+    <span class="self">self</span>,
+    <span class="ident">ImageRgb8</span>,
+    <span class="ident">ImageRgba8</span>,
+    <span class="ident">ImageLuma8</span>,
+    <span class="ident">ImageLumaA8</span>
 };
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>animation</span>::{
-    <span class='ident'>Frame</span>,
-    <span class='ident'>Frames</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">animation</span>::{
+    <span class="ident">Frame</span>,
+    <span class="ident">Frames</span>
 };
 
-<span class='comment'>// Math utils</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>math</span>;
+<span class="comment">// Math utils</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">math</span>;
 
-<span class='comment'>// Image processing functions</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>imageops</span>;
+<span class="comment">// Image processing functions</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">imageops</span>;
 
-<span class='comment'>// Image codecs</span>
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;webp&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>webp</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ppm&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ppm</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;png_codec&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>png</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ico&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ico</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;jpeg&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>jpeg</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;gif_codec&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>gif</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;tiff&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>tiff</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;tga&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>tga</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;bmp&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bmp</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;hdr&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>hdr</span>;
+<span class="comment">// Image codecs</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;webp&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">webp</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ppm&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ppm</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png_codec&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">png</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ico</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;jpeg&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">jpeg</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;gif_codec&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gif</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tiff&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tiff</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tga&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tga</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bmp&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bmp</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;hdr&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hdr</span>;
 
-<span class='kw'>mod</span> <span class='ident'>image</span>;
-<span class='kw'>mod</span> <span class='ident'>utils</span>;
-<span class='kw'>mod</span> <span class='ident'>dynimage</span>;
-<span class='kw'>mod</span> <span class='ident'>color</span>;
-<span class='kw'>mod</span> <span class='ident'>buffer</span>;
-<span class='kw'>mod</span> <span class='ident'>traits</span>;
-<span class='kw'>mod</span> <span class='ident'>animation</span>;
+<span class="kw">mod</span> <span class="ident">image</span>;
+<span class="kw">mod</span> <span class="ident">utils</span>;
+<span class="kw">mod</span> <span class="ident">dynimage</span>;
+<span class="kw">mod</span> <span class="ident">color</span>;
+<span class="kw">mod</span> <span class="ident">buffer</span>;
+<span class="kw">mod</span> <span class="ident">traits</span>;
+<span class="kw">mod</span> <span class="ident">animation</span>;
 
-<span class='comment'>// Copies data from `src` to `dst`</span>
-<span class='comment'>//</span>
-<span class='comment'>// Panics if the length of `dst` is less than the length of `src`.</span>
-<span class='attribute'>#[<span class='ident'>inline</span>]</span>
-<span class='kw'>fn</span> <span class='ident'>copy_memory</span>(<span class='ident'>src</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='kw-2'>mut</span> <span class='ident'>dst</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) {
-    <span class='kw'>let</span> <span class='ident'>len_src</span> <span class='op'>=</span> <span class='ident'>src</span>.<span class='ident'>len</span>();
-    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>dst</span>.<span class='ident'>len</span>() <span class='op'>&gt;=</span> <span class='ident'>len_src</span>);
-    <span class='ident'>dst</span>.<span class='ident'>write</span>(<span class='ident'>src</span>).<span class='ident'>unwrap</span>();
+<span class="comment">// Copies data from `src` to `dst`</span>
+<span class="comment">//</span>
+<span class="comment">// Panics if the length of `dst` is less than the length of `src`.</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">fn</span> <span class="ident">copy_memory</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="kw-2">mut</span> <span class="ident">dst</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+    <span class="kw">let</span> <span class="ident">len_src</span> <span class="op">=</span> <span class="ident">src</span>.<span class="ident">len</span>();
+    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">dst</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="ident">len_src</span>);
+    <span class="ident">dst</span>.<span class="ident">write</span>(<span class="ident">src</span>).<span class="ident">unwrap</span>();
 }
 </pre>
 </section>

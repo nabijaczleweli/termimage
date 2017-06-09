@@ -9,6 +9,7 @@
 
     <title>entropy.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -103,67 +104,67 @@
 <span id="59">59</span>
 <span id="60">60</span>
 <span id="61">61</span>
-</pre><pre class='rust '>
-<span class='doccomment'>/// Given an array containing the number of codes of each code length,</span>
-<span class='doccomment'>/// this function generates the huffman codes lengths and their respective</span>
-<span class='doccomment'>/// code lengths as specified by the JPEG spec.</span>
-<span class='kw'>fn</span> <span class='ident'>derive_codes_and_sizes</span>(<span class='ident'>bits</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> (<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u16</span><span class='op'>&gt;</span>) {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>huffsize</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0u8</span>; <span class='number'>256</span>];
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>huffcode</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0u16</span>; <span class='number'>256</span>];
+</pre><pre class="rust ">
+<span class="doccomment">/// Given an array containing the number of codes of each code length,</span>
+<span class="doccomment">/// this function generates the huffman codes lengths and their respective</span>
+<span class="doccomment">/// code lengths as specified by the JPEG spec.</span>
+<span class="kw">fn</span> <span class="ident">derive_codes_and_sizes</span>(<span class="ident">bits</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>) {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">huffsize</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0u8</span>; <span class="number">256</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">huffcode</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0u16</span>; <span class="number">256</span>];
 
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>k</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>j</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">k</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">j</span>;
 
-    <span class='comment'>// Annex C.2</span>
-    <span class='comment'>// Figure C.1</span>
-    <span class='comment'>// Generate table of individual code lengths</span>
-    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0usize</span>..<span class='number'>16</span> {
-        <span class='ident'>j</span> <span class='op'>=</span> <span class='number'>0</span>;
+    <span class="comment">// Annex C.2</span>
+    <span class="comment">// Figure C.1</span>
+    <span class="comment">// Generate table of individual code lengths</span>
+    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0usize</span>..<span class="number">16</span> {
+        <span class="ident">j</span> <span class="op">=</span> <span class="number">0</span>;
 
-        <span class='kw'>while</span> <span class='ident'>j</span> <span class='op'>&lt;</span> <span class='ident'>bits</span>[<span class='ident'>i</span>] {
-            <span class='ident'>huffsize</span>[<span class='ident'>k</span>] <span class='op'>=</span> <span class='ident'>i</span> <span class='kw'>as</span> <span class='ident'>u8</span> <span class='op'>+</span> <span class='number'>1</span>;
-            <span class='ident'>k</span> <span class='op'>+=</span> <span class='number'>1</span>;
-            <span class='ident'>j</span> <span class='op'>+=</span> <span class='number'>1</span>;
+        <span class="kw">while</span> <span class="ident">j</span> <span class="op">&lt;</span> <span class="ident">bits</span>[<span class="ident">i</span>] {
+            <span class="ident">huffsize</span>[<span class="ident">k</span>] <span class="op">=</span> <span class="ident">i</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">+</span> <span class="number">1</span>;
+            <span class="ident">k</span> <span class="op">+=</span> <span class="number">1</span>;
+            <span class="ident">j</span> <span class="op">+=</span> <span class="number">1</span>;
         }
     }
 
-    <span class='ident'>huffsize</span>[<span class='ident'>k</span>] <span class='op'>=</span> <span class='number'>0</span>;
+    <span class="ident">huffsize</span>[<span class="ident">k</span>] <span class="op">=</span> <span class="number">0</span>;
 
-    <span class='comment'>// Annex C.2</span>
-    <span class='comment'>// Figure C.2</span>
-    <span class='comment'>// Generate table of huffman codes</span>
-    <span class='ident'>k</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>code</span> <span class='op'>=</span> <span class='number'>0u16</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>huffsize</span>[<span class='number'>0</span>];
+    <span class="comment">// Annex C.2</span>
+    <span class="comment">// Figure C.2</span>
+    <span class="comment">// Generate table of huffman codes</span>
+    <span class="ident">k</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">code</span> <span class="op">=</span> <span class="number">0u16</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">huffsize</span>[<span class="number">0</span>];
 
-    <span class='kw'>while</span> <span class='ident'>huffsize</span>[<span class='ident'>k</span>] <span class='op'>!=</span> <span class='number'>0</span> {
-        <span class='ident'>huffcode</span>[<span class='ident'>k</span>] <span class='op'>=</span> <span class='ident'>code</span>;
-        <span class='ident'>code</span> <span class='op'>+=</span> <span class='number'>1</span>;
-        <span class='ident'>k</span> <span class='op'>+=</span> <span class='number'>1</span>;
+    <span class="kw">while</span> <span class="ident">huffsize</span>[<span class="ident">k</span>] <span class="op">!=</span> <span class="number">0</span> {
+        <span class="ident">huffcode</span>[<span class="ident">k</span>] <span class="op">=</span> <span class="ident">code</span>;
+        <span class="ident">code</span> <span class="op">+=</span> <span class="number">1</span>;
+        <span class="ident">k</span> <span class="op">+=</span> <span class="number">1</span>;
 
-        <span class='kw'>if</span> <span class='ident'>huffsize</span>[<span class='ident'>k</span>] <span class='op'>==</span> <span class='ident'>size</span> {
-            <span class='kw'>continue</span>
+        <span class="kw">if</span> <span class="ident">huffsize</span>[<span class="ident">k</span>] <span class="op">==</span> <span class="ident">size</span> {
+            <span class="kw">continue</span>
         }
 
-        <span class='comment'>// FIXME there is something wrong with this code</span>
-        <span class='kw'>let</span> <span class='ident'>diff</span> <span class='op'>=</span> <span class='ident'>huffsize</span>[<span class='ident'>k</span>].<span class='ident'>wrapping_sub</span>(<span class='ident'>size</span>);
-        <span class='ident'>code</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>diff</span> <span class='op'>&lt;</span> <span class='number'>16</span>  { <span class='ident'>code</span> <span class='op'>&lt;&lt;</span> <span class='ident'>diff</span> <span class='kw'>as</span> <span class='ident'>usize</span> } <span class='kw'>else</span> { <span class='number'>0</span> };
+        <span class="comment">// FIXME there is something wrong with this code</span>
+        <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">huffsize</span>[<span class="ident">k</span>].<span class="ident">wrapping_sub</span>(<span class="ident">size</span>);
+        <span class="ident">code</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">diff</span> <span class="op">&lt;</span> <span class="number">16</span>  { <span class="ident">code</span> <span class="op">&lt;&lt;</span> <span class="ident">diff</span> <span class="kw">as</span> <span class="ident">usize</span> } <span class="kw">else</span> { <span class="number">0</span> };
         
-        <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>size</span>.<span class='ident'>wrapping_add</span>(<span class='ident'>diff</span>);
+        <span class="ident">size</span> <span class="op">=</span> <span class="ident">size</span>.<span class="ident">wrapping_add</span>(<span class="ident">diff</span>);
     }
 
-    (<span class='ident'>huffsize</span>, <span class='ident'>huffcode</span>)
+    (<span class="ident">huffsize</span>, <span class="ident">huffcode</span>)
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build_huff_lut</span>(<span class='ident'>bits</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>huffval</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>u8</span>, <span class='ident'>u16</span>)<span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>lut</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='number'>17u8</span>, <span class='number'>0u16</span>); <span class='number'>256</span>];
-    <span class='kw'>let</span> (<span class='ident'>huffsize</span>, <span class='ident'>huffcode</span>) <span class='op'>=</span> <span class='ident'>derive_codes_and_sizes</span>(<span class='ident'>bits</span>);
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build_huff_lut</span>(<span class="ident">bits</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">huffval</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u16</span>)<span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lut</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[(<span class="number">17u8</span>, <span class="number">0u16</span>); <span class="number">256</span>];
+    <span class="kw">let</span> (<span class="ident">huffsize</span>, <span class="ident">huffcode</span>) <span class="op">=</span> <span class="ident">derive_codes_and_sizes</span>(<span class="ident">bits</span>);
 
-    <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='kw-2'>&amp;</span><span class='ident'>v</span>) <span class='kw'>in</span> <span class='ident'>huffval</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
-        <span class='ident'>lut</span>[<span class='ident'>v</span> <span class='kw'>as</span> <span class='ident'>usize</span>] <span class='op'>=</span> (<span class='ident'>huffsize</span>[<span class='ident'>i</span>], <span class='ident'>huffcode</span>[<span class='ident'>i</span>]);
+    <span class="kw">for</span> (<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">v</span>) <span class="kw">in</span> <span class="ident">huffval</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+        <span class="ident">lut</span>[<span class="ident">v</span> <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">=</span> (<span class="ident">huffsize</span>[<span class="ident">i</span>], <span class="ident">huffcode</span>[<span class="ident">i</span>]);
     }
 
-    <span class='ident'>lut</span>
+    <span class="ident">lut</span>
 }
 </pre>
 </section>

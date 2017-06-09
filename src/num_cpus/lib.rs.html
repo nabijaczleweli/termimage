@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num_cpus-1.2.1/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num_cpus-1.5.1/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -223,187 +224,259 @@
 <span id="179">179</span>
 <span id="180">180</span>
 <span id="181">181</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Replaces the deprecated functionality of std::os::num_cpus.</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>test</span>, <span class='ident'>deny</span>(<span class='ident'>warnings</span>))]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>missing_docs</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>non_snake_case</span>)]</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! # num_cpus</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! A crate with utilities to determine the number of CPUs available on the</span>
+<span class="doccomment">//! current system.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Example</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! let cpus = num_cpus::get();</span>
+<span class="doccomment">//! ```</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">cfg_attr</span>(<span class="ident">test</span>, <span class="ident">deny</span>(<span class="ident">warnings</span>))]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>windows</span>))]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">windows</span>))]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class='doccomment'>/// Returns the number of CPUs of the current machine.</span>
-<span class='attribute'>#[<span class='ident'>inline</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='ident'>get_num_cpus</span>()
+<span class="doccomment">/// Returns the number of available CPUs of the current system.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Note</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This will check sched affinity on Linux.</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="ident">get_num_cpus</span>()
 }
 
-<span class='doccomment'>/// Returns the number of physical cores of the current machine.</span>
-<span class='doccomment'>/// If not possible on the particular architecture returns same as get() which</span>
-<span class='doccomment'>/// is the logical CPUs.</span>
-<span class='attribute'>#[<span class='ident'>inline</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_physical</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='ident'>get_num_physical_cpus</span>()
+<span class="doccomment">/// Returns the number of physical cores of the current system.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If not possible on the particular architecture, returns same as `get()`</span>
+<span class="doccomment">/// which is the logical CPUs.</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_physical</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="ident">get_num_physical_cpus</span>()
 }
 
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>))]</span>
-<span class='attribute'>#[<span class='ident'>inline</span>]</span>
-<span class='kw'>fn</span> <span class='ident'>get_num_physical_cpus</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='comment'>// Not implemented, fallback</span>
-    <span class='ident'>get_num_cpus</span>()
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">fn</span> <span class="ident">get_num_physical_cpus</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="comment">// Not implemented, fallback</span>
+    <span class="ident">get_num_cpus</span>()
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>)]</span>
-<span class='kw'>fn</span> <span class='ident'>get_num_physical_cpus</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>BufReader</span>;
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>BufRead</span>;
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashSet</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>)]</span>
+<span class="kw">fn</span> <span class="ident">get_num_physical_cpus</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">BufReader</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">BufRead</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>::<span class="ident">File</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashSet</span>;
 
-    <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='string'>&quot;/proc/cpuinfo&quot;</span>) {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>val</span>) <span class='op'>=&gt;</span> <span class='ident'>val</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> {<span class='kw'>return</span> <span class='ident'>get_num_cpus</span>()},
+    <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="string">&quot;/proc/cpuinfo&quot;</span>) {
+        <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=&gt;</span> <span class="ident">val</span>,
+        <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> {<span class="kw">return</span> <span class="ident">get_num_cpus</span>()},
     };
-    <span class='kw'>let</span> <span class='ident'>reader</span> <span class='op'>=</span> <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>file</span>);
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>set</span> <span class='op'>=</span> <span class='ident'>HashSet</span>::<span class='ident'>new</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>coreid</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>physid</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>chgcount</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>for</span> <span class='ident'>line</span> <span class='kw'>in</span> <span class='ident'>reader</span>.<span class='ident'>lines</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>result</span><span class='op'>|</span> <span class='ident'>result</span>.<span class='ident'>ok</span>()) {
-        <span class='kw'>let</span> <span class='ident'>parts</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>line</span>.<span class='ident'>split</span>(<span class='string'>&#39;:&#39;</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>trim</span>()).<span class='ident'>collect</span>();
-        <span class='kw'>if</span> <span class='ident'>parts</span>.<span class='ident'>len</span>() <span class='op'>!=</span> <span class='number'>2</span> {
-            <span class='kw'>continue</span>
+    <span class="kw">let</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">BufReader</span>::<span class="ident">new</span>(<span class="ident">file</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">HashSet</span>::<span class="ident">new</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">coreid</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">physid</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">chgcount</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">for</span> <span class="ident">line</span> <span class="kw">in</span> <span class="ident">reader</span>.<span class="ident">lines</span>().<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="ident">result</span>.<span class="ident">ok</span>()) {
+        <span class="kw">let</span> <span class="ident">parts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">line</span>.<span class="ident">split</span>(<span class="string">&#39;:&#39;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">trim</span>()).<span class="ident">collect</span>();
+        <span class="kw">if</span> <span class="ident">parts</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="number">2</span> {
+            <span class="kw">continue</span>
         }
-        <span class='kw'>if</span> <span class='ident'>parts</span>[<span class='number'>0</span>] <span class='op'>==</span> <span class='string'>&quot;core id&quot;</span> <span class='op'>||</span> <span class='ident'>parts</span>[<span class='number'>0</span>] <span class='op'>==</span> <span class='string'>&quot;physical id&quot;</span> {
-            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>parts</span>[<span class='number'>1</span>].<span class='ident'>trim</span>().<span class='ident'>parse</span>() {
-              <span class='prelude-val'>Ok</span>(<span class='ident'>val</span>) <span class='op'>=&gt;</span> <span class='ident'>val</span>,
-              <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
+        <span class="kw">if</span> <span class="ident">parts</span>[<span class="number">0</span>] <span class="op">==</span> <span class="string">&quot;core id&quot;</span> <span class="op">||</span> <span class="ident">parts</span>[<span class="number">0</span>] <span class="op">==</span> <span class="string">&quot;physical id&quot;</span> {
+            <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">parts</span>[<span class="number">1</span>].<span class="ident">trim</span>().<span class="ident">parse</span>() {
+              <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=&gt;</span> <span class="ident">val</span>,
+              <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="kw">break</span>,
             };
-            <span class='kw'>match</span> <span class='ident'>parts</span>[<span class='number'>0</span>] {
-                <span class='string'>&quot;core id&quot;</span>     <span class='op'>=&gt;</span> <span class='ident'>coreid</span> <span class='op'>=</span> <span class='ident'>value</span>,
-                <span class='string'>&quot;physical id&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>physid</span> <span class='op'>=</span> <span class='ident'>value</span>,
-                _ <span class='op'>=&gt;</span> {},
+            <span class="kw">match</span> <span class="ident">parts</span>[<span class="number">0</span>] {
+                <span class="string">&quot;core id&quot;</span>     <span class="op">=&gt;</span> <span class="ident">coreid</span> <span class="op">=</span> <span class="ident">value</span>,
+                <span class="string">&quot;physical id&quot;</span> <span class="op">=&gt;</span> <span class="ident">physid</span> <span class="op">=</span> <span class="ident">value</span>,
+                _ <span class="op">=&gt;</span> {},
             }
-            <span class='ident'>chgcount</span> <span class='op'>+=</span> <span class='number'>1</span>;
+            <span class="ident">chgcount</span> <span class="op">+=</span> <span class="number">1</span>;
         }
-        <span class='kw'>if</span> <span class='ident'>chgcount</span> <span class='op'>==</span> <span class='number'>2</span> {
-            <span class='ident'>set</span>.<span class='ident'>insert</span>((<span class='ident'>physid</span>, <span class='ident'>coreid</span>));
-            <span class='ident'>chgcount</span> <span class='op'>=</span> <span class='number'>0</span>;
-        }
-    }
-    <span class='kw'>let</span> <span class='ident'>count</span> <span class='op'>=</span> <span class='ident'>set</span>.<span class='ident'>len</span>();
-    <span class='kw'>if</span> <span class='ident'>count</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='ident'>get_num_cpus</span>() } <span class='kw'>else</span> { <span class='ident'>count</span> }
-}
-
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>windows</span>)]</span>
-<span class='kw'>fn</span> <span class='ident'>get_num_cpus</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
-    <span class='kw'>struct</span> <span class='ident'>SYSTEM_INFO</span> {
-        <span class='ident'>wProcessorArchitecture</span>: <span class='ident'>u16</span>,
-        <span class='ident'>wReserved</span>: <span class='ident'>u16</span>,
-        <span class='ident'>dwPageSize</span>: <span class='ident'>u32</span>,
-        <span class='ident'>lpMinimumApplicationAddress</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span>,
-        <span class='ident'>lpMaximumApplicationAddress</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span>,
-        <span class='ident'>dwActiveProcessorMask</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span>,
-        <span class='ident'>dwNumberOfProcessors</span>: <span class='ident'>u32</span>,
-        <span class='ident'>dwProcessorType</span>: <span class='ident'>u32</span>,
-        <span class='ident'>dwAllocationGranularity</span>: <span class='ident'>u32</span>,
-        <span class='ident'>wProcessorLevel</span>: <span class='ident'>u16</span>,
-        <span class='ident'>wProcessorRevision</span>: <span class='ident'>u16</span>,
-    }
-
-    <span class='kw'>extern</span> <span class='string'>&quot;system&quot;</span> {
-        <span class='kw'>fn</span> <span class='ident'>GetSystemInfo</span>(<span class='ident'>lpSystemInfo</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>SYSTEM_INFO</span>);
-    }
-
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sysinfo</span>: <span class='ident'>SYSTEM_INFO</span> <span class='op'>=</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>uninitialized</span>();
-        <span class='ident'>GetSystemInfo</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>sysinfo</span>);
-        <span class='ident'>sysinfo</span>.<span class='ident'>dwNumberOfProcessors</span> <span class='kw'>as</span> <span class='ident'>usize</span>
-    }
-}
-
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;freebsd&quot;</span>,
-          <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;dragonfly&quot;</span>,
-          <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;bitrig&quot;</span>,
-          <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;netbsd&quot;</span>))]</span>
-<span class='kw'>fn</span> <span class='ident'>get_num_cpus</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cpus</span>: <span class='ident'>libc</span>::<span class='ident'>c_uint</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cpus_size</span> <span class='op'>=</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>size_of_val</span>(<span class='kw-2'>&amp;</span><span class='ident'>cpus</span>);
-
-    <span class='kw'>unsafe</span> {
-        <span class='ident'>cpus</span> <span class='op'>=</span> <span class='ident'>libc</span>::<span class='ident'>sysconf</span>(<span class='ident'>libc</span>::<span class='ident'>_SC_NPROCESSORS_ONLN</span>) <span class='kw'>as</span> <span class='ident'>libc</span>::<span class='ident'>c_uint</span>;
-    }
-    <span class='kw'>if</span> <span class='ident'>cpus</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>mib</span> <span class='op'>=</span> [<span class='ident'>libc</span>::<span class='ident'>CTL_HW</span>, <span class='ident'>libc</span>::<span class='ident'>HW_NCPU</span>, <span class='number'>0</span>, <span class='number'>0</span>];
-        <span class='kw'>unsafe</span> {
-            <span class='ident'>libc</span>::<span class='ident'>sysctl</span>(<span class='ident'>mib</span>.<span class='ident'>as_mut_ptr</span>(),
-                         <span class='number'>2</span>,
-                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>cpus</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _,
-                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>cpus_size</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _,
-                         <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _,
-                         <span class='number'>0</span>);
-        }
-        <span class='kw'>if</span> <span class='ident'>cpus</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
-            <span class='ident'>cpus</span> <span class='op'>=</span> <span class='number'>1</span>;
+        <span class="kw">if</span> <span class="ident">chgcount</span> <span class="op">==</span> <span class="number">2</span> {
+            <span class="ident">set</span>.<span class="ident">insert</span>((<span class="ident">physid</span>, <span class="ident">coreid</span>));
+            <span class="ident">chgcount</span> <span class="op">=</span> <span class="number">0</span>;
         }
     }
-    <span class='ident'>cpus</span> <span class='kw'>as</span> <span class='ident'>usize</span>
+    <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">len</span>();
+    <span class="kw">if</span> <span class="ident">count</span> <span class="op">==</span> <span class="number">0</span> { <span class="ident">get_num_cpus</span>() } <span class="kw">else</span> { <span class="ident">count</span> }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;openbsd&quot;</span>)]</span>
-<span class='kw'>fn</span> <span class='ident'>get_num_cpus</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cpus</span>: <span class='ident'>libc</span>::<span class='ident'>c_uint</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cpus_size</span> <span class='op'>=</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>size_of_val</span>(<span class='kw-2'>&amp;</span><span class='ident'>cpus</span>);
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>mib</span> <span class='op'>=</span> [<span class='ident'>libc</span>::<span class='ident'>CTL_HW</span>, <span class='ident'>libc</span>::<span class='ident'>HW_NCPU</span>, <span class='number'>0</span>, <span class='number'>0</span>];
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
+<span class="kw">fn</span> <span class="ident">get_num_cpus</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+    <span class="kw">struct</span> <span class="ident">SYSTEM_INFO</span> {
+        <span class="ident">wProcessorArchitecture</span>: <span class="ident">u16</span>,
+        <span class="ident">wReserved</span>: <span class="ident">u16</span>,
+        <span class="ident">dwPageSize</span>: <span class="ident">u32</span>,
+        <span class="ident">lpMinimumApplicationAddress</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>,
+        <span class="ident">lpMaximumApplicationAddress</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>,
+        <span class="ident">dwActiveProcessorMask</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>,
+        <span class="ident">dwNumberOfProcessors</span>: <span class="ident">u32</span>,
+        <span class="ident">dwProcessorType</span>: <span class="ident">u32</span>,
+        <span class="ident">dwAllocationGranularity</span>: <span class="ident">u32</span>,
+        <span class="ident">wProcessorLevel</span>: <span class="ident">u16</span>,
+        <span class="ident">wProcessorRevision</span>: <span class="ident">u16</span>,
+    }
 
-    <span class='kw'>unsafe</span> {
-        <span class='ident'>libc</span>::<span class='ident'>sysctl</span>(<span class='ident'>mib</span>.<span class='ident'>as_mut_ptr</span>(),
-                     <span class='number'>2</span>,
-                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>cpus</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _,
-                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>cpus_size</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _,
-                     <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _,
-                     <span class='number'>0</span>);
+    <span class="kw">extern</span> <span class="string">&quot;system&quot;</span> {
+        <span class="kw">fn</span> <span class="ident">GetSystemInfo</span>(<span class="ident">lpSystemInfo</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">SYSTEM_INFO</span>);
     }
-    <span class='kw'>if</span> <span class='ident'>cpus</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
-        <span class='ident'>cpus</span> <span class='op'>=</span> <span class='number'>1</span>;
+
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sysinfo</span>: <span class="ident">SYSTEM_INFO</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">uninitialized</span>();
+        <span class="ident">GetSystemInfo</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">sysinfo</span>);
+        <span class="ident">sysinfo</span>.<span class="ident">dwNumberOfProcessors</span> <span class="kw">as</span> <span class="ident">usize</span>
     }
-    <span class='ident'>cpus</span> <span class='kw'>as</span> <span class='ident'>usize</span>
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(
-    <span class='ident'>any</span>(
-        <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>,
-        <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;nacl&quot;</span>,
-        <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>,
-        <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;ios&quot;</span>,
-        <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>,
-        <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;solaris&quot;</span>,
-        <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;fuchsia&quot;</span>,
-    )
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;freebsd&quot;</span>,
+          <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;dragonfly&quot;</span>,
+          <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;bitrig&quot;</span>,
+          <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;netbsd&quot;</span>))]</span>
+<span class="kw">fn</span> <span class="ident">get_num_cpus</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cpus</span>: <span class="ident">libc</span>::<span class="ident">c_uint</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cpus_size</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>(<span class="kw-2">&amp;</span><span class="ident">cpus</span>);
+
+    <span class="kw">unsafe</span> {
+        <span class="ident">cpus</span> <span class="op">=</span> <span class="ident">libc</span>::<span class="ident">sysconf</span>(<span class="ident">libc</span>::<span class="ident">_SC_NPROCESSORS_ONLN</span>) <span class="kw">as</span> <span class="ident">libc</span>::<span class="ident">c_uint</span>;
+    }
+    <span class="kw">if</span> <span class="ident">cpus</span> <span class="op">&lt;</span> <span class="number">1</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mib</span> <span class="op">=</span> [<span class="ident">libc</span>::<span class="ident">CTL_HW</span>, <span class="ident">libc</span>::<span class="ident">HW_NCPU</span>, <span class="number">0</span>, <span class="number">0</span>];
+        <span class="kw">unsafe</span> {
+            <span class="ident">libc</span>::<span class="ident">sysctl</span>(<span class="ident">mib</span>.<span class="ident">as_mut_ptr</span>(),
+                         <span class="number">2</span>,
+                         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cpus</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _ <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _,
+                         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cpus_size</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _ <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _,
+                         <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _,
+                         <span class="number">0</span>);
+        }
+        <span class="kw">if</span> <span class="ident">cpus</span> <span class="op">&lt;</span> <span class="number">1</span> {
+            <span class="ident">cpus</span> <span class="op">=</span> <span class="number">1</span>;
+        }
+    }
+    <span class="ident">cpus</span> <span class="kw">as</span> <span class="ident">usize</span>
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;openbsd&quot;</span>)]</span>
+<span class="kw">fn</span> <span class="ident">get_num_cpus</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cpus</span>: <span class="ident">libc</span>::<span class="ident">c_uint</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cpus_size</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>(<span class="kw-2">&amp;</span><span class="ident">cpus</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mib</span> <span class="op">=</span> [<span class="ident">libc</span>::<span class="ident">CTL_HW</span>, <span class="ident">libc</span>::<span class="ident">HW_NCPU</span>, <span class="number">0</span>, <span class="number">0</span>];
+
+    <span class="kw">unsafe</span> {
+        <span class="ident">libc</span>::<span class="ident">sysctl</span>(<span class="ident">mib</span>.<span class="ident">as_mut_ptr</span>(),
+                     <span class="number">2</span>,
+                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cpus</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _ <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _,
+                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cpus_size</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _ <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _,
+                     <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _,
+                     <span class="number">0</span>);
+    }
+    <span class="kw">if</span> <span class="ident">cpus</span> <span class="op">&lt;</span> <span class="number">1</span> {
+        <span class="ident">cpus</span> <span class="op">=</span> <span class="number">1</span>;
+    }
+    <span class="ident">cpus</span> <span class="kw">as</span> <span class="ident">usize</span>
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>)]</span>
+<span class="kw">fn</span> <span class="ident">get_num_cpus</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span>:  <span class="ident">libc</span>::<span class="ident">cpu_set_t</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">zeroed</span>() };
+    <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">libc</span>::<span class="ident">sched_getaffinity</span>(<span class="number">0</span>, <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">libc</span>::<span class="ident">cpu_set_t</span><span class="op">&gt;</span>(), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">set</span>) } <span class="op">==</span> <span class="number">0</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">libc</span>::<span class="ident">CPU_SETSIZE</span> <span class="kw">as</span> <span class="ident">usize</span> {
+            <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">libc</span>::<span class="ident">CPU_ISSET</span>(<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">set</span>) } {
+                <span class="ident">count</span> <span class="op">+=</span> <span class="number">1</span>
+            }
+        }
+        <span class="ident">count</span> <span class="kw">as</span> <span class="ident">usize</span>
+    } <span class="kw">else</span> {
+        <span class="kw">let</span> <span class="ident">cpus</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc</span>::<span class="ident">sysconf</span>(<span class="ident">libc</span>::<span class="ident">_SC_NPROCESSORS_ONLN</span>) };
+        <span class="kw">if</span> <span class="ident">cpus</span> <span class="op">&lt;</span> <span class="number">1</span> {
+            <span class="number">1</span>
+        } <span class="kw">else</span> {
+            <span class="ident">cpus</span> <span class="kw">as</span> <span class="ident">usize</span>
+        }
+    }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;nacl&quot;</span>,
+    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;macos&quot;</span>,
+    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;ios&quot;</span>,
+    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;android&quot;</span>,
+    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;solaris&quot;</span>,
+    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;fuchsia&quot;</span>)
 )]</span>
-<span class='kw'>fn</span> <span class='ident'>get_num_cpus</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='ident'>libc</span>::<span class='ident'>sysconf</span>(<span class='ident'>libc</span>::<span class='ident'>_SC_NPROCESSORS_ONLN</span>) <span class='kw'>as</span> <span class='ident'>usize</span>
+<span class="kw">fn</span> <span class="ident">get_num_cpus</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">let</span> <span class="ident">cpus</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc</span>::<span class="ident">sysconf</span>(<span class="ident">libc</span>::<span class="ident">_SC_NPROCESSORS_ONLN</span>) };
+    <span class="kw">if</span> <span class="ident">cpus</span> <span class="op">&lt;</span> <span class="number">1</span> {
+        <span class="number">1</span>
+    } <span class="kw">else</span> {
+        <span class="ident">cpus</span> <span class="kw">as</span> <span class="ident">usize</span>
     }
 }
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;emscripten&quot;</span>)]</span>
-<span class='kw'>fn</span> <span class='ident'>get_num_cpus</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='number'>1</span>
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;emscripten&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;redox&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;haiku&quot;</span>))]</span>
+<span class="kw">fn</span> <span class="ident">get_num_cpus</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="number">1</span>
 }
 
-<span class='attribute'>#[<span class='ident'>test</span>]</span>
-<span class='kw'>fn</span> <span class='ident'>lower_bound</span>() {
-    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>get</span>() <span class='op'>&gt;</span> <span class='number'>0</span>);
-    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>get_physical</span>() <span class='op'>&gt;</span> <span class='number'>0</span>);
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">lower_bound</span>() {
+    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">get</span>() <span class="op">&gt;</span> <span class="number">0</span>);
+    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">get_physical</span>() <span class="op">&gt;</span> <span class="number">0</span>);
 }
 
 
-<span class='attribute'>#[<span class='ident'>test</span>]</span>
-<span class='kw'>fn</span> <span class='ident'>upper_bound</span>() {
-    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>get</span>() <span class='op'>&lt;</span> <span class='number'>236_451</span>);
-    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>get_physical</span>() <span class='op'>&lt;</span> <span class='number'>236_451</span>);
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">upper_bound</span>() {
+    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">get</span>() <span class="op">&lt;</span> <span class="number">236_451</span>);
+    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">get_physical</span>() <span class="op">&lt;</span> <span class="number">236_451</span>);
 }
 </pre>
 </section>

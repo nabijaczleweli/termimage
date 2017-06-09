@@ -9,6 +9,7 @@
 
     <title>dynimage.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -742,705 +743,705 @@
 <span id="698">698</span>
 <span id="699">699</span>
 <span id="700">700</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Write</span>, <span class='ident'>Seek</span>, <span class='ident'>BufRead</span>, <span class='ident'>BufReader</span>, <span class='ident'>BufWriter</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
-<span class='kw'>use</span> <span class='ident'>num_iter</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">Write</span>, <span class="ident">Seek</span>, <span class="ident">BufRead</span>, <span class="ident">BufReader</span>, <span class="ident">BufWriter</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>::<span class="ident">File</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ascii</span>::<span class="ident">AsciiExt</span>;
+<span class="kw">use</span> <span class="ident">num_iter</span>;
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ppm&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>ppm</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;gif_codec&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>gif</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;webp&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>webp</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;jpeg&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>jpeg</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;png_codec&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>png</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;tiff&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>tiff</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;tga&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>tga</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;bmp&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>bmp</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ico&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>ico</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;hdr&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>hdr</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ppm&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">ppm</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;gif_codec&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">gif</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;webp&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">webp</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;jpeg&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">jpeg</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png_codec&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">png</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tiff&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">tiff</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tga&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">tga</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bmp&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">bmp</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">ico</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;hdr&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">hdr</span>;
 
-<span class='kw'>use</span> <span class='ident'>color</span>;
-<span class='kw'>use</span> <span class='ident'>buffer</span>::{<span class='ident'>ImageBuffer</span>, <span class='ident'>ConvertBuffer</span>, <span class='ident'>Pixel</span>, <span class='ident'>GrayImage</span>, <span class='ident'>GrayAlphaImage</span>, <span class='ident'>RgbImage</span>, <span class='ident'>RgbaImage</span>};
-<span class='kw'>use</span> <span class='ident'>imageops</span>;
-<span class='kw'>use</span> <span class='ident'>image</span>;
-<span class='kw'>use</span> <span class='ident'>image</span>:: {
-    <span class='ident'>GenericImage</span>,
-    <span class='ident'>ImageDecoder</span>,
-    <span class='ident'>ImageResult</span>,
-    <span class='ident'>ImageFormat</span>,
+<span class="kw">use</span> <span class="ident">color</span>;
+<span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">ConvertBuffer</span>, <span class="ident">Pixel</span>, <span class="ident">GrayImage</span>, <span class="ident">GrayAlphaImage</span>, <span class="ident">RgbImage</span>, <span class="ident">RgbaImage</span>};
+<span class="kw">use</span> <span class="ident">imageops</span>;
+<span class="kw">use</span> <span class="ident">image</span>;
+<span class="kw">use</span> <span class="ident">image</span>:: {
+    <span class="ident">GenericImage</span>,
+    <span class="ident">ImageDecoder</span>,
+    <span class="ident">ImageResult</span>,
+    <span class="ident">ImageFormat</span>,
 };
 
-<span class='kw'>use</span> <span class='ident'>image</span>::<span class='ident'>DecodingResult</span>::{<span class='ident'>U8</span>};
+<span class="kw">use</span> <span class="ident">image</span>::<span class="ident">DecodingResult</span>::{<span class="ident">U8</span>};
 
-<span class='doccomment'>/// A Dynamic Image</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>DynamicImage</span> {
-    <span class='doccomment'>/// Each pixel in this image is 8-bit Luma</span>
-    <span class='ident'>ImageLuma8</span>(<span class='ident'>GrayImage</span>),
+<span class="doccomment">/// A Dynamic Image</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DynamicImage</span> {
+    <span class="doccomment">/// Each pixel in this image is 8-bit Luma</span>
+    <span class="ident">ImageLuma8</span>(<span class="ident">GrayImage</span>),
 
-    <span class='doccomment'>/// Each pixel in this image is 8-bit Luma with alpha</span>
-    <span class='ident'>ImageLumaA8</span>(<span class='ident'>GrayAlphaImage</span>),
+    <span class="doccomment">/// Each pixel in this image is 8-bit Luma with alpha</span>
+    <span class="ident">ImageLumaA8</span>(<span class="ident">GrayAlphaImage</span>),
 
-    <span class='doccomment'>/// Each pixel in this image is 8-bit Rgb</span>
-    <span class='ident'>ImageRgb8</span>(<span class='ident'>RgbImage</span>),
+    <span class="doccomment">/// Each pixel in this image is 8-bit Rgb</span>
+    <span class="ident">ImageRgb8</span>(<span class="ident">RgbImage</span>),
 
-    <span class='doccomment'>/// Each pixel in this image is 8-bit Rgb with alpha</span>
-    <span class='ident'>ImageRgba8</span>(<span class='ident'>RgbaImage</span>),
+    <span class="doccomment">/// Each pixel in this image is 8-bit Rgb with alpha</span>
+    <span class="ident">ImageRgba8</span>(<span class="ident">RgbaImage</span>),
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>dynamic_map</span>(
-        (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dynimage</span>: <span class='ident'>expr</span>, <span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>: <span class='ident'>ident</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>: <span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
-                <span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dynimage</span> {
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>),
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>),
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>),
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>),
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">dynamic_map</span>(
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dynimage</span>: <span class="ident">expr</span>, <span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>: <span class="ident">ident</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>: <span class="ident">expr</span>) <span class="op">=&gt;</span> (
+                <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dynimage</span> {
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
                 }
         );
 
-        (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dynimage</span>: <span class='ident'>expr</span>, <span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>: <span class='ident'>ident</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>: <span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
-                <span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dynimage</span> {
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>),
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>),
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>),
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>),
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dynimage</span>: <span class="ident">expr</span>, <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>: <span class="ident">ident</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>: <span class="ident">expr</span>) <span class="op">=&gt;</span> (
+                <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dynimage</span> {
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
                 }
         );
 
-        (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dynimage</span>: <span class='ident'>expr</span>, <span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>: <span class='ident'>ident</span> <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>: <span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
-                <span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dynimage</span> {
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>,
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>,
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>,
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>,
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dynimage</span>: <span class="ident">expr</span>, <span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>: <span class="ident">ident</span> <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>: <span class="ident">expr</span>) <span class="op">=&gt;</span> (
+                <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dynimage</span> {
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
                 }
         );
 
-        (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dynimage</span>: <span class='ident'>expr</span>, <span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>: <span class='ident'>ident</span> <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>: <span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
-                <span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dynimage</span> {
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>,
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>,
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>,
-                        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>image</span>) <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>action</span>,
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dynimage</span>: <span class="ident">expr</span>, <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>: <span class="ident">ident</span> <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>: <span class="ident">expr</span>) <span class="op">=&gt;</span> (
+                <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dynimage</span> {
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
                 }
         );
 );
 
-<span class='kw'>impl</span> <span class='ident'>DynamicImage</span> {
-    <span class='doccomment'>/// Creates a dynamic image backed by a buffer of grey pixels.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_luma8</span>(<span class='ident'>w</span>: <span class='ident'>u32</span>, <span class='ident'>h</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='ident'>w</span>, <span class='ident'>h</span>))
+<span class="kw">impl</span> <span class="ident">DynamicImage</span> {
+    <span class="doccomment">/// Creates a dynamic image backed by a buffer of grey pixels.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_luma8</span>(<span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">w</span>, <span class="ident">h</span>))
     }
 
-    <span class='doccomment'>/// Creates a dynamic image backed by a buffer of grey</span>
-    <span class='doccomment'>/// pixels with transparency.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_luma_a8</span>(<span class='ident'>w</span>: <span class='ident'>u32</span>, <span class='ident'>h</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='ident'>w</span>, <span class='ident'>h</span>))
+    <span class="doccomment">/// Creates a dynamic image backed by a buffer of grey</span>
+    <span class="doccomment">/// pixels with transparency.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_luma_a8</span>(<span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">w</span>, <span class="ident">h</span>))
     }
 
-    <span class='doccomment'>/// Creates a dynamic image backed by a buffer of RGB pixels.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_rgb8</span>(<span class='ident'>w</span>: <span class='ident'>u32</span>, <span class='ident'>h</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='ident'>w</span>, <span class='ident'>h</span>))
+    <span class="doccomment">/// Creates a dynamic image backed by a buffer of RGB pixels.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_rgb8</span>(<span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">w</span>, <span class="ident">h</span>))
     }
 
-    <span class='doccomment'>/// Creates a dynamic image backed by a buffer of RGBA pixels.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_rgba8</span>(<span class='ident'>w</span>: <span class='ident'>u32</span>, <span class='ident'>h</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='ident'>w</span>, <span class='ident'>h</span>))
+    <span class="doccomment">/// Creates a dynamic image backed by a buffer of RGBA pixels.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_rgba8</span>(<span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">w</span>, <span class="ident">h</span>))
     }
 
-    <span class='doccomment'>/// Returns a copy of this image as an RGB image.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_rgb</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RgbImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>-&gt;</span> {
-            <span class='ident'>p</span>.<span class='ident'>convert</span>()
+    <span class="doccomment">/// Returns a copy of this image as an RGB image.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_rgb</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RgbImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-&gt;</span> {
+            <span class="ident">p</span>.<span class="ident">convert</span>()
         })
     }
 
-    <span class='doccomment'>/// Returns a copy of this image as an RGBA image.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_rgba</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RgbaImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>-&gt;</span> {
-            <span class='ident'>p</span>.<span class='ident'>convert</span>()
+    <span class="doccomment">/// Returns a copy of this image as an RGBA image.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_rgba</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RgbaImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-&gt;</span> {
+            <span class="ident">p</span>.<span class="ident">convert</span>()
         })
     }
 
-    <span class='doccomment'>/// Returns a copy of this image as a Luma image.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_luma</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>GrayImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>-&gt;</span> {
-            <span class='ident'>p</span>.<span class='ident'>convert</span>()
+    <span class="doccomment">/// Returns a copy of this image as a Luma image.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_luma</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">GrayImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-&gt;</span> {
+            <span class="ident">p</span>.<span class="ident">convert</span>()
         })
     }
 
-    <span class='doccomment'>/// Returns a copy of this image as a LumaA image.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_luma_alpha</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>GrayAlphaImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>-&gt;</span> {
-            <span class='ident'>p</span>.<span class='ident'>convert</span>()
+    <span class="doccomment">/// Returns a copy of this image as a LumaA image.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_luma_alpha</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">GrayAlphaImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-&gt;</span> {
+            <span class="ident">p</span>.<span class="ident">convert</span>()
         })
     }
 
-    <span class='doccomment'>/// Return a cut out of this image delimited by the bounding rectangle.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>crop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
-                <span class='ident'>x</span>: <span class='ident'>u32</span>,
-                <span class='ident'>y</span>: <span class='ident'>u32</span>,
-                <span class='ident'>width</span>: <span class='ident'>u32</span>,
-                <span class='ident'>height</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
+    <span class="doccomment">/// Return a cut out of this image delimited by the bounding rectangle.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">crop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+                <span class="ident">x</span>: <span class="ident">u32</span>,
+                <span class="ident">y</span>: <span class="ident">u32</span>,
+                <span class="ident">width</span>: <span class="ident">u32</span>,
+                <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
 
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>crop</span>(<span class='ident'>p</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>width</span>, <span class='ident'>height</span>).<span class='ident'>to_image</span>())
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">crop</span>(<span class="ident">p</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">width</span>, <span class="ident">height</span>).<span class="ident">to_image</span>())
     }
 
-    <span class='doccomment'>/// Return a reference to an 8bit RGB image</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_rgb8</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>RgbImage</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>p</span>),
-            _                              <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+    <span class="doccomment">/// Return a reference to an 8bit RGB image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_rgb8</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">RgbImage</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            _                              <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 
-    <span class='doccomment'>/// Return a mutable reference to an 8bit RGB image</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_mut_rgb8</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>RgbImage</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>p</span>),
-            _                                  <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+    <span class="doccomment">/// Return a mutable reference to an 8bit RGB image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_rgb8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RgbImage</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            _                                  <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 
-    <span class='doccomment'>/// Return a reference to an 8bit RGBA image</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_rgba8</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span> <span class='ident'>RgbaImage</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>p</span>),
-            _                               <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+    <span class="doccomment">/// Return a reference to an 8bit RGBA image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_rgba8</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="op">&amp;</span> <span class="ident">RgbaImage</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            _                               <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 
-    <span class='doccomment'>/// Return a mutable reference to an 8bit RGBA image</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_mut_rgba8</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>RgbaImage</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>p</span>),
-            _                                   <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+    <span class="doccomment">/// Return a mutable reference to an 8bit RGBA image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_rgba8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RgbaImage</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            _                                   <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 
-    <span class='doccomment'>/// Return a reference to an 8bit Grayscale image</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_luma8</span>(<span class='kw-2'>&amp;</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span> <span class='ident'>GrayImage</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>p</span>),
-            _                               <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+    <span class="doccomment">/// Return a reference to an 8bit Grayscale image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_luma8</span>(<span class="op">&amp;</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="op">&amp;</span> <span class="ident">GrayImage</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            _                               <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 
-    <span class='doccomment'>/// Return a mutable reference to an 8bit Grayscale image</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_mut_luma8</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>GrayImage</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>p</span>),
-            _                                   <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+    <span class="doccomment">/// Return a mutable reference to an 8bit Grayscale image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_luma8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">GrayImage</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            _                                   <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 
-    <span class='doccomment'>/// Return a reference to an 8bit Grayscale image with an alpha channel</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_luma_alpha8</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span> <span class='ident'>GrayAlphaImage</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>p</span>),
-            _                                <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+    <span class="doccomment">/// Return a reference to an 8bit Grayscale image with an alpha channel</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_luma_alpha8</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="op">&amp;</span> <span class="ident">GrayAlphaImage</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            _                                <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 
-    <span class='doccomment'>/// Return a mutable reference to an 8bit Grayscale image with an alpha channel</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_mut_luma_alpha8</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>GrayAlphaImage</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>p</span>),
-            _                                    <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+    <span class="doccomment">/// Return a mutable reference to an 8bit Grayscale image with an alpha channel</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_luma_alpha8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">GrayAlphaImage</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            _                                    <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 
-    <span class='doccomment'>/// Return this image&#39;s pixels as a byte vector.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>raw_pixels</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
-        <span class='ident'>image_to_bytes</span>(<span class='self'>self</span>)
+    <span class="doccomment">/// Return this image&#39;s pixels as a byte vector.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">raw_pixels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+        <span class="ident">image_to_bytes</span>(<span class="self">self</span>)
     }
 
-    <span class='doccomment'>/// Return this image&#39;s color type.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>color</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>color</span>::<span class='ident'>ColorType</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(_) <span class='op'>=&gt;</span> <span class='ident'>color</span>::<span class='ident'>ColorType</span>::<span class='ident'>Gray</span>(<span class='number'>8</span>),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(_) <span class='op'>=&gt;</span> <span class='ident'>color</span>::<span class='ident'>ColorType</span>::<span class='ident'>GrayA</span>(<span class='number'>8</span>),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(_) <span class='op'>=&gt;</span> <span class='ident'>color</span>::<span class='ident'>ColorType</span>::<span class='ident'>RGB</span>(<span class='number'>8</span>),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(_) <span class='op'>=&gt;</span> <span class='ident'>color</span>::<span class='ident'>ColorType</span>::<span class='ident'>RGBA</span>(<span class='number'>8</span>),
+    <span class="doccomment">/// Return this image&#39;s color type.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">color</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(_) <span class="op">=&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(_) <span class="op">=&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">8</span>),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(_) <span class="op">=&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(_) <span class="op">=&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>),
         }
     }
 
-    <span class='doccomment'>/// Return a grayscale version of this image.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>grayscale</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='ident'>p</span>.<span class='ident'>clone</span>()),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='ident'>imageops</span>::<span class='ident'>grayscale</span>(<span class='ident'>p</span>)),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='ident'>imageops</span>::<span class='ident'>grayscale</span>(<span class='ident'>p</span>)),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='ident'>imageops</span>::<span class='ident'>grayscale</span>(<span class='ident'>p</span>)),
+    <span class="doccomment">/// Return a grayscale version of this image.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">grayscale</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">p</span>.<span class="ident">clone</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">imageops</span>::<span class="ident">grayscale</span>(<span class="ident">p</span>)),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">imageops</span>::<span class="ident">grayscale</span>(<span class="ident">p</span>)),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">imageops</span>::<span class="ident">grayscale</span>(<span class="ident">p</span>)),
         }
     }
 
-    <span class='doccomment'>/// Invert the colors of this image.</span>
-    <span class='doccomment'>/// This method operates inplace.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>invert</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span> <span class='op'>-&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>invert</span>(<span class='ident'>p</span>))
+    <span class="doccomment">/// Invert the colors of this image.</span>
+    <span class="doccomment">/// This method operates inplace.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">invert</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="op">-&gt;</span> <span class="ident">imageops</span>::<span class="ident">invert</span>(<span class="ident">p</span>))
     }
 
-    <span class='doccomment'>/// Resize this image using the specified filter algorithm.</span>
-    <span class='doccomment'>/// Returns a new image. The image&#39;s aspect ratio is preserved.</span>
-    <span class='doccomment'>/// The image is scaled to the maximum possible size that fits</span>
-    <span class='doccomment'>/// within the bounds specified by ```nwidth``` and ```nheight```.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>resize</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                  <span class='ident'>nwidth</span>: <span class='ident'>u32</span>,
-                  <span class='ident'>nheight</span>: <span class='ident'>u32</span>,
-                  <span class='ident'>filter</span>: <span class='ident'>imageops</span>::<span class='ident'>FilterType</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
+    <span class="doccomment">/// Resize this image using the specified filter algorithm.</span>
+    <span class="doccomment">/// Returns a new image. The image&#39;s aspect ratio is preserved.</span>
+    <span class="doccomment">/// The image is scaled to the maximum possible size that fits</span>
+    <span class="doccomment">/// within the bounds specified by ```nwidth``` and ```nheight```.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resize</span>(<span class="kw-2">&amp;</span><span class="self">self</span>,
+                  <span class="ident">nwidth</span>: <span class="ident">u32</span>,
+                  <span class="ident">nheight</span>: <span class="ident">u32</span>,
+                  <span class="ident">filter</span>: <span class="ident">imageops</span>::<span class="ident">FilterType</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
 
-        <span class='kw'>let</span> (<span class='ident'>width</span>, <span class='ident'>height</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>dimensions</span>();
+        <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dimensions</span>();
 
-        <span class='kw'>let</span> <span class='ident'>ratio</span>  <span class='op'>=</span> <span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>f32</span>;
-        <span class='kw'>let</span> <span class='ident'>nratio</span> <span class='op'>=</span> <span class='ident'>nwidth</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='ident'>nheight</span> <span class='kw'>as</span> <span class='ident'>f32</span>;
+        <span class="kw">let</span> <span class="ident">ratio</span>  <span class="op">=</span> <span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span>;
+        <span class="kw">let</span> <span class="ident">nratio</span> <span class="op">=</span> <span class="ident">nwidth</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="ident">nheight</span> <span class="kw">as</span> <span class="ident">f32</span>;
 
-        <span class='kw'>let</span> <span class='ident'>scale</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>nratio</span> <span class='op'>&gt;</span> <span class='ident'>ratio</span> {
-            <span class='ident'>nheight</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>f32</span>
-        } <span class='kw'>else</span> {
-            <span class='ident'>nwidth</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>f32</span>
+        <span class="kw">let</span> <span class="ident">scale</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">nratio</span> <span class="op">&gt;</span> <span class="ident">ratio</span> {
+            <span class="ident">nheight</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span>
+        } <span class="kw">else</span> {
+            <span class="ident">nwidth</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span>
         };
 
-        <span class='kw'>let</span> <span class='ident'>width2</span>  <span class='op'>=</span> (<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>*</span> <span class='ident'>scale</span>) <span class='kw'>as</span> <span class='ident'>u32</span>;
-        <span class='kw'>let</span> <span class='ident'>height2</span> <span class='op'>=</span> (<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>*</span> <span class='ident'>scale</span>) <span class='kw'>as</span> <span class='ident'>u32</span>;
+        <span class="kw">let</span> <span class="ident">width2</span>  <span class="op">=</span> (<span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">scale</span>) <span class="kw">as</span> <span class="ident">u32</span>;
+        <span class="kw">let</span> <span class="ident">height2</span> <span class="op">=</span> (<span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">scale</span>) <span class="kw">as</span> <span class="ident">u32</span>;
 
-        <span class='self'>self</span>.<span class='ident'>resize_exact</span>(<span class='ident'>width2</span>, <span class='ident'>height2</span>, <span class='ident'>filter</span>)
+        <span class="self">self</span>.<span class="ident">resize_exact</span>(<span class="ident">width2</span>, <span class="ident">height2</span>, <span class="ident">filter</span>)
     }
 
-    <span class='doccomment'>/// Resize this image using the specified filter algorithm.</span>
-    <span class='doccomment'>/// Returns a new image. Does not preserve aspect ratio.</span>
-    <span class='doccomment'>/// ```nwidth``` and ```nheight``` are the new image&#39;s dimensions</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>resize_exact</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                        <span class='ident'>nwidth</span>: <span class='ident'>u32</span>,
-                        <span class='ident'>nheight</span>: <span class='ident'>u32</span>,
-                        <span class='ident'>filter</span>: <span class='ident'>imageops</span>::<span class='ident'>FilterType</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
+    <span class="doccomment">/// Resize this image using the specified filter algorithm.</span>
+    <span class="doccomment">/// Returns a new image. Does not preserve aspect ratio.</span>
+    <span class="doccomment">/// ```nwidth``` and ```nheight``` are the new image&#39;s dimensions</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resize_exact</span>(<span class="kw-2">&amp;</span><span class="self">self</span>,
+                        <span class="ident">nwidth</span>: <span class="ident">u32</span>,
+                        <span class="ident">nheight</span>: <span class="ident">u32</span>,
+                        <span class="ident">filter</span>: <span class="ident">imageops</span>::<span class="ident">FilterType</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
 
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>resize</span>(<span class='ident'>p</span>, <span class='ident'>nwidth</span>, <span class='ident'>nheight</span>, <span class='ident'>filter</span>))
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">resize</span>(<span class="ident">p</span>, <span class="ident">nwidth</span>, <span class="ident">nheight</span>, <span class="ident">filter</span>))
     }
 
-    <span class='doccomment'>/// Performs a Gaussian blur on this image.</span>
-    <span class='doccomment'>/// ```sigma``` is a measure of how much to blur by.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>blur</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>sigma</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>blur</span>(<span class='ident'>p</span>, <span class='ident'>sigma</span>))
+    <span class="doccomment">/// Performs a Gaussian blur on this image.</span>
+    <span class="doccomment">/// ```sigma``` is a measure of how much to blur by.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blur</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">sigma</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">blur</span>(<span class="ident">p</span>, <span class="ident">sigma</span>))
     }
 
-    <span class='doccomment'>/// Performs an unsharpen mask on this image.</span>
-    <span class='doccomment'>/// ```sigma``` is the amount to blur the image by.</span>
-    <span class='doccomment'>/// ```threshold``` is a control of how much to sharpen.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// See https://en.wikipedia.org/wiki/Unsharp_masking#Digital_unsharp_masking</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unsharpen</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>sigma</span>: <span class='ident'>f32</span>, <span class='ident'>threshold</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>unsharpen</span>(<span class='ident'>p</span>, <span class='ident'>sigma</span>, <span class='ident'>threshold</span>))
+    <span class="doccomment">/// Performs an unsharpen mask on this image.</span>
+    <span class="doccomment">/// ```sigma``` is the amount to blur the image by.</span>
+    <span class="doccomment">/// ```threshold``` is a control of how much to sharpen.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See https://en.wikipedia.org/wiki/Unsharp_masking#Digital_unsharp_masking</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unsharpen</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">sigma</span>: <span class="ident">f32</span>, <span class="ident">threshold</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">unsharpen</span>(<span class="ident">p</span>, <span class="ident">sigma</span>, <span class="ident">threshold</span>))
     }
 
-    <span class='doccomment'>/// Filters this image with the specified 3x3 kernel.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>filter3x3</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>kernel</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>f32</span>]) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='kw'>if</span> <span class='ident'>kernel</span>.<span class='ident'>len</span>() <span class='op'>!=</span> <span class='number'>9</span> {
-            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;filter must be 3 x 3&quot;</span>)
+    <span class="doccomment">/// Filters this image with the specified 3x3 kernel.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filter3x3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">kernel</span>: <span class="kw-2">&amp;</span>[<span class="ident">f32</span>]) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="kw">if</span> <span class="ident">kernel</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="number">9</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;filter must be 3 x 3&quot;</span>)
         }
 
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>filter3x3</span>(<span class='ident'>p</span>, <span class='ident'>kernel</span>))
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">filter3x3</span>(<span class="ident">p</span>, <span class="ident">kernel</span>))
     }
 
-    <span class='doccomment'>/// Adjust the contrast of this image.</span>
-    <span class='doccomment'>/// ```contrast``` is the amount to adjust the contrast by.</span>
-    <span class='doccomment'>/// Negative values decrease the contrast and positive values increase the contrast.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>adjust_contrast</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>c</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>contrast</span>(<span class='ident'>p</span>, <span class='ident'>c</span>))
+    <span class="doccomment">/// Adjust the contrast of this image.</span>
+    <span class="doccomment">/// ```contrast``` is the amount to adjust the contrast by.</span>
+    <span class="doccomment">/// Negative values decrease the contrast and positive values increase the contrast.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">adjust_contrast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">c</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">contrast</span>(<span class="ident">p</span>, <span class="ident">c</span>))
     }
 
-    <span class='doccomment'>/// Brighten the pixels of this image.</span>
-    <span class='doccomment'>/// ```value``` is the amount to brighten each pixel by.</span>
-    <span class='doccomment'>/// Negative values decrease the brightness and positive values increase it.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>brighten</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>brighten</span>(<span class='ident'>p</span>, <span class='ident'>value</span>))
+    <span class="doccomment">/// Brighten the pixels of this image.</span>
+    <span class="doccomment">/// ```value``` is the amount to brighten each pixel by.</span>
+    <span class="doccomment">/// Negative values decrease the brightness and positive values increase it.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">brighten</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">brighten</span>(<span class="ident">p</span>, <span class="ident">value</span>))
     }
 
-    <span class='doccomment'>/// Hue rotate the supplied image.</span>
-    <span class='doccomment'>/// `value` is the degrees to rotate each pixel by.</span>
-    <span class='doccomment'>/// 0 and 360 do nothing, the rest rotates by the given degree value.</span>
-    <span class='doccomment'>/// just like the css webkit filter hue-rotate(180)</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>hueroate</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>huerotate</span>(<span class='ident'>p</span>, <span class='ident'>value</span>))
+    <span class="doccomment">/// Hue rotate the supplied image.</span>
+    <span class="doccomment">/// `value` is the degrees to rotate each pixel by.</span>
+    <span class="doccomment">/// 0 and 360 do nothing, the rest rotates by the given degree value.</span>
+    <span class="doccomment">/// just like the css webkit filter hue-rotate(180)</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hueroate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">huerotate</span>(<span class="ident">p</span>, <span class="ident">value</span>))
     }
 
-    <span class='doccomment'>/// Flip this image vertically</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>flipv</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>flip_vertical</span>(<span class='ident'>p</span>))
+    <span class="doccomment">/// Flip this image vertically</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flipv</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">flip_vertical</span>(<span class="ident">p</span>))
     }
 
-    <span class='doccomment'>/// Flip this image horizontally</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fliph</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>flip_horizontal</span>(<span class='ident'>p</span>))
+    <span class="doccomment">/// Flip this image horizontally</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fliph</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">flip_horizontal</span>(<span class="ident">p</span>))
     }
 
-    <span class='doccomment'>/// Rotate this image 90 degrees clockwise.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>rotate90</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>rotate90</span>(<span class='ident'>p</span>))
+    <span class="doccomment">/// Rotate this image 90 degrees clockwise.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate90</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">rotate90</span>(<span class="ident">p</span>))
     }
 
-    <span class='doccomment'>/// Rotate this image 180 degrees clockwise.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>rotate180</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>rotate180</span>(<span class='ident'>p</span>))
+    <span class="doccomment">/// Rotate this image 180 degrees clockwise.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate180</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">rotate180</span>(<span class="ident">p</span>))
     }
 
-    <span class='doccomment'>/// Rotate this image 270 degrees clockwise.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>rotate270</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DynamicImage</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='ident'>imageops</span>::<span class='ident'>rotate270</span>(<span class='ident'>p</span>))
+    <span class="doccomment">/// Rotate this image 270 degrees clockwise.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate270</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">=&gt;</span> <span class="ident">imageops</span>::<span class="ident">rotate270</span>(<span class="ident">p</span>))
     }
 
-    <span class='doccomment'>/// Encode this image and write it to ```w```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>save</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>w</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>, <span class='ident'>format</span>: <span class='ident'>ImageFormat</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>raw_pixels</span>();
-        <span class='kw'>let</span> (<span class='ident'>width</span>, <span class='ident'>height</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>dimensions</span>();
-        <span class='kw'>let</span> <span class='ident'>color</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>color</span>();
+    <span class="doccomment">/// Encode this image and write it to ```w```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">W</span>, <span class="ident">format</span>: <span class="ident">ImageFormat</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">raw_pixels</span>();
+        <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dimensions</span>();
+        <span class="kw">let</span> <span class="ident">color</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">color</span>();
 
-        <span class='kw'>match</span> <span class='ident'>format</span> {
-            <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;png_codec&quot;</span>)]</span>
-            <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>PNG</span>  <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>png</span>::<span class='ident'>PNGEncoder</span>::<span class='ident'>new</span>(<span class='ident'>w</span>);
+        <span class="kw">match</span> <span class="ident">format</span> {
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png_codec&quot;</span>)]</span>
+            <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">PNG</span>  <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">png</span>::<span class="ident">PNGEncoder</span>::<span class="ident">new</span>(<span class="ident">w</span>);
 
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>p</span>.<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>color</span>));
-                <span class='prelude-val'>Ok</span>(())
+                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">p</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>));
+                <span class="prelude-val">Ok</span>(())
             }
-            <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ppm&quot;</span>)]</span>
-            <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>PPM</span>  <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>ppm</span>::<span class='ident'>PPMEncoder</span>::<span class='ident'>new</span>(<span class='ident'>w</span>);
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ppm&quot;</span>)]</span>
+            <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">PPM</span>  <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">ppm</span>::<span class="ident">PPMEncoder</span>::<span class="ident">new</span>(<span class="ident">w</span>);
 
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>p</span>.<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>color</span>));
-                <span class='prelude-val'>Ok</span>(())
-            }
-
-            <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;jpeg&quot;</span>)]</span>
-            <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>JPEG</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>j</span> <span class='op'>=</span> <span class='ident'>jpeg</span>::<span class='ident'>JPEGEncoder</span>::<span class='ident'>new</span>(<span class='ident'>w</span>);
-
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>j</span>.<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>color</span>));
-                <span class='prelude-val'>Ok</span>(())
+                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">p</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>));
+                <span class="prelude-val">Ok</span>(())
             }
 
-            <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;gif_codec&quot;</span>)]</span>
-            <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>GIF</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>g</span> <span class='op'>=</span> <span class='ident'>gif</span>::<span class='ident'>Encoder</span>::<span class='ident'>new</span>(<span class='ident'>w</span>);
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;jpeg&quot;</span>)]</span>
+            <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">JPEG</span> <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">j</span> <span class="op">=</span> <span class="ident">jpeg</span>::<span class="ident">JPEGEncoder</span>::<span class="ident">new</span>(<span class="ident">w</span>);
 
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>g</span>.<span class='ident'>encode</span>(<span class='ident'>gif</span>::<span class='ident'>Frame</span>::<span class='ident'>from_rgba</span>(
-                    <span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-                    <span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-                    <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>to_rgba</span>().<span class='ident'>iter</span>().<span class='ident'>cloned</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>()
+                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">j</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>));
+                <span class="prelude-val">Ok</span>(())
+            }
+
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;gif_codec&quot;</span>)]</span>
+            <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">GIF</span> <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">g</span> <span class="op">=</span> <span class="ident">gif</span>::<span class="ident">Encoder</span>::<span class="ident">new</span>(<span class="ident">w</span>);
+
+                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">g</span>.<span class="ident">encode</span>(<span class="ident">gif</span>::<span class="ident">Frame</span>::<span class="ident">from_rgba</span>(
+                    <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>,
+                    <span class="ident">height</span> <span class="kw">as</span> <span class="ident">u16</span>,
+                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">to_rgba</span>().<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>()
                 )));
-                <span class='prelude-val'>Ok</span>(())
+                <span class="prelude-val">Ok</span>(())
             }
 
-            <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ico&quot;</span>)]</span>
-            <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>ICO</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>ico</span>::<span class='ident'>ICOEncoder</span>::<span class='ident'>new</span>(<span class='ident'>w</span>);
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
+            <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">ICO</span> <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">ico</span>::<span class="ident">ICOEncoder</span>::<span class="ident">new</span>(<span class="ident">w</span>);
 
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>i</span>.<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>color</span>));
-                <span class='prelude-val'>Ok</span>(())
+                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">i</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>));
+                <span class="prelude-val">Ok</span>(())
             }
 
-            _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>image</span>::<span class='ident'>ImageError</span>::<span class='ident'>UnsupportedError</span>(
-                     <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;An encoder for {:?} is not available.&quot;</span>, <span class='ident'>format</span>))
+            _ <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(
+                     <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;An encoder for {:?} is not available.&quot;</span>, <span class="ident">format</span>))
                  ),
         }
     }
 }
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>deprecated</span>)]</span>
-<span class='kw'>impl</span> <span class='ident'>GenericImage</span> <span class='kw'>for</span> <span class='ident'>DynamicImage</span> {
-    <span class='kw'>type</span> <span class='ident'>Pixel</span> <span class='op'>=</span> <span class='ident'>color</span>::<span class='ident'>Rgba</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
+<span class="kw">impl</span> <span class="ident">GenericImage</span> <span class="kw">for</span> <span class="ident">DynamicImage</span> {
+    <span class="kw">type</span> <span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">Rgba</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>dimensions</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>u32</span>, <span class='ident'>u32</span>) {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>-&gt;</span> <span class='ident'>p</span>.<span class='ident'>dimensions</span>())
+    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-&gt;</span> <span class="ident">p</span>.<span class="ident">dimensions</span>())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>bounds</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>u32</span>) {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>-&gt;</span> <span class='ident'>p</span>.<span class='ident'>bounds</span>())
+    <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>) {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-&gt;</span> <span class="ident">p</span>.<span class="ident">bounds</span>())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>get_pixel</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>u32</span>, <span class='ident'>y</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>color</span>::<span class='ident'>Rgba</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
-        <span class='macro'>dynamic_map</span><span class='macro'>!</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='kw-2'>ref</span> <span class='ident'>p</span> <span class='op'>-&gt;</span> <span class='ident'>p</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>).<span class='ident'>to_rgba</span>())
+    <span class="kw">fn</span> <span class="ident">get_pixel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">color</span>::<span class="ident">Rgba</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-&gt;</span> <span class="ident">p</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">to_rgba</span>())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>put_pixel</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>u32</span>, <span class='ident'>y</span>: <span class='ident'>u32</span>, <span class='ident'>pixel</span>: <span class='ident'>color</span>::<span class='ident'>Rgba</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>.<span class='ident'>put_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>pixel</span>.<span class='ident'>to_luma</span>()),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>.<span class='ident'>put_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>pixel</span>.<span class='ident'>to_luma_alpha</span>()),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>.<span class='ident'>put_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>pixel</span>.<span class='ident'>to_rgb</span>()),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>.<span class='ident'>put_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>pixel</span>),
+    <span class="kw">fn</span> <span class="ident">put_pixel</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>, <span class="ident">pixel</span>: <span class="ident">color</span>::<span class="ident">Rgba</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_luma</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_luma_alpha</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_rgb</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>),
         }
     }
-    <span class='doccomment'>/// DEPRECATED: Use iterator `pixels_mut` to blend the pixels directly.</span>
-    <span class='kw'>fn</span> <span class='ident'>blend_pixel</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>u32</span>, <span class='ident'>y</span>: <span class='ident'>u32</span>, <span class='ident'>pixel</span>: <span class='ident'>color</span>::<span class='ident'>Rgba</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>.<span class='ident'>blend_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>pixel</span>.<span class='ident'>to_luma</span>()),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>.<span class='ident'>blend_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>pixel</span>.<span class='ident'>to_luma_alpha</span>()),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>.<span class='ident'>blend_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>pixel</span>.<span class='ident'>to_rgb</span>()),
-            <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>.<span class='ident'>blend_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>pixel</span>),
+    <span class="doccomment">/// DEPRECATED: Use iterator `pixels_mut` to blend the pixels directly.</span>
+    <span class="kw">fn</span> <span class="ident">blend_pixel</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>, <span class="ident">pixel</span>: <span class="ident">color</span>::<span class="ident">Rgba</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_luma</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_luma_alpha</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_rgb</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>),
         }
     }
 
-    <span class='doccomment'>/// DEPRECATED: Do not use is function: It is unimplemented!</span>
-    <span class='kw'>fn</span> <span class='ident'>get_pixel_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, _: <span class='ident'>u32</span>, _: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>color</span>::<span class='ident'>Rgba</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
-        <span class='macro'>unimplemented</span><span class='macro'>!</span>()
+    <span class="doccomment">/// DEPRECATED: Do not use is function: It is unimplemented!</span>
+    <span class="kw">fn</span> <span class="ident">get_pixel_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, _: <span class="ident">u32</span>, _: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">color</span>::<span class="ident">Rgba</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+        <span class="macro">unimplemented</span><span class="macro">!</span>()
     }
 }
 
 
-<span class='doccomment'>/// Decodes an image and stores it into a dynamic image</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>decoder_to_image</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>ImageDecoder</span><span class='op'>&gt;</span>(<span class='ident'>codec</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>DynamicImage</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>codec</span> <span class='op'>=</span> <span class='ident'>codec</span>;
+<span class="doccomment">/// Decodes an image and stores it into a dynamic image</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decoder_to_image</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">ImageDecoder</span><span class="op">&gt;</span>(<span class="ident">codec</span>: <span class="ident">I</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">DynamicImage</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">codec</span>;
 
-    <span class='kw'>let</span> <span class='ident'>color</span>  <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>codec</span>.<span class='ident'>colortype</span>());
-    <span class='kw'>let</span> <span class='ident'>buf</span>    <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>codec</span>.<span class='ident'>read_image</span>());
-    <span class='kw'>let</span> (<span class='ident'>w</span>, <span class='ident'>h</span>) <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>codec</span>.<span class='ident'>dimensions</span>());
+    <span class="kw">let</span> <span class="ident">color</span>  <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">codec</span>.<span class="ident">colortype</span>());
+    <span class="kw">let</span> <span class="ident">buf</span>    <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">codec</span>.<span class="ident">read_image</span>());
+    <span class="kw">let</span> (<span class="ident">w</span>, <span class="ident">h</span>) <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">codec</span>.<span class="ident">dimensions</span>());
 
-    <span class='kw'>let</span> <span class='ident'>image</span> <span class='op'>=</span> <span class='kw'>match</span> (<span class='ident'>color</span>, <span class='ident'>buf</span>) {
-        (<span class='ident'>color</span>::<span class='ident'>ColorType</span>::<span class='ident'>RGB</span>(<span class='number'>8</span>), <span class='ident'>U8</span>(<span class='ident'>buf</span>)) <span class='op'>=&gt;</span> {
-            <span class='ident'>ImageBuffer</span>::<span class='ident'>from_raw</span>(<span class='ident'>w</span>, <span class='ident'>h</span>, <span class='ident'>buf</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='ident'>v</span>))
+    <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">color</span>, <span class="ident">buf</span>) {
+        (<span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>), <span class="ident">U8</span>(<span class="ident">buf</span>)) <span class="op">=&gt;</span> {
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="ident">v</span>))
         }
 
-        (<span class='ident'>color</span>::<span class='ident'>ColorType</span>::<span class='ident'>RGBA</span>(<span class='number'>8</span>), <span class='ident'>U8</span>(<span class='ident'>buf</span>)) <span class='op'>=&gt;</span> {
-            <span class='ident'>ImageBuffer</span>::<span class='ident'>from_raw</span>(<span class='ident'>w</span>, <span class='ident'>h</span>, <span class='ident'>buf</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='ident'>v</span>))
+        (<span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>), <span class="ident">U8</span>(<span class="ident">buf</span>)) <span class="op">=&gt;</span> {
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="ident">v</span>))
         }
 
-        (<span class='ident'>color</span>::<span class='ident'>ColorType</span>::<span class='ident'>Gray</span>(<span class='number'>8</span>), <span class='ident'>U8</span>(<span class='ident'>buf</span>)) <span class='op'>=&gt;</span> {
-            <span class='ident'>ImageBuffer</span>::<span class='ident'>from_raw</span>(<span class='ident'>w</span>, <span class='ident'>h</span>, <span class='ident'>buf</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='ident'>v</span>))
+        (<span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>), <span class="ident">U8</span>(<span class="ident">buf</span>)) <span class="op">=&gt;</span> {
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">v</span>))
         }
 
-        (<span class='ident'>color</span>::<span class='ident'>ColorType</span>::<span class='ident'>GrayA</span>(<span class='number'>8</span>), <span class='ident'>U8</span>(<span class='ident'>buf</span>)) <span class='op'>=&gt;</span> {
-            <span class='ident'>ImageBuffer</span>::<span class='ident'>from_raw</span>(<span class='ident'>w</span>, <span class='ident'>h</span>, <span class='ident'>buf</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='ident'>v</span>))
+        (<span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">8</span>), <span class="ident">U8</span>(<span class="ident">buf</span>)) <span class="op">=&gt;</span> {
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="ident">v</span>))
         }
-        (<span class='ident'>color</span>::<span class='ident'>ColorType</span>::<span class='ident'>Gray</span>(<span class='ident'>bit_depth</span>), <span class='ident'>U8</span>(<span class='kw-2'>ref</span> <span class='ident'>buf</span>)) <span class='kw'>if</span> <span class='ident'>bit_depth</span> <span class='op'>==</span> <span class='number'>1</span> <span class='op'>||</span> <span class='ident'>bit_depth</span> <span class='op'>==</span> <span class='number'>2</span> <span class='op'>||</span> <span class='ident'>bit_depth</span> <span class='op'>==</span> <span class='number'>4</span> <span class='op'>=&gt;</span> {
-            <span class='comment'>// Note: this conversion assumes that the scanlines begin on byte boundaries</span>
-            <span class='kw'>let</span> <span class='ident'>mask</span> <span class='op'>=</span> (<span class='number'>1u8</span> <span class='op'>&lt;&lt;</span> <span class='ident'>bit_depth</span> <span class='kw'>as</span> <span class='ident'>usize</span>) <span class='op'>-</span> <span class='number'>1</span>;
-            <span class='kw'>let</span> <span class='ident'>scaling_factor</span> <span class='op'>=</span> (<span class='number'>255</span>)<span class='op'>/</span>((<span class='number'>1</span> <span class='op'>&lt;&lt;</span> <span class='ident'>bit_depth</span> <span class='kw'>as</span> <span class='ident'>usize</span>) <span class='op'>-</span> <span class='number'>1</span>);
-            <span class='kw'>let</span> <span class='ident'>skip</span> <span class='op'>=</span> (<span class='ident'>w</span> <span class='op'>%</span> <span class='number'>8</span>)<span class='op'>/</span><span class='ident'>bit_depth</span> <span class='kw'>as</span> <span class='ident'>u32</span>;
-            <span class='kw'>let</span> <span class='ident'>row_len</span> <span class='op'>=</span> <span class='ident'>w</span> <span class='op'>+</span> <span class='ident'>skip</span>;
-            <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>buf</span>
-                       .<span class='ident'>iter</span>()
-                       .<span class='ident'>flat_map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>v</span><span class='op'>|</span>
-                           <span class='ident'>num_iter</span>::<span class='ident'>range_step_inclusive</span>(<span class='number'>8i8</span><span class='op'>-</span>(<span class='ident'>bit_depth</span> <span class='kw'>as</span> <span class='ident'>i8</span>), <span class='number'>0</span>, <span class='op'>-</span>(<span class='ident'>bit_depth</span> <span class='kw'>as</span> <span class='ident'>i8</span>))
-                           .<span class='ident'>zip</span>(<span class='ident'>iter</span>::<span class='ident'>repeat</span>(<span class='ident'>v</span>))
+        (<span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="ident">bit_depth</span>), <span class="ident">U8</span>(<span class="kw-2">ref</span> <span class="ident">buf</span>)) <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">==</span> <span class="number">1</span> <span class="op">||</span> <span class="ident">bit_depth</span> <span class="op">==</span> <span class="number">2</span> <span class="op">||</span> <span class="ident">bit_depth</span> <span class="op">==</span> <span class="number">4</span> <span class="op">=&gt;</span> {
+            <span class="comment">// Note: this conversion assumes that the scanlines begin on byte boundaries</span>
+            <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1u8</span> <span class="op">&lt;&lt;</span> <span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> <span class="number">1</span>;
+            <span class="kw">let</span> <span class="ident">scaling_factor</span> <span class="op">=</span> (<span class="number">255</span>)<span class="op">/</span>((<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> <span class="number">1</span>);
+            <span class="kw">let</span> <span class="ident">skip</span> <span class="op">=</span> (<span class="ident">w</span> <span class="op">%</span> <span class="number">8</span>)<span class="op">/</span><span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u32</span>;
+            <span class="kw">let</span> <span class="ident">row_len</span> <span class="op">=</span> <span class="ident">w</span> <span class="op">+</span> <span class="ident">skip</span>;
+            <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">buf</span>
+                       .<span class="ident">iter</span>()
+                       .<span class="ident">flat_map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">v</span><span class="op">|</span>
+                           <span class="ident">num_iter</span>::<span class="ident">range_step_inclusive</span>(<span class="number">8i8</span><span class="op">-</span>(<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">i8</span>), <span class="number">0</span>, <span class="op">-</span>(<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">i8</span>))
+                           .<span class="ident">zip</span>(<span class="ident">iter</span>::<span class="ident">repeat</span>(<span class="ident">v</span>))
                        )
-                       <span class='comment'>// skip the pixels that can be neglected because scanlines should</span>
-                       <span class='comment'>// start at byte boundaries</span>
-                       .<span class='ident'>enumerate</span>().<span class='ident'>filter</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>i</span>, _)<span class='op'>|</span> <span class='ident'>i</span> <span class='op'>%</span> (<span class='ident'>row_len</span> <span class='kw'>as</span> <span class='ident'>usize</span>) <span class='op'>&lt;</span> (<span class='ident'>w</span> <span class='kw'>as</span> <span class='ident'>usize</span>) ).<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='ident'>p</span>)<span class='op'>|</span> <span class='ident'>p</span>)
-                       .<span class='ident'>map</span>(<span class='op'>|</span>(<span class='ident'>shift</span>, <span class='ident'>pixel</span>)<span class='op'>|</span>
-                           (<span class='ident'>pixel</span> <span class='kw-2'>&amp;</span> <span class='ident'>mask</span> <span class='op'>&lt;&lt;</span> <span class='ident'>shift</span> <span class='kw'>as</span> <span class='ident'>usize</span>) <span class='op'>&gt;&gt;</span> <span class='ident'>shift</span> <span class='kw'>as</span> <span class='ident'>usize</span>
+                       <span class="comment">// skip the pixels that can be neglected because scanlines should</span>
+                       <span class="comment">// start at byte boundaries</span>
+                       .<span class="ident">enumerate</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">i</span>, _)<span class="op">|</span> <span class="ident">i</span> <span class="op">%</span> (<span class="ident">row_len</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&lt;</span> (<span class="ident">w</span> <span class="kw">as</span> <span class="ident">usize</span>) ).<span class="ident">map</span>(<span class="op">|</span>(_, <span class="ident">p</span>)<span class="op">|</span> <span class="ident">p</span>)
+                       .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">shift</span>, <span class="ident">pixel</span>)<span class="op">|</span>
+                           (<span class="ident">pixel</span> <span class="op">&amp;</span> <span class="ident">mask</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&gt;&gt;</span> <span class="ident">shift</span> <span class="kw">as</span> <span class="ident">usize</span>
                        )
-                       .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>pixel</span><span class='op'>|</span> <span class='ident'>pixel</span> <span class='op'>*</span> <span class='ident'>scaling_factor</span>)
-                       .<span class='ident'>collect</span>();
-            <span class='ident'>ImageBuffer</span>::<span class='ident'>from_raw</span>(<span class='ident'>w</span>, <span class='ident'>h</span>, <span class='ident'>p</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>buf</span><span class='op'>|</span> <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='ident'>buf</span>))
+                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">pixel</span><span class="op">|</span> <span class="ident">pixel</span> <span class="op">*</span> <span class="ident">scaling_factor</span>)
+                       .<span class="ident">collect</span>();
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">p</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">buf</span><span class="op">|</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">buf</span>))
         },
-        _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>image</span>::<span class='ident'>ImageError</span>::<span class='ident'>UnsupportedColor</span>(<span class='ident'>color</span>))
+        _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">color</span>))
     };
-    <span class='kw'>match</span> <span class='ident'>image</span> {
-        <span class='prelude-val'>Some</span>(<span class='ident'>image</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>image</span>),
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>image</span>::<span class='ident'>ImageError</span>::<span class='ident'>DimensionError</span>)
+    <span class="kw">match</span> <span class="ident">image</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">image</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">image</span>),
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">DimensionError</span>)
     }
 }
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>deprecated</span>)]</span>
-<span class='kw'>fn</span> <span class='ident'>image_to_bytes</span>(<span class='ident'>image</span>: <span class='kw-2'>&amp;</span><span class='ident'>DynamicImage</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>image</span> {
-        <span class='comment'>// TODO: consider transmuting</span>
-        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLuma8</span>(<span class='kw-2'>ref</span> <span class='ident'>a</span>) <span class='op'>=&gt;</span> {
-            <span class='ident'>a</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>v</span>).<span class='ident'>collect</span>()
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
+<span class="kw">fn</span> <span class="ident">image_to_bytes</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">DynamicImage</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+    <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">image</span> {
+        <span class="comment">// TODO: consider transmuting</span>
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=&gt;</span> {
+            <span class="ident">a</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">v</span>).<span class="ident">collect</span>()
         }
 
-        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageLumaA8</span>(<span class='kw-2'>ref</span> <span class='ident'>a</span>) <span class='op'>=&gt;</span> {
-            <span class='ident'>a</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>v</span>).<span class='ident'>collect</span>()
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=&gt;</span> {
+            <span class="ident">a</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">v</span>).<span class="ident">collect</span>()
         }
 
-        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(<span class='kw-2'>ref</span> <span class='ident'>a</span>)  <span class='op'>=&gt;</span> {
-            <span class='ident'>a</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>v</span>).<span class='ident'>collect</span>()
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="ident">a</span>)  <span class="op">=&gt;</span> {
+            <span class="ident">a</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">v</span>).<span class="ident">collect</span>()
         }
 
-        <span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgba8</span>(<span class='kw-2'>ref</span> <span class='ident'>a</span>) <span class='op'>=&gt;</span> {
-            <span class='ident'>a</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>v</span>).<span class='ident'>collect</span>()
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=&gt;</span> {
+            <span class="ident">a</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">v</span>).<span class="ident">collect</span>()
         }
     }
 }
 
-<span class='doccomment'>/// Open the image located at the path specified.</span>
-<span class='doccomment'>/// The image&#39;s format is determined from the path&#39;s file extension.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>open</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&gt;</span>(<span class='ident'>path</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>DynamicImage</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;</span> {
-    <span class='comment'>// thin wrapper function to strip generics before calling open_impl</span>
-    <span class='ident'>open_impl</span>(<span class='ident'>path</span>.<span class='ident'>as_ref</span>())
+<span class="doccomment">/// Open the image located at the path specified.</span>
+<span class="doccomment">/// The image&#39;s format is determined from the path&#39;s file extension.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="ident">path</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">DynamicImage</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span> {
+    <span class="comment">// thin wrapper function to strip generics before calling open_impl</span>
+    <span class="ident">open_impl</span>(<span class="ident">path</span>.<span class="ident">as_ref</span>())
 }
 
-<span class='kw'>fn</span> <span class='ident'>open_impl</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>DynamicImage</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='ident'>fin</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>) {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>f</span>)  <span class='op'>=&gt;</span> <span class='ident'>f</span>,
-        <span class='prelude-val'>Err</span>(<span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>image</span>::<span class='ident'>ImageError</span>::<span class='ident'>IoError</span>(<span class='ident'>err</span>))
+<span class="kw">fn</span> <span class="ident">open_impl</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">DynamicImage</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">fin</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="ident">path</span>) {
+        <span class="prelude-val">Ok</span>(<span class="ident">f</span>)  <span class="op">=&gt;</span> <span class="ident">f</span>,
+        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">err</span>))
     };
-    <span class='kw'>let</span> <span class='ident'>fin</span> <span class='op'>=</span> <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>fin</span>);
+    <span class="kw">let</span> <span class="ident">fin</span> <span class="op">=</span> <span class="ident">BufReader</span>::<span class="ident">new</span>(<span class="ident">fin</span>);
 
-    <span class='kw'>let</span> <span class='ident'>ext</span> <span class='op'>=</span> <span class='ident'>path</span>.<span class='ident'>extension</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>to_str</span>())
-                  .<span class='ident'>map_or</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>(), <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>to_ascii_lowercase</span>());
+    <span class="kw">let</span> <span class="ident">ext</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">extension</span>().<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_str</span>())
+                  .<span class="ident">map_or</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(), <span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_ascii_lowercase</span>());
 
-    <span class='kw'>let</span> <span class='ident'>format</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='kw-2'>&amp;</span><span class='ident'>ext</span>[..] {
-        <span class='string'>&quot;jpg&quot;</span> <span class='op'>|</span>
-        <span class='string'>&quot;jpeg&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>JPEG</span>,
-        <span class='string'>&quot;png&quot;</span>  <span class='op'>=&gt;</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>PNG</span>,
-        <span class='string'>&quot;gif&quot;</span>  <span class='op'>=&gt;</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>GIF</span>,
-        <span class='string'>&quot;webp&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>WEBP</span>,
-        <span class='string'>&quot;tif&quot;</span> <span class='op'>|</span>
-        <span class='string'>&quot;tiff&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>TIFF</span>,
-        <span class='string'>&quot;tga&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>TGA</span>,
-        <span class='string'>&quot;bmp&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>BMP</span>,
-        <span class='string'>&quot;ico&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>ICO</span>,
-        <span class='string'>&quot;hdr&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>HDR</span>,
-        <span class='ident'>format</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>image</span>::<span class='ident'>ImageError</span>::<span class='ident'>UnsupportedError</span>(<span class='macro'>format</span><span class='macro'>!</span>(
-            <span class='string'>&quot;Image format image/{:?} is not supported.&quot;</span>,
-            <span class='ident'>format</span>
+    <span class="kw">let</span> <span class="ident">format</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">ext</span>[..] {
+        <span class="string">&quot;jpg&quot;</span> <span class="op">|</span>
+        <span class="string">&quot;jpeg&quot;</span> <span class="op">=&gt;</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">JPEG</span>,
+        <span class="string">&quot;png&quot;</span>  <span class="op">=&gt;</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">PNG</span>,
+        <span class="string">&quot;gif&quot;</span>  <span class="op">=&gt;</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">GIF</span>,
+        <span class="string">&quot;webp&quot;</span> <span class="op">=&gt;</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">WEBP</span>,
+        <span class="string">&quot;tif&quot;</span> <span class="op">|</span>
+        <span class="string">&quot;tiff&quot;</span> <span class="op">=&gt;</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">TIFF</span>,
+        <span class="string">&quot;tga&quot;</span> <span class="op">=&gt;</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">TGA</span>,
+        <span class="string">&quot;bmp&quot;</span> <span class="op">=&gt;</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">BMP</span>,
+        <span class="string">&quot;ico&quot;</span> <span class="op">=&gt;</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">ICO</span>,
+        <span class="string">&quot;hdr&quot;</span> <span class="op">=&gt;</span> <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">HDR</span>,
+        <span class="ident">format</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;Image format image/{:?} is not supported.&quot;</span>,
+            <span class="ident">format</span>
         )))
     };
 
-    <span class='ident'>load</span>(<span class='ident'>fin</span>, <span class='ident'>format</span>)
+    <span class="ident">load</span>(<span class="ident">fin</span>, <span class="ident">format</span>)
 }
 
-<span class='doccomment'>/// Saves the supplied buffer to a file at the path specified.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The image format is derived from the file extension. The buffer is assumed to have</span>
-<span class='doccomment'>/// the correct format according to the specified color type.</span>
+<span class="doccomment">/// Saves the supplied buffer to a file at the path specified.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The image format is derived from the file extension. The buffer is assumed to have</span>
+<span class="doccomment">/// the correct format according to the specified color type.</span>
 
-<span class='doccomment'>/// This will lead to corrupted files if the buffer contains malformed data. Currently only</span>
-<span class='doccomment'>/// jpeg and png files are supported.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>save_buffer</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&gt;</span>(<span class='ident'>path</span>: <span class='ident'>P</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>width</span>: <span class='ident'>u32</span>, <span class='ident'>height</span>: <span class='ident'>u32</span>, <span class='ident'>color</span>: <span class='ident'>color</span>::<span class='ident'>ColorType</span>)
-                      <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;</span> {
-    <span class='comment'>// thin wrapper function to strip generics before calling save_buffer_impl</span>
-    <span class='ident'>save_buffer_impl</span>(<span class='ident'>path</span>.<span class='ident'>as_ref</span>(), <span class='ident'>buf</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>color</span>)
+<span class="doccomment">/// This will lead to corrupted files if the buffer contains malformed data. Currently only</span>
+<span class="doccomment">/// jpeg and png files are supported.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_buffer</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="ident">path</span>: <span class="ident">P</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">color</span>: <span class="ident">color</span>::<span class="ident">ColorType</span>)
+                      <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span> {
+    <span class="comment">// thin wrapper function to strip generics before calling save_buffer_impl</span>
+    <span class="ident">save_buffer_impl</span>(<span class="ident">path</span>.<span class="ident">as_ref</span>(), <span class="ident">buf</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>)
 }
 
-<span class='kw'>fn</span> <span class='ident'>save_buffer_impl</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>width</span>: <span class='ident'>u32</span>, <span class='ident'>height</span>: <span class='ident'>u32</span>, <span class='ident'>color</span>: <span class='ident'>color</span>::<span class='ident'>ColorType</span>)
-                      <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>fout</span> <span class='op'>=</span> <span class='ident'>BufWriter</span>::<span class='ident'>new</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>create</span>(<span class='ident'>path</span>)));
-    <span class='kw'>let</span> <span class='ident'>ext</span> <span class='op'>=</span> <span class='ident'>path</span>.<span class='ident'>extension</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>to_str</span>())
-                  .<span class='ident'>map_or</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>(), <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>to_ascii_lowercase</span>());
+<span class="kw">fn</span> <span class="ident">save_buffer_impl</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">color</span>: <span class="ident">color</span>::<span class="ident">ColorType</span>)
+                      <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">fout</span> <span class="op">=</span> <span class="ident">BufWriter</span>::<span class="ident">new</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">File</span>::<span class="ident">create</span>(<span class="ident">path</span>)));
+    <span class="kw">let</span> <span class="ident">ext</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">extension</span>().<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_str</span>())
+                  .<span class="ident">map_or</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(), <span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_ascii_lowercase</span>());
 
-    <span class='kw'>match</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>ext</span> {
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ico&quot;</span>)]</span>
-        <span class='string'>&quot;ico&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>ico</span>::<span class='ident'>ICOEncoder</span>::<span class='ident'>new</span>(<span class='ident'>fout</span>).<span class='ident'>encode</span>(<span class='ident'>buf</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>color</span>),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;jpeg&quot;</span>)]</span>
-        <span class='string'>&quot;jpg&quot;</span> <span class='op'>|</span>
-        <span class='string'>&quot;jpeg&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>jpeg</span>::<span class='ident'>JPEGEncoder</span>::<span class='ident'>new</span>(<span class='ident'>fout</span>).<span class='ident'>encode</span>(<span class='ident'>buf</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>color</span>),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;png_codec&quot;</span>)]</span>
-        <span class='string'>&quot;png&quot;</span>  <span class='op'>=&gt;</span> <span class='ident'>png</span>::<span class='ident'>PNGEncoder</span>::<span class='ident'>new</span>(<span class='ident'>fout</span>).<span class='ident'>encode</span>(<span class='ident'>buf</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>color</span>),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ppm&quot;</span>)]</span>
-        <span class='string'>&quot;ppm&quot;</span>  <span class='op'>=&gt;</span> <span class='ident'>ppm</span>::<span class='ident'>PPMEncoder</span>::<span class='ident'>new</span>(<span class='ident'>fout</span>).<span class='ident'>encode</span>(<span class='ident'>buf</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>color</span>),
-        <span class='ident'>format</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(
-            <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>InvalidInput</span>,
-            <span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;Unsupported image format image/{:?}&quot;</span>, <span class='ident'>format</span>)[..],
+    <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ext</span> {
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
+        <span class="string">&quot;ico&quot;</span> <span class="op">=&gt;</span> <span class="ident">ico</span>::<span class="ident">ICOEncoder</span>::<span class="ident">new</span>(<span class="ident">fout</span>).<span class="ident">encode</span>(<span class="ident">buf</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;jpeg&quot;</span>)]</span>
+        <span class="string">&quot;jpg&quot;</span> <span class="op">|</span>
+        <span class="string">&quot;jpeg&quot;</span> <span class="op">=&gt;</span> <span class="ident">jpeg</span>::<span class="ident">JPEGEncoder</span>::<span class="ident">new</span>(<span class="ident">fout</span>).<span class="ident">encode</span>(<span class="ident">buf</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png_codec&quot;</span>)]</span>
+        <span class="string">&quot;png&quot;</span>  <span class="op">=&gt;</span> <span class="ident">png</span>::<span class="ident">PNGEncoder</span>::<span class="ident">new</span>(<span class="ident">fout</span>).<span class="ident">encode</span>(<span class="ident">buf</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ppm&quot;</span>)]</span>
+        <span class="string">&quot;ppm&quot;</span>  <span class="op">=&gt;</span> <span class="ident">ppm</span>::<span class="ident">PPMEncoder</span>::<span class="ident">new</span>(<span class="ident">fout</span>).<span class="ident">encode</span>(<span class="ident">buf</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>),
+        <span class="ident">format</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
+            <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
+            <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Unsupported image format image/{:?}&quot;</span>, <span class="ident">format</span>)[..],
         ))
     }
 }
 
-<span class='doccomment'>/// Create a new image from a Reader</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>BufRead</span><span class='op'>+</span><span class='ident'>Seek</span><span class='op'>&gt;</span>(<span class='ident'>r</span>: <span class='ident'>R</span>, <span class='ident'>format</span>: <span class='ident'>ImageFormat</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>DynamicImage</span><span class='op'>&gt;</span> {
-    <span class='kw'>match</span> <span class='ident'>format</span> {
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;png_codec&quot;</span>)]</span>
-        <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>PNG</span>  <span class='op'>=&gt;</span> <span class='ident'>decoder_to_image</span>(<span class='ident'>png</span>::<span class='ident'>PNGDecoder</span>::<span class='ident'>new</span>(<span class='ident'>r</span>)),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;gif_codec&quot;</span>)]</span>
-        <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>GIF</span>  <span class='op'>=&gt;</span> <span class='ident'>decoder_to_image</span>(<span class='ident'>gif</span>::<span class='ident'>Decoder</span>::<span class='ident'>new</span>(<span class='ident'>r</span>)),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;jpeg&quot;</span>)]</span>
-        <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>JPEG</span> <span class='op'>=&gt;</span> <span class='ident'>decoder_to_image</span>(<span class='ident'>jpeg</span>::<span class='ident'>JPEGDecoder</span>::<span class='ident'>new</span>(<span class='ident'>r</span>)),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;webp&quot;</span>)]</span>
-        <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>WEBP</span> <span class='op'>=&gt;</span> <span class='ident'>decoder_to_image</span>(<span class='ident'>webp</span>::<span class='ident'>WebpDecoder</span>::<span class='ident'>new</span>(<span class='ident'>r</span>)),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;tiff&quot;</span>)]</span>
-        <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>TIFF</span> <span class='op'>=&gt;</span> <span class='ident'>decoder_to_image</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>tiff</span>::<span class='ident'>TIFFDecoder</span>::<span class='ident'>new</span>(<span class='ident'>r</span>))),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;tga&quot;</span>)]</span>
-        <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>TGA</span> <span class='op'>=&gt;</span> <span class='ident'>decoder_to_image</span>(<span class='ident'>tga</span>::<span class='ident'>TGADecoder</span>::<span class='ident'>new</span>(<span class='ident'>r</span>)),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;bmp&quot;</span>)]</span>
-        <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>BMP</span> <span class='op'>=&gt;</span> <span class='ident'>decoder_to_image</span>(<span class='ident'>bmp</span>::<span class='ident'>BMPDecoder</span>::<span class='ident'>new</span>(<span class='ident'>r</span>)),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ico&quot;</span>)]</span>
-        <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>ICO</span> <span class='op'>=&gt;</span> <span class='ident'>decoder_to_image</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>ico</span>::<span class='ident'>ICODecoder</span>::<span class='ident'>new</span>(<span class='ident'>r</span>))),
-        <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;hdr&quot;</span>)]</span>
-        <span class='ident'>image</span>::<span class='ident'>ImageFormat</span>::<span class='ident'>HDR</span> <span class='op'>=&gt;</span> <span class='ident'>decoder_to_image</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>hdr</span>::<span class='ident'>HDRAdapter</span>::<span class='ident'>new</span>(<span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>r</span>)))),
-        _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>image</span>::<span class='ident'>ImageError</span>::<span class='ident'>UnsupportedError</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;A decoder for {:?} is not available.&quot;</span>, <span class='ident'>format</span>))),
+<span class="doccomment">/// Create a new image from a Reader</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">BufRead</span><span class="op">+</span><span class="ident">Seek</span><span class="op">&gt;</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="ident">format</span>: <span class="ident">ImageFormat</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">DynamicImage</span><span class="op">&gt;</span> {
+    <span class="kw">match</span> <span class="ident">format</span> {
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png_codec&quot;</span>)]</span>
+        <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">PNG</span>  <span class="op">=&gt;</span> <span class="ident">decoder_to_image</span>(<span class="ident">png</span>::<span class="ident">PNGDecoder</span>::<span class="ident">new</span>(<span class="ident">r</span>)),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;gif_codec&quot;</span>)]</span>
+        <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">GIF</span>  <span class="op">=&gt;</span> <span class="ident">decoder_to_image</span>(<span class="ident">gif</span>::<span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">r</span>)),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;jpeg&quot;</span>)]</span>
+        <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">JPEG</span> <span class="op">=&gt;</span> <span class="ident">decoder_to_image</span>(<span class="ident">jpeg</span>::<span class="ident">JPEGDecoder</span>::<span class="ident">new</span>(<span class="ident">r</span>)),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;webp&quot;</span>)]</span>
+        <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">WEBP</span> <span class="op">=&gt;</span> <span class="ident">decoder_to_image</span>(<span class="ident">webp</span>::<span class="ident">WebpDecoder</span>::<span class="ident">new</span>(<span class="ident">r</span>)),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tiff&quot;</span>)]</span>
+        <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">TIFF</span> <span class="op">=&gt;</span> <span class="ident">decoder_to_image</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">tiff</span>::<span class="ident">TIFFDecoder</span>::<span class="ident">new</span>(<span class="ident">r</span>))),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tga&quot;</span>)]</span>
+        <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">TGA</span> <span class="op">=&gt;</span> <span class="ident">decoder_to_image</span>(<span class="ident">tga</span>::<span class="ident">TGADecoder</span>::<span class="ident">new</span>(<span class="ident">r</span>)),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bmp&quot;</span>)]</span>
+        <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">BMP</span> <span class="op">=&gt;</span> <span class="ident">decoder_to_image</span>(<span class="ident">bmp</span>::<span class="ident">BMPDecoder</span>::<span class="ident">new</span>(<span class="ident">r</span>)),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
+        <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">ICO</span> <span class="op">=&gt;</span> <span class="ident">decoder_to_image</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">ico</span>::<span class="ident">ICODecoder</span>::<span class="ident">new</span>(<span class="ident">r</span>))),
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;hdr&quot;</span>)]</span>
+        <span class="ident">image</span>::<span class="ident">ImageFormat</span>::<span class="ident">HDR</span> <span class="op">=&gt;</span> <span class="ident">decoder_to_image</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">hdr</span>::<span class="ident">HDRAdapter</span>::<span class="ident">new</span>(<span class="ident">BufReader</span>::<span class="ident">new</span>(<span class="ident">r</span>)))),
+        _ <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;A decoder for {:?} is not available.&quot;</span>, <span class="ident">format</span>))),
     }
 }
 
-<span class='kw'>static</span> <span class='ident'>MAGIC_BYTES</span>: [(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>], <span class='ident'>ImageFormat</span>); <span class='number'>10</span>] <span class='op'>=</span> [
-    (<span class='string'>b&quot;\x89PNG\r\n\x1a\n&quot;</span>, <span class='ident'>ImageFormat</span>::<span class='ident'>PNG</span>),
-    (<span class='kw-2'>&amp;</span>[<span class='number'>0xff</span>, <span class='number'>0xd8</span>, <span class='number'>0xff</span>], <span class='ident'>ImageFormat</span>::<span class='ident'>JPEG</span>),
-    (<span class='string'>b&quot;GIF89a&quot;</span>, <span class='ident'>ImageFormat</span>::<span class='ident'>GIF</span>),
-    (<span class='string'>b&quot;GIF87a&quot;</span>, <span class='ident'>ImageFormat</span>::<span class='ident'>GIF</span>),
-    (<span class='string'>b&quot;WEBP&quot;</span>, <span class='ident'>ImageFormat</span>::<span class='ident'>WEBP</span>),
-    (<span class='string'>b&quot;MM.*&quot;</span>, <span class='ident'>ImageFormat</span>::<span class='ident'>TIFF</span>),
-    (<span class='string'>b&quot;II*.&quot;</span>, <span class='ident'>ImageFormat</span>::<span class='ident'>TIFF</span>),
-    (<span class='string'>b&quot;BM&quot;</span>, <span class='ident'>ImageFormat</span>::<span class='ident'>BMP</span>),
-    (<span class='kw-2'>&amp;</span>[<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>0</span>], <span class='ident'>ImageFormat</span>::<span class='ident'>ICO</span>),
-    (<span class='string'>b&quot;#?RADIANCE&quot;</span>, <span class='ident'>ImageFormat</span>::<span class='ident'>HDR</span>),
+<span class="kw">static</span> <span class="ident">MAGIC_BYTES</span>: [(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>], <span class="ident">ImageFormat</span>); <span class="number">10</span>] <span class="op">=</span> [
+    (<span class="string">b&quot;\x89PNG\r\n\x1a\n&quot;</span>, <span class="ident">ImageFormat</span>::<span class="ident">PNG</span>),
+    (<span class="kw-2">&amp;</span>[<span class="number">0xff</span>, <span class="number">0xd8</span>, <span class="number">0xff</span>], <span class="ident">ImageFormat</span>::<span class="ident">JPEG</span>),
+    (<span class="string">b&quot;GIF89a&quot;</span>, <span class="ident">ImageFormat</span>::<span class="ident">GIF</span>),
+    (<span class="string">b&quot;GIF87a&quot;</span>, <span class="ident">ImageFormat</span>::<span class="ident">GIF</span>),
+    (<span class="string">b&quot;WEBP&quot;</span>, <span class="ident">ImageFormat</span>::<span class="ident">WEBP</span>),
+    (<span class="string">b&quot;MM.*&quot;</span>, <span class="ident">ImageFormat</span>::<span class="ident">TIFF</span>),
+    (<span class="string">b&quot;II*.&quot;</span>, <span class="ident">ImageFormat</span>::<span class="ident">TIFF</span>),
+    (<span class="string">b&quot;BM&quot;</span>, <span class="ident">ImageFormat</span>::<span class="ident">BMP</span>),
+    (<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>], <span class="ident">ImageFormat</span>::<span class="ident">ICO</span>),
+    (<span class="string">b&quot;#?RADIANCE&quot;</span>, <span class="ident">ImageFormat</span>::<span class="ident">HDR</span>),
 ];
 
-<span class='doccomment'>/// Create a new image from a byte slice</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Makes an educated guess about the image format.</span>
-<span class='doccomment'>/// TGA is not supported by this function.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load_from_memory</span>(<span class='ident'>buffer</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>DynamicImage</span><span class='op'>&gt;</span> {
-    <span class='ident'>load_from_memory_with_format</span>(<span class='ident'>buffer</span>, <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>guess_format</span>(<span class='ident'>buffer</span>)))
+<span class="doccomment">/// Create a new image from a byte slice</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Makes an educated guess about the image format.</span>
+<span class="doccomment">/// TGA is not supported by this function.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_from_memory</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">DynamicImage</span><span class="op">&gt;</span> {
+    <span class="ident">load_from_memory_with_format</span>(<span class="ident">buffer</span>, <span class="macro">try</span><span class="macro">!</span>(<span class="ident">guess_format</span>(<span class="ident">buffer</span>)))
 }
 
 
-<span class='doccomment'>/// Create a new image from a byte slice</span>
-<span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load_from_memory_with_format</span>(<span class='ident'>buf</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>format</span>: <span class='ident'>ImageFormat</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>DynamicImage</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>io</span>::<span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>buf</span>);
-    <span class='ident'>load</span>(<span class='ident'>b</span>, <span class='ident'>format</span>)
+<span class="doccomment">/// Create a new image from a byte slice</span>
+<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_from_memory_with_format</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">format</span>: <span class="ident">ImageFormat</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">DynamicImage</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">io</span>::<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">buf</span>);
+    <span class="ident">load</span>(<span class="ident">b</span>, <span class="ident">format</span>)
 }
 
-<span class='doccomment'>/// Guess image format from memory block</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Makes an educated guess about the image format based on the Magic Bytes at the beginning.</span>
-<span class='doccomment'>/// TGA is not supported by this function.</span>
-<span class='doccomment'>/// This is not to be trusted on the validity of the whole memory block</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>guess_format</span>(<span class='ident'>buffer</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>ImageFormat</span><span class='op'>&gt;</span> {
-    <span class='kw'>for</span> <span class='kw-2'>&amp;</span>(<span class='ident'>signature</span>, <span class='ident'>format</span>) <span class='kw'>in</span> <span class='ident'>MAGIC_BYTES</span>.<span class='ident'>iter</span>() {
-        <span class='kw'>if</span> <span class='ident'>buffer</span>.<span class='ident'>starts_with</span>(<span class='ident'>signature</span>) {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>format</span>);
+<span class="doccomment">/// Guess image format from memory block</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Makes an educated guess about the image format based on the Magic Bytes at the beginning.</span>
+<span class="doccomment">/// TGA is not supported by this function.</span>
+<span class="doccomment">/// This is not to be trusted on the validity of the whole memory block</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">guess_format</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">ImageFormat</span><span class="op">&gt;</span> {
+    <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">signature</span>, <span class="ident">format</span>) <span class="kw">in</span> <span class="ident">MAGIC_BYTES</span>.<span class="ident">iter</span>() {
+        <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">starts_with</span>(<span class="ident">signature</span>) {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">format</span>);
         }
     }
-    <span class='prelude-val'>Err</span>(<span class='ident'>image</span>::<span class='ident'>ImageError</span>::<span class='ident'>UnsupportedError</span>(
-        <span class='string'>&quot;Unsupported image format&quot;</span>.<span class='ident'>to_string</span>())
+    <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(
+        <span class="string">&quot;Unsupported image format&quot;</span>.<span class="ident">to_string</span>())
     )
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>bench</span> {
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>benchmarks</span>)]</span>
-    <span class='kw'>use</span> <span class='ident'>test</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">bench</span> {
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">benchmarks</span>)]</span>
+    <span class="kw">use</span> <span class="ident">test</span>;
 
-    <span class='attribute'>#[<span class='ident'>bench</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>benchmarks</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>bench_conversion</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>test</span>::<span class='ident'>Bencher</span>) {
-        <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='kw'>super</span>::<span class='ident'>DynamicImage</span>::<span class='ident'>ImageRgb8</span>(::<span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='number'>1000</span>, <span class='number'>1000</span>));
-        <span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> {
-            <span class='ident'>a</span>.<span class='ident'>to_luma</span>()
+    <span class="attribute">#[<span class="ident">bench</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">benchmarks</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">bench_conversion</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test</span>::<span class="ident">Bencher</span>) {
+        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(::<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="number">1000</span>, <span class="number">1000</span>));
+        <span class="ident">b</span>.<span class="ident">iter</span>(<span class="op">||</span> {
+            <span class="ident">a</span>.<span class="ident">to_luma</span>()
         });
-        <span class='ident'>b</span>.<span class='ident'>bytes</span> <span class='op'>=</span> <span class='number'>1000</span><span class='op'>*</span><span class='number'>1000</span><span class='op'>*</span><span class='number'>3</span>
+        <span class="ident">b</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="number">1000</span><span class="kw-2">*</span><span class="number">1000</span><span class="kw-2">*</span><span class="number">3</span>
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_empty_file</span>() {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>load_from_memory</span>(<span class='string'>b&quot;&quot;</span>).<span class='ident'>is_err</span>());
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span> {
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_empty_file</span>() {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">load_from_memory</span>(<span class="string">b&quot;&quot;</span>).<span class="ident">is_err</span>());
     }
 }
 </pre>

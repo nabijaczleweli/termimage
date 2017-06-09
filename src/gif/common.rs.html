@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/gif-0.9.0/src/common.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/gif-0.9.1/src/common.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>common.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -213,176 +214,176 @@
 <span id="169">169</span>
 <span id="170">170</span>
 <span id="171">171</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Common common used both by decoder and encoder</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>color_quant</span>;
+</pre><pre class="rust ">
+<span class="doccomment">//! Common common used both by decoder and encoder</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">color_quant</span>;
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
 
-<span class='doccomment'>/// Disposal method</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
-<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>u8</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>DisposalMethod</span> {
-    <span class='doccomment'>/// StreamingDecoder is not required to take any action.</span>
-    <span class='ident'>Any</span> <span class='op'>=</span> <span class='number'>0</span>,
-    <span class='doccomment'>/// Do not dispose.</span>
-    <span class='ident'>Keep</span> <span class='op'>=</span> <span class='number'>1</span>,
-    <span class='doccomment'>/// Restore to background color.</span>
-    <span class='ident'>Background</span> <span class='op'>=</span> <span class='number'>2</span>,
-    <span class='doccomment'>/// Restore to previous.</span>
-    <span class='ident'>Previous</span> <span class='op'>=</span> <span class='number'>3</span>,
+<span class="doccomment">/// Disposal method</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u8</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DisposalMethod</span> {
+    <span class="doccomment">/// StreamingDecoder is not required to take any action.</span>
+    <span class="ident">Any</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Do not dispose.</span>
+    <span class="ident">Keep</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Restore to background color.</span>
+    <span class="ident">Background</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Restore to previous.</span>
+    <span class="ident">Previous</span> <span class="op">=</span> <span class="number">3</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>DisposalMethod</span> {
-    <span class='doccomment'>/// Converts `u8` to `Option&lt;Self&gt;`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_u8</span>(<span class='ident'>n</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DisposalMethod</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&lt;=</span> <span class='number'>3</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>n</span>) })
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>None</span>
+<span class="kw">impl</span> <span class="ident">DisposalMethod</span> {
+    <span class="doccomment">/// Converts `u8` to `Option&lt;Self&gt;`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_u8</span>(<span class="ident">n</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DisposalMethod</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;=</span> <span class="number">3</span> {
+            <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">n</span>) })
+        } <span class="kw">else</span> {
+            <span class="prelude-val">None</span>
         }
     }
 }
 
-<span class='doccomment'>/// Known GIF block types</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
-<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>u8</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Block</span> {
-    <span class='doccomment'>/// Image block.</span>
-    <span class='ident'>Image</span> <span class='op'>=</span> <span class='number'>0x2C</span>,
-    <span class='doccomment'>/// Extension block.</span>
-    <span class='ident'>Extension</span> <span class='op'>=</span> <span class='number'>0x21</span>,
-    <span class='doccomment'>/// Image trailer.</span>
-    <span class='ident'>Trailer</span> <span class='op'>=</span> <span class='number'>0x3B</span>
+<span class="doccomment">/// Known GIF block types</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u8</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Block</span> {
+    <span class="doccomment">/// Image block.</span>
+    <span class="ident">Image</span> <span class="op">=</span> <span class="number">0x2C</span>,
+    <span class="doccomment">/// Extension block.</span>
+    <span class="ident">Extension</span> <span class="op">=</span> <span class="number">0x21</span>,
+    <span class="doccomment">/// Image trailer.</span>
+    <span class="ident">Trailer</span> <span class="op">=</span> <span class="number">0x3B</span>
 }
 
-<span class='kw'>impl</span> <span class='ident'>Block</span> {
-    <span class='doccomment'>/// Converts `u8` to `Option&lt;Self&gt;`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_u8</span>(<span class='ident'>n</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Block</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='ident'>n</span> {
-            <span class='number'>0x2C</span> <span class='op'>|</span> <span class='number'>0x21</span> <span class='op'>|</span> <span class='number'>0x3B</span> <span class='op'>=&gt;</span> {
-                <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>n</span>) })
+<span class="kw">impl</span> <span class="ident">Block</span> {
+    <span class="doccomment">/// Converts `u8` to `Option&lt;Self&gt;`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_u8</span>(<span class="ident">n</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">n</span> {
+            <span class="number">0x2C</span> <span class="op">|</span> <span class="number">0x21</span> <span class="op">|</span> <span class="number">0x3B</span> <span class="op">=&gt;</span> {
+                <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">n</span>) })
             }
-            _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+            _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 }
 
 
-<span class='doccomment'>/// Known GIF extensions</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
-<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>u8</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Extension</span> {
-    <span class='doccomment'>/// Text extension.</span>
-    <span class='ident'>Text</span> <span class='op'>=</span> <span class='number'>0x01</span>,
-    <span class='doccomment'>/// Control extension.</span>
-    <span class='ident'>Control</span> <span class='op'>=</span> <span class='number'>0xF9</span>,
-    <span class='doccomment'>/// Comment extension.</span>
-    <span class='ident'>Comment</span> <span class='op'>=</span> <span class='number'>0xFE</span>,
-    <span class='doccomment'>/// Application extension.</span>
-    <span class='ident'>Application</span> <span class='op'>=</span> <span class='number'>0xFF</span>
+<span class="doccomment">/// Known GIF extensions</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u8</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Extension</span> {
+    <span class="doccomment">/// Text extension.</span>
+    <span class="ident">Text</span> <span class="op">=</span> <span class="number">0x01</span>,
+    <span class="doccomment">/// Control extension.</span>
+    <span class="ident">Control</span> <span class="op">=</span> <span class="number">0xF9</span>,
+    <span class="doccomment">/// Comment extension.</span>
+    <span class="ident">Comment</span> <span class="op">=</span> <span class="number">0xFE</span>,
+    <span class="doccomment">/// Application extension.</span>
+    <span class="ident">Application</span> <span class="op">=</span> <span class="number">0xFF</span>
 }
 
-<span class='kw'>impl</span> <span class='ident'>Extension</span> {
-    <span class='doccomment'>/// Converts `u8` to `Option&lt;Self&gt;`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_u8</span>(<span class='ident'>n</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Extension</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='ident'>n</span> {
-            <span class='number'>0x01</span> <span class='op'>|</span> <span class='number'>0xF9</span> <span class='op'>|</span> <span class='number'>0xFE</span> <span class='op'>|</span> <span class='number'>0xFF</span> <span class='op'>=&gt;</span> {
-                <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>n</span>) })
+<span class="kw">impl</span> <span class="ident">Extension</span> {
+    <span class="doccomment">/// Converts `u8` to `Option&lt;Self&gt;`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_u8</span>(<span class="ident">n</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Extension</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">n</span> {
+            <span class="number">0x01</span> <span class="op">|</span> <span class="number">0xF9</span> <span class="op">|</span> <span class="number">0xFE</span> <span class="op">|</span> <span class="number">0xFF</span> <span class="op">=&gt;</span> {
+                <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">n</span>) })
             }
-            _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+            _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 }
 
-<span class='doccomment'>/// A GIF frame</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Frame</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Frame delay in units of 10 ms.</span>
-    <span class='kw'>pub</span> <span class='ident'>delay</span>: <span class='ident'>u16</span>,
-    <span class='doccomment'>/// Disposal method.</span>
-    <span class='kw'>pub</span> <span class='ident'>dispose</span>: <span class='ident'>DisposalMethod</span>,
-    <span class='doccomment'>/// Transparent index (if available).</span>
-    <span class='kw'>pub</span> <span class='ident'>transparent</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// True if the frame needs user input do be displayed.</span>
-    <span class='kw'>pub</span> <span class='ident'>needs_user_input</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Offset from the top border of the canvas.</span>
-    <span class='kw'>pub</span> <span class='ident'>top</span>: <span class='ident'>u16</span>,
-    <span class='doccomment'>/// Offset from the left border of the canvas.</span>
-    <span class='kw'>pub</span> <span class='ident'>left</span>: <span class='ident'>u16</span>,
-    <span class='doccomment'>/// Width of the frame.</span>
-    <span class='kw'>pub</span> <span class='ident'>width</span>: <span class='ident'>u16</span>,
-    <span class='doccomment'>/// Height of the frame.</span>
-    <span class='kw'>pub</span> <span class='ident'>height</span>: <span class='ident'>u16</span>,
-    <span class='doccomment'>/// True if the image is interlaced.</span>
-    <span class='kw'>pub</span> <span class='ident'>interlaced</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Frame local color palette if available.</span>
-    <span class='kw'>pub</span> <span class='ident'>palette</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>,
-    <span class='doccomment'>/// Buffer containing the image data.</span>
-    <span class='doccomment'>/// Only indices unless configured differently.</span>
-    <span class='kw'>pub</span> <span class='ident'>buffer</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, [<span class='ident'>u8</span>]<span class='op'>&gt;</span>
+<span class="doccomment">/// A GIF frame</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Frame delay in units of 10 ms.</span>
+    <span class="kw">pub</span> <span class="ident">delay</span>: <span class="ident">u16</span>,
+    <span class="doccomment">/// Disposal method.</span>
+    <span class="kw">pub</span> <span class="ident">dispose</span>: <span class="ident">DisposalMethod</span>,
+    <span class="doccomment">/// Transparent index (if available).</span>
+    <span class="kw">pub</span> <span class="ident">transparent</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// True if the frame needs user input do be displayed.</span>
+    <span class="kw">pub</span> <span class="ident">needs_user_input</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Offset from the top border of the canvas.</span>
+    <span class="kw">pub</span> <span class="ident">top</span>: <span class="ident">u16</span>,
+    <span class="doccomment">/// Offset from the left border of the canvas.</span>
+    <span class="kw">pub</span> <span class="ident">left</span>: <span class="ident">u16</span>,
+    <span class="doccomment">/// Width of the frame.</span>
+    <span class="kw">pub</span> <span class="ident">width</span>: <span class="ident">u16</span>,
+    <span class="doccomment">/// Height of the frame.</span>
+    <span class="kw">pub</span> <span class="ident">height</span>: <span class="ident">u16</span>,
+    <span class="doccomment">/// True if the image is interlaced.</span>
+    <span class="kw">pub</span> <span class="ident">interlaced</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Frame local color palette if available.</span>
+    <span class="kw">pub</span> <span class="ident">palette</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>,
+    <span class="doccomment">/// Buffer containing the image data.</span>
+    <span class="doccomment">/// Only indices unless configured differently.</span>
+    <span class="kw">pub</span> <span class="ident">buffer</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, [<span class="ident">u8</span>]<span class="op">&gt;</span>
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>Frame</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='ident'>Frame</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-        <span class='ident'>Frame</span> {
-            <span class='ident'>delay</span>: <span class='number'>0</span>,
-            <span class='ident'>dispose</span>: <span class='ident'>DisposalMethod</span>::<span class='ident'>Keep</span>,
-            <span class='ident'>transparent</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>needs_user_input</span>: <span class='bool-val'>false</span>,
-            <span class='ident'>top</span>: <span class='number'>0</span>,
-            <span class='ident'>left</span>: <span class='number'>0</span>,
-            <span class='ident'>width</span>: <span class='number'>0</span>,
-            <span class='ident'>height</span>: <span class='number'>0</span>,
-            <span class='ident'>interlaced</span>: <span class='bool-val'>false</span>,
-            <span class='ident'>palette</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>buffer</span>: <span class='ident'>Cow</span>::<span class='ident'>Borrowed</span>(<span class='kw-2'>&amp;</span>[])
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+        <span class="ident">Frame</span> {
+            <span class="ident">delay</span>: <span class="number">0</span>,
+            <span class="ident">dispose</span>: <span class="ident">DisposalMethod</span>::<span class="ident">Keep</span>,
+            <span class="ident">transparent</span>: <span class="prelude-val">None</span>,
+            <span class="ident">needs_user_input</span>: <span class="bool-val">false</span>,
+            <span class="ident">top</span>: <span class="number">0</span>,
+            <span class="ident">left</span>: <span class="number">0</span>,
+            <span class="ident">width</span>: <span class="number">0</span>,
+            <span class="ident">height</span>: <span class="number">0</span>,
+            <span class="ident">interlaced</span>: <span class="bool-val">false</span>,
+            <span class="ident">palette</span>: <span class="prelude-val">None</span>,
+            <span class="ident">buffer</span>: <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="kw-2">&amp;</span>[])
         }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Frame</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> {
+<span class="kw">impl</span> <span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
     
-    <span class='doccomment'>/// Creates a frame from pixels in RGBA format.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// *Note: This method is not optimized for speed.*</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_rgba</span>(<span class='ident'>width</span>: <span class='ident'>u16</span>, <span class='ident'>height</span>: <span class='ident'>u16</span>, <span class='ident'>pixels</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>Frame</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> {
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='number'>4</span>, <span class='ident'>pixels</span>.<span class='ident'>len</span>());
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>Frame</span>::<span class='ident'>default</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>transparent</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
-        <span class='kw'>for</span> <span class='ident'>pix</span> <span class='kw'>in</span> <span class='ident'>pixels</span>.<span class='ident'>chunks_mut</span>(<span class='number'>4</span>) {
-            <span class='kw'>if</span> <span class='ident'>pix</span>[<span class='number'>3</span>] <span class='op'>!=</span> <span class='number'>0</span> {
-                <span class='ident'>pix</span>[<span class='number'>3</span>] <span class='op'>=</span> <span class='number'>0xFF</span>;
-            } <span class='kw'>else</span> {
-                <span class='ident'>transparent</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>([<span class='ident'>pix</span>[<span class='number'>0</span>], <span class='ident'>pix</span>[<span class='number'>1</span>], <span class='ident'>pix</span>[<span class='number'>2</span>], <span class='ident'>pix</span>[<span class='number'>3</span>]])
+    <span class="doccomment">/// Creates a frame from pixels in RGBA format.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *Note: This method is not optimized for speed.*</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_rgba</span>(<span class="ident">width</span>: <span class="ident">u16</span>, <span class="ident">height</span>: <span class="ident">u16</span>, <span class="ident">pixels</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="number">4</span>, <span class="ident">pixels</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">frame</span> <span class="op">=</span> <span class="ident">Frame</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">transparent</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="kw">for</span> <span class="ident">pix</span> <span class="kw">in</span> <span class="ident">pixels</span>.<span class="ident">chunks_mut</span>(<span class="number">4</span>) {
+            <span class="kw">if</span> <span class="ident">pix</span>[<span class="number">3</span>] <span class="op">!=</span> <span class="number">0</span> {
+                <span class="ident">pix</span>[<span class="number">3</span>] <span class="op">=</span> <span class="number">0xFF</span>;
+            } <span class="kw">else</span> {
+                <span class="ident">transparent</span> <span class="op">=</span> <span class="prelude-val">Some</span>([<span class="ident">pix</span>[<span class="number">0</span>], <span class="ident">pix</span>[<span class="number">1</span>], <span class="ident">pix</span>[<span class="number">2</span>], <span class="ident">pix</span>[<span class="number">3</span>]])
             }
         }
-        <span class='ident'>frame</span>.<span class='ident'>width</span> <span class='op'>=</span> <span class='ident'>width</span>;
-        <span class='ident'>frame</span>.<span class='ident'>height</span> <span class='op'>=</span> <span class='ident'>height</span>;
-        <span class='kw'>let</span> <span class='ident'>nq</span> <span class='op'>=</span> <span class='ident'>color_quant</span>::<span class='ident'>NeuQuant</span>::<span class='ident'>new</span>(<span class='number'>1</span>, <span class='number'>256</span>, <span class='ident'>pixels</span>);
-        <span class='ident'>frame</span>.<span class='ident'>buffer</span> <span class='op'>=</span> <span class='ident'>Cow</span>::<span class='ident'>Owned</span>(<span class='ident'>pixels</span>.<span class='ident'>chunks</span>(<span class='number'>4</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>pix</span><span class='op'>|</span> <span class='ident'>nq</span>.<span class='ident'>index_of</span>(<span class='ident'>pix</span>) <span class='kw'>as</span> <span class='ident'>u8</span>).<span class='ident'>collect</span>());
-        <span class='ident'>frame</span>.<span class='ident'>palette</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>nq</span>.<span class='ident'>color_map_rgb</span>());
-        <span class='ident'>frame</span>.<span class='ident'>transparent</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>t</span>) <span class='op'>=</span> <span class='ident'>transparent</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>nq</span>.<span class='ident'>index_of</span>(<span class='kw-2'>&amp;</span><span class='ident'>t</span>) <span class='kw'>as</span> <span class='ident'>u8</span>)
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>None</span>
+        <span class="ident">frame</span>.<span class="ident">width</span> <span class="op">=</span> <span class="ident">width</span>;
+        <span class="ident">frame</span>.<span class="ident">height</span> <span class="op">=</span> <span class="ident">height</span>;
+        <span class="kw">let</span> <span class="ident">nq</span> <span class="op">=</span> <span class="ident">color_quant</span>::<span class="ident">NeuQuant</span>::<span class="ident">new</span>(<span class="number">1</span>, <span class="number">256</span>, <span class="ident">pixels</span>);
+        <span class="ident">frame</span>.<span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">pixels</span>.<span class="ident">chunks</span>(<span class="number">4</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">pix</span><span class="op">|</span> <span class="ident">nq</span>.<span class="ident">index_of</span>(<span class="ident">pix</span>) <span class="kw">as</span> <span class="ident">u8</span>).<span class="ident">collect</span>());
+        <span class="ident">frame</span>.<span class="ident">palette</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">nq</span>.<span class="ident">color_map_rgb</span>());
+        <span class="ident">frame</span>.<span class="ident">transparent</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">t</span>) <span class="op">=</span> <span class="ident">transparent</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">nq</span>.<span class="ident">index_of</span>(<span class="kw-2">&amp;</span><span class="ident">t</span>) <span class="kw">as</span> <span class="ident">u8</span>)
+        } <span class="kw">else</span> {
+            <span class="prelude-val">None</span>
         };
-        <span class='ident'>frame</span>
+        <span class="ident">frame</span>
         
         
     }
     
-    <span class='doccomment'>/// Creates a frame from pixels in RGB format.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// *Note: This method is not optimized for speed.*</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_rgb</span>(<span class='ident'>width</span>: <span class='ident'>u16</span>, <span class='ident'>height</span>: <span class='ident'>u16</span>, <span class='ident'>pixels</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>Frame</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> {
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='number'>3</span>, <span class='ident'>pixels</span>.<span class='ident'>len</span>());
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>pixels</span>.<span class='ident'>len</span>() <span class='op'>+</span> <span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
-        <span class='kw'>for</span> <span class='ident'>v</span> <span class='kw'>in</span> <span class='ident'>pixels</span>.<span class='ident'>chunks</span>(<span class='number'>3</span>) {
-            <span class='ident'>vec</span>.<span class='ident'>extend</span>([<span class='ident'>v</span>[<span class='number'>0</span>], <span class='ident'>v</span>[<span class='number'>1</span>], <span class='ident'>v</span>[<span class='number'>2</span>], <span class='number'>0xFF</span>].<span class='ident'>iter</span>().<span class='ident'>cloned</span>())
+    <span class="doccomment">/// Creates a frame from pixels in RGB format.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *Note: This method is not optimized for speed.*</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_rgb</span>(<span class="ident">width</span>: <span class="ident">u16</span>, <span class="ident">height</span>: <span class="ident">u16</span>, <span class="ident">pixels</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="number">3</span>, <span class="ident">pixels</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vec</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">pixels</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>);
+        <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">pixels</span>.<span class="ident">chunks</span>(<span class="number">3</span>) {
+            <span class="ident">vec</span>.<span class="ident">extend</span>([<span class="ident">v</span>[<span class="number">0</span>], <span class="ident">v</span>[<span class="number">1</span>], <span class="ident">v</span>[<span class="number">2</span>], <span class="number">0xFF</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>())
         }
-        <span class='ident'>Frame</span>::<span class='ident'>from_rgba</span>(<span class='ident'>width</span>, <span class='ident'>height</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>vec</span>)
+        <span class="ident">Frame</span>::<span class="ident">from_rgba</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">vec</span>)
     }
 }</pre>
 </section>

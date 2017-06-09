@@ -9,6 +9,7 @@
 
     <title>ifd.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -234,199 +235,199 @@
 <span id="190">190</span>
 <span id="191">191</span>
 <span id="192">192</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Function for reading TIFF tags</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Function for reading TIFF tags</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='self'>self</span>, <span class='ident'>Read</span>, <span class='ident'>Seek</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::{<span class='ident'>HashMap</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Read</span>, <span class="ident">Seek</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::{<span class="ident">HashMap</span>};
 
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>stream</span>::{<span class='ident'>ByteOrder</span>, <span class='ident'>SmartReader</span>, <span class='ident'>EndianReader</span>};
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">stream</span>::{<span class="ident">ByteOrder</span>, <span class="ident">SmartReader</span>, <span class="ident">EndianReader</span>};
 
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>Value</span>::{<span class='ident'>Unsigned</span>, <span class='ident'>List</span>};
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">Value</span>::{<span class="ident">Unsigned</span>, <span class="ident">List</span>};
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>tags</span> {
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">tags</span> {
     {$(
-        <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tag</span>:<span class='ident'>ident</span>
-        <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>val</span>:<span class='ident'>expr</span>;
-    )<span class='op'>*</span>} <span class='op'>=&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>:<span class="ident">ident</span>
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>;
+    )<span class="kw-2">*</span>} <span class="op">=&gt;</span> {
 
-        <span class='doccomment'>/// TIFF tag</span>
-        <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Debug</span>, <span class='ident'>Hash</span>)]</span>
-        <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Tag</span> {
-            $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tag</span>,)<span class='op'>*</span>
-            <span class='ident'>Unknown</span>(<span class='ident'>u16</span>)
+        <span class="doccomment">/// TIFF tag</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Tag</span> {
+            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>,)<span class="op">*</span>
+            <span class="ident">Unknown</span>(<span class="ident">u16</span>)
         }
-        <span class='kw'>impl</span> <span class='ident'>Tag</span> {
-            <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_u16</span>(<span class='ident'>n</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='ident'>Tag</span> {
-                $(<span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>==</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>val</span> { <span class='ident'>Tag</span>::<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tag</span> } <span class='kw'>else</span>)<span class='op'>*</span> {
-                    <span class='ident'>Tag</span>::<span class='ident'>Unknown</span>(<span class='ident'>n</span>)
+        <span class="kw">impl</span> <span class="ident">Tag</span> {
+            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_u16</span>(<span class="ident">n</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="ident">Tag</span> {
+                $(<span class="kw">if</span> <span class="ident">n</span> <span class="op">==</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span> { <span class="ident">Tag</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span> } <span class="kw">else</span>)<span class="op">*</span> {
+                    <span class="ident">Tag</span>::<span class="ident">Unknown</span>(<span class="ident">n</span>)
                 }
             }
         }
     }
 }
 
-<span class='comment'>// Note: These tags appear in the order they are mentioned in the TIFF reference</span>
-<span class='macro'>tags</span><span class='macro'>!</span>{
-    <span class='comment'>// Baseline tags:</span>
-    <span class='ident'>Artist</span> <span class='number'>315</span>; <span class='comment'>// TODO add support</span>
-    <span class='comment'>// grayscale images PhotometricInterpretation 1 or 3</span>
-    <span class='ident'>BitsPerSample</span> <span class='number'>258</span>;
-    <span class='ident'>CellLength</span> <span class='number'>265</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>CellWidth</span> <span class='number'>264</span>; <span class='comment'>// TODO add support</span>
-    <span class='comment'>// palette-color images (PhotometricInterpretation 3)</span>
-    <span class='ident'>ColorMap</span> <span class='number'>320</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>Compression</span> <span class='number'>259</span>; <span class='comment'>// TODO add support for 2 and 32773</span>
-    <span class='ident'>Copyright</span> <span class='number'>33432</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>DateTime</span> <span class='number'>306</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>ExtraSamples</span> <span class='number'>338</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>FillOrder</span> <span class='number'>266</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>FreeByteCounts</span> <span class='number'>289</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>FreeOffsets</span> <span class='number'>288</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>GrayResponseCurve</span> <span class='number'>291</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>GrayResponseUnit</span> <span class='number'>290</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>HostComputer</span> <span class='number'>316</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>ImageDescription</span> <span class='number'>270</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>ImageLength</span> <span class='number'>257</span>;
-    <span class='ident'>ImageWidth</span> <span class='number'>256</span>;
-    <span class='ident'>Make</span> <span class='number'>271</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>MaxSampleValue</span> <span class='number'>281</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>MinSampleValue</span> <span class='number'>280</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>Model</span> <span class='number'>272</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>NewSubfileType</span> <span class='number'>254</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>Orientation</span> <span class='number'>274</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>PhotometricInterpretation</span> <span class='number'>262</span>;
-    <span class='ident'>PlanarConfiguration</span> <span class='number'>284</span>;
-    <span class='ident'>ResolutionUnit</span> <span class='number'>296</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>RowsPerStrip</span> <span class='number'>278</span>;
-    <span class='ident'>SamplesPerPixel</span> <span class='number'>277</span>;
-    <span class='ident'>Software</span> <span class='number'>305</span>;
-    <span class='ident'>StripByteCounts</span> <span class='number'>279</span>;
-    <span class='ident'>StripOffsets</span> <span class='number'>273</span>;
-    <span class='ident'>SubfileType</span> <span class='number'>255</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>Threshholding</span> <span class='number'>263</span>; <span class='comment'>// TODO add support</span>
-    <span class='ident'>XResolution</span> <span class='number'>282</span>;
-    <span class='ident'>YResolution</span> <span class='number'>283</span>;
-    <span class='comment'>// Advanced tags</span>
-    <span class='ident'>Predictor</span> <span class='number'>317</span>;
+<span class="comment">// Note: These tags appear in the order they are mentioned in the TIFF reference</span>
+<span class="macro">tags</span><span class="macro">!</span>{
+    <span class="comment">// Baseline tags:</span>
+    <span class="ident">Artist</span> <span class="number">315</span>; <span class="comment">// TODO add support</span>
+    <span class="comment">// grayscale images PhotometricInterpretation 1 or 3</span>
+    <span class="ident">BitsPerSample</span> <span class="number">258</span>;
+    <span class="ident">CellLength</span> <span class="number">265</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">CellWidth</span> <span class="number">264</span>; <span class="comment">// TODO add support</span>
+    <span class="comment">// palette-color images (PhotometricInterpretation 3)</span>
+    <span class="ident">ColorMap</span> <span class="number">320</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">Compression</span> <span class="number">259</span>; <span class="comment">// TODO add support for 2 and 32773</span>
+    <span class="ident">Copyright</span> <span class="number">33432</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">DateTime</span> <span class="number">306</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">ExtraSamples</span> <span class="number">338</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">FillOrder</span> <span class="number">266</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">FreeByteCounts</span> <span class="number">289</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">FreeOffsets</span> <span class="number">288</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">GrayResponseCurve</span> <span class="number">291</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">GrayResponseUnit</span> <span class="number">290</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">HostComputer</span> <span class="number">316</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">ImageDescription</span> <span class="number">270</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">ImageLength</span> <span class="number">257</span>;
+    <span class="ident">ImageWidth</span> <span class="number">256</span>;
+    <span class="ident">Make</span> <span class="number">271</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">MaxSampleValue</span> <span class="number">281</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">MinSampleValue</span> <span class="number">280</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">Model</span> <span class="number">272</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">NewSubfileType</span> <span class="number">254</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">Orientation</span> <span class="number">274</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">PhotometricInterpretation</span> <span class="number">262</span>;
+    <span class="ident">PlanarConfiguration</span> <span class="number">284</span>;
+    <span class="ident">ResolutionUnit</span> <span class="number">296</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">RowsPerStrip</span> <span class="number">278</span>;
+    <span class="ident">SamplesPerPixel</span> <span class="number">277</span>;
+    <span class="ident">Software</span> <span class="number">305</span>;
+    <span class="ident">StripByteCounts</span> <span class="number">279</span>;
+    <span class="ident">StripOffsets</span> <span class="number">273</span>;
+    <span class="ident">SubfileType</span> <span class="number">255</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">Threshholding</span> <span class="number">263</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">XResolution</span> <span class="number">282</span>;
+    <span class="ident">YResolution</span> <span class="number">283</span>;
+    <span class="comment">// Advanced tags</span>
+    <span class="ident">Predictor</span> <span class="number">317</span>;
 }
 
-<span class='macro'>enum_from_primitive</span><span class='macro'>!</span> {
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Type</span> {
-    <span class='ident'>BYTE</span> <span class='op'>=</span> <span class='number'>1</span>,
-    <span class='ident'>ASCII</span> <span class='op'>=</span> <span class='number'>2</span>,
-    <span class='ident'>SHORT</span> <span class='op'>=</span> <span class='number'>3</span>,
-    <span class='ident'>LONG</span> <span class='op'>=</span> <span class='number'>4</span>,
-    <span class='ident'>RATIONAL</span> <span class='op'>=</span> <span class='number'>5</span>,
+<span class="macro">enum_from_primitive</span><span class="macro">!</span> {
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+    <span class="ident">BYTE</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="ident">ASCII</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="ident">SHORT</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="ident">LONG</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="ident">RATIONAL</span> <span class="op">=</span> <span class="number">5</span>,
 }
 }
 
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_qualifications</span>)]</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Value</span> {
-    <span class='comment'>//Signed(i32),</span>
-    <span class='ident'>Unsigned</span>(<span class='ident'>u32</span>),
-    <span class='ident'>List</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Value</span><span class='op'>&gt;</span>)
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_qualifications</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Value</span> {
+    <span class="comment">//Signed(i32),</span>
+    <span class="ident">Unsigned</span>(<span class="ident">u32</span>),
+    <span class="ident">List</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>)
 }
 
-<span class='kw'>impl</span> <span class='ident'>Value</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_u32</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> ::<span class='ident'>image</span>::<span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='self'>self</span> {
-            <span class='ident'>Unsigned</span>(<span class='ident'>val</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>val</span>),
-            <span class='ident'>val</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(::<span class='ident'>image</span>::<span class='ident'>ImageError</span>::<span class='ident'>FormatError</span>(<span class='macro'>format</span><span class='macro'>!</span>(
-                <span class='string'>&quot;Expected unsigned integer, {:?} found.&quot;</span>, <span class='ident'>val</span>
+<span class="kw">impl</span> <span class="ident">Value</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_u32</span>(<span class="self">self</span>) <span class="op">-&gt;</span> ::<span class="ident">image</span>::<span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">Unsigned</span>(<span class="ident">val</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">val</span>),
+            <span class="ident">val</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(::<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="macro">format</span><span class="macro">!</span>(
+                <span class="string">&quot;Expected unsigned integer, {:?} found.&quot;</span>, <span class="ident">val</span>
             )))
         }
     }
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_u32_vec</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> ::<span class='ident'>image</span>::<span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>match</span> <span class='self'>self</span> {
-            <span class='ident'>List</span>(<span class='ident'>vec</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new_vec</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>vec</span>.<span class='ident'>len</span>());
-                <span class='kw'>for</span> <span class='ident'>v</span> <span class='kw'>in</span> <span class='ident'>vec</span>.<span class='ident'>into_iter</span>() {
-                    <span class='ident'>new_vec</span>.<span class='ident'>push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>v</span>.<span class='ident'>as_u32</span>()))
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_u32_vec</span>(<span class="self">self</span>) <span class="op">-&gt;</span> ::<span class="ident">image</span>::<span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">List</span>(<span class="ident">vec</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">vec</span>.<span class="ident">len</span>());
+                <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">vec</span>.<span class="ident">into_iter</span>() {
+                    <span class="ident">new_vec</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">v</span>.<span class="ident">as_u32</span>()))
                 }
-                <span class='prelude-val'>Ok</span>(<span class='ident'>new_vec</span>)
+                <span class="prelude-val">Ok</span>(<span class="ident">new_vec</span>)
             },
-            <span class='ident'>Unsigned</span>(<span class='ident'>val</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>val</span>]),
-            <span class='comment'>//_ =&gt; Err(::image::FormatError(&quot;Tag data malformed.&quot;.to_string()))</span>
+            <span class="ident">Unsigned</span>(<span class="ident">val</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">val</span>]),
+            <span class="comment">//_ =&gt; Err(::image::FormatError(&quot;Tag data malformed.&quot;.to_string()))</span>
         }
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Entry</span> {
-    <span class='ident'>type_</span>: <span class='ident'>Type</span>,
-    <span class='ident'>count</span>: <span class='ident'>u32</span>,
-    <span class='ident'>offset</span>: [<span class='ident'>u8</span>; <span class='number'>4</span>],
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entry</span> {
+    <span class="ident">type_</span>: <span class="ident">Type</span>,
+    <span class="ident">count</span>: <span class="ident">u32</span>,
+    <span class="ident">offset</span>: [<span class="ident">u8</span>; <span class="number">4</span>],
 }
 
-<span class='kw'>impl</span> ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>Entry</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>fmt</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='ident'>fmt</span>.<span class='ident'>write_str</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;Entry {{ type_: {:?}, count: {:?}, offset: {:?} }}&quot;</span>,
-            <span class='self'>self</span>.<span class='ident'>type_</span>,
-            <span class='self'>self</span>.<span class='ident'>count</span>,
-            <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>offset</span>
+<span class="kw">impl</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Entry</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Entry {{ type_: {:?}, count: {:?}, offset: {:?} }}&quot;</span>,
+            <span class="self">self</span>.<span class="ident">type_</span>,
+            <span class="self">self</span>.<span class="ident">count</span>,
+            <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">offset</span>
         ))
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Entry</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>type_</span>: <span class='ident'>Type</span>, <span class='ident'>count</span>: <span class='ident'>u32</span>, <span class='ident'>offset</span>: [<span class='ident'>u8</span>; <span class='number'>4</span>]) <span class='op'>-&gt;</span> <span class='ident'>Entry</span> {
-        <span class='ident'>Entry</span> {
-            <span class='ident'>type_</span>: <span class='ident'>type_</span>,
-            <span class='ident'>count</span>: <span class='ident'>count</span>,
-            <span class='ident'>offset</span>: <span class='ident'>offset</span>
+<span class="kw">impl</span> <span class="ident">Entry</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">type_</span>: <span class="ident">Type</span>, <span class="ident">count</span>: <span class="ident">u32</span>, <span class="ident">offset</span>: [<span class="ident">u8</span>; <span class="number">4</span>]) <span class="op">-&gt;</span> <span class="ident">Entry</span> {
+        <span class="ident">Entry</span> {
+            <span class="ident">type_</span>: <span class="ident">type_</span>,
+            <span class="ident">count</span>: <span class="ident">count</span>,
+            <span class="ident">offset</span>: <span class="ident">offset</span>
         }
     }
 
-    <span class='doccomment'>/// Returns a mem_reader for the offset/value field</span>
-    <span class='kw'>fn</span> <span class='ident'>r</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>byte_order</span>: <span class='ident'>ByteOrder</span>) <span class='op'>-&gt;</span> <span class='ident'>SmartReader</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Cursor</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> {
-        <span class='ident'>SmartReader</span>::<span class='ident'>wrap</span>(
-            <span class='ident'>io</span>::<span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>offset</span>.<span class='ident'>to_vec</span>()),
-            <span class='ident'>byte_order</span>
+    <span class="doccomment">/// Returns a mem_reader for the offset/value field</span>
+    <span class="kw">fn</span> <span class="ident">r</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">byte_order</span>: <span class="ident">ByteOrder</span>) <span class="op">-&gt;</span> <span class="ident">SmartReader</span><span class="op">&lt;</span><span class="ident">io</span>::<span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span> {
+        <span class="ident">SmartReader</span>::<span class="ident">wrap</span>(
+            <span class="ident">io</span>::<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">offset</span>.<span class="ident">to_vec</span>()),
+            <span class="ident">byte_order</span>
         )
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>val</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Seek</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>decoder</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw'>super</span>::<span class='ident'>TIFFDecoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>)
-    <span class='op'>-&gt;</span> ::<span class='ident'>image</span>::<span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>Value</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>bo</span> <span class='op'>=</span> <span class='ident'>decoder</span>.<span class='ident'>byte_order</span>();
-        <span class='kw'>match</span> (<span class='self'>self</span>.<span class='ident'>type_</span>, <span class='self'>self</span>.<span class='ident'>count</span>) {
-            <span class='comment'>// TODO check if this could give wrong results</span>
-            <span class='comment'>// at a different endianess of file/computer.</span>
-            (<span class='ident'>Type</span>::<span class='ident'>BYTE</span>, <span class='number'>1</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Unsigned</span>(<span class='self'>self</span>.<span class='ident'>offset</span>[<span class='number'>0</span>] <span class='kw'>as</span> <span class='ident'>u32</span>)),
-            (<span class='ident'>Type</span>::<span class='ident'>SHORT</span>, <span class='number'>1</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Unsigned</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>r</span>(<span class='ident'>bo</span>).<span class='ident'>read_u16</span>()) <span class='kw'>as</span> <span class='ident'>u32</span>)),
-            (<span class='ident'>Type</span>::<span class='ident'>SHORT</span>, <span class='number'>2</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r</span>(<span class='ident'>bo</span>);
-                <span class='prelude-val'>Ok</span>(<span class='ident'>List</span>(<span class='macro'>vec</span><span class='macro'>!</span>[
-                    <span class='ident'>Unsigned</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u16</span>()) <span class='kw'>as</span> <span class='ident'>u32</span>),
-                    <span class='ident'>Unsigned</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u16</span>()) <span class='kw'>as</span> <span class='ident'>u32</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">val</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">decoder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">super</span>::<span class="ident">TIFFDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>)
+    <span class="op">-&gt;</span> ::<span class="ident">image</span>::<span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">bo</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">byte_order</span>();
+        <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">type_</span>, <span class="self">self</span>.<span class="ident">count</span>) {
+            <span class="comment">// TODO check if this could give wrong results</span>
+            <span class="comment">// at a different endianess of file/computer.</span>
+            (<span class="ident">Type</span>::<span class="ident">BYTE</span>, <span class="number">1</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="self">self</span>.<span class="ident">offset</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u32</span>)),
+            (<span class="ident">Type</span>::<span class="ident">SHORT</span>, <span class="number">1</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u16</span>()) <span class="kw">as</span> <span class="ident">u32</span>)),
+            (<span class="ident">Type</span>::<span class="ident">SHORT</span>, <span class="number">2</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>);
+                <span class="prelude-val">Ok</span>(<span class="ident">List</span>(<span class="macro">vec</span><span class="macro">!</span>[
+                    <span class="ident">Unsigned</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u16</span>()) <span class="kw">as</span> <span class="ident">u32</span>),
+                    <span class="ident">Unsigned</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u16</span>()) <span class="kw">as</span> <span class="ident">u32</span>)
                 ]))
             },
-            (<span class='ident'>Type</span>::<span class='ident'>SHORT</span>, <span class='ident'>n</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>decoder</span>.<span class='ident'>goto_offset</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>r</span>(<span class='ident'>bo</span>).<span class='ident'>read_u32</span>())));
-                <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span> .. <span class='ident'>n</span> {
-                    <span class='ident'>v</span>.<span class='ident'>push</span>(<span class='ident'>Unsigned</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>decoder</span>.<span class='ident'>read_short</span>()) <span class='kw'>as</span> <span class='ident'>u32</span>))
+            (<span class="ident">Type</span>::<span class="ident">SHORT</span>, <span class="ident">n</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
+                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>())));
+                <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">n</span> {
+                    <span class="ident">v</span>.<span class="ident">push</span>(<span class="ident">Unsigned</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_short</span>()) <span class="kw">as</span> <span class="ident">u32</span>))
                 }
-                <span class='prelude-val'>Ok</span>(<span class='ident'>List</span>(<span class='ident'>v</span>))
+                <span class="prelude-val">Ok</span>(<span class="ident">List</span>(<span class="ident">v</span>))
             },
-            (<span class='ident'>Type</span>::<span class='ident'>LONG</span>, <span class='number'>1</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Unsigned</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>r</span>(<span class='ident'>bo</span>).<span class='ident'>read_u32</span>()))),
-            (<span class='ident'>Type</span>::<span class='ident'>LONG</span>, <span class='ident'>n</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>decoder</span>.<span class='ident'>goto_offset</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>r</span>(<span class='ident'>bo</span>).<span class='ident'>read_u32</span>())));
-                <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span> .. <span class='ident'>n</span> {
-                    <span class='ident'>v</span>.<span class='ident'>push</span>(<span class='ident'>Unsigned</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>decoder</span>.<span class='ident'>read_long</span>())))
+            (<span class="ident">Type</span>::<span class="ident">LONG</span>, <span class="number">1</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>()))),
+            (<span class="ident">Type</span>::<span class="ident">LONG</span>, <span class="ident">n</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
+                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>())));
+                <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">n</span> {
+                    <span class="ident">v</span>.<span class="ident">push</span>(<span class="ident">Unsigned</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_long</span>())))
                 }
-                <span class='prelude-val'>Ok</span>(<span class='ident'>List</span>(<span class='ident'>v</span>))
+                <span class="prelude-val">Ok</span>(<span class="ident">List</span>(<span class="ident">v</span>))
             }
-            _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(::<span class='ident'>image</span>::<span class='ident'>ImageError</span>::<span class='ident'>UnsupportedError</span>(<span class='string'>&quot;Unsupported data type.&quot;</span>.<span class='ident'>to_string</span>()))
+            _ <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(::<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="string">&quot;Unsupported data type.&quot;</span>.<span class="ident">to_string</span>()))
         }
     }
 }
 
-<span class='doccomment'>/// Type representing an Image File Directory</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Directory</span> <span class='op'>=</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>Tag</span>, <span class='ident'>Entry</span><span class='op'>&gt;</span>;
+<span class="doccomment">/// Type representing an Image File Directory</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Directory</span> <span class="op">=</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Tag</span>, <span class="ident">Entry</span><span class="op">&gt;</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

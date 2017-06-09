@@ -4,19 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.36/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.37/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../../num_traits/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -278,242 +279,336 @@
 <span id="234">234</span>
 <span id="235">235</span>
 <span id="236">236</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright 2013-2014 The Rust Project Developers. See the COPYRIGHT</span>
-<span class='comment'>// file at the top-level directory of this distribution and at</span>
-<span class='comment'>// http://rust-lang.org/COPYRIGHT.</span>
-<span class='comment'>//</span>
-<span class='comment'>// Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or</span>
-<span class='comment'>// http://www.apache.org/licenses/LICENSE-2.0&gt; or the MIT license</span>
-<span class='comment'>// &lt;LICENSE-MIT or http://opensource.org/licenses/MIT&gt;, at your</span>
-<span class='comment'>// option. This file may not be copied, modified, or distributed</span>
-<span class='comment'>// except according to those terms.</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+</pre><pre class="rust ">
+<span class="comment">// Copyright 2013-2014 The Rust Project Developers. See the COPYRIGHT</span>
+<span class="comment">// file at the top-level directory of this distribution and at</span>
+<span class="comment">// http://rust-lang.org/COPYRIGHT.</span>
+<span class="comment">//</span>
+<span class="comment">// Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or</span>
+<span class="comment">// http://www.apache.org/licenses/LICENSE-2.0&gt; or the MIT license</span>
+<span class="comment">// &lt;LICENSE-MIT or http://opensource.org/licenses/MIT&gt;, at your</span>
+<span class="comment">// option. This file may not be copied, modified, or distributed</span>
+<span class="comment">// except according to those terms.</span>
 
-<span class='doccomment'>//! Numeric traits for generic mathematics</span>
+<span class="doccomment">//! Numeric traits for generic mathematics</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png&quot;</span>,
+       <span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://rust-num.github.io/num/favicon.ico&quot;</span>,
+       <span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://rust-num.github.io/num/&quot;</span>,
+       <span class="ident">html_playground_url</span> <span class="op">=</span> <span class="string">&quot;http://play.integer32.com/&quot;</span>)]</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::{<span class='ident'>Add</span>, <span class='ident'>Sub</span>, <span class='ident'>Mul</span>, <span class='ident'>Div</span>, <span class='ident'>Rem</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">Sub</span>, <span class="ident">Mul</span>, <span class="ident">Div</span>, <span class="ident">Rem</span>};
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>bounds</span>::<span class='ident'>Bounded</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>float</span>::{<span class='ident'>Float</span>, <span class='ident'>FloatConst</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>identities</span>::{<span class='ident'>Zero</span>, <span class='ident'>One</span>, <span class='ident'>zero</span>, <span class='ident'>one</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ops</span>::<span class='ident'>checked</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ops</span>::<span class='ident'>saturating</span>::<span class='ident'>Saturating</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>sign</span>::{<span class='ident'>Signed</span>, <span class='ident'>Unsigned</span>, <span class='ident'>abs</span>, <span class='ident'>abs_sub</span>, <span class='ident'>signum</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>cast</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>int</span>::<span class='ident'>PrimInt</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>pow</span>::{<span class='ident'>pow</span>, <span class='ident'>checked_pow</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bounds</span>::<span class="ident">Bounded</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">float</span>::{<span class="ident">Float</span>, <span class="ident">FloatConst</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">identities</span>::{<span class="ident">Zero</span>, <span class="ident">One</span>, <span class="ident">zero</span>, <span class="ident">one</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ops</span>::<span class="ident">checked</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ops</span>::<span class="ident">wrapping</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ops</span>::<span class="ident">saturating</span>::<span class="ident">Saturating</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sign</span>::{<span class="ident">Signed</span>, <span class="ident">Unsigned</span>, <span class="ident">abs</span>, <span class="ident">abs_sub</span>, <span class="ident">signum</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">cast</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">int</span>::<span class="ident">PrimInt</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">pow</span>::{<span class="ident">pow</span>, <span class="ident">checked_pow</span>};
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>identities</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>sign</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ops</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bounds</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>float</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>cast</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>int</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>pow</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">identities</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sign</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ops</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bounds</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">float</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cast</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">int</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pow</span>;
 
-<span class='doccomment'>/// The base trait for numeric types</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Num</span>: <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Zero</span> <span class='op'>+</span> <span class='ident'>One</span>
-    <span class='op'>+</span> <span class='ident'>Add</span><span class='op'>&lt;</span><span class='ident'>Output</span> <span class='op'>=</span> <span class='self'>Self</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Sub</span><span class='op'>&lt;</span><span class='ident'>Output</span> <span class='op'>=</span> <span class='self'>Self</span><span class='op'>&gt;</span>
-    <span class='op'>+</span> <span class='ident'>Mul</span><span class='op'>&lt;</span><span class='ident'>Output</span> <span class='op'>=</span> <span class='self'>Self</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Div</span><span class='op'>&lt;</span><span class='ident'>Output</span> <span class='op'>=</span> <span class='self'>Self</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Rem</span><span class='op'>&lt;</span><span class='ident'>Output</span> <span class='op'>=</span> <span class='self'>Self</span><span class='op'>&gt;</span>
+<span class="doccomment">/// The base trait for numeric types</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Num</span>: <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Zero</span> <span class="op">+</span> <span class="ident">One</span>
+    <span class="op">+</span> <span class="ident">Add</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Sub</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
+    <span class="op">+</span> <span class="ident">Mul</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Div</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Rem</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
 {
-    <span class='kw'>type</span> <span class='ident'>FromStrRadixErr</span>;
+    <span class="kw">type</span> <span class="ident">FromStrRadixErr</span>;
 
-    <span class='doccomment'>/// Convert from a string and radix &lt;= 36.</span>
-    <span class='kw'>fn</span> <span class='ident'>from_str_radix</span>(<span class='ident'>str</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>radix</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='self'>Self</span>::<span class='ident'>FromStrRadixErr</span><span class='op'>&gt;</span>;
+    <span class="doccomment">/// Convert from a string and radix &lt;= 36.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// use num_traits::Num;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let result = &lt;i32 as Num&gt;::from_str_radix(&quot;27&quot;, 10);</span>
+    <span class="doccomment">/// assert_eq!(result, Ok(27));</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let result = &lt;i32 as Num&gt;::from_str_radix(&quot;foo&quot;, 10);</span>
+    <span class="doccomment">/// assert!(result.is_err());</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">fn</span> <span class="ident">from_str_radix</span>(<span class="ident">str</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">radix</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="ident">FromStrRadixErr</span><span class="op">&gt;</span>;
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>int_trait_impl</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> <span class='kw'>for</span> $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> ($(
-        <span class='kw'>impl</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-            <span class='kw'>type</span> <span class='ident'>FromStrRadixErr</span> <span class='op'>=</span> ::<span class='ident'>std</span>::<span class='ident'>num</span>::<span class='ident'>ParseIntError</span>;
-            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>from_str_radix</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>radix</span>: <span class='ident'>u32</span>)
-                              <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, ::<span class='ident'>std</span>::<span class='ident'>num</span>::<span class='ident'>ParseIntError</span><span class='op'>&gt;</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">int_trait_impl</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> <span class="kw">for</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> ($(
+        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
+            <span class="kw">type</span> <span class="ident">FromStrRadixErr</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">num</span>::<span class="ident">ParseIntError</span>;
+            <span class="attribute">#[<span class="ident">inline</span>]</span>
+            <span class="kw">fn</span> <span class="ident">from_str_radix</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">radix</span>: <span class="ident">u32</span>)
+                              <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, ::<span class="ident">std</span>::<span class="ident">num</span>::<span class="ident">ParseIntError</span><span class="op">&gt;</span>
             {
-                <span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span>::<span class='ident'>from_str_radix</span>(<span class='ident'>s</span>, <span class='ident'>radix</span>)
+                <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span>::<span class="ident">from_str_radix</span>(<span class="ident">s</span>, <span class="ident">radix</span>)
             }
         }
-    )<span class='op'>*</span>)
+    )<span class="kw-2">*</span>)
 }
-<span class='macro'>int_trait_impl</span><span class='macro'>!</span>(<span class='ident'>Num</span> <span class='kw'>for</span> <span class='ident'>usize</span> <span class='ident'>u8</span> <span class='ident'>u16</span> <span class='ident'>u32</span> <span class='ident'>u64</span> <span class='ident'>isize</span> <span class='ident'>i8</span> <span class='ident'>i16</span> <span class='ident'>i32</span> <span class='ident'>i64</span>);
+<span class="macro">int_trait_impl</span><span class="macro">!</span>(<span class="ident">Num</span> <span class="kw">for</span> <span class="ident">usize</span> <span class="ident">u8</span> <span class="ident">u16</span> <span class="ident">u32</span> <span class="ident">u64</span> <span class="ident">isize</span> <span class="ident">i8</span> <span class="ident">i16</span> <span class="ident">i32</span> <span class="ident">i64</span>);
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FloatErrorKind</span> {
-    <span class='ident'>Empty</span>,
-    <span class='ident'>Invalid</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FloatErrorKind</span> {
+    <span class="ident">Empty</span>,
+    <span class="ident">Invalid</span>,
 }
-<span class='comment'>// FIXME: std::num::ParseFloatError is stable in 1.0, but opaque to us,</span>
-<span class='comment'>// so there&#39;s not really any way for us to reuse it.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ParseFloatError</span> {
-    <span class='kw'>pub</span> <span class='ident'>kind</span>: <span class='ident'>FloatErrorKind</span>,
+<span class="comment">// FIXME: std::num::ParseFloatError is stable in 1.0, but opaque to us,</span>
+<span class="comment">// so there&#39;s not really any way for us to reuse it.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ParseFloatError</span> {
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">FloatErrorKind</span>,
 }
 
-<span class='comment'>// FIXME: The standard library from_str_radix on floats was deprecated, so we&#39;re stuck</span>
-<span class='comment'>// with this implementation ourselves until we want to make a breaking change.</span>
-<span class='comment'>// (would have to drop it from `Num` though)</span>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>float_trait_impl</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> <span class='kw'>for</span> $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> ($(
-        <span class='kw'>impl</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-            <span class='kw'>type</span> <span class='ident'>FromStrRadixErr</span> <span class='op'>=</span> <span class='ident'>ParseFloatError</span>;
+<span class="comment">// FIXME: The standard library from_str_radix on floats was deprecated, so we&#39;re stuck</span>
+<span class="comment">// with this implementation ourselves until we want to make a breaking change.</span>
+<span class="comment">// (would have to drop it from `Num` though)</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">float_trait_impl</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> <span class="kw">for</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> ($(
+        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
+            <span class="kw">type</span> <span class="ident">FromStrRadixErr</span> <span class="op">=</span> <span class="ident">ParseFloatError</span>;
 
-            <span class='kw'>fn</span> <span class='ident'>from_str_radix</span>(<span class='ident'>src</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>radix</span>: <span class='ident'>u32</span>)
-                              <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='self'>Self</span>::<span class='ident'>FromStrRadixErr</span><span class='op'>&gt;</span>
+            <span class="kw">fn</span> <span class="ident">from_str_radix</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">radix</span>: <span class="ident">u32</span>)
+                              <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="ident">FromStrRadixErr</span><span class="op">&gt;</span>
             {
-                <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>FloatErrorKind</span>::<span class='op'>*</span>;
-                <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ParseFloatError</span> <span class='kw'>as</span> <span class='ident'>PFE</span>;
+                <span class="kw">use</span> <span class="self">self</span>::<span class="ident">FloatErrorKind</span>::<span class="kw-2">*</span>;
+                <span class="kw">use</span> <span class="self">self</span>::<span class="ident">ParseFloatError</span> <span class="kw">as</span> <span class="ident">PFE</span>;
 
-                <span class='comment'>// Special values</span>
-                <span class='kw'>match</span> <span class='ident'>src</span> {
-                    <span class='string'>&quot;inf&quot;</span>   <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Float</span>::<span class='ident'>infinity</span>()),
-                    <span class='string'>&quot;-inf&quot;</span>  <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Float</span>::<span class='ident'>neg_infinity</span>()),
-                    <span class='string'>&quot;NaN&quot;</span>   <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Float</span>::<span class='ident'>nan</span>()),
-                    _       <span class='op'>=&gt;</span> {},
+                <span class="comment">// Special values</span>
+                <span class="kw">match</span> <span class="ident">src</span> {
+                    <span class="string">&quot;inf&quot;</span>   <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Float</span>::<span class="ident">infinity</span>()),
+                    <span class="string">&quot;-inf&quot;</span>  <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Float</span>::<span class="ident">neg_infinity</span>()),
+                    <span class="string">&quot;NaN&quot;</span>   <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Float</span>::<span class="ident">nan</span>()),
+                    _       <span class="op">=&gt;</span> {},
                 }
 
-                <span class='kw'>fn</span> <span class='ident'>slice_shift_char</span>(<span class='ident'>src</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>char</span>, <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span> {
-                    <span class='ident'>src</span>.<span class='ident'>chars</span>().<span class='ident'>nth</span>(<span class='number'>0</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>ch</span><span class='op'>|</span> (<span class='ident'>ch</span>, <span class='kw-2'>&amp;</span><span class='ident'>src</span>[<span class='number'>1</span>..]))
+                <span class="kw">fn</span> <span class="ident">slice_shift_char</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">char</span>, <span class="kw-2">&amp;</span><span class="ident">str</span>)<span class="op">&gt;</span> {
+                    <span class="ident">src</span>.<span class="ident">chars</span>().<span class="ident">nth</span>(<span class="number">0</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">ch</span><span class="op">|</span> (<span class="ident">ch</span>, <span class="kw-2">&amp;</span><span class="ident">src</span>[<span class="number">1</span>..]))
                 }
 
-                <span class='kw'>let</span> (<span class='ident'>is_positive</span>, <span class='ident'>src</span>) <span class='op'>=</span>  <span class='kw'>match</span> <span class='ident'>slice_shift_char</span>(<span class='ident'>src</span>) {
-                    <span class='prelude-val'>None</span>             <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>PFE</span> { <span class='ident'>kind</span>: <span class='ident'>Empty</span> }),
-                    <span class='prelude-val'>Some</span>((<span class='string'>&#39;-&#39;</span>, <span class='string'>&quot;&quot;</span>))  <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>PFE</span> { <span class='ident'>kind</span>: <span class='ident'>Empty</span> }),
-                    <span class='prelude-val'>Some</span>((<span class='string'>&#39;-&#39;</span>, <span class='ident'>src</span>)) <span class='op'>=&gt;</span> (<span class='bool-val'>false</span>, <span class='ident'>src</span>),
-                    <span class='prelude-val'>Some</span>((_, _))     <span class='op'>=&gt;</span> (<span class='bool-val'>true</span>,  <span class='ident'>src</span>),
+                <span class="kw">let</span> (<span class="ident">is_positive</span>, <span class="ident">src</span>) <span class="op">=</span>  <span class="kw">match</span> <span class="ident">slice_shift_char</span>(<span class="ident">src</span>) {
+                    <span class="prelude-val">None</span>             <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PFE</span> { <span class="ident">kind</span>: <span class="ident">Empty</span> }),
+                    <span class="prelude-val">Some</span>((<span class="string">&#39;-&#39;</span>, <span class="string">&quot;&quot;</span>))  <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PFE</span> { <span class="ident">kind</span>: <span class="ident">Empty</span> }),
+                    <span class="prelude-val">Some</span>((<span class="string">&#39;-&#39;</span>, <span class="ident">src</span>)) <span class="op">=&gt;</span> (<span class="bool-val">false</span>, <span class="ident">src</span>),
+                    <span class="prelude-val">Some</span>((_, _))     <span class="op">=&gt;</span> (<span class="bool-val">true</span>,  <span class="ident">src</span>),
                 };
 
-                <span class='comment'>// The significand to accumulate</span>
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sig</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>is_positive</span> { <span class='number'>0.0</span> } <span class='kw'>else</span> { <span class='op'>-</span><span class='number'>0.0</span> };
-                <span class='comment'>// Necessary to detect overflow</span>
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>prev_sig</span> <span class='op'>=</span> <span class='ident'>sig</span>;
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cs</span> <span class='op'>=</span> <span class='ident'>src</span>.<span class='ident'>chars</span>().<span class='ident'>enumerate</span>();
-                <span class='comment'>// Exponent prefix and exponent index offset</span>
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>exp_info</span> <span class='op'>=</span> <span class='prelude-val'>None</span>::<span class='op'>&lt;</span>(<span class='ident'>char</span>, <span class='ident'>usize</span>)<span class='op'>&gt;</span>;
+                <span class="comment">// The significand to accumulate</span>
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sig</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">is_positive</span> { <span class="number">0.0</span> } <span class="kw">else</span> { <span class="op">-</span><span class="number">0.0</span> };
+                <span class="comment">// Necessary to detect overflow</span>
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">prev_sig</span> <span class="op">=</span> <span class="ident">sig</span>;
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cs</span> <span class="op">=</span> <span class="ident">src</span>.<span class="ident">chars</span>().<span class="ident">enumerate</span>();
+                <span class="comment">// Exponent prefix and exponent index offset</span>
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">exp_info</span> <span class="op">=</span> <span class="prelude-val">None</span>::<span class="op">&lt;</span>(<span class="ident">char</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>;
 
-                <span class='comment'>// Parse the integer part of the significand</span>
-                <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>c</span>) <span class='kw'>in</span> <span class='ident'>cs</span>.<span class='ident'>by_ref</span>() {
-                    <span class='kw'>match</span> <span class='ident'>c</span>.<span class='ident'>to_digit</span>(<span class='ident'>radix</span>) {
-                        <span class='prelude-val'>Some</span>(<span class='ident'>digit</span>) <span class='op'>=&gt;</span> {
-                            <span class='comment'>// shift significand one digit left</span>
-                            <span class='ident'>sig</span> <span class='op'>=</span> <span class='ident'>sig</span> <span class='op'>*</span> (<span class='ident'>radix</span> <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>);
+                <span class="comment">// Parse the integer part of the significand</span>
+                <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">c</span>) <span class="kw">in</span> <span class="ident">cs</span>.<span class="ident">by_ref</span>() {
+                    <span class="kw">match</span> <span class="ident">c</span>.<span class="ident">to_digit</span>(<span class="ident">radix</span>) {
+                        <span class="prelude-val">Some</span>(<span class="ident">digit</span>) <span class="op">=&gt;</span> {
+                            <span class="comment">// shift significand one digit left</span>
+                            <span class="ident">sig</span> <span class="op">=</span> <span class="ident">sig</span> <span class="op">*</span> (<span class="ident">radix</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>);
 
-                            <span class='comment'>// add/subtract current digit depending on sign</span>
-                            <span class='kw'>if</span> <span class='ident'>is_positive</span> {
-                                <span class='ident'>sig</span> <span class='op'>=</span> <span class='ident'>sig</span> <span class='op'>+</span> ((<span class='ident'>digit</span> <span class='kw'>as</span> <span class='ident'>isize</span>) <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>);
-                            } <span class='kw'>else</span> {
-                                <span class='ident'>sig</span> <span class='op'>=</span> <span class='ident'>sig</span> <span class='op'>-</span> ((<span class='ident'>digit</span> <span class='kw'>as</span> <span class='ident'>isize</span>) <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>);
+                            <span class="comment">// add/subtract current digit depending on sign</span>
+                            <span class="kw">if</span> <span class="ident">is_positive</span> {
+                                <span class="ident">sig</span> <span class="op">=</span> <span class="ident">sig</span> <span class="op">+</span> ((<span class="ident">digit</span> <span class="kw">as</span> <span class="ident">isize</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>);
+                            } <span class="kw">else</span> {
+                                <span class="ident">sig</span> <span class="op">=</span> <span class="ident">sig</span> <span class="op">-</span> ((<span class="ident">digit</span> <span class="kw">as</span> <span class="ident">isize</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>);
                             }
 
-                            <span class='comment'>// Detect overflow by comparing to last value, except</span>
-                            <span class='comment'>// if we&#39;ve not seen any non-zero digits.</span>
-                            <span class='kw'>if</span> <span class='ident'>prev_sig</span> <span class='op'>!=</span> <span class='number'>0.0</span> {
-                                <span class='kw'>if</span> <span class='ident'>is_positive</span> <span class='op'>&amp;&amp;</span> <span class='ident'>sig</span> <span class='op'>&lt;=</span> <span class='ident'>prev_sig</span>
-                                    { <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Float</span>::<span class='ident'>infinity</span>()); }
-                                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>is_positive</span> <span class='op'>&amp;&amp;</span> <span class='ident'>sig</span> <span class='op'>&gt;=</span> <span class='ident'>prev_sig</span>
-                                    { <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Float</span>::<span class='ident'>neg_infinity</span>()); }
+                            <span class="comment">// Detect overflow by comparing to last value, except</span>
+                            <span class="comment">// if we&#39;ve not seen any non-zero digits.</span>
+                            <span class="kw">if</span> <span class="ident">prev_sig</span> <span class="op">!=</span> <span class="number">0.0</span> {
+                                <span class="kw">if</span> <span class="ident">is_positive</span> <span class="op">&amp;&amp;</span> <span class="ident">sig</span> <span class="op">&lt;=</span> <span class="ident">prev_sig</span>
+                                    { <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Float</span>::<span class="ident">infinity</span>()); }
+                                <span class="kw">if</span> <span class="op">!</span><span class="ident">is_positive</span> <span class="op">&amp;&amp;</span> <span class="ident">sig</span> <span class="op">&gt;=</span> <span class="ident">prev_sig</span>
+                                    { <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Float</span>::<span class="ident">neg_infinity</span>()); }
 
-                                <span class='comment'>// Detect overflow by reversing the shift-and-add process</span>
-                                <span class='kw'>if</span> <span class='ident'>is_positive</span> <span class='op'>&amp;&amp;</span> (<span class='ident'>prev_sig</span> <span class='op'>!=</span> (<span class='ident'>sig</span> <span class='op'>-</span> <span class='ident'>digit</span> <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>) <span class='op'>/</span> <span class='ident'>radix</span> <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>)
-                                    { <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Float</span>::<span class='ident'>infinity</span>()); }
-                                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>is_positive</span> <span class='op'>&amp;&amp;</span> (<span class='ident'>prev_sig</span> <span class='op'>!=</span> (<span class='ident'>sig</span> <span class='op'>+</span> <span class='ident'>digit</span> <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>) <span class='op'>/</span> <span class='ident'>radix</span> <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>)
-                                    { <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Float</span>::<span class='ident'>neg_infinity</span>()); }
+                                <span class="comment">// Detect overflow by reversing the shift-and-add process</span>
+                                <span class="kw">if</span> <span class="ident">is_positive</span> <span class="op">&amp;&amp;</span> (<span class="ident">prev_sig</span> <span class="op">!=</span> (<span class="ident">sig</span> <span class="op">-</span> <span class="ident">digit</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">/</span> <span class="ident">radix</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>)
+                                    { <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Float</span>::<span class="ident">infinity</span>()); }
+                                <span class="kw">if</span> <span class="op">!</span><span class="ident">is_positive</span> <span class="op">&amp;&amp;</span> (<span class="ident">prev_sig</span> <span class="op">!=</span> (<span class="ident">sig</span> <span class="op">+</span> <span class="ident">digit</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">/</span> <span class="ident">radix</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>)
+                                    { <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Float</span>::<span class="ident">neg_infinity</span>()); }
                             }
-                            <span class='ident'>prev_sig</span> <span class='op'>=</span> <span class='ident'>sig</span>;
+                            <span class="ident">prev_sig</span> <span class="op">=</span> <span class="ident">sig</span>;
                         },
-                        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>c</span> {
-                            <span class='string'>&#39;e&#39;</span> <span class='op'>|</span> <span class='string'>&#39;E&#39;</span> <span class='op'>|</span> <span class='string'>&#39;p&#39;</span> <span class='op'>|</span> <span class='string'>&#39;P&#39;</span> <span class='op'>=&gt;</span> {
-                                <span class='ident'>exp_info</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>((<span class='ident'>c</span>, <span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>));
-                                <span class='kw'>break</span>;  <span class='comment'>// start of exponent</span>
+                        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">c</span> {
+                            <span class="string">&#39;e&#39;</span> <span class="op">|</span> <span class="string">&#39;E&#39;</span> <span class="op">|</span> <span class="string">&#39;p&#39;</span> <span class="op">|</span> <span class="string">&#39;P&#39;</span> <span class="op">=&gt;</span> {
+                                <span class="ident">exp_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">c</span>, <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>));
+                                <span class="kw">break</span>;  <span class="comment">// start of exponent</span>
                             },
-                            <span class='string'>&#39;.&#39;</span> <span class='op'>=&gt;</span> {
-                                <span class='kw'>break</span>;  <span class='comment'>// start of fractional part</span>
+                            <span class="string">&#39;.&#39;</span> <span class="op">=&gt;</span> {
+                                <span class="kw">break</span>;  <span class="comment">// start of fractional part</span>
                             },
-                            _ <span class='op'>=&gt;</span> {
-                                <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>PFE</span> { <span class='ident'>kind</span>: <span class='ident'>Invalid</span> });
+                            _ <span class="op">=&gt;</span> {
+                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PFE</span> { <span class="ident">kind</span>: <span class="ident">Invalid</span> });
                             },
                         },
                     }
                 }
 
-                <span class='comment'>// If we are not yet at the exponent parse the fractional</span>
-                <span class='comment'>// part of the significand</span>
-                <span class='kw'>if</span> <span class='ident'>exp_info</span>.<span class='ident'>is_none</span>() {
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>power</span> <span class='op'>=</span> <span class='number'>1.0</span>;
-                    <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>c</span>) <span class='kw'>in</span> <span class='ident'>cs</span>.<span class='ident'>by_ref</span>() {
-                        <span class='kw'>match</span> <span class='ident'>c</span>.<span class='ident'>to_digit</span>(<span class='ident'>radix</span>) {
-                            <span class='prelude-val'>Some</span>(<span class='ident'>digit</span>) <span class='op'>=&gt;</span> {
-                                <span class='comment'>// Decrease power one order of magnitude</span>
-                                <span class='ident'>power</span> <span class='op'>=</span> <span class='ident'>power</span> <span class='op'>/</span> (<span class='ident'>radix</span> <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>);
-                                <span class='comment'>// add/subtract current digit depending on sign</span>
-                                <span class='ident'>sig</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>is_positive</span> {
-                                    <span class='ident'>sig</span> <span class='op'>+</span> (<span class='ident'>digit</span> <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>) <span class='op'>*</span> <span class='ident'>power</span>
-                                } <span class='kw'>else</span> {
-                                    <span class='ident'>sig</span> <span class='op'>-</span> (<span class='ident'>digit</span> <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>) <span class='op'>*</span> <span class='ident'>power</span>
+                <span class="comment">// If we are not yet at the exponent parse the fractional</span>
+                <span class="comment">// part of the significand</span>
+                <span class="kw">if</span> <span class="ident">exp_info</span>.<span class="ident">is_none</span>() {
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">power</span> <span class="op">=</span> <span class="number">1.0</span>;
+                    <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">c</span>) <span class="kw">in</span> <span class="ident">cs</span>.<span class="ident">by_ref</span>() {
+                        <span class="kw">match</span> <span class="ident">c</span>.<span class="ident">to_digit</span>(<span class="ident">radix</span>) {
+                            <span class="prelude-val">Some</span>(<span class="ident">digit</span>) <span class="op">=&gt;</span> {
+                                <span class="comment">// Decrease power one order of magnitude</span>
+                                <span class="ident">power</span> <span class="op">=</span> <span class="ident">power</span> <span class="op">/</span> (<span class="ident">radix</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>);
+                                <span class="comment">// add/subtract current digit depending on sign</span>
+                                <span class="ident">sig</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">is_positive</span> {
+                                    <span class="ident">sig</span> <span class="op">+</span> (<span class="ident">digit</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">*</span> <span class="ident">power</span>
+                                } <span class="kw">else</span> {
+                                    <span class="ident">sig</span> <span class="op">-</span> (<span class="ident">digit</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">*</span> <span class="ident">power</span>
                                 };
-                                <span class='comment'>// Detect overflow by comparing to last value</span>
-                                <span class='kw'>if</span> <span class='ident'>is_positive</span> <span class='op'>&amp;&amp;</span> <span class='ident'>sig</span> <span class='op'>&lt;</span> <span class='ident'>prev_sig</span>
-                                    { <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Float</span>::<span class='ident'>infinity</span>()); }
-                                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>is_positive</span> <span class='op'>&amp;&amp;</span> <span class='ident'>sig</span> <span class='op'>&gt;</span> <span class='ident'>prev_sig</span>
-                                    { <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Float</span>::<span class='ident'>neg_infinity</span>()); }
-                                <span class='ident'>prev_sig</span> <span class='op'>=</span> <span class='ident'>sig</span>;
+                                <span class="comment">// Detect overflow by comparing to last value</span>
+                                <span class="kw">if</span> <span class="ident">is_positive</span> <span class="op">&amp;&amp;</span> <span class="ident">sig</span> <span class="op">&lt;</span> <span class="ident">prev_sig</span>
+                                    { <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Float</span>::<span class="ident">infinity</span>()); }
+                                <span class="kw">if</span> <span class="op">!</span><span class="ident">is_positive</span> <span class="op">&amp;&amp;</span> <span class="ident">sig</span> <span class="op">&gt;</span> <span class="ident">prev_sig</span>
+                                    { <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Float</span>::<span class="ident">neg_infinity</span>()); }
+                                <span class="ident">prev_sig</span> <span class="op">=</span> <span class="ident">sig</span>;
                             },
-                            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>c</span> {
-                                <span class='string'>&#39;e&#39;</span> <span class='op'>|</span> <span class='string'>&#39;E&#39;</span> <span class='op'>|</span> <span class='string'>&#39;p&#39;</span> <span class='op'>|</span> <span class='string'>&#39;P&#39;</span> <span class='op'>=&gt;</span> {
-                                    <span class='ident'>exp_info</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>((<span class='ident'>c</span>, <span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>));
-                                    <span class='kw'>break</span>; <span class='comment'>// start of exponent</span>
+                            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">c</span> {
+                                <span class="string">&#39;e&#39;</span> <span class="op">|</span> <span class="string">&#39;E&#39;</span> <span class="op">|</span> <span class="string">&#39;p&#39;</span> <span class="op">|</span> <span class="string">&#39;P&#39;</span> <span class="op">=&gt;</span> {
+                                    <span class="ident">exp_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">c</span>, <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>));
+                                    <span class="kw">break</span>; <span class="comment">// start of exponent</span>
                                 },
-                                _ <span class='op'>=&gt;</span> {
-                                    <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>PFE</span> { <span class='ident'>kind</span>: <span class='ident'>Invalid</span> });
+                                _ <span class="op">=&gt;</span> {
+                                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PFE</span> { <span class="ident">kind</span>: <span class="ident">Invalid</span> });
                                 },
                             },
                         }
                     }
                 }
 
-                <span class='comment'>// Parse and calculate the exponent</span>
-                <span class='kw'>let</span> <span class='ident'>exp</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>exp_info</span> {
-                    <span class='prelude-val'>Some</span>((<span class='ident'>c</span>, <span class='ident'>offset</span>)) <span class='op'>=&gt;</span> {
-                        <span class='kw'>let</span> <span class='ident'>base</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>c</span> {
-                            <span class='string'>&#39;E&#39;</span> <span class='op'>|</span> <span class='string'>&#39;e&#39;</span> <span class='kw'>if</span> <span class='ident'>radix</span> <span class='op'>==</span> <span class='number'>10</span> <span class='op'>=&gt;</span> <span class='number'>10.0</span>,
-                            <span class='string'>&#39;P&#39;</span> <span class='op'>|</span> <span class='string'>&#39;p&#39;</span> <span class='kw'>if</span> <span class='ident'>radix</span> <span class='op'>==</span> <span class='number'>16</span> <span class='op'>=&gt;</span> <span class='number'>2.0</span>,
-                            _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>PFE</span> { <span class='ident'>kind</span>: <span class='ident'>Invalid</span> }),
+                <span class="comment">// Parse and calculate the exponent</span>
+                <span class="kw">let</span> <span class="ident">exp</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">exp_info</span> {
+                    <span class="prelude-val">Some</span>((<span class="ident">c</span>, <span class="ident">offset</span>)) <span class="op">=&gt;</span> {
+                        <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">c</span> {
+                            <span class="string">&#39;E&#39;</span> <span class="op">|</span> <span class="string">&#39;e&#39;</span> <span class="kw">if</span> <span class="ident">radix</span> <span class="op">==</span> <span class="number">10</span> <span class="op">=&gt;</span> <span class="number">10.0</span>,
+                            <span class="string">&#39;P&#39;</span> <span class="op">|</span> <span class="string">&#39;p&#39;</span> <span class="kw">if</span> <span class="ident">radix</span> <span class="op">==</span> <span class="number">16</span> <span class="op">=&gt;</span> <span class="number">2.0</span>,
+                            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PFE</span> { <span class="ident">kind</span>: <span class="ident">Invalid</span> }),
                         };
 
-                        <span class='comment'>// Parse the exponent as decimal integer</span>
-                        <span class='kw'>let</span> <span class='ident'>src</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>src</span>[<span class='ident'>offset</span>..];
-                        <span class='kw'>let</span> (<span class='ident'>is_positive</span>, <span class='ident'>exp</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>slice_shift_char</span>(<span class='ident'>src</span>) {
-                            <span class='prelude-val'>Some</span>((<span class='string'>&#39;-&#39;</span>, <span class='ident'>src</span>)) <span class='op'>=&gt;</span> (<span class='bool-val'>false</span>, <span class='ident'>src</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>()),
-                            <span class='prelude-val'>Some</span>((<span class='string'>&#39;+&#39;</span>, <span class='ident'>src</span>)) <span class='op'>=&gt;</span> (<span class='bool-val'>true</span>,  <span class='ident'>src</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>()),
-                            <span class='prelude-val'>Some</span>((_, _))     <span class='op'>=&gt;</span> (<span class='bool-val'>true</span>,  <span class='ident'>src</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>()),
-                            <span class='prelude-val'>None</span>             <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>PFE</span> { <span class='ident'>kind</span>: <span class='ident'>Invalid</span> }),
+                        <span class="comment">// Parse the exponent as decimal integer</span>
+                        <span class="kw">let</span> <span class="ident">src</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">src</span>[<span class="ident">offset</span>..];
+                        <span class="kw">let</span> (<span class="ident">is_positive</span>, <span class="ident">exp</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">slice_shift_char</span>(<span class="ident">src</span>) {
+                            <span class="prelude-val">Some</span>((<span class="string">&#39;-&#39;</span>, <span class="ident">src</span>)) <span class="op">=&gt;</span> (<span class="bool-val">false</span>, <span class="ident">src</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>()),
+                            <span class="prelude-val">Some</span>((<span class="string">&#39;+&#39;</span>, <span class="ident">src</span>)) <span class="op">=&gt;</span> (<span class="bool-val">true</span>,  <span class="ident">src</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>()),
+                            <span class="prelude-val">Some</span>((_, _))     <span class="op">=&gt;</span> (<span class="bool-val">true</span>,  <span class="ident">src</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>()),
+                            <span class="prelude-val">None</span>             <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PFE</span> { <span class="ident">kind</span>: <span class="ident">Invalid</span> }),
                         };
 
-                        <span class='kw'>match</span> (<span class='ident'>is_positive</span>, <span class='ident'>exp</span>) {
-                            (<span class='bool-val'>true</span>,  <span class='prelude-val'>Ok</span>(<span class='ident'>exp</span>)) <span class='op'>=&gt;</span> <span class='ident'>base</span>.<span class='ident'>powi</span>(<span class='ident'>exp</span> <span class='kw'>as</span> <span class='ident'>i32</span>),
-                            (<span class='bool-val'>false</span>, <span class='prelude-val'>Ok</span>(<span class='ident'>exp</span>)) <span class='op'>=&gt;</span> <span class='number'>1.0</span> <span class='op'>/</span> <span class='ident'>base</span>.<span class='ident'>powi</span>(<span class='ident'>exp</span> <span class='kw'>as</span> <span class='ident'>i32</span>),
-                            (_, <span class='prelude-val'>Err</span>(_))      <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>PFE</span> { <span class='ident'>kind</span>: <span class='ident'>Invalid</span> }),
+                        <span class="kw">match</span> (<span class="ident">is_positive</span>, <span class="ident">exp</span>) {
+                            (<span class="bool-val">true</span>,  <span class="prelude-val">Ok</span>(<span class="ident">exp</span>)) <span class="op">=&gt;</span> <span class="ident">base</span>.<span class="ident">powi</span>(<span class="ident">exp</span> <span class="kw">as</span> <span class="ident">i32</span>),
+                            (<span class="bool-val">false</span>, <span class="prelude-val">Ok</span>(<span class="ident">exp</span>)) <span class="op">=&gt;</span> <span class="number">1.0</span> <span class="op">/</span> <span class="ident">base</span>.<span class="ident">powi</span>(<span class="ident">exp</span> <span class="kw">as</span> <span class="ident">i32</span>),
+                            (_, <span class="prelude-val">Err</span>(_))      <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PFE</span> { <span class="ident">kind</span>: <span class="ident">Invalid</span> }),
                         }
                     },
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='number'>1.0</span>, <span class='comment'>// no exponent</span>
+                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="number">1.0</span>, <span class="comment">// no exponent</span>
                 };
 
-                <span class='prelude-val'>Ok</span>(<span class='ident'>sig</span> <span class='op'>*</span> <span class='ident'>exp</span>)
+                <span class="prelude-val">Ok</span>(<span class="ident">sig</span> <span class="op">*</span> <span class="ident">exp</span>)
             }
         }
-    )<span class='op'>*</span>)
+    )<span class="kw-2">*</span>)
 }
-<span class='macro'>float_trait_impl</span><span class='macro'>!</span>(<span class='ident'>Num</span> <span class='kw'>for</span> <span class='ident'>f32</span> <span class='ident'>f64</span>);
+<span class="macro">float_trait_impl</span><span class="macro">!</span>(<span class="ident">Num</span> <span class="kw">for</span> <span class="ident">f32</span> <span class="ident">f64</span>);
 
-<span class='attribute'>#[<span class='ident'>test</span>]</span>
-<span class='kw'>fn</span> <span class='ident'>from_str_radix_unwrap</span>() {
-    <span class='comment'>// The Result error must impl Debug to allow unwrap()</span>
+<span class="doccomment">/// A value bounded by a minimum and a maximum</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///  If input is less than min then this returns min. </span>
+<span class="doccomment">///  If input is greater than max then this returns max.  </span>
+<span class="doccomment">///  Otherwise this returns input. </span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clamp</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="ident">T</span>, <span class="ident">min</span>: <span class="ident">T</span>, <span class="ident">max</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+    <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">min</span> <span class="op">&lt;=</span> <span class="ident">max</span>, <span class="string">&quot;min must be less than or equal to max&quot;</span>);
+    <span class="kw">if</span> <span class="ident">input</span> <span class="op">&lt;</span> <span class="ident">min</span> {
+        <span class="ident">min</span>
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">input</span> <span class="op">&gt;</span> <span class="ident">max</span> {
+        <span class="ident">max</span>
+    } <span class="kw">else</span> {
+        <span class="ident">input</span>
+    }
+}
 
-    <span class='kw'>let</span> <span class='ident'>i</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>Num</span>::<span class='ident'>from_str_radix</span>(<span class='string'>&quot;0&quot;</span>, <span class='number'>10</span>).<span class='ident'>unwrap</span>();
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>i</span>, <span class='number'>0</span>);
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">clamp_test</span>() {
+    <span class="comment">// Int test</span>
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">1</span>, <span class="ident">clamp</span>(<span class="number">1</span>, <span class="op">-</span><span class="number">1</span>, <span class="number">2</span>));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="op">-</span><span class="number">1</span>, <span class="ident">clamp</span>(<span class="op">-</span><span class="number">2</span>, <span class="op">-</span><span class="number">1</span>, <span class="number">2</span>));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">2</span>, <span class="ident">clamp</span>(<span class="number">3</span>, <span class="op">-</span><span class="number">1</span>, <span class="number">2</span>));
 
-    <span class='kw'>let</span> <span class='ident'>f</span>: <span class='ident'>f32</span> <span class='op'>=</span> <span class='ident'>Num</span>::<span class='ident'>from_str_radix</span>(<span class='string'>&quot;0.0&quot;</span>, <span class='number'>10</span>).<span class='ident'>unwrap</span>();
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='number'>0.0</span>);
+    <span class="comment">// Float test</span>
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">1.0</span>, <span class="ident">clamp</span>(<span class="number">1.0</span>, <span class="op">-</span><span class="number">1.0</span>, <span class="number">2.0</span>));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="op">-</span><span class="number">1.0</span>, <span class="ident">clamp</span>(<span class="op">-</span><span class="number">2.0</span>, <span class="op">-</span><span class="number">1.0</span>, <span class="number">2.0</span>));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">2.0</span>, <span class="ident">clamp</span>(<span class="number">3.0</span>, <span class="op">-</span><span class="number">1.0</span>, <span class="number">2.0</span>));
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">from_str_radix_unwrap</span>() {
+    <span class="comment">// The Result error must impl Debug to allow unwrap()</span>
+
+    <span class="kw">let</span> <span class="ident">i</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">Num</span>::<span class="ident">from_str_radix</span>(<span class="string">&quot;0&quot;</span>, <span class="number">10</span>).<span class="ident">unwrap</span>();
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">i</span>, <span class="number">0</span>);
+
+    <span class="kw">let</span> <span class="ident">f</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="ident">Num</span>::<span class="ident">from_str_radix</span>(<span class="string">&quot;0.0&quot;</span>, <span class="number">10</span>).<span class="ident">unwrap</span>();
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="number">0.0</span>);
 }
 </pre>
 </section>

@@ -9,6 +9,7 @@
 
     <title>sample.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -535,497 +536,497 @@
 <span id="491">491</span>
 <span id="492">492</span>
 <span id="493">493</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Functions and filters for the sampling of pixels.</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Functions and filters for the sampling of pixels.</span>
 
-<span class='comment'>// See http://cs.brown.edu/courses/cs123/lectures/08_Image_Processing_IV.pdf</span>
-<span class='comment'>// for some of the theory behind image scaling and convolution</span>
+<span class="comment">// See http://cs.brown.edu/courses/cs123/lectures/08_Image_Processing_IV.pdf</span>
+<span class="comment">// for some of the theory behind image scaling and convolution</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>f32</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">f32</span>;
 
-<span class='kw'>use</span> <span class='ident'>num_traits</span>::<span class='ident'>NumCast</span>;
+<span class="kw">use</span> <span class="ident">num_traits</span>::<span class="ident">NumCast</span>;
 
-<span class='kw'>use</span> <span class='ident'>buffer</span>::{<span class='ident'>ImageBuffer</span>, <span class='ident'>Pixel</span>};
-<span class='kw'>use</span> <span class='ident'>traits</span>::<span class='ident'>Primitive</span>;
-<span class='kw'>use</span> <span class='ident'>image</span>::<span class='ident'>GenericImage</span>;
-<span class='kw'>use</span> <span class='ident'>math</span>::<span class='ident'>utils</span>::<span class='ident'>clamp</span>;
+<span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
+<span class="kw">use</span> <span class="ident">traits</span>::<span class="ident">Primitive</span>;
+<span class="kw">use</span> <span class="ident">image</span>::<span class="ident">GenericImage</span>;
+<span class="kw">use</span> <span class="ident">math</span>::<span class="ident">utils</span>::<span class="ident">clamp</span>;
 
-<span class='doccomment'>/// Available Sampling Filters</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FilterType</span> {
-    <span class='doccomment'>/// Nearest Neighbor</span>
-    <span class='ident'>Nearest</span>,
+<span class="doccomment">/// Available Sampling Filters</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FilterType</span> {
+    <span class="doccomment">/// Nearest Neighbor</span>
+    <span class="ident">Nearest</span>,
 
-    <span class='doccomment'>/// Linear Filter</span>
-    <span class='ident'>Triangle</span>,
+    <span class="doccomment">/// Linear Filter</span>
+    <span class="ident">Triangle</span>,
 
-    <span class='doccomment'>/// Cubic Filter</span>
-    <span class='ident'>CatmullRom</span>,
+    <span class="doccomment">/// Cubic Filter</span>
+    <span class="ident">CatmullRom</span>,
 
-    <span class='doccomment'>/// Gaussian Filter</span>
-    <span class='ident'>Gaussian</span>,
+    <span class="doccomment">/// Gaussian Filter</span>
+    <span class="ident">Gaussian</span>,
 
-    <span class='doccomment'>/// Lanczos with window 3</span>
-    <span class='ident'>Lanczos3</span>
+    <span class="doccomment">/// Lanczos with window 3</span>
+    <span class="ident">Lanczos3</span>
 }
 
-<span class='doccomment'>/// A Representation of a separable filter.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Filter</span> <span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// The filter&#39;s filter function.</span>
-    <span class='kw'>pub</span> <span class='ident'>kernel</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Fn</span>(<span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// A Representation of a separable filter.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Filter</span> <span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The filter&#39;s filter function.</span>
+    <span class="kw">pub</span> <span class="ident">kernel</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Fn</span>(<span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 
-    <span class='doccomment'>/// The window on which this filter operates.</span>
-    <span class='kw'>pub</span> <span class='ident'>support</span>: <span class='ident'>f32</span>
+    <span class="doccomment">/// The window on which this filter operates.</span>
+    <span class="kw">pub</span> <span class="ident">support</span>: <span class="ident">f32</span>
 }
 
-<span class='comment'>// sinc function: the ideal sampling filter.</span>
-<span class='kw'>fn</span> <span class='ident'>sinc</span>(<span class='ident'>t</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-    <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>t</span> <span class='op'>*</span> <span class='ident'>f32</span>::<span class='ident'>consts</span>::<span class='ident'>PI</span>;
+<span class="comment">// sinc function: the ideal sampling filter.</span>
+<span class="kw">fn</span> <span class="ident">sinc</span>(<span class="ident">t</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">t</span> <span class="op">*</span> <span class="ident">f32</span>::<span class="ident">consts</span>::<span class="ident">PI</span>;
 
-    <span class='kw'>if</span> <span class='ident'>t</span> <span class='op'>==</span> <span class='number'>0.0</span> {
-        <span class='number'>1.0</span>
-    } <span class='kw'>else</span> {
-        <span class='ident'>a</span>.<span class='ident'>sin</span>() <span class='op'>/</span> <span class='ident'>a</span>
+    <span class="kw">if</span> <span class="ident">t</span> <span class="op">==</span> <span class="number">0.0</span> {
+        <span class="number">1.0</span>
+    } <span class="kw">else</span> {
+        <span class="ident">a</span>.<span class="ident">sin</span>() <span class="op">/</span> <span class="ident">a</span>
     }
 }
 
-<span class='comment'>// lanczos kernel function. A windowed sinc function.</span>
-<span class='kw'>fn</span> <span class='ident'>lanczos</span>(<span class='ident'>x</span>: <span class='ident'>f32</span>, <span class='ident'>t</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-    <span class='kw'>if</span> <span class='ident'>x</span>.<span class='ident'>abs</span>() <span class='op'>&lt;</span> <span class='ident'>t</span> {
-        <span class='ident'>sinc</span>(<span class='ident'>x</span>) <span class='op'>*</span> <span class='ident'>sinc</span>(<span class='ident'>x</span> <span class='op'>/</span> <span class='ident'>t</span>)
-    } <span class='kw'>else</span> {
-        <span class='number'>0.0</span>
+<span class="comment">// lanczos kernel function. A windowed sinc function.</span>
+<span class="kw">fn</span> <span class="ident">lanczos</span>(<span class="ident">x</span>: <span class="ident">f32</span>, <span class="ident">t</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="kw">if</span> <span class="ident">x</span>.<span class="ident">abs</span>() <span class="op">&lt;</span> <span class="ident">t</span> {
+        <span class="ident">sinc</span>(<span class="ident">x</span>) <span class="op">*</span> <span class="ident">sinc</span>(<span class="ident">x</span> <span class="op">/</span> <span class="ident">t</span>)
+    } <span class="kw">else</span> {
+        <span class="number">0.0</span>
     }
 }
 
-<span class='comment'>// Calculate a splice based on the b and c parameters.</span>
-<span class='comment'>// from authors Mitchell and Netravali.</span>
-<span class='kw'>fn</span> <span class='ident'>bc_cubic_spline</span>(<span class='ident'>x</span>: <span class='ident'>f32</span>, <span class='ident'>b</span>: <span class='ident'>f32</span>, <span class='ident'>c</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-    <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>abs</span>();
+<span class="comment">// Calculate a splice based on the b and c parameters.</span>
+<span class="comment">// from authors Mitchell and Netravali.</span>
+<span class="kw">fn</span> <span class="ident">bc_cubic_spline</span>(<span class="ident">x</span>: <span class="ident">f32</span>, <span class="ident">b</span>: <span class="ident">f32</span>, <span class="ident">c</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">x</span>.<span class="ident">abs</span>();
 
-    <span class='kw'>let</span> <span class='ident'>k</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>a</span> <span class='op'>&lt;</span> <span class='number'>1.0</span> {
-        (<span class='number'>12.0</span> <span class='op'>-</span> <span class='number'>9.0</span> <span class='op'>*</span> <span class='ident'>b</span> <span class='op'>-</span> <span class='number'>6.0</span> <span class='op'>*</span> <span class='ident'>c</span>) <span class='op'>*</span> <span class='ident'>a</span>.<span class='ident'>powi</span>(<span class='number'>3</span>) <span class='op'>+</span>
-        (<span class='op'>-</span><span class='number'>18.0</span> <span class='op'>+</span> <span class='number'>12.0</span> <span class='op'>*</span> <span class='ident'>b</span> <span class='op'>+</span> <span class='number'>6.0</span> <span class='op'>*</span> <span class='ident'>c</span>) <span class='op'>*</span> <span class='ident'>a</span>.<span class='ident'>powi</span>(<span class='number'>2</span>) <span class='op'>+</span>
-        (<span class='number'>6.0</span> <span class='op'>-</span> <span class='number'>2.0</span> <span class='op'>*</span> <span class='ident'>b</span>)
-    } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>a</span> <span class='op'>&lt;</span> <span class='number'>2.0</span> {
-        (<span class='op'>-</span><span class='ident'>b</span> <span class='op'>-</span>  <span class='number'>6.0</span> <span class='op'>*</span> <span class='ident'>c</span>) <span class='op'>*</span> <span class='ident'>a</span>.<span class='ident'>powi</span>(<span class='number'>3</span>) <span class='op'>+</span>
-        (<span class='number'>6.0</span> <span class='op'>*</span> <span class='ident'>b</span> <span class='op'>+</span> <span class='number'>30.0</span> <span class='op'>*</span> <span class='ident'>c</span>) <span class='op'>*</span> <span class='ident'>a</span>.<span class='ident'>powi</span>(<span class='number'>2</span>) <span class='op'>+</span>
-        (<span class='op'>-</span><span class='number'>12.0</span> <span class='op'>*</span> <span class='ident'>b</span> <span class='op'>-</span> <span class='number'>48.0</span> <span class='op'>*</span> <span class='ident'>c</span>) <span class='op'>*</span> <span class='ident'>a</span> <span class='op'>+</span>
-        (<span class='number'>8.0</span> <span class='op'>*</span> <span class='ident'>b</span> <span class='op'>+</span> <span class='number'>24.0</span> <span class='op'>*</span> <span class='ident'>c</span>)
-    } <span class='kw'>else</span> {
-        <span class='number'>0.0</span>
+    <span class="kw">let</span> <span class="ident">k</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">a</span> <span class="op">&lt;</span> <span class="number">1.0</span> {
+        (<span class="number">12.0</span> <span class="op">-</span> <span class="number">9.0</span> <span class="op">*</span> <span class="ident">b</span> <span class="op">-</span> <span class="number">6.0</span> <span class="op">*</span> <span class="ident">c</span>) <span class="op">*</span> <span class="ident">a</span>.<span class="ident">powi</span>(<span class="number">3</span>) <span class="op">+</span>
+        (<span class="op">-</span><span class="number">18.0</span> <span class="op">+</span> <span class="number">12.0</span> <span class="op">*</span> <span class="ident">b</span> <span class="op">+</span> <span class="number">6.0</span> <span class="op">*</span> <span class="ident">c</span>) <span class="op">*</span> <span class="ident">a</span>.<span class="ident">powi</span>(<span class="number">2</span>) <span class="op">+</span>
+        (<span class="number">6.0</span> <span class="op">-</span> <span class="number">2.0</span> <span class="op">*</span> <span class="ident">b</span>)
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">a</span> <span class="op">&lt;</span> <span class="number">2.0</span> {
+        (<span class="op">-</span><span class="ident">b</span> <span class="op">-</span>  <span class="number">6.0</span> <span class="op">*</span> <span class="ident">c</span>) <span class="op">*</span> <span class="ident">a</span>.<span class="ident">powi</span>(<span class="number">3</span>) <span class="op">+</span>
+        (<span class="number">6.0</span> <span class="op">*</span> <span class="ident">b</span> <span class="op">+</span> <span class="number">30.0</span> <span class="op">*</span> <span class="ident">c</span>) <span class="op">*</span> <span class="ident">a</span>.<span class="ident">powi</span>(<span class="number">2</span>) <span class="op">+</span>
+        (<span class="op">-</span><span class="number">12.0</span> <span class="op">*</span> <span class="ident">b</span> <span class="op">-</span> <span class="number">48.0</span> <span class="op">*</span> <span class="ident">c</span>) <span class="op">*</span> <span class="ident">a</span> <span class="op">+</span>
+        (<span class="number">8.0</span> <span class="op">*</span> <span class="ident">b</span> <span class="op">+</span> <span class="number">24.0</span> <span class="op">*</span> <span class="ident">c</span>)
+    } <span class="kw">else</span> {
+        <span class="number">0.0</span>
     };
 
-    <span class='ident'>k</span> <span class='op'>/</span> <span class='number'>6.0</span>
+    <span class="ident">k</span> <span class="op">/</span> <span class="number">6.0</span>
 }
 
-<span class='doccomment'>/// The Gaussian Function.</span>
-<span class='doccomment'>/// ```r``` is the standard deviation.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>gaussian</span>(<span class='ident'>x</span>: <span class='ident'>f32</span>, <span class='ident'>r</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-    ((<span class='number'>2.0</span> <span class='op'>*</span> <span class='ident'>f32</span>::<span class='ident'>consts</span>::<span class='ident'>PI</span>).<span class='ident'>sqrt</span>() <span class='op'>*</span> <span class='ident'>r</span>).<span class='ident'>recip</span>() <span class='op'>*</span>
-    (<span class='op'>-</span><span class='ident'>x</span>.<span class='ident'>powi</span>(<span class='number'>2</span>) <span class='op'>/</span> (<span class='number'>2.0</span> <span class='op'>*</span> <span class='ident'>r</span>.<span class='ident'>powi</span>(<span class='number'>2</span>))).<span class='ident'>exp</span>()
+<span class="doccomment">/// The Gaussian Function.</span>
+<span class="doccomment">/// ```r``` is the standard deviation.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gaussian</span>(<span class="ident">x</span>: <span class="ident">f32</span>, <span class="ident">r</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    ((<span class="number">2.0</span> <span class="op">*</span> <span class="ident">f32</span>::<span class="ident">consts</span>::<span class="ident">PI</span>).<span class="ident">sqrt</span>() <span class="op">*</span> <span class="ident">r</span>).<span class="ident">recip</span>() <span class="op">*</span>
+    (<span class="op">-</span><span class="ident">x</span>.<span class="ident">powi</span>(<span class="number">2</span>) <span class="op">/</span> (<span class="number">2.0</span> <span class="op">*</span> <span class="ident">r</span>.<span class="ident">powi</span>(<span class="number">2</span>))).<span class="ident">exp</span>()
 }
 
-<span class='doccomment'>/// Calculate the lanczos kernel with a window of 3</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>lanczos3_kernel</span>(<span class='ident'>x</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-    <span class='ident'>lanczos</span>(<span class='ident'>x</span>, <span class='number'>3.0</span>)
+<span class="doccomment">/// Calculate the lanczos kernel with a window of 3</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lanczos3_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="ident">lanczos</span>(<span class="ident">x</span>, <span class="number">3.0</span>)
 }
 
-<span class='doccomment'>/// Calculate the gaussian function with a</span>
-<span class='doccomment'>/// standard deviation of 1.0</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>gaussian_kernel</span>(<span class='ident'>x</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-    <span class='ident'>gaussian</span>(<span class='ident'>x</span>, <span class='number'>1.0</span>)
+<span class="doccomment">/// Calculate the gaussian function with a</span>
+<span class="doccomment">/// standard deviation of 1.0</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gaussian_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="ident">gaussian</span>(<span class="ident">x</span>, <span class="number">1.0</span>)
 }
 
-<span class='doccomment'>/// Calculate the Catmull-Rom cubic spline.</span>
-<span class='doccomment'>/// Also known as a form of BiCubic sampling in two dimensions.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>catmullrom_kernel</span>(<span class='ident'>x</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-    <span class='ident'>bc_cubic_spline</span>(<span class='ident'>x</span>, <span class='number'>0.0</span>, <span class='number'>0.5</span>)
+<span class="doccomment">/// Calculate the Catmull-Rom cubic spline.</span>
+<span class="doccomment">/// Also known as a form of BiCubic sampling in two dimensions.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">catmullrom_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="ident">bc_cubic_spline</span>(<span class="ident">x</span>, <span class="number">0.0</span>, <span class="number">0.5</span>)
 }
 
-<span class='doccomment'>/// Calculate the triangle function.</span>
-<span class='doccomment'>/// Also known as BiLinear sampling in two dimensions.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>triangle_kernel</span>(<span class='ident'>x</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-    <span class='kw'>if</span> <span class='ident'>x</span>.<span class='ident'>abs</span>() <span class='op'>&lt;</span> <span class='number'>1.0</span> {
-        <span class='number'>1.0</span> <span class='op'>-</span> <span class='ident'>x</span>
-    } <span class='kw'>else</span> {
-        <span class='number'>0.0</span>
+<span class="doccomment">/// Calculate the triangle function.</span>
+<span class="doccomment">/// Also known as BiLinear sampling in two dimensions.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">triangle_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="kw">if</span> <span class="ident">x</span>.<span class="ident">abs</span>() <span class="op">&lt;</span> <span class="number">1.0</span> {
+        <span class="number">1.0</span> <span class="op">-</span> <span class="ident">x</span>
+    } <span class="kw">else</span> {
+        <span class="number">0.0</span>
     }
 }
 
-<span class='doccomment'>/// Calculate the box kernel.</span>
-<span class='doccomment'>/// When applied in two dimensions with a support of 0.5</span>
-<span class='doccomment'>/// it is equivalent to nearest neighbor sampling.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>box_kernel</span>(<span class='ident'>x</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-    <span class='kw'>if</span> <span class='ident'>x</span>.<span class='ident'>abs</span>() <span class='op'>&lt;=</span> <span class='number'>0.5</span> {
-        <span class='number'>1.0</span>
-    } <span class='kw'>else</span> {
-        <span class='number'>0.0</span>
+<span class="doccomment">/// Calculate the box kernel.</span>
+<span class="doccomment">/// When applied in two dimensions with a support of 0.5</span>
+<span class="doccomment">/// it is equivalent to nearest neighbor sampling.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">box_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="kw">if</span> <span class="ident">x</span>.<span class="ident">abs</span>() <span class="op">&lt;=</span> <span class="number">0.5</span> {
+        <span class="number">1.0</span>
+    } <span class="kw">else</span> {
+        <span class="number">0.0</span>
     }
 }
 
-<span class='comment'>// Sample the rows of the supplied image using the provided filter.</span>
-<span class='comment'>// The height of the image remains unchanged.</span>
-<span class='comment'>// ```new_width``` is the desired width of the new image</span>
-<span class='comment'>// ```filter``` is the filter to use for sampling.</span>
-<span class='comment'>// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
-<span class='kw'>fn</span> <span class='ident'>horizontal_sample</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>P</span>, <span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>image</span>: <span class='kw-2'>&amp;</span><span class='ident'>I</span>, <span class='ident'>new_width</span>: <span class='ident'>u32</span>,
-                              <span class='ident'>filter</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Filter</span>)
-    <span class='op'>-&gt;</span> <span class='ident'>ImageBuffer</span><span class='op'>&lt;</span><span class='ident'>P</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>GenericImage</span><span class='op'>&lt;</span><span class='ident'>Pixel</span><span class='op'>=</span><span class='ident'>P</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-          <span class='ident'>P</span>: <span class='ident'>Pixel</span><span class='op'>&lt;</span><span class='ident'>Subpixel</span><span class='op'>=</span><span class='ident'>S</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-          <span class='ident'>S</span>: <span class='ident'>Primitive</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
+<span class="comment">// Sample the rows of the supplied image using the provided filter.</span>
+<span class="comment">// The height of the image remains unchanged.</span>
+<span class="comment">// ```new_width``` is the desired width of the new image</span>
+<span class="comment">// ```filter``` is the filter to use for sampling.</span>
+<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
+<span class="kw">fn</span> <span class="ident">horizontal_sample</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">new_width</span>: <span class="ident">u32</span>,
+                              <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Filter</span>)
+    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
+    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span><span class="op">=</span><span class="ident">P</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+          <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+          <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
 
-    <span class='kw'>let</span> (<span class='ident'>width</span>, <span class='ident'>height</span>) <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>dimensions</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>out</span> <span class='op'>=</span> <span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='ident'>new_width</span>, <span class='ident'>height</span>);
+    <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">new_width</span>, <span class="ident">height</span>);
 
-    <span class='kw'>for</span> <span class='ident'>y</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>height</span> {
-        <span class='kw'>let</span> <span class='ident'>max</span> <span class='op'>=</span> <span class='ident'>S</span>::<span class='ident'>max_value</span>();
-        <span class='kw'>let</span> <span class='ident'>max</span>: <span class='ident'>f32</span> <span class='op'>=</span> <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>max</span>).<span class='ident'>unwrap</span>();
+    <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">height</span> {
+        <span class="kw">let</span> <span class="ident">max</span> <span class="op">=</span> <span class="ident">S</span>::<span class="ident">max_value</span>();
+        <span class="kw">let</span> <span class="ident">max</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">max</span>).<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>ratio</span> <span class='op'>=</span> <span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='ident'>new_width</span> <span class='kw'>as</span> <span class='ident'>f32</span>;
+        <span class="kw">let</span> <span class="ident">ratio</span> <span class="op">=</span> <span class="ident">width</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="ident">new_width</span> <span class="kw">as</span> <span class="ident">f32</span>;
 
-        <span class='comment'>// Scale the filter when downsampling.</span>
-        <span class='kw'>let</span> <span class='ident'>filter_scale</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>ratio</span> <span class='op'>&gt;</span> <span class='number'>1.0</span> {
-            <span class='ident'>ratio</span>
-        } <span class='kw'>else</span> {
-            <span class='number'>1.0</span>
+        <span class="comment">// Scale the filter when downsampling.</span>
+        <span class="kw">let</span> <span class="ident">filter_scale</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">ratio</span> <span class="op">&gt;</span> <span class="number">1.0</span> {
+            <span class="ident">ratio</span>
+        } <span class="kw">else</span> {
+            <span class="number">1.0</span>
         };
 
-        <span class='kw'>let</span> <span class='ident'>filter_radius</span> <span class='op'>=</span> (<span class='ident'>filter</span>.<span class='ident'>support</span> <span class='op'>*</span> <span class='ident'>filter_scale</span>).<span class='ident'>ceil</span>();
+        <span class="kw">let</span> <span class="ident">filter_radius</span> <span class="op">=</span> (<span class="ident">filter</span>.<span class="ident">support</span> <span class="op">*</span> <span class="ident">filter_scale</span>).<span class="ident">ceil</span>();
 
-        <span class='kw'>for</span> <span class='ident'>outx</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>new_width</span> {
+        <span class="kw">for</span> <span class="ident">outx</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">new_width</span> {
 
-            <span class='kw'>let</span> <span class='ident'>inputx</span> <span class='op'>=</span> (<span class='ident'>outx</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>+</span> <span class='number'>0.5</span>) <span class='op'>*</span> <span class='ident'>ratio</span>;
+            <span class="kw">let</span> <span class="ident">inputx</span> <span class="op">=</span> (<span class="ident">outx</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">+</span> <span class="number">0.5</span>) <span class="op">*</span> <span class="ident">ratio</span>;
 
-            <span class='kw'>let</span> <span class='ident'>left</span>  <span class='op'>=</span> (<span class='ident'>inputx</span> <span class='op'>-</span> <span class='ident'>filter_radius</span>).<span class='ident'>ceil</span>() <span class='kw'>as</span> <span class='ident'>i64</span>;
-            <span class='kw'>let</span> <span class='ident'>left</span>  <span class='op'>=</span> <span class='ident'>clamp</span>(<span class='ident'>left</span>, <span class='number'>0</span>, <span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>u32</span>;
+            <span class="kw">let</span> <span class="ident">left</span>  <span class="op">=</span> (<span class="ident">inputx</span> <span class="op">-</span> <span class="ident">filter_radius</span>).<span class="ident">ceil</span>() <span class="kw">as</span> <span class="ident">i64</span>;
+            <span class="kw">let</span> <span class="ident">left</span>  <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">left</span>, <span class="number">0</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">i64</span> <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u32</span>;
 
-            <span class='kw'>let</span> <span class='ident'>right</span> <span class='op'>=</span> (<span class='ident'>inputx</span> <span class='op'>+</span> <span class='ident'>filter_radius</span>).<span class='ident'>floor</span>() <span class='kw'>as</span> <span class='ident'>i64</span>;
-            <span class='kw'>let</span> <span class='ident'>right</span> <span class='op'>=</span> <span class='ident'>clamp</span>(<span class='ident'>right</span>, <span class='number'>0</span>, <span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>u32</span>;
+            <span class="kw">let</span> <span class="ident">right</span> <span class="op">=</span> (<span class="ident">inputx</span> <span class="op">+</span> <span class="ident">filter_radius</span>).<span class="ident">floor</span>() <span class="kw">as</span> <span class="ident">i64</span>;
+            <span class="kw">let</span> <span class="ident">right</span> <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">right</span>, <span class="number">0</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">i64</span> <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u32</span>;
 
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sum</span> <span class='op'>=</span> (<span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sum</span> <span class="op">=</span> (<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>);
 
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>t</span> <span class='op'>=</span> (<span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t</span> <span class="op">=</span> (<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>);
 
-            <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='ident'>left</span>..<span class='ident'>right</span> <span class='op'>+</span> <span class='number'>1</span> {
-                <span class='kw'>let</span> <span class='ident'>w</span> <span class='op'>=</span> (<span class='ident'>filter</span>.<span class='ident'>kernel</span>)((<span class='ident'>i</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>-</span> <span class='ident'>inputx</span>) <span class='op'>/</span> <span class='ident'>filter_scale</span>);
-                <span class='kw'>let</span> <span class='ident'>w</span> <span class='op'>=</span> (<span class='ident'>w</span>, <span class='ident'>w</span>, <span class='ident'>w</span>, <span class='ident'>w</span>);
-                <span class='ident'>sum</span>.<span class='number'>0</span> <span class='op'>+=</span> <span class='ident'>w</span>.<span class='number'>0</span>; <span class='ident'>sum</span>.<span class='number'>1</span> <span class='op'>+=</span> <span class='ident'>w</span>.<span class='number'>1</span>; <span class='ident'>sum</span>.<span class='number'>2</span> <span class='op'>+=</span> <span class='ident'>w</span>.<span class='number'>2</span>; <span class='ident'>sum</span>.<span class='number'>3</span> <span class='op'>+=</span> <span class='ident'>w</span>.<span class='number'>3</span>;
+            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">left</span>..<span class="ident">right</span> <span class="op">+</span> <span class="number">1</span> {
+                <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> (<span class="ident">filter</span>.<span class="ident">kernel</span>)((<span class="ident">i</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">-</span> <span class="ident">inputx</span>) <span class="op">/</span> <span class="ident">filter_scale</span>);
+                <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> (<span class="ident">w</span>, <span class="ident">w</span>, <span class="ident">w</span>, <span class="ident">w</span>);
+                <span class="ident">sum</span>.<span class="number">0</span> <span class="op">+=</span> <span class="ident">w</span>.<span class="number">0</span>; <span class="ident">sum</span>.<span class="number">1</span> <span class="op">+=</span> <span class="ident">w</span>.<span class="number">1</span>; <span class="ident">sum</span>.<span class="number">2</span> <span class="op">+=</span> <span class="ident">w</span>.<span class="number">2</span>; <span class="ident">sum</span>.<span class="number">3</span> <span class="op">+=</span> <span class="ident">w</span>.<span class="number">3</span>;
 
-                <span class='kw'>let</span> <span class='ident'>x0</span>  <span class='op'>=</span> <span class='ident'>clamp</span>(<span class='ident'>i</span>, <span class='number'>0</span>, <span class='ident'>width</span> <span class='op'>-</span> <span class='number'>1</span>);
-                <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x0</span>, <span class='ident'>y</span>);
+                <span class="kw">let</span> <span class="ident">x0</span>  <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">i</span>, <span class="number">0</span>, <span class="ident">width</span> <span class="op">-</span> <span class="number">1</span>);
+                <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="ident">x0</span>, <span class="ident">y</span>);
 
-                <span class='kw'>let</span> (<span class='ident'>k1</span>, <span class='ident'>k2</span>, <span class='ident'>k3</span>, <span class='ident'>k4</span>) <span class='op'>=</span> <span class='ident'>p</span>.<span class='ident'>channels4</span>();
-                <span class='kw'>let</span> <span class='ident'>vec</span>: (<span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>) <span class='op'>=</span> (
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k1</span>).<span class='ident'>unwrap</span>(),
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k2</span>).<span class='ident'>unwrap</span>(),
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k3</span>).<span class='ident'>unwrap</span>(),
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k4</span>).<span class='ident'>unwrap</span>()
+                <span class="kw">let</span> (<span class="ident">k1</span>, <span class="ident">k2</span>, <span class="ident">k3</span>, <span class="ident">k4</span>) <span class="op">=</span> <span class="ident">p</span>.<span class="ident">channels4</span>();
+                <span class="kw">let</span> <span class="ident">vec</span>: (<span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>) <span class="op">=</span> (
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k1</span>).<span class="ident">unwrap</span>(),
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k2</span>).<span class="ident">unwrap</span>(),
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k3</span>).<span class="ident">unwrap</span>(),
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k4</span>).<span class="ident">unwrap</span>()
                 );
 
-                <span class='ident'>t</span>.<span class='number'>0</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>0</span> <span class='op'>*</span> <span class='ident'>w</span>.<span class='number'>0</span>; <span class='ident'>t</span>.<span class='number'>1</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>1</span> <span class='op'>*</span> <span class='ident'>w</span>.<span class='number'>1</span>;
-                <span class='ident'>t</span>.<span class='number'>2</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>2</span> <span class='op'>*</span> <span class='ident'>w</span>.<span class='number'>2</span>; <span class='ident'>t</span>.<span class='number'>3</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>3</span> <span class='op'>*</span> <span class='ident'>w</span>.<span class='number'>3</span>;
+                <span class="ident">t</span>.<span class="number">0</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">0</span> <span class="op">*</span> <span class="ident">w</span>.<span class="number">0</span>; <span class="ident">t</span>.<span class="number">1</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">1</span> <span class="op">*</span> <span class="ident">w</span>.<span class="number">1</span>;
+                <span class="ident">t</span>.<span class="number">2</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">2</span> <span class="op">*</span> <span class="ident">w</span>.<span class="number">2</span>; <span class="ident">t</span>.<span class="number">3</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">3</span> <span class="op">*</span> <span class="ident">w</span>.<span class="number">3</span>;
             }
 
-            <span class='kw'>let</span> (<span class='ident'>t1</span>, <span class='ident'>t2</span>, <span class='ident'>t3</span>, <span class='ident'>t4</span>) <span class='op'>=</span> (<span class='ident'>t</span>.<span class='number'>0</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>0</span>, <span class='ident'>t</span>.<span class='number'>1</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>1</span>, <span class='ident'>t</span>.<span class='number'>2</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>2</span>, <span class='ident'>t</span>.<span class='number'>3</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>3</span>);
-            <span class='kw'>let</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>Pixel</span>::<span class='ident'>from_channels</span>(
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t1</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>(),
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t2</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>(),
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t3</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>(),
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t4</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>()
+            <span class="kw">let</span> (<span class="ident">t1</span>, <span class="ident">t2</span>, <span class="ident">t3</span>, <span class="ident">t4</span>) <span class="op">=</span> (<span class="ident">t</span>.<span class="number">0</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">0</span>, <span class="ident">t</span>.<span class="number">1</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">1</span>, <span class="ident">t</span>.<span class="number">2</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">2</span>, <span class="ident">t</span>.<span class="number">3</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">3</span>);
+            <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">Pixel</span>::<span class="ident">from_channels</span>(
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t1</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t2</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t3</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t4</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>()
             );
 
-            <span class='ident'>out</span>.<span class='ident'>put_pixel</span>(<span class='ident'>outx</span>, <span class='ident'>y</span>, <span class='ident'>t</span>);
+            <span class="ident">out</span>.<span class="ident">put_pixel</span>(<span class="ident">outx</span>, <span class="ident">y</span>, <span class="ident">t</span>);
         }
     }
 
-    <span class='ident'>out</span>
+    <span class="ident">out</span>
 }
 
-<span class='comment'>// Sample the columns of the supplied image using the provided filter.</span>
-<span class='comment'>// The width of the image remains unchanged.</span>
-<span class='comment'>// ```new_height``` is the desired height of the new image</span>
-<span class='comment'>// ```filter``` is the filter to use for sampling.</span>
-<span class='comment'>// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
-<span class='kw'>fn</span> <span class='ident'>vertical_sample</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>P</span>, <span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>image</span>: <span class='kw-2'>&amp;</span><span class='ident'>I</span>, <span class='ident'>new_height</span>: <span class='ident'>u32</span>,
-                            <span class='ident'>filter</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Filter</span>)
-    <span class='op'>-&gt;</span> <span class='ident'>ImageBuffer</span><span class='op'>&lt;</span><span class='ident'>P</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>GenericImage</span><span class='op'>&lt;</span><span class='ident'>Pixel</span><span class='op'>=</span><span class='ident'>P</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-          <span class='ident'>P</span>: <span class='ident'>Pixel</span><span class='op'>&lt;</span><span class='ident'>Subpixel</span><span class='op'>=</span><span class='ident'>S</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-          <span class='ident'>S</span>: <span class='ident'>Primitive</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
+<span class="comment">// Sample the columns of the supplied image using the provided filter.</span>
+<span class="comment">// The width of the image remains unchanged.</span>
+<span class="comment">// ```new_height``` is the desired height of the new image</span>
+<span class="comment">// ```filter``` is the filter to use for sampling.</span>
+<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
+<span class="kw">fn</span> <span class="ident">vertical_sample</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">new_height</span>: <span class="ident">u32</span>,
+                            <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Filter</span>)
+    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
+    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span><span class="op">=</span><span class="ident">P</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+          <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+          <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
 
-    <span class='kw'>let</span> (<span class='ident'>width</span>, <span class='ident'>height</span>) <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>dimensions</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>out</span> <span class='op'>=</span> <span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='ident'>width</span>, <span class='ident'>new_height</span>);
+    <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">new_height</span>);
 
 
-    <span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>width</span> {
-        <span class='kw'>let</span> <span class='ident'>max</span> <span class='op'>=</span> <span class='ident'>S</span>::<span class='ident'>max_value</span>();
-        <span class='kw'>let</span> <span class='ident'>max</span>: <span class='ident'>f32</span> <span class='op'>=</span> <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>max</span>).<span class='ident'>unwrap</span>();
+    <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">width</span> {
+        <span class="kw">let</span> <span class="ident">max</span> <span class="op">=</span> <span class="ident">S</span>::<span class="ident">max_value</span>();
+        <span class="kw">let</span> <span class="ident">max</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">max</span>).<span class="ident">unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>ratio</span> <span class='op'>=</span> <span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='ident'>new_height</span> <span class='kw'>as</span> <span class='ident'>f32</span>;
+        <span class="kw">let</span> <span class="ident">ratio</span> <span class="op">=</span> <span class="ident">height</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="ident">new_height</span> <span class="kw">as</span> <span class="ident">f32</span>;
 
-        <span class='comment'>// Scale the filter when downsampling.</span>
-        <span class='kw'>let</span> <span class='ident'>filter_scale</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>ratio</span> <span class='op'>&gt;</span> <span class='number'>1.0</span> {
-            <span class='ident'>ratio</span>
-        } <span class='kw'>else</span> {
-            <span class='number'>1.0</span>
+        <span class="comment">// Scale the filter when downsampling.</span>
+        <span class="kw">let</span> <span class="ident">filter_scale</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">ratio</span> <span class="op">&gt;</span> <span class="number">1.0</span> {
+            <span class="ident">ratio</span>
+        } <span class="kw">else</span> {
+            <span class="number">1.0</span>
         };
 
-        <span class='kw'>let</span> <span class='ident'>filter_radius</span> <span class='op'>=</span> (<span class='ident'>filter</span>.<span class='ident'>support</span> <span class='op'>*</span> <span class='ident'>filter_scale</span>).<span class='ident'>ceil</span>();
+        <span class="kw">let</span> <span class="ident">filter_radius</span> <span class="op">=</span> (<span class="ident">filter</span>.<span class="ident">support</span> <span class="op">*</span> <span class="ident">filter_scale</span>).<span class="ident">ceil</span>();
 
-        <span class='kw'>for</span> <span class='ident'>outy</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>new_height</span> {
-            <span class='kw'>let</span> <span class='ident'>inputy</span> <span class='op'>=</span> (<span class='ident'>outy</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>+</span> <span class='number'>0.5</span>) <span class='op'>*</span> <span class='ident'>ratio</span>;
+        <span class="kw">for</span> <span class="ident">outy</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">new_height</span> {
+            <span class="kw">let</span> <span class="ident">inputy</span> <span class="op">=</span> (<span class="ident">outy</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">+</span> <span class="number">0.5</span>) <span class="op">*</span> <span class="ident">ratio</span>;
 
-            <span class='kw'>let</span> <span class='ident'>left</span>  <span class='op'>=</span> (<span class='ident'>inputy</span> <span class='op'>-</span> <span class='ident'>filter_radius</span>).<span class='ident'>ceil</span>() <span class='kw'>as</span> <span class='ident'>i64</span>;
-            <span class='kw'>let</span> <span class='ident'>left</span>  <span class='op'>=</span> <span class='ident'>clamp</span>(<span class='ident'>left</span>, <span class='number'>0</span>, <span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>u32</span>;
+            <span class="kw">let</span> <span class="ident">left</span>  <span class="op">=</span> (<span class="ident">inputy</span> <span class="op">-</span> <span class="ident">filter_radius</span>).<span class="ident">ceil</span>() <span class="kw">as</span> <span class="ident">i64</span>;
+            <span class="kw">let</span> <span class="ident">left</span>  <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">left</span>, <span class="number">0</span>, <span class="ident">height</span> <span class="kw">as</span> <span class="ident">i64</span> <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u32</span>;
 
-            <span class='kw'>let</span> <span class='ident'>right</span> <span class='op'>=</span> (<span class='ident'>inputy</span> <span class='op'>+</span> <span class='ident'>filter_radius</span>).<span class='ident'>floor</span>() <span class='kw'>as</span> <span class='ident'>i64</span>;
-            <span class='kw'>let</span> <span class='ident'>right</span> <span class='op'>=</span> <span class='ident'>clamp</span>(<span class='ident'>right</span>, <span class='number'>0</span>, <span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>u32</span>;
+            <span class="kw">let</span> <span class="ident">right</span> <span class="op">=</span> (<span class="ident">inputy</span> <span class="op">+</span> <span class="ident">filter_radius</span>).<span class="ident">floor</span>() <span class="kw">as</span> <span class="ident">i64</span>;
+            <span class="kw">let</span> <span class="ident">right</span> <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">right</span>, <span class="number">0</span>, <span class="ident">height</span> <span class="kw">as</span> <span class="ident">i64</span> <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u32</span>;
 
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sum</span> <span class='op'>=</span> (<span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sum</span> <span class="op">=</span> (<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>);
 
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>t</span> <span class='op'>=</span> (<span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t</span> <span class="op">=</span> (<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>);
 
-            <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='ident'>left</span>..<span class='ident'>right</span> <span class='op'>+</span> <span class='number'>1</span> {
-                <span class='kw'>let</span> <span class='ident'>w</span> <span class='op'>=</span> (<span class='ident'>filter</span>.<span class='ident'>kernel</span>)((<span class='ident'>i</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>-</span> <span class='ident'>inputy</span>) <span class='op'>/</span> <span class='ident'>filter_scale</span>);
-                <span class='kw'>let</span> <span class='ident'>w</span> <span class='op'>=</span> (<span class='ident'>w</span>, <span class='ident'>w</span>, <span class='ident'>w</span>, <span class='ident'>w</span>);
-                <span class='ident'>sum</span>.<span class='number'>0</span> <span class='op'>+=</span> <span class='ident'>w</span>.<span class='number'>0</span>; <span class='ident'>sum</span>.<span class='number'>1</span> <span class='op'>+=</span> <span class='ident'>w</span>.<span class='number'>1</span>; <span class='ident'>sum</span>.<span class='number'>2</span> <span class='op'>+=</span> <span class='ident'>w</span>.<span class='number'>2</span>; <span class='ident'>sum</span>.<span class='number'>3</span> <span class='op'>+=</span> <span class='ident'>w</span>.<span class='number'>3</span>;
+            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">left</span>..<span class="ident">right</span> <span class="op">+</span> <span class="number">1</span> {
+                <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> (<span class="ident">filter</span>.<span class="ident">kernel</span>)((<span class="ident">i</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">-</span> <span class="ident">inputy</span>) <span class="op">/</span> <span class="ident">filter_scale</span>);
+                <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> (<span class="ident">w</span>, <span class="ident">w</span>, <span class="ident">w</span>, <span class="ident">w</span>);
+                <span class="ident">sum</span>.<span class="number">0</span> <span class="op">+=</span> <span class="ident">w</span>.<span class="number">0</span>; <span class="ident">sum</span>.<span class="number">1</span> <span class="op">+=</span> <span class="ident">w</span>.<span class="number">1</span>; <span class="ident">sum</span>.<span class="number">2</span> <span class="op">+=</span> <span class="ident">w</span>.<span class="number">2</span>; <span class="ident">sum</span>.<span class="number">3</span> <span class="op">+=</span> <span class="ident">w</span>.<span class="number">3</span>;
 
-                <span class='kw'>let</span> <span class='ident'>y0</span>  <span class='op'>=</span> <span class='ident'>clamp</span>(<span class='ident'>i</span>, <span class='number'>0</span>, <span class='ident'>height</span> <span class='op'>-</span> <span class='number'>1</span>);
-                <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y0</span>);
+                <span class="kw">let</span> <span class="ident">y0</span>  <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">i</span>, <span class="number">0</span>, <span class="ident">height</span> <span class="op">-</span> <span class="number">1</span>);
+                <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y0</span>);
 
-                <span class='kw'>let</span> (<span class='ident'>k1</span>, <span class='ident'>k2</span>, <span class='ident'>k3</span>, <span class='ident'>k4</span>) <span class='op'>=</span> <span class='ident'>p</span>.<span class='ident'>channels4</span>();
-                <span class='kw'>let</span> <span class='ident'>vec</span>: (<span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>) <span class='op'>=</span> (
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k1</span>).<span class='ident'>unwrap</span>(),
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k2</span>).<span class='ident'>unwrap</span>(),
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k3</span>).<span class='ident'>unwrap</span>(),
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k4</span>).<span class='ident'>unwrap</span>()
+                <span class="kw">let</span> (<span class="ident">k1</span>, <span class="ident">k2</span>, <span class="ident">k3</span>, <span class="ident">k4</span>) <span class="op">=</span> <span class="ident">p</span>.<span class="ident">channels4</span>();
+                <span class="kw">let</span> <span class="ident">vec</span>: (<span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>) <span class="op">=</span> (
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k1</span>).<span class="ident">unwrap</span>(),
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k2</span>).<span class="ident">unwrap</span>(),
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k3</span>).<span class="ident">unwrap</span>(),
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k4</span>).<span class="ident">unwrap</span>()
                 );
 
-                <span class='ident'>t</span>.<span class='number'>0</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>0</span> <span class='op'>*</span> <span class='ident'>w</span>.<span class='number'>0</span>; <span class='ident'>t</span>.<span class='number'>1</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>1</span> <span class='op'>*</span> <span class='ident'>w</span>.<span class='number'>1</span>;
-                <span class='ident'>t</span>.<span class='number'>2</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>2</span> <span class='op'>*</span> <span class='ident'>w</span>.<span class='number'>2</span>; <span class='ident'>t</span>.<span class='number'>3</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>3</span> <span class='op'>*</span> <span class='ident'>w</span>.<span class='number'>3</span>;
+                <span class="ident">t</span>.<span class="number">0</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">0</span> <span class="op">*</span> <span class="ident">w</span>.<span class="number">0</span>; <span class="ident">t</span>.<span class="number">1</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">1</span> <span class="op">*</span> <span class="ident">w</span>.<span class="number">1</span>;
+                <span class="ident">t</span>.<span class="number">2</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">2</span> <span class="op">*</span> <span class="ident">w</span>.<span class="number">2</span>; <span class="ident">t</span>.<span class="number">3</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">3</span> <span class="op">*</span> <span class="ident">w</span>.<span class="number">3</span>;
             }
 
-            <span class='kw'>let</span> (<span class='ident'>t1</span>, <span class='ident'>t2</span>, <span class='ident'>t3</span>, <span class='ident'>t4</span>) <span class='op'>=</span> (<span class='ident'>t</span>.<span class='number'>0</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>0</span>, <span class='ident'>t</span>.<span class='number'>1</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>1</span>, <span class='ident'>t</span>.<span class='number'>2</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>2</span>, <span class='ident'>t</span>.<span class='number'>3</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>3</span>);
-            <span class='kw'>let</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>Pixel</span>::<span class='ident'>from_channels</span>(
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t1</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>(),
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t2</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>(),
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t3</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>(),
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t4</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>()
+            <span class="kw">let</span> (<span class="ident">t1</span>, <span class="ident">t2</span>, <span class="ident">t3</span>, <span class="ident">t4</span>) <span class="op">=</span> (<span class="ident">t</span>.<span class="number">0</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">0</span>, <span class="ident">t</span>.<span class="number">1</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">1</span>, <span class="ident">t</span>.<span class="number">2</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">2</span>, <span class="ident">t</span>.<span class="number">3</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">3</span>);
+            <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">Pixel</span>::<span class="ident">from_channels</span>(
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t1</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t2</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t3</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t4</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>()
             );
 
-            <span class='ident'>out</span>.<span class='ident'>put_pixel</span>(<span class='ident'>x</span>, <span class='ident'>outy</span>, <span class='ident'>t</span>);
+            <span class="ident">out</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">outy</span>, <span class="ident">t</span>);
         }
     }
 
-    <span class='ident'>out</span>
+    <span class="ident">out</span>
 }
 
-<span class='doccomment'>/// Perform a 3x3 box filter on the supplied image.</span>
-<span class='doccomment'>/// ```kernel``` is an array of the filter weights of length 9.</span>
-<span class='comment'>// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>filter3x3</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>P</span>, <span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>image</span>: <span class='kw-2'>&amp;</span><span class='ident'>I</span>, <span class='ident'>kernel</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>f32</span>])
-    <span class='op'>-&gt;</span> <span class='ident'>ImageBuffer</span><span class='op'>&lt;</span><span class='ident'>P</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>GenericImage</span><span class='op'>&lt;</span><span class='ident'>Pixel</span><span class='op'>=</span><span class='ident'>P</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-          <span class='ident'>P</span>: <span class='ident'>Pixel</span><span class='op'>&lt;</span><span class='ident'>Subpixel</span><span class='op'>=</span><span class='ident'>S</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-          <span class='ident'>S</span>: <span class='ident'>Primitive</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
+<span class="doccomment">/// Perform a 3x3 box filter on the supplied image.</span>
+<span class="doccomment">/// ```kernel``` is an array of the filter weights of length 9.</span>
+<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filter3x3</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">kernel</span>: <span class="kw-2">&amp;</span>[<span class="ident">f32</span>])
+    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
+    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span><span class="op">=</span><span class="ident">P</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+          <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+          <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
 
-    <span class='comment'>// The kernel&#39;s input positions relative to the current pixel.</span>
-    <span class='kw'>let</span> <span class='ident'>taps</span>: <span class='kw-2'>&amp;</span>[(<span class='ident'>isize</span>, <span class='ident'>isize</span>)] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[
-        (<span class='op'>-</span><span class='number'>1</span>, <span class='op'>-</span><span class='number'>1</span>), ( <span class='number'>0</span>, <span class='op'>-</span><span class='number'>1</span>), ( <span class='number'>1</span>, <span class='op'>-</span><span class='number'>1</span>),
-        (<span class='op'>-</span><span class='number'>1</span>,  <span class='number'>0</span>), ( <span class='number'>0</span>,  <span class='number'>0</span>), ( <span class='number'>1</span>,  <span class='number'>0</span>),
-        (<span class='op'>-</span><span class='number'>1</span>,  <span class='number'>1</span>), ( <span class='number'>0</span>,  <span class='number'>1</span>), ( <span class='number'>1</span>,  <span class='number'>1</span>),
+    <span class="comment">// The kernel&#39;s input positions relative to the current pixel.</span>
+    <span class="kw">let</span> <span class="ident">taps</span>: <span class="kw-2">&amp;</span>[(<span class="ident">isize</span>, <span class="ident">isize</span>)] <span class="op">=</span> <span class="kw-2">&amp;</span>[
+        (<span class="op">-</span><span class="number">1</span>, <span class="op">-</span><span class="number">1</span>), ( <span class="number">0</span>, <span class="op">-</span><span class="number">1</span>), ( <span class="number">1</span>, <span class="op">-</span><span class="number">1</span>),
+        (<span class="op">-</span><span class="number">1</span>,  <span class="number">0</span>), ( <span class="number">0</span>,  <span class="number">0</span>), ( <span class="number">1</span>,  <span class="number">0</span>),
+        (<span class="op">-</span><span class="number">1</span>,  <span class="number">1</span>), ( <span class="number">0</span>,  <span class="number">1</span>), ( <span class="number">1</span>,  <span class="number">1</span>),
       ];
 
-    <span class='kw'>let</span> (<span class='ident'>width</span>, <span class='ident'>height</span>) <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>dimensions</span>();
+    <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
 
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>out</span> <span class='op'>=</span> <span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='ident'>width</span>, <span class='ident'>height</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
-    <span class='kw'>let</span> <span class='ident'>max</span> <span class='op'>=</span> <span class='ident'>S</span>::<span class='ident'>max_value</span>();
-    <span class='kw'>let</span> <span class='ident'>max</span>: <span class='ident'>f32</span> <span class='op'>=</span> <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>max</span>).<span class='ident'>unwrap</span>();
+    <span class="kw">let</span> <span class="ident">max</span> <span class="op">=</span> <span class="ident">S</span>::<span class="ident">max_value</span>();
+    <span class="kw">let</span> <span class="ident">max</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">max</span>).<span class="ident">unwrap</span>();
 
-    <span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>kernel</span>.<span class='ident'>iter</span>().<span class='ident'>fold</span>(<span class='number'>0.0</span>, <span class='op'>|</span><span class='ident'>s</span>, <span class='kw-2'>&amp;</span><span class='ident'>item</span><span class='op'>|</span> <span class='ident'>s</span> <span class='op'>+</span> <span class='ident'>item</span>) {
-        <span class='number'>0.0</span> <span class='op'>=&gt;</span> <span class='number'>1.0</span>,
-        <span class='ident'>sum</span> <span class='op'>=&gt;</span> <span class='ident'>sum</span>
+    <span class="kw">let</span> <span class="ident">sum</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">kernel</span>.<span class="ident">iter</span>().<span class="ident">fold</span>(<span class="number">0.0</span>, <span class="op">|</span><span class="ident">s</span>, <span class="kw-2">&amp;</span><span class="ident">item</span><span class="op">|</span> <span class="ident">s</span> <span class="op">+</span> <span class="ident">item</span>) {
+        <span class="number">0.0</span> <span class="op">=&gt;</span> <span class="number">1.0</span>,
+        <span class="ident">sum</span> <span class="op">=&gt;</span> <span class="ident">sum</span>
     };
-    <span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> (<span class='ident'>sum</span>, <span class='ident'>sum</span>, <span class='ident'>sum</span>, <span class='ident'>sum</span>);
+    <span class="kw">let</span> <span class="ident">sum</span> <span class="op">=</span> (<span class="ident">sum</span>, <span class="ident">sum</span>, <span class="ident">sum</span>, <span class="ident">sum</span>);
 
-    <span class='kw'>for</span> <span class='ident'>y</span> <span class='kw'>in</span> <span class='number'>1</span>..<span class='ident'>height</span> <span class='op'>-</span> <span class='number'>1</span> {
-        <span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='number'>1</span>..<span class='ident'>width</span> <span class='op'>-</span> <span class='number'>1</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>t</span> <span class='op'>=</span> (<span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>, <span class='number'>0.</span>);
+    <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">height</span> <span class="op">-</span> <span class="number">1</span> {
+        <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">width</span> <span class="op">-</span> <span class="number">1</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t</span> <span class="op">=</span> (<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>);
 
 
-            <span class='comment'>// TODO: There is no need to recalculate the kernel for each pixel.</span>
-            <span class='comment'>// Only a subtract and addition is needed for pixels after the first</span>
-            <span class='comment'>// in each row.</span>
-            <span class='kw'>for</span> (<span class='kw-2'>&amp;</span><span class='ident'>k</span>, <span class='kw-2'>&amp;</span>(<span class='ident'>a</span>, <span class='ident'>b</span>)) <span class='kw'>in</span> <span class='ident'>kernel</span>.<span class='ident'>iter</span>().<span class='ident'>zip</span>(<span class='ident'>taps</span>.<span class='ident'>iter</span>()) {
-                <span class='kw'>let</span> <span class='ident'>k</span> <span class='op'>=</span> (<span class='ident'>k</span>, <span class='ident'>k</span>, <span class='ident'>k</span>, <span class='ident'>k</span>);
-                <span class='kw'>let</span> <span class='ident'>x0</span> <span class='op'>=</span> <span class='ident'>x</span> <span class='kw'>as</span> <span class='ident'>isize</span> <span class='op'>+</span> <span class='ident'>a</span>;
-                <span class='kw'>let</span> <span class='ident'>y0</span> <span class='op'>=</span> <span class='ident'>y</span> <span class='kw'>as</span> <span class='ident'>isize</span> <span class='op'>+</span> <span class='ident'>b</span>;
+            <span class="comment">// TODO: There is no need to recalculate the kernel for each pixel.</span>
+            <span class="comment">// Only a subtract and addition is needed for pixels after the first</span>
+            <span class="comment">// in each row.</span>
+            <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">k</span>, <span class="kw-2">&amp;</span>(<span class="ident">a</span>, <span class="ident">b</span>)) <span class="kw">in</span> <span class="ident">kernel</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">taps</span>.<span class="ident">iter</span>()) {
+                <span class="kw">let</span> <span class="ident">k</span> <span class="op">=</span> (<span class="ident">k</span>, <span class="ident">k</span>, <span class="ident">k</span>, <span class="ident">k</span>);
+                <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">isize</span> <span class="op">+</span> <span class="ident">a</span>;
+                <span class="kw">let</span> <span class="ident">y0</span> <span class="op">=</span> <span class="ident">y</span> <span class="kw">as</span> <span class="ident">isize</span> <span class="op">+</span> <span class="ident">b</span>;
 
-                <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x0</span> <span class='kw'>as</span> <span class='ident'>u32</span>, <span class='ident'>y0</span> <span class='kw'>as</span> <span class='ident'>u32</span>);
+                <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="ident">x0</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">y0</span> <span class="kw">as</span> <span class="ident">u32</span>);
 
-                <span class='kw'>let</span> (<span class='ident'>k1</span>, <span class='ident'>k2</span>, <span class='ident'>k3</span>, <span class='ident'>k4</span>) <span class='op'>=</span> <span class='ident'>p</span>.<span class='ident'>channels4</span>();
+                <span class="kw">let</span> (<span class="ident">k1</span>, <span class="ident">k2</span>, <span class="ident">k3</span>, <span class="ident">k4</span>) <span class="op">=</span> <span class="ident">p</span>.<span class="ident">channels4</span>();
 
-                <span class='kw'>let</span> <span class='ident'>vec</span>: (<span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>) <span class='op'>=</span> (
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k1</span>).<span class='ident'>unwrap</span>(),
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k2</span>).<span class='ident'>unwrap</span>(),
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k3</span>).<span class='ident'>unwrap</span>(),
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>k4</span>).<span class='ident'>unwrap</span>()
+                <span class="kw">let</span> <span class="ident">vec</span>: (<span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>) <span class="op">=</span> (
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k1</span>).<span class="ident">unwrap</span>(),
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k2</span>).<span class="ident">unwrap</span>(),
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k3</span>).<span class="ident">unwrap</span>(),
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k4</span>).<span class="ident">unwrap</span>()
                 );
 
-                <span class='ident'>t</span>.<span class='number'>0</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>0</span> <span class='op'>*</span> <span class='ident'>k</span>.<span class='number'>0</span>; <span class='ident'>t</span>.<span class='number'>1</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>1</span> <span class='op'>*</span> <span class='ident'>k</span>.<span class='number'>1</span>;
-                <span class='ident'>t</span>.<span class='number'>2</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>2</span> <span class='op'>*</span> <span class='ident'>k</span>.<span class='number'>2</span>; <span class='ident'>t</span>.<span class='number'>3</span> <span class='op'>+=</span> <span class='ident'>vec</span>.<span class='number'>3</span> <span class='op'>*</span> <span class='ident'>k</span>.<span class='number'>3</span>;
+                <span class="ident">t</span>.<span class="number">0</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">0</span> <span class="op">*</span> <span class="ident">k</span>.<span class="number">0</span>; <span class="ident">t</span>.<span class="number">1</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">1</span> <span class="op">*</span> <span class="ident">k</span>.<span class="number">1</span>;
+                <span class="ident">t</span>.<span class="number">2</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">2</span> <span class="op">*</span> <span class="ident">k</span>.<span class="number">2</span>; <span class="ident">t</span>.<span class="number">3</span> <span class="op">+=</span> <span class="ident">vec</span>.<span class="number">3</span> <span class="op">*</span> <span class="ident">k</span>.<span class="number">3</span>;
             }
 
-            <span class='kw'>let</span> (<span class='ident'>t1</span>, <span class='ident'>t2</span>, <span class='ident'>t3</span>, <span class='ident'>t4</span>) <span class='op'>=</span> (<span class='ident'>t</span>.<span class='number'>0</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>0</span>, <span class='ident'>t</span>.<span class='number'>1</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>1</span>, <span class='ident'>t</span>.<span class='number'>2</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>2</span>, <span class='ident'>t</span>.<span class='number'>3</span> <span class='op'>/</span> <span class='ident'>sum</span>.<span class='number'>3</span>);
+            <span class="kw">let</span> (<span class="ident">t1</span>, <span class="ident">t2</span>, <span class="ident">t3</span>, <span class="ident">t4</span>) <span class="op">=</span> (<span class="ident">t</span>.<span class="number">0</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">0</span>, <span class="ident">t</span>.<span class="number">1</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">1</span>, <span class="ident">t</span>.<span class="number">2</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">2</span>, <span class="ident">t</span>.<span class="number">3</span> <span class="op">/</span> <span class="ident">sum</span>.<span class="number">3</span>);
 
-            <span class='kw'>let</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>Pixel</span>::<span class='ident'>from_channels</span>(
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t1</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>(),
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t2</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>(),
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t3</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>(),
-                <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>clamp</span>(<span class='ident'>t4</span>, <span class='number'>0.0</span>, <span class='ident'>max</span>)).<span class='ident'>unwrap</span>()
+            <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">Pixel</span>::<span class="ident">from_channels</span>(
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t1</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t2</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t3</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
+                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">t4</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>()
             );
 
-            <span class='ident'>out</span>.<span class='ident'>put_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>t</span>);
+            <span class="ident">out</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">t</span>);
         }
     }
 
-    <span class='ident'>out</span>
+    <span class="ident">out</span>
 }
 
-<span class='doccomment'>/// Resize the supplied image to the specified dimensions.</span>
-<span class='doccomment'>/// ```nwidth``` and ```nheight``` are the new dimensions.</span>
-<span class='doccomment'>/// ```filter``` is the sampling filter to use.</span>
-<span class='comment'>// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>resize</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>GenericImage</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='ident'>image</span>: <span class='kw-2'>&amp;</span><span class='ident'>I</span>, <span class='ident'>nwidth</span>: <span class='ident'>u32</span>, <span class='ident'>nheight</span>: <span class='ident'>u32</span>,
-                                         <span class='ident'>filter</span>: <span class='ident'>FilterType</span>)
-    <span class='op'>-&gt;</span> <span class='ident'>ImageBuffer</span><span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Pixel</span>, <span class='ident'>Vec</span><span class='op'>&lt;&lt;</span><span class='ident'>I</span>::<span class='ident'>Pixel</span> <span class='kw'>as</span> <span class='ident'>Pixel</span><span class='op'>&gt;</span>::<span class='ident'>Subpixel</span><span class='op'>&gt;&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>I</span>::<span class='ident'>Pixel</span>: <span class='lifetime'>&#39;static</span>,
-          <span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Pixel</span> <span class='kw'>as</span> <span class='ident'>Pixel</span><span class='op'>&gt;</span>::<span class='ident'>Subpixel</span>: <span class='lifetime'>&#39;static</span> {
+<span class="doccomment">/// Resize the supplied image to the specified dimensions.</span>
+<span class="doccomment">/// ```nwidth``` and ```nheight``` are the new dimensions.</span>
+<span class="doccomment">/// ```filter``` is the sampling filter to use.</span>
+<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resize</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">nwidth</span>: <span class="ident">u32</span>, <span class="ident">nheight</span>: <span class="ident">u32</span>,
+                                         <span class="ident">filter</span>: <span class="ident">FilterType</span>)
+    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
+    <span class="kw">where</span> <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
+          <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span> {
 
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>method</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>filter</span> {
-        <span class='ident'>FilterType</span>::<span class='ident'>Nearest</span>    <span class='op'>=&gt;</span>   <span class='ident'>Filter</span> {
-            <span class='ident'>kernel</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>box_kernel</span>),
-            <span class='ident'>support</span>: <span class='number'>0.5</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">method</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">filter</span> {
+        <span class="ident">FilterType</span>::<span class="ident">Nearest</span>    <span class="op">=&gt;</span>   <span class="ident">Filter</span> {
+            <span class="ident">kernel</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">box_kernel</span>),
+            <span class="ident">support</span>: <span class="number">0.5</span>
         },
-        <span class='ident'>FilterType</span>::<span class='ident'>Triangle</span>   <span class='op'>=&gt;</span> <span class='ident'>Filter</span> {
-            <span class='ident'>kernel</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>triangle_kernel</span>),
-            <span class='ident'>support</span>: <span class='number'>1.0</span>
+        <span class="ident">FilterType</span>::<span class="ident">Triangle</span>   <span class="op">=&gt;</span> <span class="ident">Filter</span> {
+            <span class="ident">kernel</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">triangle_kernel</span>),
+            <span class="ident">support</span>: <span class="number">1.0</span>
         },
-        <span class='ident'>FilterType</span>::<span class='ident'>CatmullRom</span> <span class='op'>=&gt;</span> <span class='ident'>Filter</span> {
-            <span class='ident'>kernel</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>catmullrom_kernel</span>),
-            <span class='ident'>support</span>: <span class='number'>2.0</span>
+        <span class="ident">FilterType</span>::<span class="ident">CatmullRom</span> <span class="op">=&gt;</span> <span class="ident">Filter</span> {
+            <span class="ident">kernel</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">catmullrom_kernel</span>),
+            <span class="ident">support</span>: <span class="number">2.0</span>
         },
-        <span class='ident'>FilterType</span>::<span class='ident'>Gaussian</span>   <span class='op'>=&gt;</span> <span class='ident'>Filter</span> {
-            <span class='ident'>kernel</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>gaussian_kernel</span>),
-            <span class='ident'>support</span>: <span class='number'>3.0</span>
+        <span class="ident">FilterType</span>::<span class="ident">Gaussian</span>   <span class="op">=&gt;</span> <span class="ident">Filter</span> {
+            <span class="ident">kernel</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">gaussian_kernel</span>),
+            <span class="ident">support</span>: <span class="number">3.0</span>
         },
-        <span class='ident'>FilterType</span>::<span class='ident'>Lanczos3</span>   <span class='op'>=&gt;</span> <span class='ident'>Filter</span> {
-            <span class='ident'>kernel</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>lanczos3_kernel</span>),
-            <span class='ident'>support</span>: <span class='number'>3.0</span>
+        <span class="ident">FilterType</span>::<span class="ident">Lanczos3</span>   <span class="op">=&gt;</span> <span class="ident">Filter</span> {
+            <span class="ident">kernel</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">lanczos3_kernel</span>),
+            <span class="ident">support</span>: <span class="number">3.0</span>
         },
 };
 
-    <span class='kw'>let</span> <span class='ident'>tmp</span> <span class='op'>=</span> <span class='ident'>vertical_sample</span>(<span class='ident'>image</span>, <span class='ident'>nheight</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>method</span>);
-    <span class='ident'>horizontal_sample</span>(<span class='kw-2'>&amp;</span><span class='ident'>tmp</span>, <span class='ident'>nwidth</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>method</span>)
+    <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">vertical_sample</span>(<span class="ident">image</span>, <span class="ident">nheight</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">method</span>);
+    <span class="ident">horizontal_sample</span>(<span class="kw-2">&amp;</span><span class="ident">tmp</span>, <span class="ident">nwidth</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">method</span>)
 }
 
-<span class='doccomment'>/// Performs a Gaussian blur on the supplied image.</span>
-<span class='doccomment'>/// ```sigma``` is a measure of how much to blur by.</span>
-<span class='comment'>// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>blur</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>GenericImage</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='ident'>image</span>: <span class='kw-2'>&amp;</span><span class='ident'>I</span>, <span class='ident'>sigma</span>: <span class='ident'>f32</span>)
-    <span class='op'>-&gt;</span> <span class='ident'>ImageBuffer</span><span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Pixel</span>, <span class='ident'>Vec</span><span class='op'>&lt;&lt;</span><span class='ident'>I</span>::<span class='ident'>Pixel</span> <span class='kw'>as</span> <span class='ident'>Pixel</span><span class='op'>&gt;</span>::<span class='ident'>Subpixel</span><span class='op'>&gt;&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>I</span>::<span class='ident'>Pixel</span>: <span class='lifetime'>&#39;static</span>,
-          <span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Pixel</span> <span class='kw'>as</span> <span class='ident'>Pixel</span><span class='op'>&gt;</span>::<span class='ident'>Subpixel</span>: <span class='lifetime'>&#39;static</span> {
+<span class="doccomment">/// Performs a Gaussian blur on the supplied image.</span>
+<span class="doccomment">/// ```sigma``` is a measure of how much to blur by.</span>
+<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blur</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">sigma</span>: <span class="ident">f32</span>)
+    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
+    <span class="kw">where</span> <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
+          <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span> {
 
-    <span class='kw'>let</span> <span class='ident'>sigma</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>sigma</span> <span class='op'>&lt;</span> <span class='number'>0.0</span> {
-        <span class='number'>1.0</span>
-    } <span class='kw'>else</span> {
-        <span class='ident'>sigma</span>
+    <span class="kw">let</span> <span class="ident">sigma</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">sigma</span> <span class="op">&lt;</span> <span class="number">0.0</span> {
+        <span class="number">1.0</span>
+    } <span class="kw">else</span> {
+        <span class="ident">sigma</span>
     };
 
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>method</span> <span class='op'>=</span> <span class='ident'>Filter</span> {
-        <span class='ident'>kernel</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>gaussian</span>(<span class='ident'>x</span>, <span class='ident'>sigma</span>)),
-        <span class='ident'>support</span>: <span class='number'>2.0</span> <span class='op'>*</span> <span class='ident'>sigma</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">method</span> <span class="op">=</span> <span class="ident">Filter</span> {
+        <span class="ident">kernel</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">gaussian</span>(<span class="ident">x</span>, <span class="ident">sigma</span>)),
+        <span class="ident">support</span>: <span class="number">2.0</span> <span class="op">*</span> <span class="ident">sigma</span>
     };
 
-    <span class='kw'>let</span> (<span class='ident'>width</span>, <span class='ident'>height</span>) <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>dimensions</span>();
+    <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
 
-    <span class='comment'>// Keep width and height the same for horizontal and</span>
-    <span class='comment'>// vertical sampling.</span>
-    <span class='kw'>let</span> <span class='ident'>tmp</span> <span class='op'>=</span> <span class='ident'>vertical_sample</span>(<span class='ident'>image</span>, <span class='ident'>height</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>method</span>);
-    <span class='ident'>horizontal_sample</span>(<span class='kw-2'>&amp;</span><span class='ident'>tmp</span>, <span class='ident'>width</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>method</span>)
+    <span class="comment">// Keep width and height the same for horizontal and</span>
+    <span class="comment">// vertical sampling.</span>
+    <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">vertical_sample</span>(<span class="ident">image</span>, <span class="ident">height</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">method</span>);
+    <span class="ident">horizontal_sample</span>(<span class="kw-2">&amp;</span><span class="ident">tmp</span>, <span class="ident">width</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">method</span>)
 }
 
-<span class='doccomment'>/// Performs an unsharpen mask on the supplied image.</span>
-<span class='doccomment'>/// ```sigma``` is the amount to blur the image by.</span>
-<span class='doccomment'>/// ```threshold``` is the threshold for the difference between</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// See https://en.wikipedia.org/wiki/Unsharp_masking#Digital_unsharp_masking</span>
-<span class='comment'>// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unsharpen</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>P</span>, <span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>image</span>: <span class='kw-2'>&amp;</span><span class='ident'>I</span>, <span class='ident'>sigma</span>: <span class='ident'>f32</span>, <span class='ident'>threshold</span>: <span class='ident'>i32</span>)
-    <span class='op'>-&gt;</span> <span class='ident'>ImageBuffer</span><span class='op'>&lt;</span><span class='ident'>P</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>GenericImage</span><span class='op'>&lt;</span><span class='ident'>Pixel</span><span class='op'>=</span><span class='ident'>P</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-          <span class='ident'>P</span>: <span class='ident'>Pixel</span><span class='op'>&lt;</span><span class='ident'>Subpixel</span><span class='op'>=</span><span class='ident'>S</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-          <span class='ident'>S</span>: <span class='ident'>Primitive</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
+<span class="doccomment">/// Performs an unsharpen mask on the supplied image.</span>
+<span class="doccomment">/// ```sigma``` is the amount to blur the image by.</span>
+<span class="doccomment">/// ```threshold``` is the threshold for the difference between</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// See https://en.wikipedia.org/wiki/Unsharp_masking#Digital_unsharp_masking</span>
+<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unsharpen</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">sigma</span>: <span class="ident">f32</span>, <span class="ident">threshold</span>: <span class="ident">i32</span>)
+    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
+    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span><span class="op">=</span><span class="ident">P</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+          <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+          <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
 
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>tmp</span> <span class='op'>=</span> <span class='ident'>blur</span>(<span class='ident'>image</span>, <span class='ident'>sigma</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">blur</span>(<span class="ident">image</span>, <span class="ident">sigma</span>);
 
-    <span class='kw'>let</span> <span class='ident'>max</span> <span class='op'>=</span> <span class='ident'>S</span>::<span class='ident'>max_value</span>();
-    <span class='kw'>let</span> <span class='ident'>max</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>max</span>).<span class='ident'>unwrap</span>();
-    <span class='kw'>let</span> (<span class='ident'>width</span>, <span class='ident'>height</span>) <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>dimensions</span>();
+    <span class="kw">let</span> <span class="ident">max</span> <span class="op">=</span> <span class="ident">S</span>::<span class="ident">max_value</span>();
+    <span class="kw">let</span> <span class="ident">max</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">max</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
 
-    <span class='kw'>for</span> <span class='ident'>y</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>height</span> {
-        <span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>width</span> {
-            <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x</span>, <span class='ident'>y</span>);
-            <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>tmp</span>.<span class='ident'>get_pixel_mut</span>(<span class='ident'>x</span>, <span class='ident'>y</span>);
+    <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">height</span> {
+        <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">width</span> {
+            <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>);
+            <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">tmp</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span>, <span class="ident">y</span>);
 
-            <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>map2</span>(<span class='ident'>b</span>, <span class='op'>|</span><span class='ident'>c</span>, <span class='ident'>d</span><span class='op'>|</span> {
-                <span class='kw'>let</span> <span class='ident'>ic</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>c</span>).<span class='ident'>unwrap</span>();
-                <span class='kw'>let</span> <span class='ident'>id</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>d</span>).<span class='ident'>unwrap</span>();
+            <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">a</span>.<span class="ident">map2</span>(<span class="ident">b</span>, <span class="op">|</span><span class="ident">c</span>, <span class="ident">d</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">ic</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">c</span>).<span class="ident">unwrap</span>();
+                <span class="kw">let</span> <span class="ident">id</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">d</span>).<span class="ident">unwrap</span>();
 
-                <span class='kw'>let</span> <span class='ident'>diff</span> <span class='op'>=</span> (<span class='ident'>ic</span> <span class='op'>-</span> <span class='ident'>id</span>).<span class='ident'>abs</span>();
+                <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> (<span class="ident">ic</span> <span class="op">-</span> <span class="ident">id</span>).<span class="ident">abs</span>();
 
-                <span class='kw'>if</span> <span class='ident'>diff</span> <span class='op'>&gt;</span> <span class='ident'>threshold</span> {
-                <span class='kw'>let</span> <span class='ident'>e</span> <span class='op'>=</span> <span class='ident'>clamp</span>(<span class='ident'>ic</span> <span class='op'>+</span> <span class='ident'>diff</span>, <span class='number'>0</span>, <span class='ident'>max</span>);
+                <span class="kw">if</span> <span class="ident">diff</span> <span class="op">&gt;</span> <span class="ident">threshold</span> {
+                <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">ic</span> <span class="op">+</span> <span class="ident">diff</span>, <span class="number">0</span>, <span class="ident">max</span>);
 
-                    <span class='ident'>NumCast</span>::<span class='ident'>from</span>(<span class='ident'>e</span>).<span class='ident'>unwrap</span>()
-                } <span class='kw'>else</span> {
-                    <span class='ident'>c</span>
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">e</span>).<span class="ident">unwrap</span>()
+                } <span class="kw">else</span> {
+                    <span class="ident">c</span>
                 }
             });
 
-            <span class='op'>*</span><span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>p</span>;
+            <span class="kw-2">*</span><span class="ident">b</span> <span class="op">=</span> <span class="ident">p</span>;
         }
     }
 
-    <span class='ident'>tmp</span>
+    <span class="ident">tmp</span>
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>benchmarks</span>)]</span>
-    <span class='kw'>use</span> <span class='ident'>test</span>;
-    <span class='kw'>use</span> <span class='ident'>buffer</span>::{<span class='ident'>ImageBuffer</span>, <span class='ident'>RgbImage</span>};
-    <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>resize</span>, <span class='ident'>FilterType</span>};
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">benchmarks</span>)]</span>
+    <span class="kw">use</span> <span class="ident">test</span>;
+    <span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">RgbImage</span>};
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">resize</span>, <span class="ident">FilterType</span>};
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 
-    <span class='attribute'>#[<span class='ident'>bench</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>benchmarks</span>, <span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;png_codec&quot;</span>))]</span>
-    <span class='kw'>fn</span> <span class='ident'>bench_resize</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>test</span>::<span class='ident'>Bencher</span>) {
-        <span class='kw'>let</span> <span class='ident'>img</span> <span class='op'>=</span> ::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;./examples/fractal.png&quot;</span>)).<span class='ident'>unwrap</span>();
-        <span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> {
-            <span class='ident'>test</span>::<span class='ident'>black_box</span>(<span class='ident'>resize</span>(<span class='kw-2'>&amp;</span><span class='ident'>img</span>, <span class='number'>200</span>, <span class='number'>200</span>, ::<span class='ident'>Nearest</span> ));
+    <span class="attribute">#[<span class="ident">bench</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">benchmarks</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png_codec&quot;</span>))]</span>
+    <span class="kw">fn</span> <span class="ident">bench_resize</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test</span>::<span class="ident">Bencher</span>) {
+        <span class="kw">let</span> <span class="ident">img</span> <span class="op">=</span> ::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">Path</span>::<span class="ident">new</span>(<span class="string">&quot;./examples/fractal.png&quot;</span>)).<span class="ident">unwrap</span>();
+        <span class="ident">b</span>.<span class="ident">iter</span>(<span class="op">||</span> {
+            <span class="ident">test</span>::<span class="ident">black_box</span>(<span class="ident">resize</span>(<span class="kw-2">&amp;</span><span class="ident">img</span>, <span class="number">200</span>, <span class="number">200</span>, ::<span class="ident">Nearest</span> ));
         });
-        <span class='ident'>b</span>.<span class='ident'>bytes</span> <span class='op'>=</span> <span class='number'>800</span><span class='op'>*</span><span class='number'>800</span><span class='op'>*</span><span class='number'>3</span> <span class='op'>+</span> <span class='number'>200</span><span class='op'>*</span><span class='number'>200</span><span class='op'>*</span><span class='number'>3</span>;
+        <span class="ident">b</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="number">800</span><span class="kw-2">*</span><span class="number">800</span><span class="kw-2">*</span><span class="number">3</span> <span class="op">+</span> <span class="number">200</span><span class="kw-2">*</span><span class="number">200</span><span class="kw-2">*</span><span class="number">3</span>;
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_issue_186</span>() {
-        <span class='kw'>let</span> <span class='ident'>img</span>: <span class='ident'>RgbImage</span> <span class='op'>=</span> <span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='number'>100</span>, <span class='number'>100</span>);
-        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>resize</span>(<span class='kw-2'>&amp;</span><span class='ident'>img</span>, <span class='number'>50</span>, <span class='number'>50</span>, <span class='ident'>FilterType</span>::<span class='ident'>Lanczos3</span>);
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_issue_186</span>() {
+        <span class="kw">let</span> <span class="ident">img</span>: <span class="ident">RgbImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="number">100</span>, <span class="number">100</span>);
+        <span class="kw">let</span> _ <span class="op">=</span> <span class="ident">resize</span>(<span class="kw-2">&amp;</span><span class="ident">img</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="ident">FilterType</span>::<span class="ident">Lanczos3</span>);
     }
 
 }

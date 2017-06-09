@@ -9,6 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -238,201 +239,201 @@
 <span id="194">194</span>
 <span id="195">195</span>
 <span id="196">196</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright (c) 2015 Anders Kaseorg &lt;andersk@mit.edu&gt;</span>
+</pre><pre class="rust ">
+<span class="comment">// Copyright (c) 2015 Anders Kaseorg &lt;andersk@mit.edu&gt;</span>
 
-<span class='comment'>// Permission is hereby granted, free of charge, to any person obtaining</span>
-<span class='comment'>// a copy of this software and associated documentation files (the</span>
-<span class='comment'>// “Software”), to deal in the Software without restriction, including</span>
-<span class='comment'>// without limitation the rights to use, copy, modify, merge, publish,</span>
-<span class='comment'>// distribute, sublicense, and/or sell copies of the Software, and to</span>
-<span class='comment'>// permit persons to whom the Software is furnished to do so, subject to</span>
-<span class='comment'>// the following conditions:</span>
+<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining</span>
+<span class="comment">// a copy of this software and associated documentation files (the</span>
+<span class="comment">// “Software”), to deal in the Software without restriction, including</span>
+<span class="comment">// without limitation the rights to use, copy, modify, merge, publish,</span>
+<span class="comment">// distribute, sublicense, and/or sell copies of the Software, and to</span>
+<span class="comment">// permit persons to whom the Software is furnished to do so, subject to</span>
+<span class="comment">// the following conditions:</span>
 
-<span class='comment'>// The above copyright notice and this permission notice shall be</span>
-<span class='comment'>// included in all copies or substantial portions of the Software.</span>
+<span class="comment">// The above copyright notice and this permission notice shall be</span>
+<span class="comment">// included in all copies or substantial portions of the Software.</span>
 
-<span class='comment'>// THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,</span>
-<span class='comment'>// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF</span>
-<span class='comment'>// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.</span>
-<span class='comment'>// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY</span>
-<span class='comment'>// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,</span>
-<span class='comment'>// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE</span>
-<span class='comment'>// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</span>
-
-
-<span class='doccomment'>//! This crate exports a macro `enum_from_primitive!` that wraps an</span>
-<span class='doccomment'>//! `enum` declaration and automatically adds an implementation of</span>
-<span class='doccomment'>//! `num::FromPrimitive` (reexported here), to allow conversion from</span>
-<span class='doccomment'>//! primitive integers to the enum.  It therefore provides an</span>
-<span class='doccomment'>//! alternative to the built-in `#[derive(FromPrimitive)]`, which</span>
-<span class='doccomment'>//! requires the unstable `std::num::FromPrimitive` and is disabled in</span>
-<span class='doccomment'>//! Rust 1.0.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # Example</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! #[macro_use] extern crate enum_primitive;</span>
-<span class='doccomment'>//! extern crate num_traits;</span>
-<span class='doccomment'>//! use num_traits::FromPrimitive;</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! enum_from_primitive! {</span>
-<span class='doccomment'>//! #[derive(Debug, PartialEq)]</span>
-<span class='doccomment'>//! enum FooBar {</span>
-<span class='doccomment'>//!     Foo = 17,</span>
-<span class='doccomment'>//!     Bar = 42,</span>
-<span class='doccomment'>//!     Baz,</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! fn main() {</span>
-<span class='doccomment'>//!     assert_eq!(FooBar::from_i32(17), Some(FooBar::Foo));</span>
-<span class='doccomment'>//!     assert_eq!(FooBar::from_i32(42), Some(FooBar::Bar));</span>
-<span class='doccomment'>//!     assert_eq!(FooBar::from_i32(43), Some(FooBar::Baz));</span>
-<span class='doccomment'>//!     assert_eq!(FooBar::from_i32(91), None);</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//! ```</span>
+<span class="comment">// THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,</span>
+<span class="comment">// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF</span>
+<span class="comment">// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.</span>
+<span class="comment">// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY</span>
+<span class="comment">// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,</span>
+<span class="comment">// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE</span>
+<span class="comment">// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</span>
 
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_traits</span>;
+<span class="doccomment">//! This crate exports a macro `enum_from_primitive!` that wraps an</span>
+<span class="doccomment">//! `enum` declaration and automatically adds an implementation of</span>
+<span class="doccomment">//! `num::FromPrimitive` (reexported here), to allow conversion from</span>
+<span class="doccomment">//! primitive integers to the enum.  It therefore provides an</span>
+<span class="doccomment">//! alternative to the built-in `#[derive(FromPrimitive)]`, which</span>
+<span class="doccomment">//! requires the unstable `std::num::FromPrimitive` and is disabled in</span>
+<span class="doccomment">//! Rust 1.0.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Example</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! #[macro_use] extern crate enum_primitive;</span>
+<span class="doccomment">//! extern crate num_traits;</span>
+<span class="doccomment">//! use num_traits::FromPrimitive;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! enum_from_primitive! {</span>
+<span class="doccomment">//! #[derive(Debug, PartialEq)]</span>
+<span class="doccomment">//! enum FooBar {</span>
+<span class="doccomment">//!     Foo = 17,</span>
+<span class="doccomment">//!     Bar = 42,</span>
+<span class="doccomment">//!     Baz,</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! fn main() {</span>
+<span class="doccomment">//!     assert_eq!(FooBar::from_i32(17), Some(FooBar::Foo));</span>
+<span class="doccomment">//!     assert_eq!(FooBar::from_i32(42), Some(FooBar::Bar));</span>
+<span class="doccomment">//!     assert_eq!(FooBar::from_i32(43), Some(FooBar::Baz));</span>
+<span class="doccomment">//!     assert_eq!(FooBar::from_i32(91), None);</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! ```</span>
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>option</span>::<span class='prelude-ty'>Option</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_traits</span>::<span class='ident'>FromPrimitive</span>;
 
-<span class='doccomment'>/// Helper macro for internal use by `enum_from_primitive!`.</span>
-<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>enum_from_primitive_impl_ty</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>meth</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ty</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>, $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> )<span class='op'>*</span>) <span class='op'>=&gt;</span> {
-        <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>non_upper_case_globals</span>, <span class='ident'>unused</span>)]</span>
-        <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>meth</span>(<span class='ident'>n</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ty</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='kw'>crate</span>::<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
-            $( <span class='kw'>if</span> <span class='macro-nonterminal'>n</span> <span class='op'>==</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>::<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> <span class='kw'>as</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ty</span> {
-                <span class='macro-nonterminal'>$</span><span class='kw'>crate</span>::<span class='prelude-ty'>Option</span>::<span class='prelude-val'>Some</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>::<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>)
-            } <span class='kw'>else</span> )<span class='op'>*</span> {
-                <span class='macro-nonterminal'>$</span><span class='kw'>crate</span>::<span class='prelude-ty'>Option</span>::<span class='prelude-val'>None</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_traits</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">option</span>::<span class="prelude-ty">Option</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">num_traits</span>::<span class="ident">FromPrimitive</span>;
+
+<span class="doccomment">/// Helper macro for internal use by `enum_from_primitive!`.</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">enum_from_primitive_impl_ty</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">meth</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> )<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>, <span class="ident">unused</span>)]</span>
+        <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">meth</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+            $( <span class="kw">if</span> <span class="macro-nonterminal">n</span> <span class="op">==</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span> {
+                <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="prelude-ty">Option</span>::<span class="prelude-val">Some</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>)
+            } <span class="kw">else</span> )<span class="op">*</span> {
+                <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="prelude-ty">Option</span>::<span class="prelude-val">None</span>
             }
         }
     };
 }
 
-<span class='doccomment'>/// Helper macro for internal use by `enum_from_primitive!`.</span>
-<span class='attribute'>#[<span class='macro-nonterminal'>macro_export</span>]</span>
-<span class='attribute'>#[<span class='ident'>macro_use</span>(<span class='ident'>enum_from_primitive_impl_ty</span>)]</span>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>enum_from_primitive_impl</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>, $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> )<span class='op'>*</span>) <span class='op'>=&gt;</span> {
-        <span class='kw'>impl</span> <span class='macro-nonterminal'>$</span><span class='kw'>crate</span>::<span class='macro-nonterminal'>FromPrimitive</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
-            <span class='macro'>enum_from_primitive_impl_ty</span><span class='macro'>!</span> { <span class='ident'>from_i64</span>, <span class='ident'>i64</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>*</span> }
-            <span class='macro'>enum_from_primitive_impl_ty</span><span class='macro'>!</span> { <span class='ident'>from_u64</span>, <span class='ident'>u64</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>*</span> }
+<span class="doccomment">/// Helper macro for internal use by `enum_from_primitive!`.</span>
+<span class="attribute">#[<span class="macro-nonterminal">macro_export</span>]</span>
+<span class="attribute">#[<span class="ident">macro_use</span>(<span class="ident">enum_from_primitive_impl_ty</span>)]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">enum_from_primitive_impl</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> )<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
+        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            <span class="macro">enum_from_primitive_impl_ty</span><span class="macro">!</span> { <span class="ident">from_i64</span>, <span class="ident">i64</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">*</span> }
+            <span class="macro">enum_from_primitive_impl_ty</span><span class="macro">!</span> { <span class="ident">from_u64</span>, <span class="ident">u64</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">*</span> }
         }
     };
 }
 
-<span class='doccomment'>/// Wrap this macro around an `enum` declaration to get an</span>
-<span class='doccomment'>/// automatically generated implementation of `num::FromPrimitive`.</span>
-<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
-<span class='attribute'>#[<span class='ident'>macro_use</span>(<span class='ident'>enum_from_primitive_impl</span>)]</span>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>enum_from_primitive</span> {
+<span class="doccomment">/// Wrap this macro around an `enum` declaration to get an</span>
+<span class="doccomment">/// automatically generated implementation of `num::FromPrimitive`.</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="attribute">#[<span class="ident">macro_use</span>(<span class="ident">enum_from_primitive_impl</span>)]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">enum_from_primitive</span> {
     (
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> {
-            $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> $( <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>:<span class='ident'>expr</span>, $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> )<span class='op'>*</span>
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span>
+        <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {
+            $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> ),<span class="op">+</span> $( <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>:<span class="ident">expr</span>, $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span>:<span class="ident">ident</span> ),<span class="op">+</span> )<span class="op">*</span>
         }
-    ) <span class='op'>=&gt;</span> {
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
-            $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> $( <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>, $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span> ),<span class='op'>+</span> )<span class='op'>*</span>
+    ) <span class="op">=&gt;</span> {
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span> )<span class="op">*</span>
+        <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> ),<span class="op">+</span> $( <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>, $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span> ),<span class="op">+</span> )<span class="op">*</span>
         }
-        <span class='macro'>enum_from_primitive_impl</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>+</span> $( $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span> )<span class='op'>+</span> )<span class='op'>*</span> }
+        <span class="macro">enum_from_primitive_impl</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">+</span> $( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span> )<span class="op">+</span> )<span class="op">*</span> }
     };
 
     (
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> {
-            $( $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>:<span class='ident'>expr</span> ),<span class='op'>*</span>
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span>
+        <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {
+            $( $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> ),<span class="op">+</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>:<span class="ident">expr</span> ),<span class="op">*</span>
         }
-    ) <span class='op'>=&gt;</span> {
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
-            $( $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span> ),<span class='op'>*</span>
+    ) <span class="op">=&gt;</span> {
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span> )<span class="op">*</span>
+        <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            $( $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> ),<span class="op">+</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span> ),<span class="op">*</span>
         }
-        <span class='macro'>enum_from_primitive_impl</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>+</span> )<span class='op'>*</span> }
+        <span class="macro">enum_from_primitive_impl</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">+</span> )<span class="op">*</span> }
     };
 
     (
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> {
-            $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> $( <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>:<span class='ident'>expr</span>, $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> )<span class='op'>*</span>,
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span>
+        <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {
+            $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> ),<span class="op">+</span> $( <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>:<span class="ident">expr</span>, $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span>:<span class="ident">ident</span> ),<span class="op">+</span> )<span class="kw-2">*</span>,
         }
-    ) <span class='op'>=&gt;</span> {
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
-            $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> $( <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>, $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span> ),<span class='op'>+</span> )<span class='op'>*</span>,
+    ) <span class="op">=&gt;</span> {
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span> )<span class="op">*</span>
+        <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> ),<span class="op">+</span> $( <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>, $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span> ),<span class="op">+</span> )<span class="kw-2">*</span>,
         }
-        <span class='macro'>enum_from_primitive_impl</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>+</span> $( $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span> )<span class='op'>+</span> )<span class='op'>*</span> }
+        <span class="macro">enum_from_primitive_impl</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">+</span> $( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span> )<span class="op">+</span> )<span class="op">*</span> }
     };
 
     (
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> {
-            $( $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>:<span class='ident'>expr</span> ),<span class='op'>+</span>,
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span>
+        <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {
+            $( $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> ),<span class="op">+</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>:<span class="ident">expr</span> ),<span class="op">+</span>,
         }
-    ) <span class='op'>=&gt;</span> {
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
-            $( $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span> ),<span class='op'>+</span>,
+    ) <span class="op">=&gt;</span> {
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span> )<span class="op">*</span>
+        <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            $( $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> ),<span class="op">+</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span> ),<span class="op">+</span>,
         }
-        <span class='macro'>enum_from_primitive_impl</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>+</span> )<span class='op'>+</span> }
+        <span class="macro">enum_from_primitive_impl</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">+</span> )<span class="op">+</span> }
     };
 
     (
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> {
-            $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> $( <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>:<span class='ident'>expr</span>, $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> )<span class='op'>*</span>
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {
+            $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> ),<span class="op">+</span> $( <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>:<span class="ident">expr</span>, $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span>:<span class="ident">ident</span> ),<span class="op">+</span> )<span class="op">*</span>
         }
-    ) <span class='op'>=&gt;</span> {
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
-            $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> $( <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>, $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span> ),<span class='op'>+</span> )<span class='op'>*</span>
+    ) <span class="op">=&gt;</span> {
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span> )<span class="op">*</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> ),<span class="op">+</span> $( <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>, $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span> ),<span class="op">+</span> )<span class="op">*</span>
         }
-        <span class='macro'>enum_from_primitive_impl</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>+</span> $( $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span> )<span class='op'>+</span> )<span class='op'>*</span> }
+        <span class="macro">enum_from_primitive_impl</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">+</span> $( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span> )<span class="op">+</span> )<span class="op">*</span> }
     };
 
     (
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> {
-            $( $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>:<span class='ident'>expr</span> ),<span class='op'>*</span>
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {
+            $( $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> ),<span class="op">+</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>:<span class="ident">expr</span> ),<span class="op">*</span>
         }
-    ) <span class='op'>=&gt;</span> {
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
-            $( $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span> ),<span class='op'>*</span>
+    ) <span class="op">=&gt;</span> {
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span> )<span class="op">*</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            $( $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> ),<span class="op">+</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span> ),<span class="op">*</span>
         }
-        <span class='macro'>enum_from_primitive_impl</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>+</span> )<span class='op'>*</span> }
+        <span class="macro">enum_from_primitive_impl</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">+</span> )<span class="op">*</span> }
     };
 
     (
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> {
-            $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> $( <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>:<span class='ident'>expr</span>, $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> )<span class='op'>*</span>,
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {
+            $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> ),<span class="op">+</span> $( <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>:<span class="ident">expr</span>, $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span>:<span class="ident">ident</span> ),<span class="op">+</span> )<span class="kw-2">*</span>,
         }
-    ) <span class='op'>=&gt;</span> {
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
-            $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> $( <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>, $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span> ),<span class='op'>+</span> )<span class='op'>*</span>,
+    ) <span class="op">=&gt;</span> {
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span> )<span class="op">*</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> ),<span class="op">+</span> $( <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>, $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span> ),<span class="op">+</span> )<span class="kw-2">*</span>,
         }
-        <span class='macro'>enum_from_primitive_impl</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>+</span> $( $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_two</span> )<span class='op'>+</span> )<span class='op'>*</span> }
+        <span class="macro">enum_from_primitive_impl</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">+</span> $( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_two</span> )<span class="op">+</span> )<span class="op">*</span> }
     };
 
     (
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> {
-            $( $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>:<span class='ident'>meta</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> ),<span class='op'>+</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span>:<span class='ident'>expr</span> ),<span class='op'>+</span>,
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {
+            $( $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> ),<span class="op">+</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span>:<span class="ident">expr</span> ),<span class="op">+</span>,
         }
-    ) <span class='op'>=&gt;</span> {
-        $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>enum_attr</span>]</span> )<span class='op'>*</span>
-        <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
-            $( $( $( <span class='attribute'>#[<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant_attr</span>]</span> )<span class='op'>*</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>discriminator</span> ),<span class='op'>+</span>,
+    ) <span class="op">=&gt;</span> {
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span> )<span class="op">*</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            $( $( $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_attr</span>]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> ),<span class="op">+</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">discriminator</span> ),<span class="op">+</span>,
         }
-        <span class='macro'>enum_from_primitive_impl</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>, $( $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> )<span class='op'>+</span> )<span class='op'>+</span> }
+        <span class="macro">enum_from_primitive_impl</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> )<span class="op">+</span> )<span class="op">+</span> }
     };
 }
 </pre>

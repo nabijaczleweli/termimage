@@ -9,6 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -410,375 +411,375 @@
 <span id="366">366</span>
 <span id="367">367</span>
 <span id="368">368</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright © 2015, Peter Atashian</span>
-<span class='comment'>// Licensed under the MIT License &lt;LICENSE.md&gt;</span>
-<span class='doccomment'>//! Types and constants for WinAPI bindings.</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>bad_style</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>trivial_casts</span>, <span class='ident'>trivial_numeric_casts</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>unused_qualifications</span>, <span class='ident'>unused</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg</span>(<span class='ident'>windows</span>)]</span>
-<span class='comment'>//-------------------------------------------------------------------------------------------------</span>
-<span class='comment'>// Imports</span>
-<span class='comment'>//-------------------------------------------------------------------------------------------------</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>raw</span>::{
-    <span class='ident'>c_void</span>,
-    <span class='ident'>c_char</span>,
-    <span class='ident'>c_schar</span>,
-    <span class='ident'>c_uchar</span>,
-    <span class='ident'>c_short</span>,
-    <span class='ident'>c_ushort</span>,
-    <span class='ident'>c_int</span>,
-    <span class='ident'>c_uint</span>,
-    <span class='ident'>c_long</span>,
-    <span class='ident'>c_ulong</span>,
-    <span class='ident'>c_longlong</span>,
-    <span class='ident'>c_ulonglong</span>,
-    <span class='ident'>c_float</span>,
-    <span class='ident'>c_double</span>,
+</pre><pre class="rust ">
+<span class="comment">// Copyright © 2015, Peter Atashian</span>
+<span class="comment">// Licensed under the MIT License &lt;LICENSE.md&gt;</span>
+<span class="doccomment">//! Types and constants for WinAPI bindings.</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">allow</span>(<span class="ident">bad_style</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">warn</span>(<span class="ident">trivial_casts</span>, <span class="ident">trivial_numeric_casts</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">warn</span>(<span class="ident">unused_qualifications</span>, <span class="ident">unused</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
+<span class="comment">//-------------------------------------------------------------------------------------------------</span>
+<span class="comment">// Imports</span>
+<span class="comment">//-------------------------------------------------------------------------------------------------</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::{
+    <span class="ident">c_void</span>,
+    <span class="ident">c_char</span>,
+    <span class="ident">c_schar</span>,
+    <span class="ident">c_uchar</span>,
+    <span class="ident">c_short</span>,
+    <span class="ident">c_ushort</span>,
+    <span class="ident">c_int</span>,
+    <span class="ident">c_uint</span>,
+    <span class="ident">c_long</span>,
+    <span class="ident">c_ulong</span>,
+    <span class="ident">c_longlong</span>,
+    <span class="ident">c_ulonglong</span>,
+    <span class="ident">c_float</span>,
+    <span class="ident">c_double</span>,
 };
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>activation</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>audioclient</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>audiosessiontypes</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>basetsd</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>bcrypt</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>cfg</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>cfgmgr32</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>combaseapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commctrl</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commdlg</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>corsym</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d2d1</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d2dbasetypes</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3d9</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3d9caps</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3d9types</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3d11</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3d10shader</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3d11shader</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3d12</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3d12sdklayers</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3d12shader</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3dcommon</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>d3dcompiler</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dbghelp</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dcommon</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>devpropdef</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>docobj</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dpapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dsgetdc</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dsound</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dsrole</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dwmapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dwrite</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dxgi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dxgi1_2</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dxgi1_3</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dxgi1_4</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dxgiformat</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dxgitype</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>errhandlingapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>excpt</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>fileapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>gl</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>guiddef</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>heapapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>hidclass</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>hidpi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>hidsdi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>hidusage</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>hstring</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>http</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>imm</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>inaddr</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>inspectable</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ksmedia</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>libloaderapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lmaccess</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lmcons</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lmdfs</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lmerrlog</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lmjoin</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lsalookup</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>memoryapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>minschannel</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>minwinbase</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>minwindef</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>mmdeviceapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>mmreg</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>mmsystem</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>mscat</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>mssip</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>nb30</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ncrypt</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ntdef</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ntsecapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ntstatus</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>oaidl</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>objbase</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>objidl</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>objidlbase</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>olectl</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>pdh</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>playsoundapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>processsnapshot</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>processthreadsapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>propidl</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>propsys</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>prsht</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>psapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>qos</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>reason</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>restrictederrorinfo</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>roapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>roerrorapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>rpc</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>rpcdce</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>sapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>schannel</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>servprov</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>setupapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shellapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shellscalingapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shlguid</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shlobj</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shobjidl</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shtypes</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>spapidef</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>sqltypes</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>sspi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>strmif</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>subauth</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>synchapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>sysinfoapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>threadpoolapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>timezoneapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>tlhelp32</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>unknwnbase</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>urlhist</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>urlmon</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>usb</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>usbspec</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>usp10</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vadefs</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vsbackup</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vss</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vsserror</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vswriter</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>werapi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winbase</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>wincon</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>wincred</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>wincrypt</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>windowsx</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>windef</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>windowscodecs</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winerror</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winevt</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>wingdi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winhttp</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winioctl</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winnetwk</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winnls</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winnt</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winreg</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winscard</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winsmcrd</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winsock2</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winspool</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winstring</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winsvc</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winusb</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winusbio</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>winuser</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws2def</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws2ipdef</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws2spi</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws2tcpip</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>wtypes</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>wtypesbase</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>xinput</span>::<span class='op'>*</span>;
-<span class='comment'>//-------------------------------------------------------------------------------------------------</span>
-<span class='comment'>// Modules</span>
-<span class='comment'>//-------------------------------------------------------------------------------------------------</span>
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span> <span class='kw'>mod</span> <span class='ident'>macros</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>activation</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>audioclient</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>audiosessiontypes</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>basetsd</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bcrypt</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>cfg</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>cfgmgr32</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>combaseapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>commctrl</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>commdlg</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>corsym</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d2d1</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d2dbasetypes</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3d9</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3d9caps</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3d9types</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3d11</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3d10shader</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3d11shader</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3d12</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3d12sdklayers</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3d12shader</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3dcommon</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>d3dcompiler</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dbghelp</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dcommon</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>devpropdef</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>docobj</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dpapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dsgetdc</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dsound</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dsrole</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dwmapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dwrite</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dxgi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dxgi1_2</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dxgi1_3</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dxgi1_4</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dxgiformat</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dxgitype</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>errhandlingapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>excpt</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>fileapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>gl</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>guiddef</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>heapapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>hidclass</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>hidpi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>hidsdi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>hidusage</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>hstring</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>http</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>imm</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>inaddr</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>inspectable</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ksmedia</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>libloaderapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>lmaccess</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>lmcons</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>lmdfs</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>lmerrlog</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>lmjoin</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>lsalookup</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>memoryapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>minschannel</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>minwinbase</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>minwindef</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>mmdeviceapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>mmreg</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>mmsystem</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>mscat</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>mssip</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>nb30</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ncrypt</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ntdef</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ntsecapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ntstatus</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>oaidl</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>objbase</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>objidl</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>objidlbase</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>olectl</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>pdh</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>playsoundapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>processsnapshot</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>processthreadsapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>propidl</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>propsys</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>prsht</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>psapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>qos</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>reason</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>restrictederrorinfo</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>roapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>roerrorapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>rpc</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>rpcdce</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>sapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>schannel</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>servprov</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>setupapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>shellapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>shellscalingapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>shlguid</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>shlobj</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>shobjidl</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>shtypes</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>spapidef</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>sqltypes</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>sspi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>strmif</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>subauth</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>synchapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>sysinfoapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>threadpoolapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>timezoneapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>tlhelp32</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>unknwnbase</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>urlhist</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>urlmon</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>usb</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>usbspec</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>usp10</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>vadefs</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>vsbackup</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>vss</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>vsserror</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>vswriter</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>werapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winbase</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>wincon</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>wincred</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>wincrypt</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>windef</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>windowscodecs</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>windowsx</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winerror</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winevt</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>wingdi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winhttp</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winioctl</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winnetwk</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winnls</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winnt</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winreg</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winscard</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winsmcrd</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winsock2</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winspool</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winstring</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winsvc</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winusb</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winusbio</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>winuser</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ws2def</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ws2ipdef</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ws2spi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ws2tcpip</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>wtypes</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>wtypesbase</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>xinput</span>;
-<span class='comment'>//-------------------------------------------------------------------------------------------------</span>
-<span class='comment'>// Primitive types not provided by std</span>
-<span class='comment'>//-------------------------------------------------------------------------------------------------</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>__int8</span> <span class='op'>=</span> <span class='ident'>i8</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>__uint8</span> <span class='op'>=</span> <span class='ident'>u8</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>__int16</span> <span class='op'>=</span> <span class='ident'>i16</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>__uint16</span> <span class='op'>=</span> <span class='ident'>u16</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>__int32</span> <span class='op'>=</span> <span class='ident'>i32</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>__uint32</span> <span class='op'>=</span> <span class='ident'>u32</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>__int64</span> <span class='op'>=</span> <span class='ident'>i64</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>__uint64</span> <span class='op'>=</span> <span class='ident'>u64</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>wchar_t</span> <span class='op'>=</span> <span class='ident'>c_ushort</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_arch</span> <span class='op'>=</span> <span class='string'>&quot;x86&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>size_t</span> <span class='op'>=</span> <span class='ident'>c_uint</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_arch</span> <span class='op'>=</span> <span class='string'>&quot;x86_64&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>size_t</span> <span class='op'>=</span> <span class='ident'>__uint64</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">activation</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">audioclient</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">audiosessiontypes</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">basetsd</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bcrypt</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">cfg</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">cfgmgr32</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">combaseapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">commctrl</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">commdlg</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">corsym</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d2d1</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d2dbasetypes</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3d9</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3d9caps</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3d9types</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3d11</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3d10shader</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3d11shader</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3d12</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3d12sdklayers</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3d12shader</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3dcommon</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">d3dcompiler</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dbghelp</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dcommon</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">devpropdef</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">docobj</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dpapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dsgetdc</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dsound</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dsrole</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dwmapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dwrite</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dxgi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dxgi1_2</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dxgi1_3</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dxgi1_4</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dxgiformat</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dxgitype</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">errhandlingapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">excpt</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">fileapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">gl</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">guiddef</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">heapapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">hidclass</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">hidpi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">hidsdi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">hidusage</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">hstring</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">http</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">imm</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">inaddr</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">inspectable</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ksmedia</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">libloaderapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lmaccess</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lmcons</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lmdfs</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lmerrlog</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lmjoin</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lsalookup</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">memoryapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">minschannel</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">minwinbase</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">minwindef</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mmdeviceapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mmreg</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mmsystem</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mscat</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mssip</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">nb30</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ncrypt</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ntdef</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ntsecapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ntstatus</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">oaidl</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">objbase</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">objidl</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">objidlbase</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">olectl</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">pdh</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">playsoundapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">processsnapshot</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">processthreadsapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">propidl</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">propsys</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">prsht</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">psapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">qos</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reason</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">restrictederrorinfo</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">roapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">roerrorapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rpc</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rpcdce</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">schannel</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">servprov</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">setupapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">shellapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">shellscalingapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">shlguid</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">shlobj</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">shobjidl</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">shtypes</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">spapidef</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sqltypes</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sspi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">strmif</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">subauth</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">synchapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sysinfoapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">threadpoolapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">timezoneapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">tlhelp32</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">unknwnbase</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">urlhist</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">urlmon</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">usb</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">usbspec</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">usp10</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">vadefs</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">vsbackup</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">vss</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">vsserror</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">vswriter</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">werapi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winbase</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wincon</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wincred</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wincrypt</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">windowsx</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">windef</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">windowscodecs</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winerror</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winevt</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wingdi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winhttp</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winioctl</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winnetwk</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winnls</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winnt</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winreg</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winscard</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winsmcrd</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winsock2</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winspool</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winstring</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winsvc</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winusb</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winusbio</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winuser</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ws2def</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ws2ipdef</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ws2spi</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ws2tcpip</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wtypes</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wtypesbase</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">xinput</span>::<span class="kw-2">*</span>;
+<span class="comment">//-------------------------------------------------------------------------------------------------</span>
+<span class="comment">// Modules</span>
+<span class="comment">//-------------------------------------------------------------------------------------------------</span>
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">mod</span> <span class="ident">macros</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">activation</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">audioclient</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">audiosessiontypes</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">basetsd</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bcrypt</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cfg</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cfgmgr32</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">combaseapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">commctrl</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">commdlg</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">corsym</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d2d1</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d2dbasetypes</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3d9</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3d9caps</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3d9types</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3d11</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3d10shader</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3d11shader</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3d12</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3d12sdklayers</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3d12shader</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3dcommon</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">d3dcompiler</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dbghelp</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dcommon</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">devpropdef</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">docobj</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dpapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dsgetdc</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dsound</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dsrole</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dwmapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dwrite</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dxgi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dxgi1_2</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dxgi1_3</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dxgi1_4</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dxgiformat</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dxgitype</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">errhandlingapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">excpt</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fileapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gl</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">guiddef</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">heapapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hidclass</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hidpi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hidsdi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hidusage</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hstring</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">http</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">imm</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">inaddr</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">inspectable</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ksmedia</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">libloaderapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lmaccess</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lmcons</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lmdfs</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lmerrlog</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lmjoin</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lsalookup</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">memoryapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">minschannel</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">minwinbase</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">minwindef</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mmdeviceapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mmreg</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mmsystem</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mscat</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mssip</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">nb30</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ncrypt</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ntdef</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ntsecapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ntstatus</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">oaidl</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">objbase</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">objidl</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">objidlbase</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">olectl</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pdh</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">playsoundapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">processsnapshot</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">processthreadsapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">propidl</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">propsys</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prsht</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">psapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">qos</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">reason</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">restrictederrorinfo</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">roapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">roerrorapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rpc</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rpcdce</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">schannel</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">servprov</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">setupapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">shellapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">shellscalingapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">shlguid</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">shlobj</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">shobjidl</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">shtypes</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">spapidef</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sqltypes</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sspi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">strmif</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">subauth</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">synchapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sysinfoapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">threadpoolapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">timezoneapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tlhelp32</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">unknwnbase</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">urlhist</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">urlmon</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">usb</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">usbspec</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">usp10</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vadefs</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vsbackup</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vss</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vsserror</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vswriter</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">werapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winbase</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">wincon</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">wincred</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">wincrypt</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windef</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windowscodecs</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windowsx</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winerror</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winevt</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">wingdi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winhttp</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winioctl</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winnetwk</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winnls</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winnt</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winreg</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winscard</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winsmcrd</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winsock2</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winspool</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winstring</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winsvc</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winusb</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winusbio</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">winuser</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ws2def</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ws2ipdef</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ws2spi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ws2tcpip</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">wtypes</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">wtypesbase</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">xinput</span>;
+<span class="comment">//-------------------------------------------------------------------------------------------------</span>
+<span class="comment">// Primitive types not provided by std</span>
+<span class="comment">//-------------------------------------------------------------------------------------------------</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__int8</span> <span class="op">=</span> <span class="ident">i8</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__uint8</span> <span class="op">=</span> <span class="ident">u8</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__int16</span> <span class="op">=</span> <span class="ident">i16</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__uint16</span> <span class="op">=</span> <span class="ident">u16</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__int32</span> <span class="op">=</span> <span class="ident">i32</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__uint32</span> <span class="op">=</span> <span class="ident">u32</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__int64</span> <span class="op">=</span> <span class="ident">i64</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__uint64</span> <span class="op">=</span> <span class="ident">u64</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">wchar_t</span> <span class="op">=</span> <span class="ident">c_ushort</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;x86&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">size_t</span> <span class="op">=</span> <span class="ident">c_uint</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;x86_64&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">size_t</span> <span class="op">=</span> <span class="ident">__uint64</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

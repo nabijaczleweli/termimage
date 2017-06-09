@@ -9,6 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -85,49 +86,49 @@
 <span id="41">41</span>
 <span id="42">42</span>
 <span id="43">43</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! # LZW decoder and encoder</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! This crates provides a `LzwEncoder` and `LzwDecoder`. The code words are written from</span>
-<span class='doccomment'>//! and to bit streams where it is possible to write either the most or least significant </span>
-<span class='doccomment'>//! bit first. The maximum possible code size is 16 bits. Both types rely on RAII to</span>
-<span class='doccomment'>//! produced correct results.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! The de- and encoder expect the LZW stream to start with a clear code and end with an</span>
-<span class='doccomment'>//! end code which are defined as follows:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!  * `CLEAR_CODE == 1 &lt;&lt; min_code_size`</span>
-<span class='doccomment'>//!  * `END_CODE   == CLEAR_CODE + 1`</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Examplary use of the encoder:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     use lzw::{LsbWriter, Encoder};</span>
-<span class='doccomment'>//!     let size = 8;</span>
-<span class='doccomment'>//!     let data = b&quot;TOBEORNOTTOBEORTOBEORNOT&quot;;</span>
-<span class='doccomment'>//!     let mut compressed = vec![];</span>
-<span class='doccomment'>//!     {</span>
-<span class='doccomment'>//!         let mut enc = Encoder::new(LsbWriter::new(&amp;mut compressed), size).unwrap();</span>
-<span class='doccomment'>//!         enc.encode_bytes(data).unwrap();</span>
-<span class='doccomment'>//!     }</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! # LZW decoder and encoder</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This crates provides a `LzwEncoder` and `LzwDecoder`. The code words are written from</span>
+<span class="doccomment">//! and to bit streams where it is possible to write either the most or least significant </span>
+<span class="doccomment">//! bit first. The maximum possible code size is 16 bits. Both types rely on RAII to</span>
+<span class="doccomment">//! produced correct results.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The de- and encoder expect the LZW stream to start with a clear code and end with an</span>
+<span class="doccomment">//! end code which are defined as follows:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!  * `CLEAR_CODE == 1 &lt;&lt; min_code_size`</span>
+<span class="doccomment">//!  * `END_CODE   == CLEAR_CODE + 1`</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Examplary use of the encoder:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     use lzw::{LsbWriter, Encoder};</span>
+<span class="doccomment">//!     let size = 8;</span>
+<span class="doccomment">//!     let data = b&quot;TOBEORNOTTOBEORTOBEORNOT&quot;;</span>
+<span class="doccomment">//!     let mut compressed = vec![];</span>
+<span class="doccomment">//!     {</span>
+<span class="doccomment">//!         let mut enc = Encoder::new(LsbWriter::new(&amp;mut compressed), size).unwrap();</span>
+<span class="doccomment">//!         enc.encode_bytes(data).unwrap();</span>
+<span class="doccomment">//!     }</span>
 
-<span class='kw'>mod</span> <span class='ident'>lzw</span>;
-<span class='kw'>mod</span> <span class='ident'>bitstream</span>;
+<span class="kw">mod</span> <span class="ident">lzw</span>;
+<span class="kw">mod</span> <span class="ident">bitstream</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lzw</span>::{
-    <span class='ident'>Decoder</span>,
-    <span class='ident'>DecoderEarlyChange</span>,
-    <span class='ident'>Encoder</span>,
-    <span class='ident'>encode</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lzw</span>::{
+    <span class="ident">Decoder</span>,
+    <span class="ident">DecoderEarlyChange</span>,
+    <span class="ident">Encoder</span>,
+    <span class="ident">encode</span>
 };
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>bitstream</span>::{
-    <span class='ident'>BitReader</span>,
-    <span class='ident'>BitWriter</span>,
-    <span class='ident'>LsbReader</span>,
-    <span class='ident'>LsbWriter</span>,
-    <span class='ident'>MsbReader</span>,
-    <span class='ident'>MsbWriter</span>,
-    <span class='ident'>Bits</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bitstream</span>::{
+    <span class="ident">BitReader</span>,
+    <span class="ident">BitWriter</span>,
+    <span class="ident">LsbReader</span>,
+    <span class="ident">LsbWriter</span>,
+    <span class="ident">MsbReader</span>,
+    <span class="ident">MsbWriter</span>,
+    <span class="ident">Bits</span>
 };</pre>
 </section>
     <section id='search' class="content hidden"></section>

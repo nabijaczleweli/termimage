@@ -9,6 +9,7 @@
 
     <title>mod.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -205,167 +206,167 @@
 <span id="161">161</span>
 <span id="162">162</span>
 <span id="163">163</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Image Processing Functions</span>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>;
+</pre><pre class="rust ">
+<span class="doccomment">//! Image Processing Functions</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>;
 
-<span class='kw'>use</span> <span class='ident'>image</span>:: {
-    <span class='ident'>SubImage</span>,
-    <span class='ident'>GenericImage</span>,
+<span class="kw">use</span> <span class="ident">image</span>:: {
+    <span class="ident">SubImage</span>,
+    <span class="ident">GenericImage</span>,
 };
 
-<span class='kw'>use</span> <span class='ident'>buffer</span>::<span class='ident'>Pixel</span>;
+<span class="kw">use</span> <span class="ident">buffer</span>::<span class="ident">Pixel</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>sample</span>::<span class='ident'>FilterType</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">sample</span>::<span class="ident">FilterType</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>sample</span>::<span class='ident'>FilterType</span>:: {
-    <span class='ident'>Triangle</span>,
-    <span class='ident'>Nearest</span>,
-    <span class='ident'>CatmullRom</span>,
-    <span class='ident'>Gaussian</span>,
-    <span class='ident'>Lanczos3</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">sample</span>::<span class="ident">FilterType</span>:: {
+    <span class="ident">Triangle</span>,
+    <span class="ident">Nearest</span>,
+    <span class="ident">CatmullRom</span>,
+    <span class="ident">Gaussian</span>,
+    <span class="ident">Lanczos3</span>
 };
 
-<span class='doccomment'>/// Affine transformations</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>affine</span>:: {
-    <span class='ident'>rotate90</span>,
-    <span class='ident'>rotate180</span>,
-    <span class='ident'>rotate270</span>,
-    <span class='ident'>flip_horizontal</span>,
-    <span class='ident'>flip_vertical</span>,
+<span class="doccomment">/// Affine transformations</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">affine</span>:: {
+    <span class="ident">rotate90</span>,
+    <span class="ident">rotate180</span>,
+    <span class="ident">rotate270</span>,
+    <span class="ident">flip_horizontal</span>,
+    <span class="ident">flip_vertical</span>,
 };
 
-<span class='doccomment'>/// Image sampling</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>sample</span>:: {
-    <span class='ident'>filter3x3</span>,
-    <span class='ident'>resize</span>,
-    <span class='ident'>blur</span>,
-    <span class='ident'>unsharpen</span>,
+<span class="doccomment">/// Image sampling</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">sample</span>:: {
+    <span class="ident">filter3x3</span>,
+    <span class="ident">resize</span>,
+    <span class="ident">blur</span>,
+    <span class="ident">unsharpen</span>,
 };
 
-<span class='doccomment'>/// Color operations</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>colorops</span>:: {
-    <span class='ident'>grayscale</span>,
-    <span class='ident'>invert</span>,
-    <span class='ident'>contrast</span>,
-    <span class='ident'>brighten</span>,
-    <span class='ident'>huerotate</span>,
-    <span class='ident'>ColorMap</span>,
-    <span class='ident'>BiLevel</span>,
-    <span class='ident'>dither</span>,
-    <span class='ident'>index_colors</span>,
+<span class="doccomment">/// Color operations</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">colorops</span>:: {
+    <span class="ident">grayscale</span>,
+    <span class="ident">invert</span>,
+    <span class="ident">contrast</span>,
+    <span class="ident">brighten</span>,
+    <span class="ident">huerotate</span>,
+    <span class="ident">ColorMap</span>,
+    <span class="ident">BiLevel</span>,
+    <span class="ident">dither</span>,
+    <span class="ident">index_colors</span>,
 };
 
-<span class='kw'>mod</span> <span class='ident'>affine</span>;
-<span class='doccomment'>/// Public only because of Rust bug:</span>
-<span class='doccomment'>/// https://github.com/rust-lang/rust/issues/18241</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>colorops</span>;
-<span class='kw'>mod</span> <span class='ident'>sample</span>;
+<span class="kw">mod</span> <span class="ident">affine</span>;
+<span class="doccomment">/// Public only because of Rust bug:</span>
+<span class="doccomment">/// https://github.com/rust-lang/rust/issues/18241</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">colorops</span>;
+<span class="kw">mod</span> <span class="ident">sample</span>;
 
-<span class='doccomment'>/// Return a mutable view into an image</span>
-<span class='comment'>// TODO: Is a &#39;static bound on `I` really required? Acn we avoid it?</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>crop</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>GenericImage</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='ident'>image</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>I</span>, <span class='ident'>x</span>: <span class='ident'>u32</span>, <span class='ident'>y</span>: <span class='ident'>u32</span>,
-                                       <span class='ident'>width</span>: <span class='ident'>u32</span>, <span class='ident'>height</span>: <span class='ident'>u32</span>)
-                                       <span class='op'>-&gt;</span> <span class='ident'>SubImage</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>I</span>::<span class='ident'>Pixel</span>: <span class='lifetime'>&#39;static</span>,
-          <span class='op'>&lt;</span><span class='ident'>I</span>::<span class='ident'>Pixel</span> <span class='kw'>as</span> <span class='ident'>Pixel</span><span class='op'>&gt;</span>::<span class='ident'>Subpixel</span>: <span class='lifetime'>&#39;static</span> {
+<span class="doccomment">/// Return a mutable view into an image</span>
+<span class="comment">// TODO: Is a &#39;static bound on `I` really required? Acn we avoid it?</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">crop</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">I</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>,
+                                       <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>)
+                                       <span class="op">-&gt;</span> <span class="ident">SubImage</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
+          <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span> {
 
-    <span class='kw'>let</span> (<span class='ident'>iwidth</span>, <span class='ident'>iheight</span>) <span class='op'>=</span> <span class='ident'>image</span>.<span class='ident'>dimensions</span>();
+    <span class="kw">let</span> (<span class="ident">iwidth</span>, <span class="ident">iheight</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
 
-    <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>cmp</span>::<span class='ident'>min</span>(<span class='ident'>x</span>, <span class='ident'>iwidth</span>);
-    <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>cmp</span>::<span class='ident'>min</span>(<span class='ident'>y</span>, <span class='ident'>iheight</span>);
+    <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">x</span>, <span class="ident">iwidth</span>);
+    <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">y</span>, <span class="ident">iheight</span>);
 
-    <span class='kw'>let</span> <span class='ident'>height</span> <span class='op'>=</span> <span class='ident'>cmp</span>::<span class='ident'>min</span>(<span class='ident'>height</span>, <span class='ident'>iheight</span> <span class='op'>-</span> <span class='ident'>y</span>);
-    <span class='kw'>let</span> <span class='ident'>width</span>  <span class='op'>=</span> <span class='ident'>cmp</span>::<span class='ident'>min</span>(<span class='ident'>width</span>, <span class='ident'>iwidth</span> <span class='op'>-</span> <span class='ident'>x</span>);
+    <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">height</span>, <span class="ident">iheight</span> <span class="op">-</span> <span class="ident">y</span>);
+    <span class="kw">let</span> <span class="ident">width</span>  <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">width</span>, <span class="ident">iwidth</span> <span class="op">-</span> <span class="ident">x</span>);
 
-    <span class='ident'>SubImage</span>::<span class='ident'>new</span>(<span class='ident'>image</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>width</span>, <span class='ident'>height</span>)
+    <span class="ident">SubImage</span>::<span class="ident">new</span>(<span class="ident">image</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">width</span>, <span class="ident">height</span>)
 }
 
-<span class='doccomment'>/// Overlay an image at a given coordinate (x, y)</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>overlay</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>GenericImage</span><span class='op'>&gt;</span>(<span class='ident'>bottom</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>I</span>, <span class='ident'>top</span>: <span class='kw-2'>&amp;</span><span class='ident'>I</span>, <span class='ident'>x</span>: <span class='ident'>u32</span>, <span class='ident'>y</span>:<span class='ident'>u32</span>) {
-    <span class='kw'>let</span> (<span class='ident'>top_width</span>, <span class='ident'>top_height</span>) <span class='op'>=</span> <span class='ident'>top</span>.<span class='ident'>dimensions</span>();
-    <span class='kw'>let</span> (<span class='ident'>bottom_width</span>, <span class='ident'>bottom_height</span>) <span class='op'>=</span> <span class='ident'>bottom</span>.<span class='ident'>dimensions</span>();
+<span class="doccomment">/// Overlay an image at a given coordinate (x, y)</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">overlay</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&gt;</span>(<span class="ident">bottom</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">I</span>, <span class="ident">top</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>:<span class="ident">u32</span>) {
+    <span class="kw">let</span> (<span class="ident">top_width</span>, <span class="ident">top_height</span>) <span class="op">=</span> <span class="ident">top</span>.<span class="ident">dimensions</span>();
+    <span class="kw">let</span> (<span class="ident">bottom_width</span>, <span class="ident">bottom_height</span>) <span class="op">=</span> <span class="ident">bottom</span>.<span class="ident">dimensions</span>();
 
-    <span class='comment'>// Crop our top image if we&#39;re going out of bounds</span>
-    <span class='kw'>let</span> <span class='ident'>range_width</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>top_width</span> <span class='op'>&gt;</span> <span class='ident'>bottom_width</span> {
-        <span class='ident'>bottom_width</span> <span class='op'>-</span> <span class='ident'>x</span>
-    } <span class='kw'>else</span> {
-        <span class='ident'>top_width</span>
+    <span class="comment">// Crop our top image if we&#39;re going out of bounds</span>
+    <span class="kw">let</span> <span class="ident">range_width</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">x</span> <span class="op">+</span> <span class="ident">top_width</span> <span class="op">&gt;</span> <span class="ident">bottom_width</span> {
+        <span class="ident">bottom_width</span> <span class="op">-</span> <span class="ident">x</span>
+    } <span class="kw">else</span> {
+        <span class="ident">top_width</span>
     };
 
-    <span class='kw'>let</span> <span class='ident'>range_height</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>y</span> <span class='op'>+</span> <span class='ident'>top_height</span> <span class='op'>&gt;</span> <span class='ident'>bottom_height</span> {
-        <span class='ident'>bottom_height</span> <span class='op'>-</span> <span class='ident'>y</span>
-    } <span class='kw'>else</span> {
-        <span class='ident'>top_height</span>
+    <span class="kw">let</span> <span class="ident">range_height</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">y</span> <span class="op">+</span> <span class="ident">top_height</span> <span class="op">&gt;</span> <span class="ident">bottom_height</span> {
+        <span class="ident">bottom_height</span> <span class="op">-</span> <span class="ident">y</span>
+    } <span class="kw">else</span> {
+        <span class="ident">top_height</span>
     };
 
-    <span class='kw'>for</span> <span class='ident'>top_y</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>range_height</span> {
-        <span class='kw'>for</span> <span class='ident'>top_x</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>range_width</span> {
-            <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>top</span>.<span class='ident'>get_pixel</span>(<span class='ident'>top_x</span>, <span class='ident'>top_y</span>);
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bottom_pixel</span> <span class='op'>=</span> <span class='ident'>bottom</span>.<span class='ident'>get_pixel</span>(<span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>top_x</span>, <span class='ident'>y</span> <span class='op'>+</span> <span class='ident'>top_y</span>);
-            <span class='ident'>bottom_pixel</span>.<span class='ident'>blend</span>(<span class='kw-2'>&amp;</span><span class='ident'>p</span>);
+    <span class="kw">for</span> <span class="ident">top_y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">range_height</span> {
+        <span class="kw">for</span> <span class="ident">top_x</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">range_width</span> {
+            <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">top</span>.<span class="ident">get_pixel</span>(<span class="ident">top_x</span>, <span class="ident">top_y</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bottom_pixel</span> <span class="op">=</span> <span class="ident">bottom</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span> <span class="op">+</span> <span class="ident">top_x</span>, <span class="ident">y</span> <span class="op">+</span> <span class="ident">top_y</span>);
+            <span class="ident">bottom_pixel</span>.<span class="ident">blend</span>(<span class="kw-2">&amp;</span><span class="ident">p</span>);
 
-            <span class='ident'>bottom</span>.<span class='ident'>put_pixel</span>(<span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>top_x</span>, <span class='ident'>y</span> <span class='op'>+</span> <span class='ident'>top_y</span>, <span class='ident'>bottom_pixel</span>);
+            <span class="ident">bottom</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span> <span class="op">+</span> <span class="ident">top_x</span>, <span class="ident">y</span> <span class="op">+</span> <span class="ident">top_y</span>, <span class="ident">bottom_pixel</span>);
         }
     }
 }
 
-<span class='doccomment'>/// Replace the contents of an image at a given coordinate (x, y)</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>replace</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>GenericImage</span><span class='op'>&gt;</span>(<span class='ident'>bottom</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>I</span>, <span class='ident'>top</span>: <span class='kw-2'>&amp;</span><span class='ident'>I</span>, <span class='ident'>x</span>: <span class='ident'>u32</span>, <span class='ident'>y</span>:<span class='ident'>u32</span>) {
-    <span class='kw'>let</span> (<span class='ident'>top_width</span>, <span class='ident'>top_height</span>) <span class='op'>=</span> <span class='ident'>top</span>.<span class='ident'>dimensions</span>();
-    <span class='kw'>let</span> (<span class='ident'>bottom_width</span>, <span class='ident'>bottom_height</span>) <span class='op'>=</span> <span class='ident'>bottom</span>.<span class='ident'>dimensions</span>();
+<span class="doccomment">/// Replace the contents of an image at a given coordinate (x, y)</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&gt;</span>(<span class="ident">bottom</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">I</span>, <span class="ident">top</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>:<span class="ident">u32</span>) {
+    <span class="kw">let</span> (<span class="ident">top_width</span>, <span class="ident">top_height</span>) <span class="op">=</span> <span class="ident">top</span>.<span class="ident">dimensions</span>();
+    <span class="kw">let</span> (<span class="ident">bottom_width</span>, <span class="ident">bottom_height</span>) <span class="op">=</span> <span class="ident">bottom</span>.<span class="ident">dimensions</span>();
 
-    <span class='comment'>// Crop our top image if we&#39;re going out of bounds</span>
-    <span class='kw'>let</span> <span class='ident'>range_width</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>top_width</span> <span class='op'>&gt;</span> <span class='ident'>bottom_width</span> {
-        <span class='ident'>bottom_width</span> <span class='op'>-</span> <span class='ident'>x</span>
-    } <span class='kw'>else</span> {
-        <span class='ident'>top_width</span>
+    <span class="comment">// Crop our top image if we&#39;re going out of bounds</span>
+    <span class="kw">let</span> <span class="ident">range_width</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">x</span> <span class="op">+</span> <span class="ident">top_width</span> <span class="op">&gt;</span> <span class="ident">bottom_width</span> {
+        <span class="ident">bottom_width</span> <span class="op">-</span> <span class="ident">x</span>
+    } <span class="kw">else</span> {
+        <span class="ident">top_width</span>
     };
 
-    <span class='kw'>let</span> <span class='ident'>range_height</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>y</span> <span class='op'>+</span> <span class='ident'>top_height</span> <span class='op'>&gt;</span> <span class='ident'>bottom_height</span> {
-        <span class='ident'>bottom_height</span> <span class='op'>-</span> <span class='ident'>y</span>
-    } <span class='kw'>else</span> {
-        <span class='ident'>top_height</span>
+    <span class="kw">let</span> <span class="ident">range_height</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">y</span> <span class="op">+</span> <span class="ident">top_height</span> <span class="op">&gt;</span> <span class="ident">bottom_height</span> {
+        <span class="ident">bottom_height</span> <span class="op">-</span> <span class="ident">y</span>
+    } <span class="kw">else</span> {
+        <span class="ident">top_height</span>
     };
 
-    <span class='kw'>for</span> <span class='ident'>top_y</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>range_height</span> {
-        <span class='kw'>for</span> <span class='ident'>top_x</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>range_width</span> {
-            <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>top</span>.<span class='ident'>get_pixel</span>(<span class='ident'>top_x</span>, <span class='ident'>top_y</span>);
-            <span class='ident'>bottom</span>.<span class='ident'>put_pixel</span>(<span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>top_x</span>, <span class='ident'>y</span> <span class='op'>+</span> <span class='ident'>top_y</span>, <span class='ident'>p</span>);
+    <span class="kw">for</span> <span class="ident">top_y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">range_height</span> {
+        <span class="kw">for</span> <span class="ident">top_x</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">range_width</span> {
+            <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">top</span>.<span class="ident">get_pixel</span>(<span class="ident">top_x</span>, <span class="ident">top_y</span>);
+            <span class="ident">bottom</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span> <span class="op">+</span> <span class="ident">top_x</span>, <span class="ident">y</span> <span class="op">+</span> <span class="ident">top_y</span>, <span class="ident">p</span>);
         }
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
 
-    <span class='kw'>use</span> <span class='ident'>image</span>::<span class='ident'>GenericImage</span>;
-    <span class='kw'>use</span> <span class='ident'>buffer</span>::<span class='ident'>ImageBuffer</span>;
-    <span class='kw'>use</span> <span class='ident'>color</span>::{<span class='ident'>Rgb</span>};
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>overlay</span>;
+    <span class="kw">use</span> <span class="ident">image</span>::<span class="ident">GenericImage</span>;
+    <span class="kw">use</span> <span class="ident">buffer</span>::<span class="ident">ImageBuffer</span>;
+    <span class="kw">use</span> <span class="ident">color</span>::{<span class="ident">Rgb</span>};
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">overlay</span>;
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='doccomment'>/// Test that images written into other images works</span>
-    <span class='kw'>fn</span> <span class='ident'>test_image_in_image</span>() {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>target</span> <span class='op'>=</span> <span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='number'>32</span>, <span class='number'>32</span>);
-        <span class='kw'>let</span> <span class='ident'>source</span> <span class='op'>=</span> <span class='ident'>ImageBuffer</span>::<span class='ident'>from_pixel</span>(<span class='number'>16</span>, <span class='number'>16</span>, <span class='ident'>Rgb</span>([<span class='number'>255u8</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
-        <span class='ident'>overlay</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>target</span>, <span class='kw-2'>&amp;</span><span class='ident'>source</span>, <span class='number'>0</span>, <span class='number'>0</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>target</span>.<span class='ident'>get_pixel</span>(<span class='number'>0</span>, <span class='number'>0</span>) <span class='op'>==</span> <span class='ident'>Rgb</span>([<span class='number'>255u8</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>target</span>.<span class='ident'>get_pixel</span>(<span class='number'>15</span>, <span class='number'>0</span>) <span class='op'>==</span> <span class='ident'>Rgb</span>([<span class='number'>255u8</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>target</span>.<span class='ident'>get_pixel</span>(<span class='number'>16</span>, <span class='number'>0</span>) <span class='op'>==</span> <span class='ident'>Rgb</span>([<span class='number'>0u8</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>target</span>.<span class='ident'>get_pixel</span>(<span class='number'>0</span>, <span class='number'>15</span>) <span class='op'>==</span> <span class='ident'>Rgb</span>([<span class='number'>255u8</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>target</span>.<span class='ident'>get_pixel</span>(<span class='number'>0</span>, <span class='number'>16</span>) <span class='op'>==</span> <span class='ident'>Rgb</span>([<span class='number'>0u8</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="doccomment">/// Test that images written into other images works</span>
+    <span class="kw">fn</span> <span class="ident">test_image_in_image</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">target</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="number">32</span>, <span class="number">32</span>);
+        <span class="kw">let</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_pixel</span>(<span class="number">16</span>, <span class="number">16</span>, <span class="ident">Rgb</span>([<span class="number">255u8</span>, <span class="number">0</span>, <span class="number">0</span>]));
+        <span class="ident">overlay</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">target</span>, <span class="kw-2">&amp;</span><span class="ident">source</span>, <span class="number">0</span>, <span class="number">0</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">target</span>.<span class="ident">get_pixel</span>(<span class="number">0</span>, <span class="number">0</span>) <span class="op">==</span> <span class="ident">Rgb</span>([<span class="number">255u8</span>, <span class="number">0</span>, <span class="number">0</span>]));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">target</span>.<span class="ident">get_pixel</span>(<span class="number">15</span>, <span class="number">0</span>) <span class="op">==</span> <span class="ident">Rgb</span>([<span class="number">255u8</span>, <span class="number">0</span>, <span class="number">0</span>]));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">target</span>.<span class="ident">get_pixel</span>(<span class="number">16</span>, <span class="number">0</span>) <span class="op">==</span> <span class="ident">Rgb</span>([<span class="number">0u8</span>, <span class="number">0</span>, <span class="number">0</span>]));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">target</span>.<span class="ident">get_pixel</span>(<span class="number">0</span>, <span class="number">15</span>) <span class="op">==</span> <span class="ident">Rgb</span>([<span class="number">255u8</span>, <span class="number">0</span>, <span class="number">0</span>]));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">target</span>.<span class="ident">get_pixel</span>(<span class="number">0</span>, <span class="number">16</span>) <span class="op">==</span> <span class="ident">Rgb</span>([<span class="number">0u8</span>, <span class="number">0</span>, <span class="number">0</span>]));
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='doccomment'>/// Test that images written outside of a frame doesn&#39;t blow up</span>
-    <span class='kw'>fn</span> <span class='ident'>test_image_in_image_outside_of_bounds</span>() {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>target</span> <span class='op'>=</span> <span class='ident'>ImageBuffer</span>::<span class='ident'>new</span>(<span class='number'>32</span>, <span class='number'>32</span>);
-        <span class='kw'>let</span> <span class='ident'>source</span> <span class='op'>=</span> <span class='ident'>ImageBuffer</span>::<span class='ident'>from_pixel</span>(<span class='number'>32</span>, <span class='number'>32</span>, <span class='ident'>Rgb</span>([<span class='number'>255u8</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
-        <span class='ident'>overlay</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>target</span>, <span class='kw-2'>&amp;</span><span class='ident'>source</span>, <span class='number'>1</span>, <span class='number'>1</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>target</span>.<span class='ident'>get_pixel</span>(<span class='number'>0</span>, <span class='number'>0</span>) <span class='op'>==</span> <span class='ident'>Rgb</span>([<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>target</span>.<span class='ident'>get_pixel</span>(<span class='number'>1</span>, <span class='number'>1</span>) <span class='op'>==</span> <span class='ident'>Rgb</span>([<span class='number'>255u8</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>target</span>.<span class='ident'>get_pixel</span>(<span class='number'>31</span>, <span class='number'>31</span>) <span class='op'>==</span> <span class='ident'>Rgb</span>([<span class='number'>255u8</span>, <span class='number'>0</span>, <span class='number'>0</span>]));
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="doccomment">/// Test that images written outside of a frame doesn&#39;t blow up</span>
+    <span class="kw">fn</span> <span class="ident">test_image_in_image_outside_of_bounds</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">target</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="number">32</span>, <span class="number">32</span>);
+        <span class="kw">let</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_pixel</span>(<span class="number">32</span>, <span class="number">32</span>, <span class="ident">Rgb</span>([<span class="number">255u8</span>, <span class="number">0</span>, <span class="number">0</span>]));
+        <span class="ident">overlay</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">target</span>, <span class="kw-2">&amp;</span><span class="ident">source</span>, <span class="number">1</span>, <span class="number">1</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">target</span>.<span class="ident">get_pixel</span>(<span class="number">0</span>, <span class="number">0</span>) <span class="op">==</span> <span class="ident">Rgb</span>([<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">target</span>.<span class="ident">get_pixel</span>(<span class="number">1</span>, <span class="number">1</span>) <span class="op">==</span> <span class="ident">Rgb</span>([<span class="number">255u8</span>, <span class="number">0</span>, <span class="number">0</span>]));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">target</span>.<span class="ident">get_pixel</span>(<span class="number">31</span>, <span class="number">31</span>) <span class="op">==</span> <span class="ident">Rgb</span>([<span class="number">255u8</span>, <span class="number">0</span>, <span class="number">0</span>]));
     }
 
 }

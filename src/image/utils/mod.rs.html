@@ -9,6 +9,7 @@
 
     <title>mod.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -79,42 +80,42 @@
 <span id="35">35</span>
 <span id="36">36</span>
 <span id="37">37</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//!  Utilities</span>
+</pre><pre class="rust ">
+<span class="doccomment">//!  Utilities</span>
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bitstream</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>lzw</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bitstream</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lzw</span>;
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::<span class='ident'>repeat</span>;
-<span class='kw'>use</span> <span class='ident'>num_iter</span>::<span class='ident'>range_step</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">repeat</span>;
+<span class="kw">use</span> <span class="ident">num_iter</span>::<span class="ident">range_step</span>;
 
 
-<span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>expand_packed</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>], <span class='ident'>channels</span>: <span class='ident'>usize</span>, <span class='ident'>bit_depth</span>: <span class='ident'>u8</span>, <span class='ident'>func</span>: <span class='ident'>F</span>)
-<span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>u8</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span>[<span class='ident'>u8</span>]) {
-    <span class='kw'>let</span> <span class='ident'>pixels</span> <span class='op'>=</span> <span class='ident'>buf</span>.<span class='ident'>len</span>()<span class='op'>/</span><span class='ident'>channels</span><span class='op'>*</span><span class='ident'>bit_depth</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
-    <span class='kw'>let</span> <span class='ident'>extra</span> <span class='op'>=</span> <span class='ident'>pixels</span> <span class='op'>%</span> <span class='number'>8</span>;
-    <span class='kw'>let</span> <span class='ident'>entries</span> <span class='op'>=</span> <span class='ident'>pixels</span> <span class='op'>/</span> <span class='number'>8</span> <span class='op'>+</span> <span class='kw'>match</span> <span class='ident'>extra</span> {
-    	<span class='number'>0</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
-    	_ <span class='op'>=&gt;</span> <span class='number'>1</span>
+<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_packed</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">channels</span>: <span class="ident">usize</span>, <span class="ident">bit_depth</span>: <span class="ident">u8</span>, <span class="ident">func</span>: <span class="ident">F</span>)
+<span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">u8</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span>[<span class="ident">u8</span>]) {
+    <span class="kw">let</span> <span class="ident">pixels</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>()<span class="op">/</span><span class="ident">channels</span><span class="kw-2">*</span><span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">usize</span>;
+    <span class="kw">let</span> <span class="ident">extra</span> <span class="op">=</span> <span class="ident">pixels</span> <span class="op">%</span> <span class="number">8</span>;
+    <span class="kw">let</span> <span class="ident">entries</span> <span class="op">=</span> <span class="ident">pixels</span> <span class="op">/</span> <span class="number">8</span> <span class="op">+</span> <span class="kw">match</span> <span class="ident">extra</span> {
+    	<span class="number">0</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+    	_ <span class="op">=&gt;</span> <span class="number">1</span>
     };
-    <span class='kw'>let</span> <span class='ident'>mask</span> <span class='op'>=</span> ((<span class='number'>1u16</span> <span class='op'>&lt;&lt;</span> <span class='ident'>bit_depth</span>) <span class='op'>-</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
-    <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span>
-        (<span class='number'>0</span>..<span class='ident'>entries</span>)
-        .<span class='ident'>rev</span>() <span class='comment'>// Reverse iterator</span>
-        .<span class='ident'>flat_map</span>(<span class='op'>|</span><span class='ident'>idx</span><span class='op'>|</span>
-            <span class='comment'>// This has to be reversed to</span>
-            <span class='ident'>range_step</span>(<span class='number'>0</span>, <span class='number'>8</span>, <span class='ident'>bit_depth</span>)
-            .<span class='ident'>zip</span>(<span class='ident'>repeat</span>(<span class='ident'>idx</span>))
+    <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> ((<span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="ident">bit_depth</span>) <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u8</span>;
+    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span>
+        (<span class="number">0</span>..<span class="ident">entries</span>)
+        .<span class="ident">rev</span>() <span class="comment">// Reverse iterator</span>
+        .<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">idx</span><span class="op">|</span>
+            <span class="comment">// This has to be reversed to</span>
+            <span class="ident">range_step</span>(<span class="number">0</span>, <span class="number">8</span>, <span class="ident">bit_depth</span>)
+            .<span class="ident">zip</span>(<span class="ident">repeat</span>(<span class="ident">idx</span>))
         )
-        .<span class='ident'>skip</span>(<span class='ident'>extra</span>);
-    <span class='kw'>let</span> <span class='ident'>channels</span> <span class='op'>=</span> <span class='ident'>channels</span> <span class='kw'>as</span> <span class='ident'>isize</span>;
-    <span class='kw'>let</span> <span class='ident'>j</span> <span class='op'>=</span> <span class='ident'>range_step</span>(<span class='ident'>buf</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>isize</span> <span class='op'>-</span> <span class='ident'>channels</span>, <span class='op'>-</span><span class='ident'>channels</span>, <span class='op'>-</span><span class='ident'>channels</span>);
-    <span class='comment'>//let j = range_step(0, buf.len(), channels).rev(); // ideal solution;</span>
-    <span class='kw'>for</span> ((<span class='ident'>shift</span>, <span class='ident'>i</span>), <span class='ident'>j</span>) <span class='kw'>in</span> <span class='ident'>i</span>.<span class='ident'>zip</span>(<span class='ident'>j</span>) {
-        <span class='kw'>let</span> <span class='ident'>pixel</span> <span class='op'>=</span> (<span class='ident'>buf</span>[<span class='ident'>i</span>] <span class='kw-2'>&amp;</span> (<span class='ident'>mask</span> <span class='op'>&lt;&lt;</span> <span class='ident'>shift</span>)) <span class='op'>&gt;&gt;</span> <span class='ident'>shift</span>;
-        <span class='ident'>func</span>(<span class='ident'>pixel</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>[<span class='ident'>j</span> <span class='kw'>as</span> <span class='ident'>usize</span>..(<span class='ident'>j</span> <span class='op'>+</span> <span class='ident'>channels</span>) <span class='kw'>as</span> <span class='ident'>usize</span>])
+        .<span class="ident">skip</span>(<span class="ident">extra</span>);
+    <span class="kw">let</span> <span class="ident">channels</span> <span class="op">=</span> <span class="ident">channels</span> <span class="kw">as</span> <span class="ident">isize</span>;
+    <span class="kw">let</span> <span class="ident">j</span> <span class="op">=</span> <span class="ident">range_step</span>(<span class="ident">buf</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">isize</span> <span class="op">-</span> <span class="ident">channels</span>, <span class="op">-</span><span class="ident">channels</span>, <span class="op">-</span><span class="ident">channels</span>);
+    <span class="comment">//let j = range_step(0, buf.len(), channels).rev(); // ideal solution;</span>
+    <span class="kw">for</span> ((<span class="ident">shift</span>, <span class="ident">i</span>), <span class="ident">j</span>) <span class="kw">in</span> <span class="ident">i</span>.<span class="ident">zip</span>(<span class="ident">j</span>) {
+        <span class="kw">let</span> <span class="ident">pixel</span> <span class="op">=</span> (<span class="ident">buf</span>[<span class="ident">i</span>] <span class="op">&amp;</span> (<span class="ident">mask</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>)) <span class="op">&gt;&gt;</span> <span class="ident">shift</span>;
+        <span class="ident">func</span>(<span class="ident">pixel</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="ident">j</span> <span class="kw">as</span> <span class="ident">usize</span>..(<span class="ident">j</span> <span class="op">+</span> <span class="ident">channels</span>) <span class="kw">as</span> <span class="ident">usize</span>])
     }
 }
 </pre>

@@ -9,6 +9,7 @@
 
     <title>chunk.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -101,65 +102,65 @@
 <span id="57">57</span>
 <span id="58">58</span>
 <span id="59">59</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Chunk types and functions</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>non_upper_case_globals</span>)]</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Chunk types and functions</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
 
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='ident'>u8</span>; <span class='number'>4</span>];
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="ident">u8</span>; <span class="number">4</span>];
 
-<span class='comment'>// -- Critical chunks --</span>
+<span class="comment">// -- Critical chunks --</span>
 
-<span class='doccomment'>/// Image header</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IHDR</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;I&#39;</span>, <span class='string'>b&#39;H&#39;</span>, <span class='string'>b&#39;D&#39;</span>, <span class='string'>b&#39;R&#39;</span>];
-<span class='doccomment'>/// Palette</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>PLTE</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;P&#39;</span>, <span class='string'>b&#39;L&#39;</span>, <span class='string'>b&#39;T&#39;</span>, <span class='string'>b&#39;E&#39;</span>];
-<span class='doccomment'>/// Image data</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IDAT</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;I&#39;</span>, <span class='string'>b&#39;D&#39;</span>, <span class='string'>b&#39;A&#39;</span>, <span class='string'>b&#39;T&#39;</span>];
-<span class='doccomment'>/// Image trailer</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>IEND</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;I&#39;</span>, <span class='string'>b&#39;E&#39;</span>, <span class='string'>b&#39;N&#39;</span>, <span class='string'>b&#39;D&#39;</span>];
+<span class="doccomment">/// Image header</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IHDR</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;I&#39;</span>, <span class="string">b&#39;H&#39;</span>, <span class="string">b&#39;D&#39;</span>, <span class="string">b&#39;R&#39;</span>];
+<span class="doccomment">/// Palette</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PLTE</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;P&#39;</span>, <span class="string">b&#39;L&#39;</span>, <span class="string">b&#39;T&#39;</span>, <span class="string">b&#39;E&#39;</span>];
+<span class="doccomment">/// Image data</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IDAT</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;I&#39;</span>, <span class="string">b&#39;D&#39;</span>, <span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;T&#39;</span>];
+<span class="doccomment">/// Image trailer</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IEND</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;I&#39;</span>, <span class="string">b&#39;E&#39;</span>, <span class="string">b&#39;N&#39;</span>, <span class="string">b&#39;D&#39;</span>];
 
-<span class='comment'>// -- Ancillary chunks --</span>
+<span class="comment">// -- Ancillary chunks --</span>
 
-<span class='doccomment'>/// Transparency</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>tRNS</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;t&#39;</span>, <span class='string'>b&#39;R&#39;</span>, <span class='string'>b&#39;N&#39;</span>, <span class='string'>b&#39;S&#39;</span>];
-<span class='doccomment'>/// Background colour</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>bKGD</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;b&#39;</span>, <span class='string'>b&#39;K&#39;</span>, <span class='string'>b&#39;G&#39;</span>, <span class='string'>b&#39;D&#39;</span>];
-<span class='doccomment'>/// Image last-modification time</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>tIME</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;t&#39;</span>, <span class='string'>b&#39;I&#39;</span>, <span class='string'>b&#39;M&#39;</span>, <span class='string'>b&#39;E&#39;</span>];
-<span class='doccomment'>/// Physical pixel dimensions</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>pHYs</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;p&#39;</span>, <span class='string'>b&#39;H&#39;</span>, <span class='string'>b&#39;Y&#39;</span>, <span class='string'>b&#39;s&#39;</span>];
+<span class="doccomment">/// Transparency</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">tRNS</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;t&#39;</span>, <span class="string">b&#39;R&#39;</span>, <span class="string">b&#39;N&#39;</span>, <span class="string">b&#39;S&#39;</span>];
+<span class="doccomment">/// Background colour</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">bKGD</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;K&#39;</span>, <span class="string">b&#39;G&#39;</span>, <span class="string">b&#39;D&#39;</span>];
+<span class="doccomment">/// Image last-modification time</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">tIME</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;t&#39;</span>, <span class="string">b&#39;I&#39;</span>, <span class="string">b&#39;M&#39;</span>, <span class="string">b&#39;E&#39;</span>];
+<span class="doccomment">/// Physical pixel dimensions</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">pHYs</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;p&#39;</span>, <span class="string">b&#39;H&#39;</span>, <span class="string">b&#39;Y&#39;</span>, <span class="string">b&#39;s&#39;</span>];
 
-<span class='comment'>// -- Extension chunks --</span>
+<span class="comment">// -- Extension chunks --</span>
 
-<span class='doccomment'>/// Animation control</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>acTL</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;a&#39;</span>, <span class='string'>b&#39;c&#39;</span>, <span class='string'>b&#39;T&#39;</span>, <span class='string'>b&#39;L&#39;</span>];
-<span class='doccomment'>/// Frame control</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>fcTL</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;f&#39;</span>, <span class='string'>b&#39;c&#39;</span>, <span class='string'>b&#39;T&#39;</span>, <span class='string'>b&#39;L&#39;</span>];
-<span class='doccomment'>/// Frame data</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>fdAT</span>: <span class='ident'>ChunkType</span> <span class='op'>=</span> [<span class='string'>b&#39;f&#39;</span>, <span class='string'>b&#39;d&#39;</span>, <span class='string'>b&#39;A&#39;</span>, <span class='string'>b&#39;T&#39;</span>];
+<span class="doccomment">/// Animation control</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">acTL</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>, <span class="string">b&#39;T&#39;</span>, <span class="string">b&#39;L&#39;</span>];
+<span class="doccomment">/// Frame control</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">fcTL</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;f&#39;</span>, <span class="string">b&#39;c&#39;</span>, <span class="string">b&#39;T&#39;</span>, <span class="string">b&#39;L&#39;</span>];
+<span class="doccomment">/// Frame data</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">fdAT</span>: <span class="ident">ChunkType</span> <span class="op">=</span> [<span class="string">b&#39;f&#39;</span>, <span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;T&#39;</span>];
 
-<span class='comment'>// -- Chunk type determination --</span>
+<span class="comment">// -- Chunk type determination --</span>
 
-<span class='doccomment'>/// Returns true if the chunk is critical.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_critical</span>(<span class='ident'>type_</span>: <span class='ident'>ChunkType</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='ident'>type_</span>[<span class='number'>0</span>] <span class='kw-2'>&amp;</span> <span class='number'>32</span> <span class='op'>==</span> <span class='number'>0</span>
+<span class="doccomment">/// Returns true if the chunk is critical.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_critical</span>(<span class="ident">type_</span>: <span class="ident">ChunkType</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="ident">type_</span>[<span class="number">0</span>] <span class="op">&amp;</span> <span class="number">32</span> <span class="op">==</span> <span class="number">0</span>
 }
 
-<span class='doccomment'>/// Returns true if the chunk is private.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_private</span>(<span class='ident'>type_</span>: <span class='ident'>ChunkType</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='ident'>type_</span>[<span class='number'>1</span>] <span class='kw-2'>&amp;</span> <span class='number'>32</span> <span class='op'>!=</span> <span class='number'>0</span>
+<span class="doccomment">/// Returns true if the chunk is private.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_private</span>(<span class="ident">type_</span>: <span class="ident">ChunkType</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="ident">type_</span>[<span class="number">1</span>] <span class="op">&amp;</span> <span class="number">32</span> <span class="op">!=</span> <span class="number">0</span>
 }
 
-<span class='doccomment'>/// Checks whether the reserved bit of the chunk name is set.</span>
-<span class='doccomment'>/// If it is set the chunk name is invalid.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>reserved_set</span>(<span class='ident'>type_</span>: <span class='ident'>ChunkType</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='ident'>type_</span>[<span class='number'>2</span>] <span class='kw-2'>&amp;</span> <span class='number'>32</span> <span class='op'>!=</span> <span class='number'>0</span>
+<span class="doccomment">/// Checks whether the reserved bit of the chunk name is set.</span>
+<span class="doccomment">/// If it is set the chunk name is invalid.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reserved_set</span>(<span class="ident">type_</span>: <span class="ident">ChunkType</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="ident">type_</span>[<span class="number">2</span>] <span class="op">&amp;</span> <span class="number">32</span> <span class="op">!=</span> <span class="number">0</span>
 }
 
-<span class='doccomment'>/// Returns true if the chunk is safe to copy if unknown.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>save_to_copy</span>(<span class='ident'>type_</span>: <span class='ident'>ChunkType</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='ident'>type_</span>[<span class='number'>3</span>] <span class='kw-2'>&amp;</span> <span class='number'>32</span> <span class='op'>!=</span> <span class='number'>0</span>
+<span class="doccomment">/// Returns true if the chunk is safe to copy if unknown.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_copy</span>(<span class="ident">type_</span>: <span class="ident">ChunkType</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="ident">type_</span>[<span class="number">3</span>] <span class="op">&amp;</span> <span class="number">32</span> <span class="op">!=</span> <span class="number">0</span>
 }</pre>
 </section>
     <section id='search' class="content hidden"></section>

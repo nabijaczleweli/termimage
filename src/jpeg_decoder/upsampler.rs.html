@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.11/src/upsampler.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.12/src/upsampler.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>upsampler.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -292,253 +293,253 @@
 <span id="248">248</span>
 <span id="249">249</span>
 <span id="250">250</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>error</span>::{<span class='ident'>Error</span>, <span class='prelude-ty'>Result</span>, <span class='ident'>UnsupportedFeature</span>};
-<span class='kw'>use</span> <span class='ident'>parser</span>::<span class='ident'>Component</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>, <span class="ident">UnsupportedFeature</span>};
+<span class="kw">use</span> <span class="ident">parser</span>::<span class="ident">Component</span>;
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Upsampler</span> {
-    <span class='ident'>components</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>UpsamplerComponent</span><span class='op'>&gt;</span>,
-    <span class='ident'>line_buffer_size</span>: <span class='ident'>usize</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Upsampler</span> {
+    <span class="ident">components</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">UpsamplerComponent</span><span class="op">&gt;</span>,
+    <span class="ident">line_buffer_size</span>: <span class="ident">usize</span>
 }
 
-<span class='kw'>struct</span> <span class='ident'>UpsamplerComponent</span> {
-    <span class='ident'>upsampler</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Upsample</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span>,
-    <span class='ident'>width</span>: <span class='ident'>usize</span>,
-    <span class='ident'>height</span>: <span class='ident'>usize</span>,
-    <span class='ident'>row_stride</span>: <span class='ident'>usize</span>,
+<span class="kw">struct</span> <span class="ident">UpsamplerComponent</span> {
+    <span class="ident">upsampler</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Upsample</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>,
+    <span class="ident">width</span>: <span class="ident">usize</span>,
+    <span class="ident">height</span>: <span class="ident">usize</span>,
+    <span class="ident">row_stride</span>: <span class="ident">usize</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>Upsampler</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>components</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Component</span>], <span class='ident'>output_width</span>: <span class='ident'>u16</span>, <span class='ident'>output_height</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Upsampler</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>h_max</span> <span class='op'>=</span> <span class='ident'>components</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>horizontal_sampling_factor</span>).<span class='ident'>max</span>().<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='ident'>v_max</span> <span class='op'>=</span> <span class='ident'>components</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>vertical_sampling_factor</span>).<span class='ident'>max</span>().<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>upsampler_components</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>components</span>.<span class='ident'>len</span>());
+<span class="kw">impl</span> <span class="ident">Upsampler</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">components</span>: <span class="kw-2">&amp;</span>[<span class="ident">Component</span>], <span class="ident">output_width</span>: <span class="ident">u16</span>, <span class="ident">output_height</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Upsampler</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">h_max</span> <span class="op">=</span> <span class="ident">components</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">horizontal_sampling_factor</span>).<span class="ident">max</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">v_max</span> <span class="op">=</span> <span class="ident">components</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">vertical_sampling_factor</span>).<span class="ident">max</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">upsampler_components</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">components</span>.<span class="ident">len</span>());
 
-        <span class='kw'>for</span> <span class='ident'>component</span> <span class='kw'>in</span> <span class='ident'>components</span> {
-            <span class='kw'>let</span> <span class='ident'>upsampler</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>choose_upsampler</span>((<span class='ident'>component</span>.<span class='ident'>horizontal_sampling_factor</span>,
-                                                   <span class='ident'>component</span>.<span class='ident'>vertical_sampling_factor</span>),
-                                                  (<span class='ident'>h_max</span>, <span class='ident'>v_max</span>),
-                                                  <span class='ident'>output_width</span>,
-                                                  <span class='ident'>output_height</span>));
-            <span class='ident'>upsampler_components</span>.<span class='ident'>push</span>(<span class='ident'>UpsamplerComponent</span> {
-                <span class='ident'>upsampler</span>: <span class='ident'>upsampler</span>,
-                <span class='ident'>width</span>: <span class='ident'>component</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span>,
-                <span class='ident'>height</span>: <span class='ident'>component</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>usize</span>,
-                <span class='ident'>row_stride</span>: <span class='ident'>component</span>.<span class='ident'>block_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='number'>8</span>,
+        <span class="kw">for</span> <span class="ident">component</span> <span class="kw">in</span> <span class="ident">components</span> {
+            <span class="kw">let</span> <span class="ident">upsampler</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">choose_upsampler</span>((<span class="ident">component</span>.<span class="ident">horizontal_sampling_factor</span>,
+                                                   <span class="ident">component</span>.<span class="ident">vertical_sampling_factor</span>),
+                                                  (<span class="ident">h_max</span>, <span class="ident">v_max</span>),
+                                                  <span class="ident">output_width</span>,
+                                                  <span class="ident">output_height</span>));
+            <span class="ident">upsampler_components</span>.<span class="ident">push</span>(<span class="ident">UpsamplerComponent</span> {
+                <span class="ident">upsampler</span>: <span class="ident">upsampler</span>,
+                <span class="ident">width</span>: <span class="ident">component</span>.<span class="ident">size</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span>,
+                <span class="ident">height</span>: <span class="ident">component</span>.<span class="ident">size</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>,
+                <span class="ident">row_stride</span>: <span class="ident">component</span>.<span class="ident">block_size</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="number">8</span>,
             });
         }
 
-        <span class='kw'>let</span> <span class='ident'>buffer_size</span> <span class='op'>=</span> <span class='ident'>components</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>size</span>.<span class='ident'>width</span>).<span class='ident'>max</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>h_max</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
+        <span class="kw">let</span> <span class="ident">buffer_size</span> <span class="op">=</span> <span class="ident">components</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">size</span>.<span class="ident">width</span>).<span class="ident">max</span>().<span class="ident">unwrap</span>() <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">h_max</span> <span class="kw">as</span> <span class="ident">usize</span>;
 
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Upsampler</span> {
-            <span class='ident'>components</span>: <span class='ident'>upsampler_components</span>,
-            <span class='ident'>line_buffer_size</span>: <span class='ident'>buffer_size</span>
+        <span class="prelude-val">Ok</span>(<span class="ident">Upsampler</span> {
+            <span class="ident">components</span>: <span class="ident">upsampler_components</span>,
+            <span class="ident">line_buffer_size</span>: <span class="ident">buffer_size</span>
         })
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>upsample_and_interleave_row</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>component_data</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>], <span class='ident'>row</span>: <span class='ident'>usize</span>, <span class='ident'>output_width</span>: <span class='ident'>usize</span>, <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) {
-        <span class='kw'>let</span> <span class='ident'>component_count</span> <span class='op'>=</span> <span class='ident'>component_data</span>.<span class='ident'>len</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>line_buffer</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0u8</span>; <span class='self'>self</span>.<span class='ident'>line_buffer_size</span>];
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upsample_and_interleave_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">component_data</span>: <span class="kw-2">&amp;</span>[<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>], <span class="ident">row</span>: <span class="ident">usize</span>, <span class="ident">output_width</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+        <span class="kw">let</span> <span class="ident">component_count</span> <span class="op">=</span> <span class="ident">component_data</span>.<span class="ident">len</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">line_buffer</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0u8</span>; <span class="self">self</span>.<span class="ident">line_buffer_size</span>];
 
-        <span class='macro'>debug_assert_eq</span><span class='macro'>!</span>(<span class='ident'>component_count</span>, <span class='self'>self</span>.<span class='ident'>components</span>.<span class='ident'>len</span>());
+        <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">component_count</span>, <span class="self">self</span>.<span class="ident">components</span>.<span class="ident">len</span>());
 
-        <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>component</span>) <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>components</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
-            <span class='ident'>component</span>.<span class='ident'>upsampler</span>.<span class='ident'>upsample_row</span>(<span class='kw-2'>&amp;</span><span class='ident'>component_data</span>[<span class='ident'>i</span>],
-                                             <span class='ident'>component</span>.<span class='ident'>width</span>,
-                                             <span class='ident'>component</span>.<span class='ident'>height</span>,
-                                             <span class='ident'>component</span>.<span class='ident'>row_stride</span>,
-                                             <span class='ident'>row</span>,
-                                             <span class='ident'>output_width</span>,
-                                             <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>line_buffer</span>);
-            <span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='number'>0</span> .. <span class='ident'>output_width</span> {
-                <span class='ident'>output</span>[<span class='ident'>x</span> <span class='op'>*</span> <span class='ident'>component_count</span> <span class='op'>+</span> <span class='ident'>i</span>] <span class='op'>=</span> <span class='ident'>line_buffer</span>[<span class='ident'>x</span>];
+        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">component</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">components</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+            <span class="ident">component</span>.<span class="ident">upsampler</span>.<span class="ident">upsample_row</span>(<span class="kw-2">&amp;</span><span class="ident">component_data</span>[<span class="ident">i</span>],
+                                             <span class="ident">component</span>.<span class="ident">width</span>,
+                                             <span class="ident">component</span>.<span class="ident">height</span>,
+                                             <span class="ident">component</span>.<span class="ident">row_stride</span>,
+                                             <span class="ident">row</span>,
+                                             <span class="ident">output_width</span>,
+                                             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">line_buffer</span>);
+            <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">output_width</span> {
+                <span class="ident">output</span>[<span class="ident">x</span> <span class="op">*</span> <span class="ident">component_count</span> <span class="op">+</span> <span class="ident">i</span>] <span class="op">=</span> <span class="ident">line_buffer</span>[<span class="ident">x</span>];
             }
         }
     }
 }
 
-<span class='kw'>struct</span> <span class='ident'>UpsamplerH1V1</span>;
-<span class='kw'>struct</span> <span class='ident'>UpsamplerH2V1</span>;
-<span class='kw'>struct</span> <span class='ident'>UpsamplerH1V2</span>;
-<span class='kw'>struct</span> <span class='ident'>UpsamplerH2V2</span>;
+<span class="kw">struct</span> <span class="ident">UpsamplerH1V1</span>;
+<span class="kw">struct</span> <span class="ident">UpsamplerH2V1</span>;
+<span class="kw">struct</span> <span class="ident">UpsamplerH1V2</span>;
+<span class="kw">struct</span> <span class="ident">UpsamplerH2V2</span>;
 
-<span class='kw'>struct</span> <span class='ident'>UpsamplerGeneric</span> {
-    <span class='ident'>horizontal_scaling_factor</span>: <span class='ident'>u8</span>,
-    <span class='ident'>vertical_scaling_factor</span>: <span class='ident'>u8</span>
+<span class="kw">struct</span> <span class="ident">UpsamplerGeneric</span> {
+    <span class="ident">horizontal_scaling_factor</span>: <span class="ident">u8</span>,
+    <span class="ident">vertical_scaling_factor</span>: <span class="ident">u8</span>
 }
 
-<span class='kw'>fn</span> <span class='ident'>choose_upsampler</span>(<span class='ident'>sampling_factors</span>: (<span class='ident'>u8</span>, <span class='ident'>u8</span>),
-                    <span class='ident'>max_sampling_factors</span>: (<span class='ident'>u8</span>, <span class='ident'>u8</span>),
-                    <span class='ident'>output_width</span>: <span class='ident'>u16</span>,
-                    <span class='ident'>output_height</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Upsample</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;&gt;</span> {
-    <span class='kw'>let</span> <span class='ident'>h1</span> <span class='op'>=</span> <span class='ident'>sampling_factors</span>.<span class='number'>0</span> <span class='op'>==</span> <span class='ident'>max_sampling_factors</span>.<span class='number'>0</span> <span class='op'>||</span> <span class='ident'>output_width</span> <span class='op'>==</span> <span class='number'>1</span>;
-    <span class='kw'>let</span> <span class='ident'>v1</span> <span class='op'>=</span> <span class='ident'>sampling_factors</span>.<span class='number'>1</span> <span class='op'>==</span> <span class='ident'>max_sampling_factors</span>.<span class='number'>1</span> <span class='op'>||</span> <span class='ident'>output_height</span> <span class='op'>==</span> <span class='number'>1</span>;
-    <span class='kw'>let</span> <span class='ident'>h2</span> <span class='op'>=</span> <span class='ident'>sampling_factors</span>.<span class='number'>0</span> <span class='op'>*</span> <span class='number'>2</span> <span class='op'>==</span> <span class='ident'>max_sampling_factors</span>.<span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='ident'>v2</span> <span class='op'>=</span> <span class='ident'>sampling_factors</span>.<span class='number'>1</span> <span class='op'>*</span> <span class='number'>2</span> <span class='op'>==</span> <span class='ident'>max_sampling_factors</span>.<span class='number'>1</span>;
+<span class="kw">fn</span> <span class="ident">choose_upsampler</span>(<span class="ident">sampling_factors</span>: (<span class="ident">u8</span>, <span class="ident">u8</span>),
+                    <span class="ident">max_sampling_factors</span>: (<span class="ident">u8</span>, <span class="ident">u8</span>),
+                    <span class="ident">output_width</span>: <span class="ident">u16</span>,
+                    <span class="ident">output_height</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Upsample</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">let</span> <span class="ident">h1</span> <span class="op">=</span> <span class="ident">sampling_factors</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">max_sampling_factors</span>.<span class="number">0</span> <span class="op">||</span> <span class="ident">output_width</span> <span class="op">==</span> <span class="number">1</span>;
+    <span class="kw">let</span> <span class="ident">v1</span> <span class="op">=</span> <span class="ident">sampling_factors</span>.<span class="number">1</span> <span class="op">==</span> <span class="ident">max_sampling_factors</span>.<span class="number">1</span> <span class="op">||</span> <span class="ident">output_height</span> <span class="op">==</span> <span class="number">1</span>;
+    <span class="kw">let</span> <span class="ident">h2</span> <span class="op">=</span> <span class="ident">sampling_factors</span>.<span class="number">0</span> <span class="op">*</span> <span class="number">2</span> <span class="op">==</span> <span class="ident">max_sampling_factors</span>.<span class="number">0</span>;
+    <span class="kw">let</span> <span class="ident">v2</span> <span class="op">=</span> <span class="ident">sampling_factors</span>.<span class="number">1</span> <span class="op">*</span> <span class="number">2</span> <span class="op">==</span> <span class="ident">max_sampling_factors</span>.<span class="number">1</span>;
 
-    <span class='kw'>if</span> <span class='ident'>h1</span> <span class='op'>&amp;&amp;</span> <span class='ident'>v1</span> {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>UpsamplerH1V1</span>))
+    <span class="kw">if</span> <span class="ident">h1</span> <span class="op">&amp;&amp;</span> <span class="ident">v1</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">UpsamplerH1V1</span>))
     }
-    <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>h2</span> <span class='op'>&amp;&amp;</span> <span class='ident'>v1</span> {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>UpsamplerH2V1</span>))
+    <span class="kw">else</span> <span class="kw">if</span> <span class="ident">h2</span> <span class="op">&amp;&amp;</span> <span class="ident">v1</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">UpsamplerH2V1</span>))
     }
-    <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>h1</span> <span class='op'>&amp;&amp;</span> <span class='ident'>v2</span> {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>UpsamplerH1V2</span>))
+    <span class="kw">else</span> <span class="kw">if</span> <span class="ident">h1</span> <span class="op">&amp;&amp;</span> <span class="ident">v2</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">UpsamplerH1V2</span>))
     }
-    <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>h2</span> <span class='op'>&amp;&amp;</span> <span class='ident'>v2</span> {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>UpsamplerH2V2</span>))
+    <span class="kw">else</span> <span class="kw">if</span> <span class="ident">h2</span> <span class="op">&amp;&amp;</span> <span class="ident">v2</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">UpsamplerH2V2</span>))
     }
-    <span class='kw'>else</span> {
-        <span class='kw'>if</span> <span class='ident'>max_sampling_factors</span>.<span class='number'>0</span> <span class='op'>%</span> <span class='ident'>sampling_factors</span>.<span class='number'>0</span> <span class='op'>!=</span> <span class='number'>0</span> <span class='op'>||</span> <span class='ident'>max_sampling_factors</span>.<span class='number'>1</span> <span class='op'>%</span> <span class='ident'>sampling_factors</span>.<span class='number'>1</span> <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Unsupported</span>(<span class='ident'>UnsupportedFeature</span>::<span class='ident'>NonIntegerSubsamplingRatio</span>))
+    <span class="kw">else</span> {
+        <span class="kw">if</span> <span class="ident">max_sampling_factors</span>.<span class="number">0</span> <span class="op">%</span> <span class="ident">sampling_factors</span>.<span class="number">0</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">max_sampling_factors</span>.<span class="number">1</span> <span class="op">%</span> <span class="ident">sampling_factors</span>.<span class="number">1</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Unsupported</span>(<span class="ident">UnsupportedFeature</span>::<span class="ident">NonIntegerSubsamplingRatio</span>))
         }
-        <span class='kw'>else</span> {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>UpsamplerGeneric</span> {
-                <span class='ident'>horizontal_scaling_factor</span>: <span class='ident'>max_sampling_factors</span>.<span class='number'>0</span> <span class='op'>/</span> <span class='ident'>sampling_factors</span>.<span class='number'>0</span>,
-                <span class='ident'>vertical_scaling_factor</span>: <span class='ident'>max_sampling_factors</span>.<span class='number'>1</span> <span class='op'>/</span> <span class='ident'>sampling_factors</span>.<span class='number'>1</span>
+        <span class="kw">else</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">UpsamplerGeneric</span> {
+                <span class="ident">horizontal_scaling_factor</span>: <span class="ident">max_sampling_factors</span>.<span class="number">0</span> <span class="op">/</span> <span class="ident">sampling_factors</span>.<span class="number">0</span>,
+                <span class="ident">vertical_scaling_factor</span>: <span class="ident">max_sampling_factors</span>.<span class="number">1</span> <span class="op">/</span> <span class="ident">sampling_factors</span>.<span class="number">1</span>
             }))
         }
     }
 }
 
-<span class='kw'>trait</span> <span class='ident'>Upsample</span> {
-    <span class='kw'>fn</span> <span class='ident'>upsample_row</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                    <span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
-                    <span class='ident'>input_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>input_height</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row_stride</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>output_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]);
+<span class="kw">trait</span> <span class="ident">Upsample</span> {
+    <span class="kw">fn</span> <span class="ident">upsample_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>,
+                    <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
+                    <span class="ident">input_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">input_height</span>: <span class="ident">usize</span>,
+                    <span class="ident">row_stride</span>: <span class="ident">usize</span>,
+                    <span class="ident">row</span>: <span class="ident">usize</span>,
+                    <span class="ident">output_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]);
 }
 
-<span class='kw'>impl</span> <span class='ident'>Upsample</span> <span class='kw'>for</span> <span class='ident'>UpsamplerH1V1</span> {
-    <span class='kw'>fn</span> <span class='ident'>upsample_row</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                    <span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
-                    <span class='ident'>_input_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>_input_height</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row_stride</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>output_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) {
-        <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>row</span> <span class='op'>*</span> <span class='ident'>row_stride</span> ..];
+<span class="kw">impl</span> <span class="ident">Upsample</span> <span class="kw">for</span> <span class="ident">UpsamplerH1V1</span> {
+    <span class="kw">fn</span> <span class="ident">upsample_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>,
+                    <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
+                    <span class="ident">_input_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">_input_height</span>: <span class="ident">usize</span>,
+                    <span class="ident">row_stride</span>: <span class="ident">usize</span>,
+                    <span class="ident">row</span>: <span class="ident">usize</span>,
+                    <span class="ident">output_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+        <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">row</span> <span class="op">*</span> <span class="ident">row_stride</span> ..];
 
-        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span> .. <span class='ident'>output_width</span> {
-            <span class='ident'>output</span>[<span class='ident'>i</span>] <span class='op'>=</span> <span class='ident'>input</span>[<span class='ident'>i</span>];
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">output_width</span> {
+            <span class="ident">output</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">input</span>[<span class="ident">i</span>];
         }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Upsample</span> <span class='kw'>for</span> <span class='ident'>UpsamplerH2V1</span> {
-    <span class='kw'>fn</span> <span class='ident'>upsample_row</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                    <span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
-                    <span class='ident'>input_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>_input_height</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row_stride</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>_output_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) {
-        <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>row</span> <span class='op'>*</span> <span class='ident'>row_stride</span> ..];
+<span class="kw">impl</span> <span class="ident">Upsample</span> <span class="kw">for</span> <span class="ident">UpsamplerH2V1</span> {
+    <span class="kw">fn</span> <span class="ident">upsample_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>,
+                    <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
+                    <span class="ident">input_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">_input_height</span>: <span class="ident">usize</span>,
+                    <span class="ident">row_stride</span>: <span class="ident">usize</span>,
+                    <span class="ident">row</span>: <span class="ident">usize</span>,
+                    <span class="ident">_output_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+        <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">row</span> <span class="op">*</span> <span class="ident">row_stride</span> ..];
 
-        <span class='kw'>if</span> <span class='ident'>input_width</span> <span class='op'>==</span> <span class='number'>1</span> {
-            <span class='ident'>output</span>[<span class='number'>0</span>] <span class='op'>=</span> <span class='ident'>input</span>[<span class='number'>0</span>];
-            <span class='ident'>output</span>[<span class='number'>1</span>] <span class='op'>=</span> <span class='ident'>input</span>[<span class='number'>0</span>];
-            <span class='kw'>return</span>;
+        <span class="kw">if</span> <span class="ident">input_width</span> <span class="op">==</span> <span class="number">1</span> {
+            <span class="ident">output</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">input</span>[<span class="number">0</span>];
+            <span class="ident">output</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">input</span>[<span class="number">0</span>];
+            <span class="kw">return</span>;
         }
 
-        <span class='ident'>output</span>[<span class='number'>0</span>] <span class='op'>=</span> <span class='ident'>input</span>[<span class='number'>0</span>];
-        <span class='ident'>output</span>[<span class='number'>1</span>] <span class='op'>=</span> ((<span class='ident'>input</span>[<span class='number'>0</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>*</span> <span class='number'>3</span> <span class='op'>+</span> <span class='ident'>input</span>[<span class='number'>1</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>+</span> <span class='number'>2</span>) <span class='op'>&gt;&gt;</span> <span class='number'>2</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
+        <span class="ident">output</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">input</span>[<span class="number">0</span>];
+        <span class="ident">output</span>[<span class="number">1</span>] <span class="op">=</span> ((<span class="ident">input</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="number">3</span> <span class="op">+</span> <span class="ident">input</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="number">2</span>) <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">u8</span>;
 
-        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>1</span> .. <span class='ident'>input_width</span> <span class='op'>-</span> <span class='number'>1</span> {
-            <span class='kw'>let</span> <span class='ident'>sample</span> <span class='op'>=</span> <span class='number'>3</span> <span class='op'>*</span> <span class='ident'>input</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>+</span> <span class='number'>2</span>;
-            <span class='ident'>output</span>[<span class='ident'>i</span> <span class='op'>*</span> <span class='number'>2</span>]     <span class='op'>=</span> ((<span class='ident'>sample</span> <span class='op'>+</span> <span class='ident'>input</span>[<span class='ident'>i</span> <span class='op'>-</span> <span class='number'>1</span>] <span class='kw'>as</span> <span class='ident'>u32</span>) <span class='op'>&gt;&gt;</span> <span class='number'>2</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
-            <span class='ident'>output</span>[<span class='ident'>i</span> <span class='op'>*</span> <span class='number'>2</span> <span class='op'>+</span> <span class='number'>1</span>] <span class='op'>=</span> ((<span class='ident'>sample</span> <span class='op'>+</span> <span class='ident'>input</span>[<span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>] <span class='kw'>as</span> <span class='ident'>u32</span>) <span class='op'>&gt;&gt;</span> <span class='number'>2</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">1</span> .. <span class="ident">input_width</span> <span class="op">-</span> <span class="number">1</span> {
+            <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="number">3</span> <span class="op">*</span> <span class="ident">input</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="number">2</span>;
+            <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">2</span>]     <span class="op">=</span> ((<span class="ident">sample</span> <span class="op">+</span> <span class="ident">input</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">u8</span>;
+            <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">2</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> ((<span class="ident">sample</span> <span class="op">+</span> <span class="ident">input</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">u8</span>;
         }
 
-        <span class='ident'>output</span>[(<span class='ident'>input_width</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='op'>*</span> <span class='number'>2</span>] <span class='op'>=</span> ((<span class='ident'>input</span>[<span class='ident'>input_width</span> <span class='op'>-</span> <span class='number'>1</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>*</span> <span class='number'>3</span> <span class='op'>+</span> <span class='ident'>input</span>[<span class='ident'>input_width</span> <span class='op'>-</span> <span class='number'>2</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>+</span> <span class='number'>2</span>) <span class='op'>&gt;&gt;</span> <span class='number'>2</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
-        <span class='ident'>output</span>[(<span class='ident'>input_width</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='op'>*</span> <span class='number'>2</span> <span class='op'>+</span> <span class='number'>1</span>] <span class='op'>=</span> <span class='ident'>input</span>[<span class='ident'>input_width</span> <span class='op'>-</span> <span class='number'>1</span>];
+        <span class="ident">output</span>[(<span class="ident">input_width</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">*</span> <span class="number">2</span>] <span class="op">=</span> ((<span class="ident">input</span>[<span class="ident">input_width</span> <span class="op">-</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="number">3</span> <span class="op">+</span> <span class="ident">input</span>[<span class="ident">input_width</span> <span class="op">-</span> <span class="number">2</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="number">2</span>) <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">u8</span>;
+        <span class="ident">output</span>[(<span class="ident">input_width</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">*</span> <span class="number">2</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">input</span>[<span class="ident">input_width</span> <span class="op">-</span> <span class="number">1</span>];
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Upsample</span> <span class='kw'>for</span> <span class='ident'>UpsamplerH1V2</span> {
-    <span class='kw'>fn</span> <span class='ident'>upsample_row</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                    <span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
-                    <span class='ident'>_input_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>input_height</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row_stride</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>output_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) {
-        <span class='kw'>let</span> <span class='ident'>row_near</span> <span class='op'>=</span> <span class='ident'>row</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='number'>2.0</span>;
-        <span class='comment'>// If row_near&#39;s fractional is 0.0 we want row_far to be the previous row and if it&#39;s 0.5 we</span>
-        <span class='comment'>// want it to be the next row.</span>
-        <span class='kw'>let</span> <span class='ident'>row_far</span> <span class='op'>=</span> (<span class='ident'>row_near</span> <span class='op'>+</span> <span class='ident'>row_near</span>.<span class='ident'>fract</span>() <span class='op'>*</span> <span class='number'>3.0</span> <span class='op'>-</span> <span class='number'>0.25</span>).<span class='ident'>min</span>((<span class='ident'>input_height</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>f32</span>);
+<span class="kw">impl</span> <span class="ident">Upsample</span> <span class="kw">for</span> <span class="ident">UpsamplerH1V2</span> {
+    <span class="kw">fn</span> <span class="ident">upsample_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>,
+                    <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
+                    <span class="ident">_input_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">input_height</span>: <span class="ident">usize</span>,
+                    <span class="ident">row_stride</span>: <span class="ident">usize</span>,
+                    <span class="ident">row</span>: <span class="ident">usize</span>,
+                    <span class="ident">output_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+        <span class="kw">let</span> <span class="ident">row_near</span> <span class="op">=</span> <span class="ident">row</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="number">2.0</span>;
+        <span class="comment">// If row_near&#39;s fractional is 0.0 we want row_far to be the previous row and if it&#39;s 0.5 we</span>
+        <span class="comment">// want it to be the next row.</span>
+        <span class="kw">let</span> <span class="ident">row_far</span> <span class="op">=</span> (<span class="ident">row_near</span> <span class="op">+</span> <span class="ident">row_near</span>.<span class="ident">fract</span>() <span class="op">*</span> <span class="number">3.0</span> <span class="op">-</span> <span class="number">0.25</span>).<span class="ident">min</span>((<span class="ident">input_height</span> <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">f32</span>);
 
-        <span class='kw'>let</span> <span class='ident'>input_near</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>row_near</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>row_stride</span> ..];
-        <span class='kw'>let</span> <span class='ident'>input_far</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>row_far</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>row_stride</span> ..];
+        <span class="kw">let</span> <span class="ident">input_near</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">row_near</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">row_stride</span> ..];
+        <span class="kw">let</span> <span class="ident">input_far</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">row_far</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">row_stride</span> ..];
 
-        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span> .. <span class='ident'>output_width</span> {
-            <span class='ident'>output</span>[<span class='ident'>i</span>] <span class='op'>=</span> ((<span class='number'>3</span> <span class='op'>*</span> <span class='ident'>input_near</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>+</span> <span class='ident'>input_far</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>+</span> <span class='number'>2</span>) <span class='op'>&gt;&gt;</span> <span class='number'>2</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">output_width</span> {
+            <span class="ident">output</span>[<span class="ident">i</span>] <span class="op">=</span> ((<span class="number">3</span> <span class="op">*</span> <span class="ident">input_near</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="ident">input_far</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="number">2</span>) <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">u8</span>;
         }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Upsample</span> <span class='kw'>for</span> <span class='ident'>UpsamplerH2V2</span> {
-    <span class='kw'>fn</span> <span class='ident'>upsample_row</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                    <span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
-                    <span class='ident'>input_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>input_height</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row_stride</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>_output_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) {
-        <span class='kw'>let</span> <span class='ident'>row_near</span> <span class='op'>=</span> <span class='ident'>row</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='number'>2.0</span>;
-        <span class='comment'>// If row_near&#39;s fractional is 0.0 we want row_far to be the previous row and if it&#39;s 0.5 we</span>
-        <span class='comment'>// want it to be the next row.</span>
-        <span class='kw'>let</span> <span class='ident'>row_far</span> <span class='op'>=</span> (<span class='ident'>row_near</span> <span class='op'>+</span> <span class='ident'>row_near</span>.<span class='ident'>fract</span>() <span class='op'>*</span> <span class='number'>3.0</span> <span class='op'>-</span> <span class='number'>0.25</span>).<span class='ident'>min</span>((<span class='ident'>input_height</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>f32</span>);
+<span class="kw">impl</span> <span class="ident">Upsample</span> <span class="kw">for</span> <span class="ident">UpsamplerH2V2</span> {
+    <span class="kw">fn</span> <span class="ident">upsample_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>,
+                    <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
+                    <span class="ident">input_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">input_height</span>: <span class="ident">usize</span>,
+                    <span class="ident">row_stride</span>: <span class="ident">usize</span>,
+                    <span class="ident">row</span>: <span class="ident">usize</span>,
+                    <span class="ident">_output_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+        <span class="kw">let</span> <span class="ident">row_near</span> <span class="op">=</span> <span class="ident">row</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="number">2.0</span>;
+        <span class="comment">// If row_near&#39;s fractional is 0.0 we want row_far to be the previous row and if it&#39;s 0.5 we</span>
+        <span class="comment">// want it to be the next row.</span>
+        <span class="kw">let</span> <span class="ident">row_far</span> <span class="op">=</span> (<span class="ident">row_near</span> <span class="op">+</span> <span class="ident">row_near</span>.<span class="ident">fract</span>() <span class="op">*</span> <span class="number">3.0</span> <span class="op">-</span> <span class="number">0.25</span>).<span class="ident">min</span>((<span class="ident">input_height</span> <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">f32</span>);
 
-        <span class='kw'>let</span> <span class='ident'>input_near</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>row_near</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>row_stride</span> ..];
-        <span class='kw'>let</span> <span class='ident'>input_far</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>row_far</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='ident'>row_stride</span> ..];
+        <span class="kw">let</span> <span class="ident">input_near</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">row_near</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">row_stride</span> ..];
+        <span class="kw">let</span> <span class="ident">input_far</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">row_far</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">row_stride</span> ..];
 
-        <span class='kw'>if</span> <span class='ident'>input_width</span> <span class='op'>==</span> <span class='number'>1</span> {
-            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> ((<span class='number'>3</span> <span class='op'>*</span> <span class='ident'>input_near</span>[<span class='number'>0</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>+</span> <span class='ident'>input_far</span>[<span class='number'>0</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>+</span> <span class='number'>2</span>) <span class='op'>&gt;&gt;</span> <span class='number'>2</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
-            <span class='ident'>output</span>[<span class='number'>0</span>] <span class='op'>=</span> <span class='ident'>value</span>;
-            <span class='ident'>output</span>[<span class='number'>1</span>] <span class='op'>=</span> <span class='ident'>value</span>;
-            <span class='kw'>return</span>;
+        <span class="kw">if</span> <span class="ident">input_width</span> <span class="op">==</span> <span class="number">1</span> {
+            <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> ((<span class="number">3</span> <span class="op">*</span> <span class="ident">input_near</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="ident">input_far</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="number">2</span>) <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">u8</span>;
+            <span class="ident">output</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">value</span>;
+            <span class="ident">output</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">value</span>;
+            <span class="kw">return</span>;
         }
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>t1</span> <span class='op'>=</span> <span class='number'>3</span> <span class='op'>*</span> <span class='ident'>input_near</span>[<span class='number'>0</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>+</span> <span class='ident'>input_far</span>[<span class='number'>0</span>] <span class='kw'>as</span> <span class='ident'>u32</span>;
-        <span class='ident'>output</span>[<span class='number'>0</span>] <span class='op'>=</span> ((<span class='ident'>t1</span> <span class='op'>+</span> <span class='number'>2</span>) <span class='op'>&gt;&gt;</span> <span class='number'>2</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t1</span> <span class="op">=</span> <span class="number">3</span> <span class="op">*</span> <span class="ident">input_near</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="ident">input_far</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u32</span>;
+        <span class="ident">output</span>[<span class="number">0</span>] <span class="op">=</span> ((<span class="ident">t1</span> <span class="op">+</span> <span class="number">2</span>) <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">u8</span>;
 
-        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>1</span> .. <span class='ident'>input_width</span> {
-            <span class='kw'>let</span> <span class='ident'>t0</span> <span class='op'>=</span> <span class='ident'>t1</span>;
-            <span class='ident'>t1</span> <span class='op'>=</span> <span class='number'>3</span> <span class='op'>*</span> <span class='ident'>input_near</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>u32</span> <span class='op'>+</span> <span class='ident'>input_far</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>u32</span>;
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">1</span> .. <span class="ident">input_width</span> {
+            <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">t1</span>;
+            <span class="ident">t1</span> <span class="op">=</span> <span class="number">3</span> <span class="op">*</span> <span class="ident">input_near</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="ident">input_far</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">u32</span>;
 
-            <span class='ident'>output</span>[<span class='ident'>i</span> <span class='op'>*</span> <span class='number'>2</span> <span class='op'>-</span> <span class='number'>1</span>] <span class='op'>=</span> ((<span class='number'>3</span> <span class='op'>*</span> <span class='ident'>t0</span> <span class='op'>+</span> <span class='ident'>t1</span> <span class='op'>+</span> <span class='number'>8</span>) <span class='op'>&gt;&gt;</span> <span class='number'>4</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
-            <span class='ident'>output</span>[<span class='ident'>i</span> <span class='op'>*</span> <span class='number'>2</span>]     <span class='op'>=</span> ((<span class='number'>3</span> <span class='op'>*</span> <span class='ident'>t1</span> <span class='op'>+</span> <span class='ident'>t0</span> <span class='op'>+</span> <span class='number'>8</span>) <span class='op'>&gt;&gt;</span> <span class='number'>4</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
+            <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">2</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">=</span> ((<span class="number">3</span> <span class="op">*</span> <span class="ident">t0</span> <span class="op">+</span> <span class="ident">t1</span> <span class="op">+</span> <span class="number">8</span>) <span class="op">&gt;&gt;</span> <span class="number">4</span>) <span class="kw">as</span> <span class="ident">u8</span>;
+            <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">2</span>]     <span class="op">=</span> ((<span class="number">3</span> <span class="op">*</span> <span class="ident">t1</span> <span class="op">+</span> <span class="ident">t0</span> <span class="op">+</span> <span class="number">8</span>) <span class="op">&gt;&gt;</span> <span class="number">4</span>) <span class="kw">as</span> <span class="ident">u8</span>;
         }
 
-        <span class='ident'>output</span>[<span class='ident'>input_width</span> <span class='op'>*</span> <span class='number'>2</span> <span class='op'>-</span> <span class='number'>1</span>] <span class='op'>=</span> ((<span class='ident'>t1</span> <span class='op'>+</span> <span class='number'>2</span>) <span class='op'>&gt;&gt;</span> <span class='number'>2</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
+        <span class="ident">output</span>[<span class="ident">input_width</span> <span class="op">*</span> <span class="number">2</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">=</span> ((<span class="ident">t1</span> <span class="op">+</span> <span class="number">2</span>) <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">u8</span>;
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Upsample</span> <span class='kw'>for</span> <span class='ident'>UpsamplerGeneric</span> {
-    <span class='comment'>// Uses nearest neighbor sampling</span>
-    <span class='kw'>fn</span> <span class='ident'>upsample_row</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                    <span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
-                    <span class='ident'>input_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>_input_height</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row_stride</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>row</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>_output_width</span>: <span class='ident'>usize</span>,
-                    <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>start</span> <span class='op'>=</span> (<span class='ident'>row</span> <span class='op'>/</span> <span class='self'>self</span>.<span class='ident'>vertical_scaling_factor</span> <span class='kw'>as</span> <span class='ident'>usize</span>) <span class='op'>*</span> <span class='ident'>row_stride</span>;
-        <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>start</span>..(<span class='ident'>start</span> <span class='op'>+</span> <span class='ident'>input_width</span>)];
-        <span class='kw'>for</span> <span class='ident'>val</span> <span class='kw'>in</span> <span class='ident'>input</span> {
-            <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='self'>self</span>.<span class='ident'>horizontal_scaling_factor</span> {
-                <span class='ident'>output</span>[<span class='ident'>index</span>] <span class='op'>=</span> <span class='op'>*</span><span class='ident'>val</span>;
-                <span class='ident'>index</span> <span class='op'>+=</span> <span class='number'>1</span>;
+<span class="kw">impl</span> <span class="ident">Upsample</span> <span class="kw">for</span> <span class="ident">UpsamplerGeneric</span> {
+    <span class="comment">// Uses nearest neighbor sampling</span>
+    <span class="kw">fn</span> <span class="ident">upsample_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>,
+                    <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
+                    <span class="ident">input_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">_input_height</span>: <span class="ident">usize</span>,
+                    <span class="ident">row_stride</span>: <span class="ident">usize</span>,
+                    <span class="ident">row</span>: <span class="ident">usize</span>,
+                    <span class="ident">_output_width</span>: <span class="ident">usize</span>,
+                    <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">index</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> (<span class="ident">row</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">vertical_scaling_factor</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">*</span> <span class="ident">row_stride</span>;
+        <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">start</span>..(<span class="ident">start</span> <span class="op">+</span> <span class="ident">input_width</span>)];
+        <span class="kw">for</span> <span class="ident">val</span> <span class="kw">in</span> <span class="ident">input</span> {
+            <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">horizontal_scaling_factor</span> {
+                <span class="ident">output</span>[<span class="ident">index</span>] <span class="op">=</span> <span class="kw-2">*</span><span class="ident">val</span>;
+                <span class="ident">index</span> <span class="op">+=</span> <span class="number">1</span>;
             }
         }
     }

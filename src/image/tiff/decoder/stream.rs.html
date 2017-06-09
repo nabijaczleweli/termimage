@@ -9,6 +9,7 @@
 
     <title>stream.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -154,117 +155,117 @@
 <span id="110">110</span>
 <span id="111">111</span>
 <span id="112">112</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! All IO functionality needed for TIFF decoding</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! All IO functionality needed for TIFF decoding</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Read</span>, <span class='ident'>Seek</span>};
-<span class='kw'>use</span> <span class='ident'>byteorder</span>::{<span class='ident'>ReadBytesExt</span>, <span class='ident'>BigEndian</span>, <span class='ident'>LittleEndian</span>};
-<span class='kw'>use</span> <span class='ident'>utils</span>::{<span class='ident'>lzw</span>, <span class='ident'>bitstream</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">Read</span>, <span class="ident">Seek</span>};
+<span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">ReadBytesExt</span>, <span class="ident">BigEndian</span>, <span class="ident">LittleEndian</span>};
+<span class="kw">use</span> <span class="ident">utils</span>::{<span class="ident">lzw</span>, <span class="ident">bitstream</span>};
 
-<span class='doccomment'>/// Byte order of the TIFF file.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ByteOrder</span> {
-    <span class='doccomment'>/// little endian byte order</span>
-    <span class='ident'>LittleEndian</span>,
-    <span class='doccomment'>/// big endian byte order</span>
-    <span class='ident'>BigEndian</span>
+<span class="doccomment">/// Byte order of the TIFF file.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ByteOrder</span> {
+    <span class="doccomment">/// little endian byte order</span>
+    <span class="ident">LittleEndian</span>,
+    <span class="doccomment">/// big endian byte order</span>
+    <span class="ident">BigEndian</span>
 }
 
 
-<span class='doccomment'>/// Reader that is aware of the byte order.</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>EndianReader</span>: <span class='ident'>Read</span> {
-    <span class='doccomment'>/// Byte order that should be adhered to</span>
-    <span class='kw'>fn</span> <span class='ident'>byte_order</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ByteOrder</span>;
+<span class="doccomment">/// Reader that is aware of the byte order.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">EndianReader</span>: <span class="ident">Read</span> {
+    <span class="doccomment">/// Byte order that should be adhered to</span>
+    <span class="kw">fn</span> <span class="ident">byte_order</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ByteOrder</span>;
 
-    <span class='doccomment'>/// Reads an u16</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>read_u16</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u16</span>, <span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>byte_order</span>() {
-            <span class='ident'>ByteOrder</span>::<span class='ident'>LittleEndian</span> <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='self'>Self</span> <span class='kw'>as</span> <span class='ident'>ReadBytesExt</span><span class='op'>&gt;</span>::<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>(<span class='self'>self</span>),
-            <span class='ident'>ByteOrder</span>::<span class='ident'>BigEndian</span> <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='self'>Self</span> <span class='kw'>as</span> <span class='ident'>ReadBytesExt</span><span class='op'>&gt;</span>::<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>BigEndian</span><span class='op'>&gt;</span>(<span class='self'>self</span>)
+    <span class="doccomment">/// Reads an u16</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">read_u16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u16</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">byte_order</span>() {
+            <span class="ident">ByteOrder</span>::<span class="ident">LittleEndian</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">ReadBytesExt</span><span class="op">&gt;</span>::<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="self">self</span>),
+            <span class="ident">ByteOrder</span>::<span class="ident">BigEndian</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">ReadBytesExt</span><span class="op">&gt;</span>::<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="self">self</span>)
         }
     }
 
-    <span class='doccomment'>/// Reads an u32</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>read_u32</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u32</span>, <span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>byte_order</span>() {
-            <span class='ident'>ByteOrder</span>::<span class='ident'>LittleEndian</span> <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='self'>Self</span> <span class='kw'>as</span> <span class='ident'>ReadBytesExt</span><span class='op'>&gt;</span>::<span class='ident'>read_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>(<span class='self'>self</span>),
-            <span class='ident'>ByteOrder</span>::<span class='ident'>BigEndian</span> <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='self'>Self</span> <span class='kw'>as</span> <span class='ident'>ReadBytesExt</span><span class='op'>&gt;</span>::<span class='ident'>read_u32</span>::<span class='op'>&lt;</span><span class='ident'>BigEndian</span><span class='op'>&gt;</span>(<span class='self'>self</span>)
+    <span class="doccomment">/// Reads an u32</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">read_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">byte_order</span>() {
+            <span class="ident">ByteOrder</span>::<span class="ident">LittleEndian</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">ReadBytesExt</span><span class="op">&gt;</span>::<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="self">self</span>),
+            <span class="ident">ByteOrder</span>::<span class="ident">BigEndian</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">ReadBytesExt</span><span class="op">&gt;</span>::<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="self">self</span>)
         }
     }
 }
 
-<span class='doccomment'>/// Reader that decompresses LZW streams</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LZWReader</span> {
-    <span class='ident'>buffer</span>: <span class='ident'>io</span>::<span class='ident'>Cursor</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>,
-    <span class='ident'>byte_order</span>: <span class='ident'>ByteOrder</span>
+<span class="doccomment">/// Reader that decompresses LZW streams</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LZWReader</span> {
+    <span class="ident">buffer</span>: <span class="ident">io</span>::<span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">byte_order</span>: <span class="ident">ByteOrder</span>
 }
 
-<span class='kw'>impl</span> <span class='ident'>LZWReader</span> {
-    <span class='doccomment'>/// Wraps a reader</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>(<span class='ident'>reader</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>SmartReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>LZWReader</span>)<span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Seek</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='ident'>order</span> <span class='op'>=</span> <span class='ident'>reader</span>.<span class='ident'>byte_order</span>;
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>lzw</span>::<span class='ident'>decode_early_change</span>(<span class='ident'>bitstream</span>::<span class='ident'>MsbReader</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>), <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buffer</span>, <span class='number'>8</span>));
-        <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='ident'>buffer</span>.<span class='ident'>len</span>();
-        <span class='prelude-val'>Ok</span>((<span class='ident'>bytes</span>, <span class='ident'>LZWReader</span> {
-            <span class='ident'>buffer</span>: <span class='ident'>io</span>::<span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>buffer</span>),
-            <span class='ident'>byte_order</span>: <span class='ident'>order</span>
+<span class="kw">impl</span> <span class="ident">LZWReader</span> {
+    <span class="doccomment">/// Wraps a reader</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SmartReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">LZWReader</span>)<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="ident">order</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">byte_order</span>;
+        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">lzw</span>::<span class="ident">decode_early_change</span>(<span class="ident">bitstream</span>::<span class="ident">MsbReader</span>::<span class="ident">new</span>(<span class="ident">reader</span>), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>, <span class="number">8</span>));
+        <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">len</span>();
+        <span class="prelude-val">Ok</span>((<span class="ident">bytes</span>, <span class="ident">LZWReader</span> {
+            <span class="ident">buffer</span>: <span class="ident">io</span>::<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">buffer</span>),
+            <span class="ident">byte_order</span>: <span class="ident">order</span>
         }))
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Read</span> <span class='kw'>for</span> <span class='ident'>LZWReader</span> {
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>buffer</span>.<span class='ident'>read</span>(<span class='ident'>buf</span>)
+<span class="kw">impl</span> <span class="ident">Read</span> <span class="kw">for</span> <span class="ident">LZWReader</span> {
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">read</span>(<span class="ident">buf</span>)
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>EndianReader</span> <span class='kw'>for</span> <span class='ident'>LZWReader</span> {
-    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>byte_order</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ByteOrder</span> {
-        <span class='self'>self</span>.<span class='ident'>byte_order</span>
+<span class="kw">impl</span> <span class="ident">EndianReader</span> <span class="kw">for</span> <span class="ident">LZWReader</span> {
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">byte_order</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ByteOrder</span> {
+        <span class="self">self</span>.<span class="ident">byte_order</span>
     }
 }
 
-<span class='doccomment'>/// Reader that is aware of the byte order.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SmartReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Seek</span> {
-    <span class='ident'>reader</span>: <span class='ident'>R</span>,
-    <span class='kw'>pub</span> <span class='ident'>byte_order</span>: <span class='ident'>ByteOrder</span>
+<span class="doccomment">/// Reader that is aware of the byte order.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SmartReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span> {
+    <span class="ident">reader</span>: <span class="ident">R</span>,
+    <span class="kw">pub</span> <span class="ident">byte_order</span>: <span class="ident">ByteOrder</span>
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='ident'>SmartReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Seek</span> {
-    <span class='doccomment'>/// Wraps a reader</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>wrap</span>(<span class='ident'>reader</span>: <span class='ident'>R</span>, <span class='ident'>byte_order</span>: <span class='ident'>ByteOrder</span>) <span class='op'>-&gt;</span> <span class='ident'>SmartReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-        <span class='ident'>SmartReader</span> {
-            <span class='ident'>reader</span>: <span class='ident'>reader</span>,
-            <span class='ident'>byte_order</span>: <span class='ident'>byte_order</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">SmartReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span> {
+    <span class="doccomment">/// Wraps a reader</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wrap</span>(<span class="ident">reader</span>: <span class="ident">R</span>, <span class="ident">byte_order</span>: <span class="ident">ByteOrder</span>) <span class="op">-&gt;</span> <span class="ident">SmartReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+        <span class="ident">SmartReader</span> {
+            <span class="ident">reader</span>: <span class="ident">reader</span>,
+            <span class="ident">byte_order</span>: <span class="ident">byte_order</span>
         }
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='ident'>EndianReader</span> <span class='kw'>for</span> <span class='ident'>SmartReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Seek</span> {
-    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>byte_order</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ByteOrder</span> {
-        <span class='self'>self</span>.<span class='ident'>byte_order</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">EndianReader</span> <span class="kw">for</span> <span class="ident">SmartReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span> {
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">byte_order</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ByteOrder</span> {
+        <span class="self">self</span>.<span class="ident">byte_order</span>
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Seek</span><span class='op'>&gt;</span> <span class='ident'>Read</span> <span class='kw'>for</span> <span class='ident'>SmartReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>reader</span>.<span class='ident'>read</span>(<span class='ident'>buf</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span><span class="op">&gt;</span> <span class="ident">Read</span> <span class="kw">for</span> <span class="ident">SmartReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read</span>(<span class="ident">buf</span>)
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Seek</span><span class='op'>&gt;</span> <span class='ident'>Seek</span> <span class='kw'>for</span> <span class='ident'>SmartReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>seek</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pos</span>: <span class='ident'>io</span>::<span class='ident'>SeekFrom</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>reader</span>.<span class='ident'>seek</span>(<span class='ident'>pos</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span><span class="op">&gt;</span> <span class="ident">Seek</span> <span class="kw">for</span> <span class="ident">SmartReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pos</span>: <span class="ident">io</span>::<span class="ident">SeekFrom</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">pos</span>)
     }
 }
 </pre>

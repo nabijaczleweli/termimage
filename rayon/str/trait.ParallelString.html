@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ParallelString` trait in crate `rayon`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ParallelString">
+
+    <title>rayon::str::ParallelString - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Trait ParallelString</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='../index.html'>rayon</a>::<wbr><a href='index.html'>str</a></p><script>window.sidebarCurrent = {name: 'ParallelString', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rayon</a>::<wbr><a href='index.html'>str</a>::<wbr><a class="trait" href=''>ParallelString</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/rayon/str.rs.html#39-67' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait ParallelString {
+    fn <a href='#tymethod.par_chars' class='fnname'>par_chars</a>(&amp;self) -&gt; <a class="struct" href="../../rayon/str/struct.Chars.html" title="struct rayon::str::Chars">Chars</a>;
+    fn <a href='#tymethod.par_split' class='fnname'>par_split</a>&lt;P:&nbsp;<a class="trait" href="../../rayon/str/trait.Pattern.html" title="trait rayon::str::Pattern">Pattern</a>&gt;(&amp;self, _: P) -&gt; <a class="struct" href="../../rayon/str/struct.Split.html" title="struct rayon::str::Split">Split</a>&lt;P&gt;;
+    fn <a href='#tymethod.par_split_terminator' class='fnname'>par_split_terminator</a>&lt;P:&nbsp;<a class="trait" href="../../rayon/str/trait.Pattern.html" title="trait rayon::str::Pattern">Pattern</a>&gt;(&amp;self, _: P) -&gt; <a class="struct" href="../../rayon/str/struct.SplitTerminator.html" title="struct rayon::str::SplitTerminator">SplitTerminator</a>&lt;P&gt;;
+    fn <a href='#tymethod.par_lines' class='fnname'>par_lines</a>(&amp;self) -&gt; <a class="struct" href="../../rayon/str/struct.Lines.html" title="struct rayon::str::Lines">Lines</a>;
+    fn <a href='#tymethod.par_split_whitespace' class='fnname'>par_split_whitespace</a>(&amp;self) -&gt; <a class="struct" href="../../rayon/str/struct.SplitWhitespace.html" title="struct rayon::str::SplitWhitespace">SplitWhitespace</a>;
+}</pre><div class='docblock'><p>Parallel extensions for strings.</p>
+
+<p>Implementing this trait is not permitted outside of <code>rayon</code>.</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.par_chars' class='method'><span id='par_chars.v' class='invisible'><code>fn <a href='#tymethod.par_chars' class='fnname'>par_chars</a>(&amp;self) -&gt; <a class="struct" href="../../rayon/str/struct.Chars.html" title="struct rayon::str::Chars">Chars</a></code></span></h3><div class='docblock'><p>Returns a parallel iterator over the characters of a string.</p>
+</div><h3 id='tymethod.par_split' class='method'><span id='par_split.v' class='invisible'><code>fn <a href='#tymethod.par_split' class='fnname'>par_split</a>&lt;P:&nbsp;<a class="trait" href="../../rayon/str/trait.Pattern.html" title="trait rayon::str::Pattern">Pattern</a>&gt;(&amp;self, _: P) -&gt; <a class="struct" href="../../rayon/str/struct.Split.html" title="struct rayon::str::Split">Split</a>&lt;P&gt;</code></span></h3><div class='docblock'><p>Returns a parallel iterator over substrings separated by a
+given character, similar to <code>str::split</code>.</p>
+</div><h3 id='tymethod.par_split_terminator' class='method'><span id='par_split_terminator.v' class='invisible'><code>fn <a href='#tymethod.par_split_terminator' class='fnname'>par_split_terminator</a>&lt;P:&nbsp;<a class="trait" href="../../rayon/str/trait.Pattern.html" title="trait rayon::str::Pattern">Pattern</a>&gt;(&amp;self, _: P) -&gt; <a class="struct" href="../../rayon/str/struct.SplitTerminator.html" title="struct rayon::str::SplitTerminator">SplitTerminator</a>&lt;P&gt;</code></span></h3><div class='docblock'><p>Returns a parallel iterator over substrings terminated by a
+given character, similar to <code>str::split_terminator</code>.  It&#39;s
+equivalent to <code>par_split</code>, except it doesn&#39;t produce an empty
+substring after a trailing terminator.</p>
+</div><h3 id='tymethod.par_lines' class='method'><span id='par_lines.v' class='invisible'><code>fn <a href='#tymethod.par_lines' class='fnname'>par_lines</a>(&amp;self) -&gt; <a class="struct" href="../../rayon/str/struct.Lines.html" title="struct rayon::str::Lines">Lines</a></code></span></h3><div class='docblock'><p>Returns a parallel iterator over the lines of a string, ending with an
+optional carriage return and with a newline (<code>\r\n</code> or just <code>\n</code>).
+The final line ending is optional, and line endings are not included in
+the output strings.</p>
+</div><h3 id='tymethod.par_split_whitespace' class='method'><span id='par_split_whitespace.v' class='invisible'><code>fn <a href='#tymethod.par_split_whitespace' class='fnname'>par_split_whitespace</a>(&amp;self) -&gt; <a class="struct" href="../../rayon/str/struct.SplitWhitespace.html" title="struct rayon::str::SplitWhitespace">SplitWhitespace</a></code></span></h3><div class='docblock'><p>Returns a parallel iterator over the sub-slices of a string that are
+separated by any amount of whitespace.</p>
+
+<p>As with <code>str::split_whitespace</code>, &#39;whitespace&#39; is defined according to
+the terms of the Unicode Derived Core Property <code>White_Space</code>.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl ParallelString for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/rayon/str/trait.ParallelString.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rayon";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

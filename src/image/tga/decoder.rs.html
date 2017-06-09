@@ -9,6 +9,7 @@
 
     <title>decoder.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -444,407 +445,407 @@
 <span id="400">400</span>
 <span id="401">401</span>
 <span id="402">402</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Read</span>, <span class='ident'>Seek</span>};
-<span class='kw'>use</span> <span class='ident'>byteorder</span>::{<span class='ident'>ReadBytesExt</span>, <span class='ident'>LittleEndian</span>};
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">Read</span>, <span class="ident">Seek</span>};
+<span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">ReadBytesExt</span>, <span class="ident">LittleEndian</span>};
 
-<span class='kw'>use</span> <span class='ident'>image</span>::<span class='ident'>ImageError</span>;
-<span class='kw'>use</span> <span class='ident'>image</span>::<span class='ident'>ImageResult</span>;
-<span class='kw'>use</span> <span class='ident'>image</span>::<span class='ident'>ImageDecoder</span>;
-<span class='kw'>use</span> <span class='ident'>image</span>::<span class='ident'>DecodingResult</span>;
-<span class='kw'>use</span> <span class='ident'>color</span>::<span class='ident'>ColorType</span>;
+<span class="kw">use</span> <span class="ident">image</span>::<span class="ident">ImageError</span>;
+<span class="kw">use</span> <span class="ident">image</span>::<span class="ident">ImageResult</span>;
+<span class="kw">use</span> <span class="ident">image</span>::<span class="ident">ImageDecoder</span>;
+<span class="kw">use</span> <span class="ident">image</span>::<span class="ident">DecodingResult</span>;
+<span class="kw">use</span> <span class="ident">color</span>::<span class="ident">ColorType</span>;
 
-<span class='kw'>enum</span> <span class='ident'>ImageType</span> {
-    <span class='ident'>NoImageData</span> <span class='op'>=</span> <span class='number'>0</span>,
-    <span class='doccomment'>/// Uncompressed images</span>
-    <span class='ident'>RawColorMap</span> <span class='op'>=</span> <span class='number'>1</span>,
-    <span class='ident'>RawTrueColor</span> <span class='op'>=</span> <span class='number'>2</span>,
-    <span class='ident'>RawGrayScale</span> <span class='op'>=</span> <span class='number'>3</span>,
-    <span class='doccomment'>/// Run length encoded images</span>
-    <span class='ident'>RunColorMap</span> <span class='op'>=</span> <span class='number'>9</span>,
-    <span class='ident'>RunTrueColor</span> <span class='op'>=</span> <span class='number'>10</span>,
-    <span class='ident'>RunGrayScale</span> <span class='op'>=</span> <span class='number'>11</span>,
-    <span class='ident'>Unknown</span>,
+<span class="kw">enum</span> <span class="ident">ImageType</span> {
+    <span class="ident">NoImageData</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Uncompressed images</span>
+    <span class="ident">RawColorMap</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="ident">RawTrueColor</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="ident">RawGrayScale</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Run length encoded images</span>
+    <span class="ident">RunColorMap</span> <span class="op">=</span> <span class="number">9</span>,
+    <span class="ident">RunTrueColor</span> <span class="op">=</span> <span class="number">10</span>,
+    <span class="ident">RunGrayScale</span> <span class="op">=</span> <span class="number">11</span>,
+    <span class="ident">Unknown</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>ImageType</span> {
-    <span class='doccomment'>/// Create a new image type from a u8</span>
-    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>img_type</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageType</span> {
-        <span class='kw'>match</span> <span class='ident'>img_type</span> {
-            <span class='number'>0</span>  <span class='op'>=&gt;</span> <span class='ident'>ImageType</span>::<span class='ident'>NoImageData</span>,
+<span class="kw">impl</span> <span class="ident">ImageType</span> {
+    <span class="doccomment">/// Create a new image type from a u8</span>
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">img_type</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">ImageType</span> {
+        <span class="kw">match</span> <span class="ident">img_type</span> {
+            <span class="number">0</span>  <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">NoImageData</span>,
 
-            <span class='number'>1</span>  <span class='op'>=&gt;</span> <span class='ident'>ImageType</span>::<span class='ident'>RawColorMap</span>,
-            <span class='number'>2</span>  <span class='op'>=&gt;</span> <span class='ident'>ImageType</span>::<span class='ident'>RawTrueColor</span>,
-            <span class='number'>3</span>  <span class='op'>=&gt;</span> <span class='ident'>ImageType</span>::<span class='ident'>RawGrayScale</span>,
+            <span class="number">1</span>  <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RawColorMap</span>,
+            <span class="number">2</span>  <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RawTrueColor</span>,
+            <span class="number">3</span>  <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RawGrayScale</span>,
 
-            <span class='number'>9</span>  <span class='op'>=&gt;</span> <span class='ident'>ImageType</span>::<span class='ident'>RunColorMap</span>,
-            <span class='number'>10</span> <span class='op'>=&gt;</span> <span class='ident'>ImageType</span>::<span class='ident'>RunTrueColor</span>,
-            <span class='number'>11</span> <span class='op'>=&gt;</span> <span class='ident'>ImageType</span>::<span class='ident'>RunGrayScale</span>,
+            <span class="number">9</span>  <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RunColorMap</span>,
+            <span class="number">10</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RunTrueColor</span>,
+            <span class="number">11</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RunGrayScale</span>,
 
-            _  <span class='op'>=&gt;</span> <span class='ident'>ImageType</span>::<span class='ident'>Unknown</span>,
+            _  <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">Unknown</span>,
         }
     }
 
-    <span class='doccomment'>/// Check if the image format uses colors as opposed to gray scale</span>
-    <span class='kw'>fn</span> <span class='ident'>is_color</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>ImageType</span>::<span class='ident'>RawColorMap</span>  <span class='op'>|</span>
-            <span class='ident'>ImageType</span>::<span class='ident'>RawTrueColor</span> <span class='op'>|</span>
-            <span class='ident'>ImageType</span>::<span class='ident'>RunTrueColor</span> <span class='op'>|</span>
-            <span class='ident'>ImageType</span>::<span class='ident'>RunColorMap</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+    <span class="doccomment">/// Check if the image format uses colors as opposed to gray scale</span>
+    <span class="kw">fn</span> <span class="ident">is_color</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">ImageType</span>::<span class="ident">RawColorMap</span>  <span class="op">|</span>
+            <span class="ident">ImageType</span>::<span class="ident">RawTrueColor</span> <span class="op">|</span>
+            <span class="ident">ImageType</span>::<span class="ident">RunTrueColor</span> <span class="op">|</span>
+            <span class="ident">ImageType</span>::<span class="ident">RunColorMap</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
-    <span class='doccomment'>/// Does the image use a color map</span>
-    <span class='kw'>fn</span> <span class='ident'>is_color_mapped</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>ImageType</span>::<span class='ident'>RawColorMap</span> <span class='op'>|</span>
-            <span class='ident'>ImageType</span>::<span class='ident'>RunColorMap</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+    <span class="doccomment">/// Does the image use a color map</span>
+    <span class="kw">fn</span> <span class="ident">is_color_mapped</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">ImageType</span>::<span class="ident">RawColorMap</span> <span class="op">|</span>
+            <span class="ident">ImageType</span>::<span class="ident">RunColorMap</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
-    <span class='doccomment'>/// Is the image run length encoded</span>
-    <span class='kw'>fn</span> <span class='ident'>is_encoded</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>ImageType</span>::<span class='ident'>RunColorMap</span> <span class='op'>|</span>
-            <span class='ident'>ImageType</span>::<span class='ident'>RunTrueColor</span> <span class='op'>|</span>
-            <span class='ident'>ImageType</span>::<span class='ident'>RunGrayScale</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+    <span class="doccomment">/// Is the image run length encoded</span>
+    <span class="kw">fn</span> <span class="ident">is_encoded</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">ImageType</span>::<span class="ident">RunColorMap</span> <span class="op">|</span>
+            <span class="ident">ImageType</span>::<span class="ident">RunTrueColor</span> <span class="op">|</span>
+            <span class="ident">ImageType</span>::<span class="ident">RunGrayScale</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 }
 
-<span class='doccomment'>/// Header used by TGA image files</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>Header</span> {
-    <span class='ident'>id_length</span>: <span class='ident'>u8</span>,         <span class='comment'>// length of ID string</span>
-    <span class='ident'>map_type</span>: <span class='ident'>u8</span>,          <span class='comment'>// color map type</span>
-    <span class='ident'>image_type</span>: <span class='ident'>u8</span>,        <span class='comment'>// image type code</span>
-    <span class='ident'>map_origin</span>: <span class='ident'>u16</span>,       <span class='comment'>// starting index of map</span>
-    <span class='ident'>map_length</span>: <span class='ident'>u16</span>,      <span class='comment'>// length of map</span>
-    <span class='ident'>map_entry_size</span>: <span class='ident'>u8</span>,    <span class='comment'>// size of map entries in bits</span>
-    <span class='ident'>x_origin</span>: <span class='ident'>u16</span>,         <span class='comment'>// x-origin of image</span>
-    <span class='ident'>y_origin</span>: <span class='ident'>u16</span>,         <span class='comment'>// y-origin of image</span>
-    <span class='ident'>image_width</span>: <span class='ident'>u16</span>,      <span class='comment'>// width of image</span>
-    <span class='ident'>image_height</span>: <span class='ident'>u16</span>,     <span class='comment'>// height of image</span>
-    <span class='ident'>pixel_depth</span>: <span class='ident'>u8</span>,       <span class='comment'>// bits per pixel</span>
-    <span class='ident'>image_desc</span>: <span class='ident'>u8</span>,        <span class='comment'>// image descriptor</span>
+<span class="doccomment">/// Header used by TGA image files</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">struct</span> <span class="ident">Header</span> {
+    <span class="ident">id_length</span>: <span class="ident">u8</span>,         <span class="comment">// length of ID string</span>
+    <span class="ident">map_type</span>: <span class="ident">u8</span>,          <span class="comment">// color map type</span>
+    <span class="ident">image_type</span>: <span class="ident">u8</span>,        <span class="comment">// image type code</span>
+    <span class="ident">map_origin</span>: <span class="ident">u16</span>,       <span class="comment">// starting index of map</span>
+    <span class="ident">map_length</span>: <span class="ident">u16</span>,      <span class="comment">// length of map</span>
+    <span class="ident">map_entry_size</span>: <span class="ident">u8</span>,    <span class="comment">// size of map entries in bits</span>
+    <span class="ident">x_origin</span>: <span class="ident">u16</span>,         <span class="comment">// x-origin of image</span>
+    <span class="ident">y_origin</span>: <span class="ident">u16</span>,         <span class="comment">// y-origin of image</span>
+    <span class="ident">image_width</span>: <span class="ident">u16</span>,      <span class="comment">// width of image</span>
+    <span class="ident">image_height</span>: <span class="ident">u16</span>,     <span class="comment">// height of image</span>
+    <span class="ident">pixel_depth</span>: <span class="ident">u8</span>,       <span class="comment">// bits per pixel</span>
+    <span class="ident">image_desc</span>: <span class="ident">u8</span>,        <span class="comment">// image descriptor</span>
 }
 
-<span class='kw'>impl</span> <span class='ident'>Header</span> {
-    <span class='doccomment'>/// Create a header with all valuse set to zero</span>
-    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>Header</span> {
-        <span class='ident'>Header</span> {
-            <span class='ident'>id_length</span>: <span class='number'>0</span>,
-            <span class='ident'>map_type</span>: <span class='number'>0</span>,
-            <span class='ident'>image_type</span>: <span class='number'>0</span>,
-            <span class='ident'>map_origin</span>: <span class='number'>0</span>,
-            <span class='ident'>map_length</span>: <span class='number'>0</span>,
-            <span class='ident'>map_entry_size</span>: <span class='number'>0</span>,
-            <span class='ident'>x_origin</span>: <span class='number'>0</span>,
-            <span class='ident'>y_origin</span>: <span class='number'>0</span>,
-            <span class='ident'>image_width</span>: <span class='number'>0</span>,
-            <span class='ident'>image_height</span>: <span class='number'>0</span>,
-            <span class='ident'>pixel_depth</span>: <span class='number'>0</span>,
-            <span class='ident'>image_desc</span>: <span class='number'>0</span>,
+<span class="kw">impl</span> <span class="ident">Header</span> {
+    <span class="doccomment">/// Create a header with all valuse set to zero</span>
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">Header</span> {
+        <span class="ident">Header</span> {
+            <span class="ident">id_length</span>: <span class="number">0</span>,
+            <span class="ident">map_type</span>: <span class="number">0</span>,
+            <span class="ident">image_type</span>: <span class="number">0</span>,
+            <span class="ident">map_origin</span>: <span class="number">0</span>,
+            <span class="ident">map_length</span>: <span class="number">0</span>,
+            <span class="ident">map_entry_size</span>: <span class="number">0</span>,
+            <span class="ident">x_origin</span>: <span class="number">0</span>,
+            <span class="ident">y_origin</span>: <span class="number">0</span>,
+            <span class="ident">image_width</span>: <span class="number">0</span>,
+            <span class="ident">image_height</span>: <span class="number">0</span>,
+            <span class="ident">pixel_depth</span>: <span class="number">0</span>,
+            <span class="ident">image_desc</span>: <span class="number">0</span>,
         }
     }
 
-    <span class='doccomment'>/// Load the header with values from the reader</span>
-    <span class='kw'>fn</span> <span class='ident'>from_reader</span>(<span class='ident'>r</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Read</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>Header</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Header</span> {
-            <span class='ident'>id_length</span>:         <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u8</span>()),
-            <span class='ident'>map_type</span>:          <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u8</span>()),
-            <span class='ident'>image_type</span>:        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u8</span>()),
-            <span class='ident'>map_origin</span>:        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>()),
-            <span class='ident'>map_length</span>:        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>()),
-            <span class='ident'>map_entry_size</span>:    <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u8</span>()),
-            <span class='ident'>x_origin</span>:          <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>()),
-            <span class='ident'>y_origin</span>:          <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>()),
-            <span class='ident'>image_width</span>:       <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>()),
-            <span class='ident'>image_height</span>:      <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u16</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>()),
-            <span class='ident'>pixel_depth</span>:       <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u8</span>()),
-            <span class='ident'>image_desc</span>:        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_u8</span>()),
+    <span class="doccomment">/// Load the header with values from the reader</span>
+    <span class="kw">fn</span> <span class="ident">from_reader</span>(<span class="ident">r</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Read</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Header</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">Header</span> {
+            <span class="ident">id_length</span>:         <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u8</span>()),
+            <span class="ident">map_type</span>:          <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u8</span>()),
+            <span class="ident">image_type</span>:        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u8</span>()),
+            <span class="ident">map_origin</span>:        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()),
+            <span class="ident">map_length</span>:        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()),
+            <span class="ident">map_entry_size</span>:    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u8</span>()),
+            <span class="ident">x_origin</span>:          <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()),
+            <span class="ident">y_origin</span>:          <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()),
+            <span class="ident">image_width</span>:       <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()),
+            <span class="ident">image_height</span>:      <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()),
+            <span class="ident">pixel_depth</span>:       <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u8</span>()),
+            <span class="ident">image_desc</span>:        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_u8</span>()),
         })
     }
 }
 
-<span class='kw'>struct</span> <span class='ident'>ColorMap</span> {
-    <span class='doccomment'>/// sizes in bytes</span>
-    <span class='ident'>start_offset</span>: <span class='ident'>usize</span>,
-    <span class='ident'>entry_size</span>: <span class='ident'>usize</span>,
-    <span class='ident'>bytes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
+<span class="kw">struct</span> <span class="ident">ColorMap</span> {
+    <span class="doccomment">/// sizes in bytes</span>
+    <span class="ident">start_offset</span>: <span class="ident">usize</span>,
+    <span class="ident">entry_size</span>: <span class="ident">usize</span>,
+    <span class="ident">bytes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>ColorMap</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_reader</span>(<span class='ident'>r</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Read</span>,
-                       <span class='ident'>start_offset</span>: <span class='ident'>u16</span>,
-                       <span class='ident'>num_entries</span>: <span class='ident'>u16</span>,
-                       <span class='ident'>bits_per_entry</span>: <span class='ident'>u8</span>)
-        <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>ColorMap</span><span class='op'>&gt;</span> {
-            <span class='kw'>let</span> <span class='ident'>bytes_per_entry</span> <span class='op'>=</span> (<span class='ident'>bits_per_entry</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>+</span> <span class='number'>7</span>) <span class='op'>/</span> <span class='number'>8</span>;
+<span class="kw">impl</span> <span class="ident">ColorMap</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_reader</span>(<span class="ident">r</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Read</span>,
+                       <span class="ident">start_offset</span>: <span class="ident">u16</span>,
+                       <span class="ident">num_entries</span>: <span class="ident">u16</span>,
+                       <span class="ident">bits_per_entry</span>: <span class="ident">u8</span>)
+        <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">ColorMap</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">bytes_per_entry</span> <span class="op">=</span> (<span class="ident">bits_per_entry</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="number">7</span>) <span class="op">/</span> <span class="number">8</span>;
 
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='ident'>bytes_per_entry</span> <span class='op'>*</span> <span class='ident'>num_entries</span> <span class='kw'>as</span> <span class='ident'>usize</span>];
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>read_exact</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bytes</span>));
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">bytes_per_entry</span> <span class="op">*</span> <span class="ident">num_entries</span> <span class="kw">as</span> <span class="ident">usize</span>];
+            <span class="macro">try</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>));
 
-            <span class='prelude-val'>Ok</span>(<span class='ident'>ColorMap</span> {
-                <span class='ident'>entry_size</span>: <span class='ident'>bytes_per_entry</span>,
-                <span class='ident'>start_offset</span>: <span class='ident'>start_offset</span> <span class='kw'>as</span> <span class='ident'>usize</span>,
-                <span class='ident'>bytes</span>: <span class='ident'>bytes</span>,
+            <span class="prelude-val">Ok</span>(<span class="ident">ColorMap</span> {
+                <span class="ident">entry_size</span>: <span class="ident">bytes_per_entry</span>,
+                <span class="ident">start_offset</span>: <span class="ident">start_offset</span> <span class="kw">as</span> <span class="ident">usize</span>,
+                <span class="ident">bytes</span>: <span class="ident">bytes</span>,
             })
         }
 
-    <span class='doccomment'>/// Get one entry from the color map</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>] {
-        <span class='kw'>let</span> <span class='ident'>entry</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>start_offset</span> <span class='op'>+</span> <span class='self'>self</span>.<span class='ident'>entry_size</span> <span class='op'>*</span> <span class='ident'>index</span>;
-        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>bytes</span>[<span class='ident'>entry</span>..<span class='ident'>entry</span> <span class='op'>+</span> <span class='self'>self</span>.<span class='ident'>entry_size</span>]
+    <span class="doccomment">/// Get one entry from the color map</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
+        <span class="kw">let</span> <span class="ident">entry</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">start_offset</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">entry_size</span> <span class="op">*</span> <span class="ident">index</span>;
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">bytes</span>[<span class="ident">entry</span>..<span class="ident">entry</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">entry_size</span>]
     }
 }
 
-<span class='doccomment'>/// The representation of a TGA decoder</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TGADecoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-    <span class='ident'>r</span>: <span class='ident'>R</span>,
+<span class="doccomment">/// The representation of a TGA decoder</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TGADecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="ident">r</span>: <span class="ident">R</span>,
 
-    <span class='ident'>width</span>: <span class='ident'>usize</span>,
-    <span class='ident'>height</span>: <span class='ident'>usize</span>,
-    <span class='ident'>bytes_per_pixel</span>: <span class='ident'>usize</span>,
-    <span class='ident'>has_loaded_metadata</span>: <span class='ident'>bool</span>,
+    <span class="ident">width</span>: <span class="ident">usize</span>,
+    <span class="ident">height</span>: <span class="ident">usize</span>,
+    <span class="ident">bytes_per_pixel</span>: <span class="ident">usize</span>,
+    <span class="ident">has_loaded_metadata</span>: <span class="ident">bool</span>,
 
-    <span class='ident'>image_type</span>: <span class='ident'>ImageType</span>,
-    <span class='ident'>color_type</span>: <span class='ident'>ColorType</span>,
+    <span class="ident">image_type</span>: <span class="ident">ImageType</span>,
+    <span class="ident">color_type</span>: <span class="ident">ColorType</span>,
 
-    <span class='ident'>header</span>: <span class='ident'>Header</span>,
-    <span class='ident'>color_map</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ColorMap</span><span class='op'>&gt;</span>,
+    <span class="ident">header</span>: <span class="ident">Header</span>,
+    <span class="ident">color_map</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ColorMap</span><span class="op">&gt;</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Seek</span><span class='op'>&gt;</span> <span class='ident'>TGADecoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Create a new decoder that decodes from the stream `r`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>r</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>TGADecoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-        <span class='ident'>TGADecoder</span> {
-            <span class='ident'>r</span>: <span class='ident'>r</span>,
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span><span class="op">&gt;</span> <span class="ident">TGADecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Create a new decoder that decodes from the stream `r`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">TGADecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+        <span class="ident">TGADecoder</span> {
+            <span class="ident">r</span>: <span class="ident">r</span>,
 
-            <span class='ident'>width</span>: <span class='number'>0</span>,
-            <span class='ident'>height</span>: <span class='number'>0</span>,
-            <span class='ident'>bytes_per_pixel</span>: <span class='number'>0</span>,
-            <span class='ident'>has_loaded_metadata</span>: <span class='bool-val'>false</span>,
+            <span class="ident">width</span>: <span class="number">0</span>,
+            <span class="ident">height</span>: <span class="number">0</span>,
+            <span class="ident">bytes_per_pixel</span>: <span class="number">0</span>,
+            <span class="ident">has_loaded_metadata</span>: <span class="bool-val">false</span>,
 
-            <span class='ident'>image_type</span>: <span class='ident'>ImageType</span>::<span class='ident'>Unknown</span>,
-            <span class='ident'>color_type</span>: <span class='ident'>ColorType</span>::<span class='ident'>Gray</span>(<span class='number'>1</span>),
+            <span class="ident">image_type</span>: <span class="ident">ImageType</span>::<span class="ident">Unknown</span>,
+            <span class="ident">color_type</span>: <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">1</span>),
 
-            <span class='ident'>header</span>: <span class='ident'>Header</span>::<span class='ident'>new</span>(),
-            <span class='ident'>color_map</span>: <span class='prelude-val'>None</span>,
+            <span class="ident">header</span>: <span class="ident">Header</span>::<span class="ident">new</span>(),
+            <span class="ident">color_map</span>: <span class="prelude-val">None</span>,
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>read_header</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>header</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Header</span>::<span class='ident'>from_reader</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>r</span>));
-        <span class='self'>self</span>.<span class='ident'>image_type</span> <span class='op'>=</span> <span class='ident'>ImageType</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>image_type</span>);
-        <span class='self'>self</span>.<span class='ident'>width</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>image_width</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
-        <span class='self'>self</span>.<span class='ident'>height</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>image_height</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
-        <span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span> <span class='op'>=</span> (<span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>pixel_depth</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>+</span> <span class='number'>7</span>) <span class='op'>/</span> <span class='number'>8</span>;
-        <span class='prelude-val'>Ok</span>(())
+    <span class="kw">fn</span> <span class="ident">read_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">header</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">Header</span>::<span class="ident">from_reader</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">r</span>));
+        <span class="self">self</span>.<span class="ident">image_type</span> <span class="op">=</span> <span class="ident">ImageType</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">header</span>.<span class="ident">image_type</span>);
+        <span class="self">self</span>.<span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">image_width</span> <span class="kw">as</span> <span class="ident">usize</span>;
+        <span class="self">self</span>.<span class="ident">height</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">image_height</span> <span class="kw">as</span> <span class="ident">usize</span>;
+        <span class="self">self</span>.<span class="ident">bytes_per_pixel</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">header</span>.<span class="ident">pixel_depth</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="number">7</span>) <span class="op">/</span> <span class="number">8</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>read_metadata</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>has_loaded_metadata</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_header</span>());
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_image_id</span>());
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_color_map</span>());
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_color_information</span>());
-            <span class='self'>self</span>.<span class='ident'>has_loaded_metadata</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+    <span class="kw">fn</span> <span class="ident">read_metadata</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">has_loaded_metadata</span> {
+            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_header</span>());
+            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_image_id</span>());
+            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_color_map</span>());
+            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_color_information</span>());
+            <span class="self">self</span>.<span class="ident">has_loaded_metadata</span> <span class="op">=</span> <span class="bool-val">true</span>;
         }
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='doccomment'>/// Loads the color information for the decoder</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// To keep things simple, we won&#39;t handle bit depths that aren&#39;t divisible</span>
-    <span class='doccomment'>/// by 8 and are less than 32.</span>
-    <span class='kw'>fn</span> <span class='ident'>read_color_information</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>pixel_depth</span> <span class='op'>%</span> <span class='number'>8</span> <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ImageError</span>::<span class='ident'>UnsupportedError</span>(<span class='string'>&quot;\
-                Bit depth must be divisible by 8&quot;</span>.<span class='ident'>to_string</span>()));
+    <span class="doccomment">/// Loads the color information for the decoder</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// To keep things simple, we won&#39;t handle bit depths that aren&#39;t divisible</span>
+    <span class="doccomment">/// by 8 and are less than 32.</span>
+    <span class="kw">fn</span> <span class="ident">read_color_information</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">pixel_depth</span> <span class="op">%</span> <span class="number">8</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="string">&quot;\
+                Bit depth must be divisible by 8&quot;</span>.<span class="ident">to_string</span>()));
         }
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>pixel_depth</span> <span class='op'>&gt;</span> <span class='number'>32</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ImageError</span>::<span class='ident'>UnsupportedError</span>(<span class='string'>&quot;\
-                Bit depth must be less than 32&quot;</span>.<span class='ident'>to_string</span>()));
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">pixel_depth</span> <span class="op">&gt;</span> <span class="number">32</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="string">&quot;\
+                Bit depth must be less than 32&quot;</span>.<span class="ident">to_string</span>()));
         }
 
-        <span class='kw'>let</span> <span class='ident'>num_alpha_bits</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>image_desc</span> <span class='kw-2'>&amp;</span> <span class='number'>0b1111</span>;
+        <span class="kw">let</span> <span class="ident">num_alpha_bits</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">image_desc</span> <span class="op">&amp;</span> <span class="number">0b1111</span>;
 
-        <span class='kw'>let</span> <span class='ident'>other_channel_bits</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>map_type</span> <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>map_entry_size</span>
-        } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>pixel_depth</span> <span class='op'>-</span> <span class='ident'>num_alpha_bits</span>
+        <span class="kw">let</span> <span class="ident">other_channel_bits</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">map_type</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">map_entry_size</span>
+        } <span class="kw">else</span> {
+            <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">pixel_depth</span> <span class="op">-</span> <span class="ident">num_alpha_bits</span>
         };
-        <span class='kw'>let</span> <span class='ident'>color</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>image_type</span>.<span class='ident'>is_color</span>();
+        <span class="kw">let</span> <span class="ident">color</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">image_type</span>.<span class="ident">is_color</span>();
 
-        <span class='kw'>match</span> (<span class='ident'>num_alpha_bits</span>, <span class='ident'>other_channel_bits</span>, <span class='ident'>color</span>) {
-            <span class='comment'>// really, the encoding is BGR and BGRA, this is fixed</span>
-            <span class='comment'>// up with `TGADecoder::reverse_encoding`.</span>
-            (<span class='number'>8</span>, <span class='number'>24</span>, <span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>color_type</span> <span class='op'>=</span> <span class='ident'>ColorType</span>::<span class='ident'>RGBA</span>(<span class='number'>8</span>),
-            (<span class='number'>0</span>, <span class='number'>24</span>, <span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>color_type</span> <span class='op'>=</span> <span class='ident'>ColorType</span>::<span class='ident'>RGB</span>(<span class='number'>8</span>),
-            (<span class='number'>8</span>, <span class='number'>8</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>color_type</span> <span class='op'>=</span> <span class='ident'>ColorType</span>::<span class='ident'>GrayA</span>(<span class='number'>8</span>),
-            (<span class='number'>0</span>, <span class='number'>8</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>color_type</span> <span class='op'>=</span> <span class='ident'>ColorType</span>::<span class='ident'>Gray</span>(<span class='number'>8</span>),
-            _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ImageError</span>::<span class='ident'>UnsupportedError</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;\
+        <span class="kw">match</span> (<span class="ident">num_alpha_bits</span>, <span class="ident">other_channel_bits</span>, <span class="ident">color</span>) {
+            <span class="comment">// really, the encoding is BGR and BGRA, this is fixed</span>
+            <span class="comment">// up with `TGADecoder::reverse_encoding`.</span>
+            (<span class="number">8</span>, <span class="number">24</span>, <span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">color_type</span> <span class="op">=</span> <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>),
+            (<span class="number">0</span>, <span class="number">24</span>, <span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">color_type</span> <span class="op">=</span> <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>),
+            (<span class="number">8</span>, <span class="number">8</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">color_type</span> <span class="op">=</span> <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">8</span>),
+            (<span class="number">0</span>, <span class="number">8</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">color_type</span> <span class="op">=</span> <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>),
+            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;\
                     Color format not supported. Bit depth: {}, Alpha bits: {}&quot;</span>,
-                    <span class='ident'>other_channel_bits</span>, <span class='ident'>num_alpha_bits</span>).<span class='ident'>to_string</span>())),
+                    <span class="ident">other_channel_bits</span>, <span class="ident">num_alpha_bits</span>).<span class="ident">to_string</span>())),
         }
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='doccomment'>/// Read the image id field</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// We&#39;re not interested in this field, so this function skips it if it</span>
-    <span class='doccomment'>/// is present</span>
-    <span class='kw'>fn</span> <span class='ident'>read_image_id</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>r</span>.<span class='ident'>seek</span>(<span class='ident'>io</span>::<span class='ident'>SeekFrom</span>::<span class='ident'>Current</span>(<span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>id_length</span> <span class='kw'>as</span> <span class='ident'>i64</span>)));
-        <span class='prelude-val'>Ok</span>(())
+    <span class="doccomment">/// Read the image id field</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// We&#39;re not interested in this field, so this function skips it if it</span>
+    <span class="doccomment">/// is present</span>
+    <span class="kw">fn</span> <span class="ident">read_image_id</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="self">self</span>.<span class="ident">header</span>.<span class="ident">id_length</span> <span class="kw">as</span> <span class="ident">i64</span>)));
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>read_color_map</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>map_type</span> <span class='op'>==</span> <span class='number'>1</span> {
-            <span class='self'>self</span>.<span class='ident'>color_map</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='macro'>try</span><span class='macro'>!</span>(
-                <span class='ident'>ColorMap</span>::<span class='ident'>from_reader</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>r</span>,
-                                      <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>map_origin</span>,
-                                      <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>map_length</span>,
-                                      <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>map_entry_size</span>)));
+    <span class="kw">fn</span> <span class="ident">read_color_map</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">map_type</span> <span class="op">==</span> <span class="number">1</span> {
+            <span class="self">self</span>.<span class="ident">color_map</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">try</span><span class="macro">!</span>(
+                <span class="ident">ColorMap</span>::<span class="ident">from_reader</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">r</span>,
+                                      <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">map_origin</span>,
+                                      <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">map_length</span>,
+                                      <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">map_entry_size</span>)));
         }
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='doccomment'>/// Expands indices into its mapped color</span>
-    <span class='kw'>fn</span> <span class='ident'>expand_color_map</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pixel_data</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
-        <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-        <span class='kw'>fn</span> <span class='ident'>bytes_to_index</span>(<span class='ident'>bytes</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='number'>0usize</span>;
-            <span class='kw'>for</span> <span class='ident'>byte</span> <span class='kw'>in</span> <span class='ident'>bytes</span>.<span class='ident'>iter</span>() {
-                <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>result</span> <span class='op'>&lt;&lt;</span> <span class='number'>8</span> <span class='op'>|</span> <span class='op'>*</span><span class='ident'>byte</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
+    <span class="doccomment">/// Expands indices into its mapped color</span>
+    <span class="kw">fn</span> <span class="ident">expand_color_map</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pixel_data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">bytes_to_index</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="number">0usize</span>;
+            <span class="kw">for</span> <span class="ident">byte</span> <span class="kw">in</span> <span class="ident">bytes</span>.<span class="ident">iter</span>() {
+                <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span> <span class="op">&lt;&lt;</span> <span class="number">8</span> <span class="op">|</span> <span class="kw-2">*</span><span class="ident">byte</span> <span class="kw">as</span> <span class="ident">usize</span>;
             }
-            <span class='ident'>result</span>
+            <span class="ident">result</span>
         }
 
-        <span class='kw'>let</span> <span class='ident'>bytes_per_entry</span> <span class='op'>=</span> (<span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>map_entry_size</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>+</span> <span class='number'>7</span>) <span class='op'>/</span> <span class='number'>8</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='self'>self</span>.<span class='ident'>width</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>height</span> <span class='op'>*</span>
-                                            <span class='ident'>bytes_per_entry</span>);
+        <span class="kw">let</span> <span class="ident">bytes_per_entry</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">header</span>.<span class="ident">map_entry_size</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="number">7</span>) <span class="op">/</span> <span class="number">8</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="self">self</span>.<span class="ident">width</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">*</span>
+                                            <span class="ident">bytes_per_entry</span>);
 
-        <span class='kw'>let</span> <span class='ident'>color_map</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>color_map</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>color_map</span>) <span class='op'>=&gt;</span> <span class='ident'>color_map</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
+        <span class="kw">let</span> <span class="ident">color_map</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">color_map</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">color_map</span>) <span class="op">=&gt;</span> <span class="ident">color_map</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         };
 
-        <span class='kw'>for</span> <span class='ident'>chunk</span> <span class='kw'>in</span> <span class='ident'>pixel_data</span>.<span class='ident'>chunks</span>(<span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span>) {
-            <span class='kw'>let</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='ident'>bytes_to_index</span>(<span class='ident'>chunk</span>);
-            <span class='ident'>result</span>.<span class='ident'>extend</span>(<span class='ident'>color_map</span>.<span class='ident'>get</span>(<span class='ident'>index</span>).<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>));
+        <span class="kw">for</span> <span class="ident">chunk</span> <span class="kw">in</span> <span class="ident">pixel_data</span>.<span class="ident">chunks</span>(<span class="self">self</span>.<span class="ident">bytes_per_pixel</span>) {
+            <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">bytes_to_index</span>(<span class="ident">chunk</span>);
+            <span class="ident">result</span>.<span class="ident">extend</span>(<span class="ident">color_map</span>.<span class="ident">get</span>(<span class="ident">index</span>).<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>));
         }
 
-        <span class='ident'>result</span>
+        <span class="ident">result</span>
     }
 
-    <span class='kw'>fn</span> <span class='ident'>read_image_data</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span> {
-        <span class='comment'>// read the pixels from the data region</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pixel_data</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>image_type</span>.<span class='ident'>is_encoded</span>() {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_encoded_data</span>())
-        } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='ident'>num_raw_bytes</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>width</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>height</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span>;
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='ident'>num_raw_bytes</span>];
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>r</span>.<span class='ident'>by_ref</span>().<span class='ident'>read_exact</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>));
-            <span class='ident'>buf</span>
+    <span class="kw">fn</span> <span class="ident">read_image_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+        <span class="comment">// read the pixels from the data region</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pixel_data</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">image_type</span>.<span class="ident">is_encoded</span>() {
+            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_encoded_data</span>())
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="ident">num_raw_bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">bytes_per_pixel</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">num_raw_bytes</span>];
+            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>.<span class="ident">by_ref</span>().<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>));
+            <span class="ident">buf</span>
         };
 
-        <span class='comment'>// expand the indices using the color map if necessary</span>
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>image_type</span>.<span class='ident'>is_color_mapped</span>() {
-            <span class='ident'>pixel_data</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>expand_color_map</span>(<span class='ident'>pixel_data</span>)
+        <span class="comment">// expand the indices using the color map if necessary</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">image_type</span>.<span class="ident">is_color_mapped</span>() {
+            <span class="ident">pixel_data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">expand_color_map</span>(<span class="ident">pixel_data</span>)
         }
 
-        <span class='self'>self</span>.<span class='ident'>reverse_encoding</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>pixel_data</span>);
-        <span class='prelude-val'>Ok</span>(<span class='ident'>pixel_data</span>)
+        <span class="self">self</span>.<span class="ident">reverse_encoding</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_data</span>);
+        <span class="prelude-val">Ok</span>(<span class="ident">pixel_data</span>)
     }
 
-    <span class='doccomment'>/// Reads a run length encoded packet</span>
-    <span class='kw'>fn</span> <span class='ident'>read_encoded_data</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>num_bytes</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>width</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>height</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pixel_data</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>num_bytes</span>);
+    <span class="doccomment">/// Reads a run length encoded packet</span>
+    <span class="kw">fn</span> <span class="ident">read_encoded_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+        <span class="kw">let</span> <span class="ident">num_bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">bytes_per_pixel</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pixel_data</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">num_bytes</span>);
 
-        <span class='kw'>while</span> <span class='ident'>pixel_data</span>.<span class='ident'>len</span>() <span class='op'>&lt;</span> <span class='ident'>num_bytes</span> {
-            <span class='kw'>let</span> <span class='ident'>run_packet</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>r</span>.<span class='ident'>read_u8</span>());
-            <span class='comment'>// If the highest bit in `run_packet` is set, then we repeat pixels</span>
-            <span class='comment'>//</span>
-            <span class='comment'>// Note: the TGA format adds 1 to both counts because having a count</span>
-            <span class='comment'>// of 0 would be pointless.</span>
-            <span class='kw'>if</span> (<span class='ident'>run_packet</span> <span class='kw-2'>&amp;</span> <span class='number'>0x80</span>) <span class='op'>!=</span> <span class='number'>0</span> {
-                <span class='comment'>// high bit set, so we will repeat the data</span>
-                <span class='kw'>let</span> <span class='ident'>repeat_count</span> <span class='op'>=</span> ((<span class='ident'>run_packet</span> <span class='kw-2'>&amp;</span> <span class='op'>!</span><span class='number'>0x80</span>) <span class='op'>+</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>usize</span>;
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span>);
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>r</span>.<span class='ident'>by_ref</span>().<span class='ident'>take</span>(<span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span> <span class='kw'>as</span> <span class='ident'>u64</span>).<span class='ident'>read_to_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>data</span>));
-                <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0usize</span>..<span class='ident'>repeat_count</span> {
-                    <span class='ident'>pixel_data</span>.<span class='ident'>extend</span>(<span class='ident'>data</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>));
+        <span class="kw">while</span> <span class="ident">pixel_data</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">num_bytes</span> {
+            <span class="kw">let</span> <span class="ident">run_packet</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>.<span class="ident">read_u8</span>());
+            <span class="comment">// If the highest bit in `run_packet` is set, then we repeat pixels</span>
+            <span class="comment">//</span>
+            <span class="comment">// Note: the TGA format adds 1 to both counts because having a count</span>
+            <span class="comment">// of 0 would be pointless.</span>
+            <span class="kw">if</span> (<span class="ident">run_packet</span> <span class="op">&amp;</span> <span class="number">0x80</span>) <span class="op">!=</span> <span class="number">0</span> {
+                <span class="comment">// high bit set, so we will repeat the data</span>
+                <span class="kw">let</span> <span class="ident">repeat_count</span> <span class="op">=</span> ((<span class="ident">run_packet</span> <span class="op">&amp;</span> <span class="op">!</span><span class="number">0x80</span>) <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">usize</span>;
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="self">self</span>.<span class="ident">bytes_per_pixel</span>);
+                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>.<span class="ident">by_ref</span>().<span class="ident">take</span>(<span class="self">self</span>.<span class="ident">bytes_per_pixel</span> <span class="kw">as</span> <span class="ident">u64</span>).<span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data</span>));
+                <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0usize</span>..<span class="ident">repeat_count</span> {
+                    <span class="ident">pixel_data</span>.<span class="ident">extend</span>(<span class="ident">data</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>));
                 }
-            } <span class='kw'>else</span> {
-                <span class='comment'>// not set, so `run_packet+1` is the number of non-encoded pixels</span>
-                <span class='kw'>let</span> <span class='ident'>num_raw_bytes</span> <span class='op'>=</span> (<span class='ident'>run_packet</span> <span class='op'>+</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span>;
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>r</span>.<span class='ident'>by_ref</span>().<span class='ident'>take</span>(<span class='ident'>num_raw_bytes</span> <span class='kw'>as</span> <span class='ident'>u64</span>).<span class='ident'>read_to_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>pixel_data</span>));
+            } <span class="kw">else</span> {
+                <span class="comment">// not set, so `run_packet+1` is the number of non-encoded pixels</span>
+                <span class="kw">let</span> <span class="ident">num_raw_bytes</span> <span class="op">=</span> (<span class="ident">run_packet</span> <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">bytes_per_pixel</span>;
+                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>.<span class="ident">by_ref</span>().<span class="ident">take</span>(<span class="ident">num_raw_bytes</span> <span class="kw">as</span> <span class="ident">u64</span>).<span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_data</span>));
             }
         }
 
-        <span class='prelude-val'>Ok</span>(<span class='ident'>pixel_data</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">pixel_data</span>)
     }
 
-    <span class='doccomment'>/// Reverse from BGR encoding to RGB encoding</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// TGA files are stored in the BGRA encoding. This function swaps</span>
-    <span class='doccomment'>/// the blue and red bytes in the `pixels` array.</span>
-    <span class='kw'>fn</span> <span class='ident'>reverse_encoding</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pixels</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) {
-        <span class='comment'>// We only need to reverse the encoding of color images</span>
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>color_type</span> {
-            <span class='ident'>ColorType</span>::<span class='ident'>RGB</span>(<span class='number'>8</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>for</span> <span class='ident'>chunk</span> <span class='kw'>in</span> <span class='ident'>pixels</span>.<span class='ident'>chunks_mut</span>(<span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span>) {
-                    <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>chunk</span>[<span class='number'>0</span>];
-                    <span class='ident'>chunk</span>[<span class='number'>0</span>] <span class='op'>=</span> <span class='ident'>chunk</span>[<span class='number'>2</span>];
-                    <span class='ident'>chunk</span>[<span class='number'>2</span>] <span class='op'>=</span> <span class='ident'>r</span>;
+    <span class="doccomment">/// Reverse from BGR encoding to RGB encoding</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// TGA files are stored in the BGRA encoding. This function swaps</span>
+    <span class="doccomment">/// the blue and red bytes in the `pixels` array.</span>
+    <span class="kw">fn</span> <span class="ident">reverse_encoding</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pixels</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+        <span class="comment">// We only need to reverse the encoding of color images</span>
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">color_type</span> {
+            <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>) <span class="op">=&gt;</span> {
+                <span class="kw">for</span> <span class="ident">chunk</span> <span class="kw">in</span> <span class="ident">pixels</span>.<span class="ident">chunks_mut</span>(<span class="self">self</span>.<span class="ident">bytes_per_pixel</span>) {
+                    <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">chunk</span>[<span class="number">0</span>];
+                    <span class="ident">chunk</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">chunk</span>[<span class="number">2</span>];
+                    <span class="ident">chunk</span>[<span class="number">2</span>] <span class="op">=</span> <span class="ident">r</span>;
                 }
             }
-            <span class='ident'>ColorType</span>::<span class='ident'>RGBA</span>(<span class='number'>8</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>for</span> <span class='ident'>chunk</span> <span class='kw'>in</span> <span class='ident'>pixels</span>.<span class='ident'>chunks_mut</span>(<span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span>) {
-                    <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>chunk</span>[<span class='number'>0</span>];
-                    <span class='ident'>chunk</span>[<span class='number'>0</span>] <span class='op'>=</span> <span class='ident'>chunk</span>[<span class='number'>2</span>];
-                    <span class='ident'>chunk</span>[<span class='number'>2</span>] <span class='op'>=</span> <span class='ident'>r</span>;
+            <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>) <span class="op">=&gt;</span> {
+                <span class="kw">for</span> <span class="ident">chunk</span> <span class="kw">in</span> <span class="ident">pixels</span>.<span class="ident">chunks_mut</span>(<span class="self">self</span>.<span class="ident">bytes_per_pixel</span>) {
+                    <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">chunk</span>[<span class="number">0</span>];
+                    <span class="ident">chunk</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">chunk</span>[<span class="number">2</span>];
+                    <span class="ident">chunk</span>[<span class="number">2</span>] <span class="op">=</span> <span class="ident">r</span>;
                 }
             }
-            _ <span class='op'>=&gt;</span> { }
+            _ <span class="op">=&gt;</span> { }
         }
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Seek</span><span class='op'>&gt;</span> <span class='ident'>ImageDecoder</span> <span class='kw'>for</span> <span class='ident'>TGADecoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>dimensions</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>)<span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_metadata</span>());
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span><span class="op">&gt;</span> <span class="ident">ImageDecoder</span> <span class="kw">for</span> <span class="ident">TGADecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> {
+        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_metadata</span>());
 
-        <span class='prelude-val'>Ok</span>((<span class='self'>self</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>u32</span>, <span class='self'>self</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>u32</span>))
+        <span class="prelude-val">Ok</span>((<span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="self">self</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">u32</span>))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>colortype</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>ColorType</span><span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_metadata</span>());
+    <span class="kw">fn</span> <span class="ident">colortype</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">ColorType</span><span class="op">&gt;</span> {
+        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_metadata</span>());
 
-        <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>color_type</span>)
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">color_type</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>row_len</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_metadata</span>());
+    <span class="kw">fn</span> <span class="ident">row_len</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_metadata</span>());
 
-        <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>bytes_per_pixel</span> <span class='op'>*</span> <span class='number'>8</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>width</span>)
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">bytes_per_pixel</span> <span class="op">*</span> <span class="number">8</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">width</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>read_scanline</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> {
-        <span class='macro'>unimplemented</span><span class='macro'>!</span>();
+    <span class="kw">fn</span> <span class="ident">read_scanline</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+        <span class="macro">unimplemented</span><span class="macro">!</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>read_image</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageResult</span><span class='op'>&lt;</span><span class='ident'>DecodingResult</span><span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_metadata</span>());
-        <span class='self'>self</span>.<span class='ident'>read_image_data</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>DecodingResult</span>::<span class='ident'>U8</span>(<span class='ident'>v</span>) )
+    <span class="kw">fn</span> <span class="ident">read_image</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">DecodingResult</span><span class="op">&gt;</span> {
+        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_metadata</span>());
+        <span class="self">self</span>.<span class="ident">read_image_data</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">DecodingResult</span>::<span class="ident">U8</span>(<span class="ident">v</span>) )
     }
 }
 </pre>

@@ -1,5 +1,6 @@
 (function() {var implementors = {};
-implementors["unicode_width"] = [];implementors["termimage"] = [];
+implementors["termimage"] = [];
+implementors["unicode_width"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

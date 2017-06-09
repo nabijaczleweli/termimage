@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ParallelIterator` trait in crate `rayon`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ParallelIterator">
+
+    <title>rayon::iter::ParallelIterator - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Trait ParallelIterator</p><div class="block items"><ul><li><a href="#associated-types">Associated Types</a></li><li><a href="#required-methods">Required Methods</a></li><li><a href="#provided-methods">Provided Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='../index.html'>rayon</a>::<wbr><a href='index.html'>iter</a></p><script>window.sidebarCurrent = {name: 'ParallelIterator', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rayon</a>::<wbr><a href='index.html'>iter</a>::<wbr><a class="trait" href=''>ParallelIterator</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/rayon/iter/mod.rs.html#116-644' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait ParallelIterator: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> {
+    type <a href='#associatedtype.Item' class="type">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>;
+    fn <a href='#tymethod.drive_unindexed' class='fnname'>drive_unindexed</a>&lt;C&gt;(self, consumer: C) -&gt; C::<a class="trait" href="../../rayon/iter/internal/trait.Consumer.html" title="trait rayon::iter::internal::Consumer">Result</a><br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="../../rayon/iter/internal/trait.UnindexedConsumer.html" title="trait rayon::iter::internal::UnindexedConsumer">UnindexedConsumer</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;</span>;
+
+    fn <a href='#method.weight' class='fnname'>weight</a>(self, _scale: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>) -&gt; <a class="struct" href="../../rayon/iter/struct.Weight.html" title="struct rayon::iter::Weight">Weight</a>&lt;Self&gt; { ... }
+    fn <a href='#method.weight_max' class='fnname'>weight_max</a>(self) -&gt; <a class="struct" href="../../rayon/iter/struct.Weight.html" title="struct rayon::iter::Weight">Weight</a>&lt;Self&gt; { ... }
+    fn <a href='#method.for_each' class='fnname'>for_each</a>&lt;OP&gt;(self, op: OP)<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.count' class='fnname'>count</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> { ... }
+    fn <a href='#method.map' class='fnname'>map</a>&lt;F, R&gt;(self, map_op: F) -&gt; <a class="struct" href="../../rayon/iter/struct.Map.html" title="struct rayon::iter::Map">Map</a>&lt;Self, <a class="struct" href="../../rayon/iter/struct.MapFn.html" title="struct rayon::iter::MapFn">MapFn</a>&lt;F&gt;&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; R + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a></span>,
+    { ... }
+    fn <a href='#method.cloned' class='fnname'>cloned</a>&lt;'a, T&gt;(self) -&gt; <a class="struct" href="../../rayon/iter/struct.Map.html" title="struct rayon::iter::Map">Map</a>&lt;Self, <a class="struct" href="../../rayon/iter/struct.MapCloned.html" title="struct rayon::iter::MapCloned">MapCloned</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T: 'a + <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>&lt;Item = &amp;'a T&gt;</span>,
+    { ... }
+    fn <a href='#method.inspect' class='fnname'>inspect</a>&lt;OP&gt;(self, inspect_op: OP) -&gt; <a class="struct" href="../../rayon/iter/struct.Map.html" title="struct rayon::iter::Map">Map</a>&lt;Self, <a class="struct" href="../../rayon/iter/struct.MapInspect.html" title="struct rayon::iter::MapInspect">MapInspect</a>&lt;OP&gt;&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.filter' class='fnname'>filter</a>&lt;P&gt;(self, filter_op: P) -&gt; <a class="struct" href="../../rayon/iter/struct.Filter.html" title="struct rayon::iter::Filter">Filter</a>&lt;Self, P&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.filter_map' class='fnname'>filter_map</a>&lt;P, R&gt;(self, filter_op: P) -&gt; <a class="struct" href="../../rayon/iter/struct.FilterMap.html" title="struct rayon::iter::FilterMap">FilterMap</a>&lt;Self, P&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;R&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a></span>,
+    { ... }
+    fn <a href='#method.flat_map' class='fnname'>flat_map</a>&lt;F, PI&gt;(self, map_op: F) -&gt; <a class="struct" href="../../rayon/iter/struct.FlatMap.html" title="struct rayon::iter::FlatMap">FlatMap</a>&lt;Self, F&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; PI + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PI: <a class="trait" href="../../rayon/iter/trait.IntoParallelIterator.html" title="trait rayon::iter::IntoParallelIterator">IntoParallelIterator</a></span>,
+    { ... }
+    fn <a href='#method.reduce' class='fnname'>reduce</a>&lt;OP, ID&gt;(self, identity: ID, op: OP) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a><br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>, Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>() -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.reduce_with' class='fnname'>reduce_with</a>&lt;OP&gt;(self, op: OP) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>, Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.reduce_with_identity' class='fnname'>reduce_with_identity</a>&lt;OP&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;identity: Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op: OP<br>&nbsp;&nbsp;&nbsp;&nbsp;) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a><br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>, Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.fold' class='fnname'>fold</a>&lt;T, ID, F&gt;(self, identity: ID, fold_op: F) -&gt; <a class="struct" href="../../rayon/iter/struct.Fold.html" title="struct rayon::iter::Fold">Fold</a>&lt;Self, ID, F&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(T, Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; T + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>() -&gt; T + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a></span>,
+    { ... }
+    fn <a href='#method.sum' class='fnname'>sum</a>&lt;S&gt;(self) -&gt; S<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Sum.html" title="trait core::iter::traits::Sum">Sum</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Sum.html" title="trait core::iter::traits::Sum">Sum</a></span>,
+    { ... }
+    fn <a href='#method.product' class='fnname'>product</a>&lt;P&gt;(self) -&gt; P<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Product.html" title="trait core::iter::traits::Product">Product</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Product.html" title="trait core::iter::traits::Product">Product</a></span>,
+    { ... }
+    fn <a href='#method.mul' class='fnname'>mul</a>(self) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a><br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Product.html" title="trait core::iter::traits::Product">Product</a></span>,
+    { ... }
+    fn <a href='#method.min' class='fnname'>min</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a></span>,
+    { ... }
+    fn <a href='#method.min_by_key' class='fnname'>min_by_key</a>&lt;K, F&gt;(self, f: F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; K</span>,
+    { ... }
+    fn <a href='#method.max' class='fnname'>max</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a></span>,
+    { ... }
+    fn <a href='#method.max_by_key' class='fnname'>max_by_key</a>&lt;K, F&gt;(self, f: F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; K</span>,
+    { ... }
+    fn <a href='#method.chain' class='fnname'>chain</a>&lt;C&gt;(self, chain: C) -&gt; <a class="struct" href="../../rayon/iter/struct.Chain.html" title="struct rayon::iter::Chain">Chain</a>&lt;Self, C::<a class="trait" href="../../rayon/iter/trait.IntoParallelIterator.html" title="trait rayon::iter::IntoParallelIterator">Iter</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="../../rayon/iter/trait.IntoParallelIterator.html" title="trait rayon::iter::IntoParallelIterator">IntoParallelIterator</a>&lt;Item = Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;</span>,
+    { ... }
+    fn <a href='#method.find_any' class='fnname'>find_any</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.find_first' class='fnname'>find_first</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.find_last' class='fnname'>find_last</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.any' class='fnname'>any</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a><br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.all' class='fnname'>all</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a><br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a></span>,
+    { ... }
+    fn <a href='#method.collect' class='fnname'>collect</a>&lt;C&gt;(self) -&gt; C<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="../../rayon/iter/trait.FromParallelIterator.html" title="trait rayon::iter::FromParallelIterator">FromParallelIterator</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;</span>,
+    { ... }
+    fn <a href='#method.opt_len' class='fnname'>opt_len</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt; { ... }
+}</pre><div class='docblock'><p>The <code>ParallelIterator</code> interface.</p>
+</div>
+            <h2 id='associated-types'>Associated Types</h2>
+            <div class='methods'>
+        <h3 id='associatedtype.Item' class='method'><span id='Item.t' class='invisible'><code>type <a href='#associatedtype.Item' class="type">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a></code></span></h3></div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.drive_unindexed' class='method'><span id='drive_unindexed.v' class='invisible'><code>fn <a href='#tymethod.drive_unindexed' class='fnname'>drive_unindexed</a>&lt;C&gt;(self, consumer: C) -&gt; C::<a class="trait" href="../../rayon/iter/internal/trait.Consumer.html" title="trait rayon::iter::internal::Consumer">Result</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="../../rayon/iter/internal/trait.UnindexedConsumer.html" title="trait rayon::iter::internal::UnindexedConsumer">UnindexedConsumer</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;,&nbsp;</span></code></span></h3><div class='docblock'><p>Internal method used to define the behavior of this parallel
+iterator. You should not need to call this directly.</p>
+
+<p>This method causes the iterator <code>self</code> to start producing
+items and to feed them to the consumer <code>consumer</code> one by one.
+It may split the consumer before doing so to create the
+opportunity to produce in parallel.</p>
+
+<p>See the <a href="README.md">README</a> for more details on the internals of parallel
+iterators.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.weight' class='method'><span id='weight.v' class='invisible'><code>fn <a href='#method.weight' class='fnname'>weight</a>(self, _scale: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>) -&gt; <a class="struct" href="../../rayon/iter/struct.Weight.html" title="struct rayon::iter::Weight">Weight</a>&lt;Self&gt;</code></span></h3><div class='stability'><div class='stab deprecated'>Deprecated since v0.7.0<p>: try <code>with_min_len</code> or <code>with_max_len</code> instead</p>
+</div></div><div class='docblock'><p>Deprecated. If the adaptive algorithms don&#39;t split appropriately, try
+<code>IndexedParallelIterator::with_min_len()</code> or <code>with_max_len()</code> instead.</p>
+</div><h3 id='method.weight_max' class='method'><span id='weight_max.v' class='invisible'><code>fn <a href='#method.weight_max' class='fnname'>weight_max</a>(self) -&gt; <a class="struct" href="../../rayon/iter/struct.Weight.html" title="struct rayon::iter::Weight">Weight</a>&lt;Self&gt;</code></span></h3><div class='stability'><div class='stab deprecated'>Deprecated since v0.7.0<p>: try <code>with_min_len</code> or <code>with_max_len</code> instead</p>
+</div></div><div class='docblock'><p>Deprecated. If the adaptive algorithms don&#39;t split appropriately, try
+<code>IndexedParallelIterator::with_min_len()</code> or <code>with_max_len()</code> instead.</p>
+</div><h3 id='method.for_each' class='method'><span id='for_each.v' class='invisible'><code>fn <a href='#method.for_each' class='fnname'>for_each</a>&lt;OP&gt;(self, op: OP) <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Executes <code>OP</code> on each item produced by the iterator, in parallel.</p>
+</div><h3 id='method.count' class='method'><span id='count.v' class='invisible'><code>fn <a href='#method.count' class='fnname'>count</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span></h3><div class='docblock'><p>Counts the number of items in this parallel iterator.</p>
+</div><h3 id='method.map' class='method'><span id='map.v' class='invisible'><code>fn <a href='#method.map' class='fnname'>map</a>&lt;F, R&gt;(self, map_op: F) -&gt; <a class="struct" href="../../rayon/iter/struct.Map.html" title="struct rayon::iter::Map">Map</a>&lt;Self, <a class="struct" href="../../rayon/iter/struct.MapFn.html" title="struct rayon::iter::MapFn">MapFn</a>&lt;F&gt;&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; R + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Applies <code>map_op</code> to each item of this iterator, producing a new
+iterator with the results.</p>
+</div><h3 id='method.cloned' class='method'><span id='cloned.v' class='invisible'><code>fn <a href='#method.cloned' class='fnname'>cloned</a>&lt;'a, T&gt;(self) -&gt; <a class="struct" href="../../rayon/iter/struct.Map.html" title="struct rayon::iter::Map">Map</a>&lt;Self, <a class="struct" href="../../rayon/iter/struct.MapCloned.html" title="struct rayon::iter::MapCloned">MapCloned</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: 'a + <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>&lt;Item = &amp;'a T&gt;,&nbsp;</span></code></span></h3><div class='docblock'><p>Creates an iterator which clones all of its elements.  This may be
+useful when you have an iterator over <code>&amp;T</code>, but you need <code>T</code>.</p>
+</div><h3 id='method.inspect' class='method'><span id='inspect.v' class='invisible'><code>fn <a href='#method.inspect' class='fnname'>inspect</a>&lt;OP&gt;(self, inspect_op: OP) -&gt; <a class="struct" href="../../rayon/iter/struct.Map.html" title="struct rayon::iter::Map">Map</a>&lt;Self, <a class="struct" href="../../rayon/iter/struct.MapInspect.html" title="struct rayon::iter::MapInspect">MapInspect</a>&lt;OP&gt;&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Applies <code>inspect_op</code> to a reference to each item of this iterator,
+producing a new iterator passing through the original items.  This is
+often useful for debugging to see what&#39;s happening in iterator stages.</p>
+</div><h3 id='method.filter' class='method'><span id='filter.v' class='invisible'><code>fn <a href='#method.filter' class='fnname'>filter</a>&lt;P&gt;(self, filter_op: P) -&gt; <a class="struct" href="../../rayon/iter/struct.Filter.html" title="struct rayon::iter::Filter">Filter</a>&lt;Self, P&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Applies <code>filter_op</code> to each item of this iterator, producing a new
+iterator with only the items that gave <code>true</code> results.</p>
+</div><h3 id='method.filter_map' class='method'><span id='filter_map.v' class='invisible'><code>fn <a href='#method.filter_map' class='fnname'>filter_map</a>&lt;P, R&gt;(self, filter_op: P) -&gt; <a class="struct" href="../../rayon/iter/struct.FilterMap.html" title="struct rayon::iter::FilterMap">FilterMap</a>&lt;Self, P&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;R&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Applies <code>filter_op</code> to each item of this iterator to get an <code>Option</code>,
+producing a new iterator with only the items from <code>Some</code> results.</p>
+</div><h3 id='method.flat_map' class='method'><span id='flat_map.v' class='invisible'><code>fn <a href='#method.flat_map' class='fnname'>flat_map</a>&lt;F, PI&gt;(self, map_op: F) -&gt; <a class="struct" href="../../rayon/iter/struct.FlatMap.html" title="struct rayon::iter::FlatMap">FlatMap</a>&lt;Self, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; PI + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;PI: <a class="trait" href="../../rayon/iter/trait.IntoParallelIterator.html" title="trait rayon::iter::IntoParallelIterator">IntoParallelIterator</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Applies <code>map_op</code> to each item of this iterator to get nested iterators,
+producing a new iterator that flattens these back into one.</p>
+</div><h3 id='method.reduce' class='method'><span id='reduce.v' class='invisible'><code>fn <a href='#method.reduce' class='fnname'>reduce</a>&lt;OP, ID&gt;(self, identity: ID, op: OP) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>, Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;ID: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>() -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Reduces the items in the iterator into one item using <code>op</code>.
+The argument <code>identity</code> should be a closure that can produce
+&quot;identity&quot; value which may be inserted into the sequence as
+needed to create opportunities for parallel execution. So, for
+example, if you are doing a summation, then <code>identity()</code> ought
+to produce something that represents the zero for your type
+(but consider just calling <code>sum()</code> in that case).</p>
+
+<p>Example:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="comment">// Iterate over a sequence of pairs `(x0, y0), ..., (xN, yN)`</span>
+<span class="comment">// and use reduce to compute one pair `(x0 + ... + xN, y0 + ... + yN)`</span>
+<span class="comment">// where the first/second elements are summed separately.</span>
+<span class="kw">use</span> <span class="ident">rayon</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">let</span> <span class="ident">sums</span> <span class="op">=</span> [(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">5</span>, <span class="number">6</span>), (<span class="number">16</span>, <span class="number">2</span>), (<span class="number">8</span>, <span class="number">9</span>)]
+           .<span class="ident">par_iter</span>()        <span class="comment">// iterating over &amp;(i32, i32)</span>
+           .<span class="ident">cloned</span>()          <span class="comment">// iterating over (i32, i32)</span>
+           .<span class="ident">reduce</span>(<span class="op">||</span> (<span class="number">0</span>, <span class="number">0</span>), <span class="comment">// the &quot;identity&quot; is 0 in both columns</span>
+                   <span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> (<span class="ident">a</span>.<span class="number">0</span> <span class="op">+</span> <span class="ident">b</span>.<span class="number">0</span>, <span class="ident">a</span>.<span class="number">1</span> <span class="op">+</span> <span class="ident">b</span>.<span class="number">1</span>));
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">sums</span>, (<span class="number">0</span> <span class="op">+</span> <span class="number">5</span> <span class="op">+</span> <span class="number">16</span> <span class="op">+</span> <span class="number">8</span>, <span class="number">1</span> <span class="op">+</span> <span class="number">6</span> <span class="op">+</span> <span class="number">2</span> <span class="op">+</span> <span class="number">9</span>));</pre>
+
+<p><strong>Note:</strong> unlike a sequential <code>fold</code> operation, the order in
+which <code>op</code> will be applied to reduce the result is not fully
+specified. So <code>op</code> should be <a href="https://en.wikipedia.org/wiki/Associative_property">associative</a> or else the results
+will be non-deterministic. And of course <code>identity()</code> should
+produce a true identity.</p>
+</div><h3 id='method.reduce_with' class='method'><span id='reduce_with.v' class='invisible'><code>fn <a href='#method.reduce_with' class='fnname'>reduce_with</a>&lt;OP&gt;(self, op: OP) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>, Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Reduces the items in the iterator into one item using <code>op</code>.
+If the iterator is empty, <code>None</code> is returned; otherwise,
+<code>Some</code> is returned.</p>
+
+<p>This version of <code>reduce</code> is simple but somewhat less
+efficient. If possible, it is better to call <code>reduce()</code>, which
+requires an identity element.</p>
+
+<p><strong>Note:</strong> unlike a sequential <code>fold</code> operation, the order in
+which <code>op</code> will be applied to reduce the result is not fully
+specified. So <code>op</code> should be <a href="https://en.wikipedia.org/wiki/Associative_property">associative</a> or else the results
+will be non-deterministic.</p>
+</div><h3 id='method.reduce_with_identity' class='method'><span id='reduce_with_identity.v' class='invisible'><code>fn <a href='#method.reduce_with_identity' class='fnname'>reduce_with_identity</a>&lt;OP&gt;(self, identity: Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>, op: OP) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;OP: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>, Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='stability'><div class='stab deprecated'>Deprecated since v0.5.0<p>: call <code>reduce</code> instead</p>
+</div></div><div class='docblock'><p>Deprecated. Use <code>reduce()</code> instead.</p>
+</div><h3 id='method.fold' class='method'><span id='fold.v' class='invisible'><code>fn <a href='#method.fold' class='fnname'>fold</a>&lt;T, ID, F&gt;(self, identity: ID, fold_op: F) -&gt; <a class="struct" href="../../rayon/iter/struct.Fold.html" title="struct rayon::iter::Fold">Fold</a>&lt;Self, ID, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(T, Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; T + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;ID: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>() -&gt; T + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Parallel fold is similar to sequential fold except that the
+sequence of items may be subdivided before it is
+folded. Consider a list of numbers like <code>22 3 77 89 46</code>. If
+you used sequential fold to add them (<code>fold(0, |a,b| a+b)</code>,
+you would wind up first adding 0 + 22, then 22 + 3, then 25 +
+77, and so forth. The <strong>parallel fold</strong> works similarly except
+that it first breaks up your list into sublists, and hence
+instead of yielding up a single sum at the end, it yields up
+multiple sums. The number of results is nondeterministic, as
+is the point where the breaks occur.</p>
+
+<p>So if did the same parallel fold (<code>fold(0, |a,b| a+b)</code>) on
+our example list, we might wind up with a sequence of two numbers,
+like so:</p>
+
+<pre><code class="language-notrust">22 3 77 89 46
+      |     |
+    102   135
+</code></pre>
+
+<p>Or perhaps these three numbers:</p>
+
+<pre><code class="language-notrust">22 3 77 89 46
+      |  |  |
+    102 89 46
+</code></pre>
+
+<p>In general, Rayon will attempt to find good breaking points
+that keep all of your cores busy.</p>
+
+<h3 id='fold-versus-reduce' class='section-header'><a href='#fold-versus-reduce'>Fold versus reduce</a></h3>
+<p>The <code>fold()</code> and <code>reduce()</code> methods each take an identity element
+and a combining function, but they operate rather differently.</p>
+
+<p><code>reduce()</code> requires that the identity function has the same
+type as the things you are iterating over, and it fully
+reduces the list of items into a single item. So, for example,
+imagine we are iterating over a list of bytes <code>bytes: [128_u8, 64_u8, 64_u8]</code>. If we used <code>bytes.reduce(|| 0_u8, |a: u8, b: u8| a + b)</code>, we would get an overflow. This is because <code>0</code>,
+<code>a</code>, and <code>b</code> here are all bytes, just like the numbers in the
+list (I wrote the types explicitly above, but those are the
+only types you can use). To avoid the overflow, we would need
+to do something like <code>bytes.map(|b| b as u32).reduce(|| 0, |a, b| a + b)</code>, in which case our result would be <code>256</code>.</p>
+
+<p>In contrast, with <code>fold()</code>, the identity function does not
+have to have the same type as the things you are iterating
+over, and you potentially get back many results. So, if we
+continue with the <code>bytes</code> example from the previous paragraph,
+we could do <code>bytes.fold(|| 0_u32, |a, b| a + (b as u32))</code> to
+convert our bytes into <code>u32</code>. And of course we might not get
+back a single sum.</p>
+
+<p>There is a more subtle distinction as well, though it&#39;s
+actually implied by the above points. When you use <code>reduce()</code>,
+your reduction function is sometimes called with values that
+were never part of your original parallel iterator (for
+example, both the left and right might be a partial sum). With
+<code>fold()</code>, in contrast, the left value in the fold function is
+always the accumulator, and the right value is always from
+your original sequence.</p>
+
+<h3 id='fold-vs-mapreduce' class='section-header'><a href='#fold-vs-mapreduce'>Fold vs Map/Reduce</a></h3>
+<p>Fold makes sense if you have some operation where it is
+cheaper to groups of elements at a time. For example, imagine
+collecting characters into a string. If you were going to use
+map/reduce, you might try this:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">rayon</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span>
+    [<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>, <span class="string">&#39;c&#39;</span>, <span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>]
+    .<span class="ident">par_iter</span>()
+    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">c</span>: <span class="kw-2">&amp;</span><span class="ident">char</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">c</span>))
+    .<span class="ident">reduce</span>(<span class="op">||</span> <span class="ident">String</span>::<span class="ident">new</span>(),
+            <span class="op">|</span><span class="kw-2">mut</span> <span class="ident">a</span>: <span class="ident">String</span>, <span class="ident">b</span>: <span class="ident">String</span><span class="op">|</span> { <span class="ident">a</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>); <span class="ident">a</span> });
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>, <span class="string">&quot;abcde&quot;</span>);</pre>
+
+<p>Because reduce produces the same type of element as its input,
+you have to first map each character into a string, and then
+you can reduce them. This means we create one string per
+element in ou iterator -- not so great. Using <code>fold</code>, we can
+do this instead:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">rayon</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span>
+    [<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>, <span class="string">&#39;c&#39;</span>, <span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>]
+    .<span class="ident">par_iter</span>()
+    .<span class="ident">fold</span>(<span class="op">||</span> <span class="ident">String</span>::<span class="ident">new</span>(),
+            <span class="op">|</span><span class="kw-2">mut</span> <span class="ident">s</span>: <span class="ident">String</span>, <span class="ident">c</span>: <span class="kw-2">&amp;</span><span class="ident">char</span><span class="op">|</span> { <span class="ident">s</span>.<span class="ident">push</span>(<span class="kw-2">*</span><span class="ident">c</span>); <span class="ident">s</span> })
+    .<span class="ident">reduce</span>(<span class="op">||</span> <span class="ident">String</span>::<span class="ident">new</span>(),
+            <span class="op">|</span><span class="kw-2">mut</span> <span class="ident">a</span>: <span class="ident">String</span>, <span class="ident">b</span>: <span class="ident">String</span><span class="op">|</span> { <span class="ident">a</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>); <span class="ident">a</span> });
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>, <span class="string">&quot;abcde&quot;</span>);</pre>
+
+<p>Now <code>fold</code> will process groups of our characters at a time,
+and we only make one string per group. We should wind up with
+some small-ish number of strings roughly proportional to the
+number of CPUs you have (it will ultimately depend on how busy
+your processors are). Note that we still need to do a reduce
+afterwards to combine those groups of strings into a single
+string.</p>
+
+<p>You could use a similar trick to save partial results (e.g., a
+cache) or something similar.</p>
+
+<h3 id='combining-fold-with-other-operations' class='section-header'><a href='#combining-fold-with-other-operations'>Combining fold with other operations</a></h3>
+<p>You can combine <code>fold</code> with <code>reduce</code> if you want to produce a
+single value. This is then roughly equivalent to a map/reduce
+combination in effect:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">rayon</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="number">0</span>..<span class="number">22_u8</span>; <span class="comment">// series of u8 bytes</span>
+<span class="kw">let</span> <span class="ident">sum</span> <span class="op">=</span> <span class="ident">bytes</span>.<span class="ident">into_par_iter</span>()
+               .<span class="ident">fold</span>(<span class="op">||</span> <span class="number">0_u32</span>, <span class="op">|</span><span class="ident">a</span>: <span class="ident">u32</span>, <span class="ident">b</span>: <span class="ident">u8</span><span class="op">|</span> <span class="ident">a</span> <span class="op">+</span> (<span class="ident">b</span> <span class="kw">as</span> <span class="ident">u32</span>))
+               .<span class="ident">sum</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>();
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">sum</span>, (<span class="number">0</span>..<span class="number">22</span>).<span class="ident">sum</span>()); <span class="comment">// compare to sequential</span></pre>
+</div><h3 id='method.sum' class='method'><span id='sum.v' class='invisible'><code>fn <a href='#method.sum' class='fnname'>sum</a>&lt;S&gt;(self) -&gt; S <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Sum.html" title="trait core::iter::traits::Sum">Sum</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Sum.html" title="trait core::iter::traits::Sum">Sum</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Sums up the items in the iterator.</p>
+
+<p>Note that the order in items will be reduced is not specified,
+so if the <code>+</code> operator is not truly <a href="as%20is%20the%0Acase%20for%20floating%20point%20numbers">associative</a>, then the results are not
+fully deterministic.</p>
+
+<p>Basically equivalent to <code>self.reduce(|| 0, |a, b| a + b)</code>,
+except that the type of <code>0</code> and the <code>+</code> operation may vary
+depending on the type of value being produced.</p>
+</div><h3 id='method.product' class='method'><span id='product.v' class='invisible'><code>fn <a href='#method.product' class='fnname'>product</a>&lt;P&gt;(self) -&gt; P <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Product.html" title="trait core::iter::traits::Product">Product</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Product.html" title="trait core::iter::traits::Product">Product</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Multiplies all the items in the iterator.</p>
+
+<p>Note that the order in items will be reduced is not specified,
+so if the <code>*</code> operator is not truly <a href="as%20is%20the%0Acase%20for%20floating%20point%20numbers">associative</a>, then the results are not
+fully deterministic.</p>
+
+<p>Basically equivalent to <code>self.reduce(|| 1, |a, b| a * b)</code>,
+except that the type of <code>1</code> and the <code>*</code> operation may vary
+depending on the type of value being produced.</p>
+</div><h3 id='method.mul' class='method'><span id='mul.v' class='invisible'><code>fn <a href='#method.mul' class='fnname'>mul</a>(self) -&gt; Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.Product.html" title="trait core::iter::traits::Product">Product</a>,&nbsp;</span></code></span></h3><div class='stability'><div class='stab deprecated'>Deprecated since v0.6.0<p>: name changed to <code>product()</code> to match sequential iterators</p>
+</div></div><div class='docblock'><p>DEPRECATED</p>
+</div><h3 id='method.min' class='method'><span id='min.v' class='invisible'><code>fn <a href='#method.min' class='fnname'>min</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Computes the minimum of all the items in the iterator. If the
+iterator is empty, <code>None</code> is returned; otherwise, <code>Some(min)</code>
+is returned.</p>
+
+<p>Note that the order in which the items will be reduced is not
+specified, so if the <code>Ord</code> impl is not truly associative, then
+the results are not deterministic.</p>
+
+<p>Basically equivalent to <code>self.reduce_with(|a, b| cmp::min(a, b))</code>.</p>
+</div><h3 id='method.min_by_key' class='method'><span id='min_by_key.v' class='invisible'><code>fn <a href='#method.min_by_key' class='fnname'>min_by_key</a>&lt;K, F&gt;(self, f: F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;K: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; K,&nbsp;</span></code></span></h3><div class='docblock'><p>Computes the item that yields the minimum value for the given
+function. If the iterator is empty, <code>None</code> is returned;
+otherwise, <code>Some(item)</code> is returned.</p>
+
+<p>Note that the order in which the items will be reduced is not
+specified, so if the <code>Ord</code> impl is not truly associative, then
+the results are not deterministic.</p>
+</div><h3 id='method.max' class='method'><span id='max.v' class='invisible'><code>fn <a href='#method.max' class='fnname'>max</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Computes the maximum of all the items in the iterator. If the
+iterator is empty, <code>None</code> is returned; otherwise, <code>Some(max)</code>
+is returned.</p>
+
+<p>Note that the order in which the items will be reduced is not
+specified, so if the <code>Ord</code> impl is not truly associative, then
+the results are not deterministic.</p>
+
+<p>Basically equivalent to <code>self.reduce_with(|a, b| cmp::max(a, b))</code>.</p>
+</div><h3 id='method.max_by_key' class='method'><span id='max_by_key.v' class='invisible'><code>fn <a href='#method.max_by_key' class='fnname'>max_by_key</a>&lt;K, F&gt;(self, f: F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;K: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; K,&nbsp;</span></code></span></h3><div class='docblock'><p>Computes the item that yields the maximum value for the given
+function. If the iterator is empty, <code>None</code> is returned;
+otherwise, <code>Some(item)</code> is returned.</p>
+
+<p>Note that the order in which the items will be reduced is not
+specified, so if the <code>Ord</code> impl is not truly associative, then
+the results are not deterministic.</p>
+</div><h3 id='method.chain' class='method'><span id='chain.v' class='invisible'><code>fn <a href='#method.chain' class='fnname'>chain</a>&lt;C&gt;(self, chain: C) -&gt; <a class="struct" href="../../rayon/iter/struct.Chain.html" title="struct rayon::iter::Chain">Chain</a>&lt;Self, C::<a class="trait" href="../../rayon/iter/trait.IntoParallelIterator.html" title="trait rayon::iter::IntoParallelIterator">Iter</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="../../rayon/iter/trait.IntoParallelIterator.html" title="trait rayon::iter::IntoParallelIterator">IntoParallelIterator</a>&lt;Item = Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;,&nbsp;</span></code></span></h3><div class='docblock'><p>Takes two iterators and creates a new iterator over both.</p>
+</div><h3 id='method.find_any' class='method'><span id='find_any.v' class='invisible'><code>fn <a href='#method.find_any' class='fnname'>find_any</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Searches for <strong>some</strong> item in the parallel iterator that
+matches the given predicate and returns it. This operation
+is similar to <a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.find"><code>find</code> on sequential iterators</a> but
+the item returned may not be the <strong>first</strong> one in the parallel
+sequence which matches, since we search the entire sequence in parallel.</p>
+
+<p>Once a match is found, we will attempt to stop processing
+the rest of the items in the iterator as soon as possible
+(just as <code>find</code> stops iterating once a match is found).</p>
+</div><h3 id='method.find_first' class='method'><span id='find_first.v' class='invisible'><code>fn <a href='#method.find_first' class='fnname'>find_first</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Searches for the <strong>first</strong> item in the parallel iterator that
+matches the given predicate and returns it.</p>
+
+<p>Once a match is found, all attempts to the right of the match
+will be stopped, while attempts to the left must continue in case
+an earlier match is found.</p>
+
+<p>Note that not all parallel iterators have a useful order, much like
+sequential <code>HashMap</code> iteration, so &quot;first&quot; may be nebulous.</p>
+</div><h3 id='method.find_last' class='method'><span id='find_last.v' class='invisible'><code>fn <a href='#method.find_last' class='fnname'>find_last</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Searches for the <strong>last</strong> item in the parallel iterator that
+matches the given predicate and returns it.</p>
+
+<p>Once a match is found, all attempts to the left of the match
+will be stopped, while attempts to the right must continue in case
+a later match is found.</p>
+
+<p>Note that not all parallel iterators have a useful order, much like
+sequential <code>HashMap</code> iteration, so &quot;last&quot; may be nebulous.</p>
+</div><h3 id='method.any' class='method'><span id='any.v' class='invisible'><code>fn <a href='#method.any' class='fnname'>any</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Searches for <strong>some</strong> item in the parallel iterator that
+matches the given predicate, and if so returns true.  Once
+a match is found, we&#39;ll attempt to stop process the rest
+of the items.  Proving that there&#39;s no match, returning false,
+does require visiting every item.</p>
+</div><h3 id='method.all' class='method'><span id='all.v' class='invisible'><code>fn <a href='#method.all' class='fnname'>all</a>&lt;P&gt;(self, predicate: P) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Tests that every item in the parallel iterator matches the given
+predicate, and if so returns true.  If a counter-example is found,
+we&#39;ll attempt to stop processing more items, then return false.</p>
+</div><h3 id='method.collect' class='method'><span id='collect.v' class='invisible'><code>fn <a href='#method.collect' class='fnname'>collect</a>&lt;C&gt;(self) -&gt; C <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="../../rayon/iter/trait.FromParallelIterator.html" title="trait rayon::iter::FromParallelIterator">FromParallelIterator</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;,&nbsp;</span></code></span></h3><div class='docblock'><p>Create a fresh collection containing all the element produced
+by this parallel iterator.</p>
+
+<p>You may prefer to use <code>collect_into()</code>, which allocates more
+efficiently with precise knowledge of how many elements the
+iterator contains, and even allows you to reuse an existing
+vector&#39;s backing store rather than allocating a fresh vector.</p>
+</div><h3 id='method.opt_len' class='method'><span id='opt_len.v' class='invisible'><code>fn <a href='#method.opt_len' class='fnname'>opt_len</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;</code></span></h3><div class='docblock'><p>Internal method used to define the behavior of this parallel
+iterator. You should not need to call this directly.</p>
+
+<p>Returns the number of items produced by this iterator, if known
+statically. This can be used by consumers to trigger special fast
+paths. Therefore, if <code>Some(_)</code> is returned, this iterator must only
+use the (indexed) <code>Consumer</code> methods when driving a consumer, such
+as <code>split_at()</code>. Calling <code>UnindexedConsumer::split_off_left()</code> or
+other <code>UnindexedConsumer</code> methods -- or returning an inaccurate
+value -- may result in panics.</p>
+
+<p>This method is currently used to optimize <code>collect</code> for want
+of true Rust specialization; it may be removed when
+specialization is stable.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::collections::binary_heap::<a class="struct" href="../../rayon/collections/binary_heap/struct.IntoIter.html" title="struct rayon::collections::binary_heap::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ParallelIterator for rayon::collections::binary_heap::<a class="struct" href="../../rayon/collections/binary_heap/struct.Iter.html" title="struct rayon::collections::binary_heap::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;K:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>, V:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::collections::btree_map::<a class="struct" href="../../rayon/collections/btree_map/struct.IntoIter.html" title="struct rayon::collections::btree_map::IntoIter">IntoIter</a>&lt;K, V&gt;</code></li>
+<li><code>impl&lt;'a, K:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a, V:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ParallelIterator for rayon::collections::btree_map::<a class="struct" href="../../rayon/collections/btree_map/struct.Iter.html" title="struct rayon::collections::btree_map::Iter">Iter</a>&lt;'a, K, V&gt;</code></li>
+<li><code>impl&lt;'a, K:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a, V:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'a&gt; ParallelIterator for rayon::collections::btree_map::<a class="struct" href="../../rayon/collections/btree_map/struct.IterMut.html" title="struct rayon::collections::btree_map::IterMut">IterMut</a>&lt;'a, K, V&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::collections::btree_set::<a class="struct" href="../../rayon/collections/btree_set/struct.IntoIter.html" title="struct rayon::collections::btree_set::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ParallelIterator for rayon::collections::btree_set::<a class="struct" href="../../rayon/collections/btree_set/struct.Iter.html" title="struct rayon::collections::btree_set::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;K:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>, V:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::collections::hash_map::<a class="struct" href="../../rayon/collections/hash_map/struct.IntoIter.html" title="struct rayon::collections::hash_map::IntoIter">IntoIter</a>&lt;K, V&gt;</code></li>
+<li><code>impl&lt;'a, K:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a, V:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ParallelIterator for rayon::collections::hash_map::<a class="struct" href="../../rayon/collections/hash_map/struct.Iter.html" title="struct rayon::collections::hash_map::Iter">Iter</a>&lt;'a, K, V&gt;</code></li>
+<li><code>impl&lt;'a, K:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a, V:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'a&gt; ParallelIterator for rayon::collections::hash_map::<a class="struct" href="../../rayon/collections/hash_map/struct.IterMut.html" title="struct rayon::collections::hash_map::IterMut">IterMut</a>&lt;'a, K, V&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::collections::hash_set::<a class="struct" href="../../rayon/collections/hash_set/struct.IntoIter.html" title="struct rayon::collections::hash_set::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ParallelIterator for rayon::collections::hash_set::<a class="struct" href="../../rayon/collections/hash_set/struct.Iter.html" title="struct rayon::collections::hash_set::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::collections::linked_list::<a class="struct" href="../../rayon/collections/linked_list/struct.IntoIter.html" title="struct rayon::collections::linked_list::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ParallelIterator for rayon::collections::linked_list::<a class="struct" href="../../rayon/collections/linked_list/struct.Iter.html" title="struct rayon::collections::linked_list::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'a&gt; ParallelIterator for rayon::collections::linked_list::<a class="struct" href="../../rayon/collections/linked_list/struct.IterMut.html" title="struct rayon::collections::linked_list::IterMut">IterMut</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::collections::vec_deque::<a class="struct" href="../../rayon/collections/vec_deque/struct.IntoIter.html" title="struct rayon::collections::vec_deque::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ParallelIterator for rayon::collections::vec_deque::<a class="struct" href="../../rayon/collections/vec_deque/struct.Iter.html" title="struct rayon::collections::vec_deque::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'a&gt; ParallelIterator for rayon::collections::vec_deque::<a class="struct" href="../../rayon/collections/vec_deque/struct.IterMut.html" title="struct rayon::collections::vec_deque::IterMut">IterMut</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;A, B&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Chain.html" title="struct rayon::iter::Chain">Chain</a>&lt;A, B&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;A: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;B: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>&lt;Item = A::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Enumerate.html" title="struct rayon::iter::Enumerate">Enumerate</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I, P&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Filter.html" title="struct rayon::iter::Filter">Filter</a>&lt;I, P&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(&amp;I::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I, P, R&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.FilterMap.html" title="struct rayon::iter::FilterMap">FilterMap</a>&lt;I, P&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;P: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(I::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;R&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I, F, PI&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.FlatMap.html" title="struct rayon::iter::FlatMap">FlatMap</a>&lt;I, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(I::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; PI + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;PI: <a class="trait" href="../../rayon/iter/trait.IntoParallelIterator.html" title="trait rayon::iter::IntoParallelIterator">IntoParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;U, I, ID, F&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Fold.html" title="struct rayon::iter::Fold">Fold</a>&lt;I, ID, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(U, I::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>) -&gt; U + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;ID: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>() -&gt; U + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Skip.html" title="struct rayon::iter::Skip">Skip</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;D, S&gt; ParallelIterator for rayon::iter::<a class="struct" href="../../rayon/iter/struct.Split.html" title="struct rayon::iter::Split">Split</a>&lt;D, S&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Fn.html" title="trait core::ops::Fn">Fn</a>(D) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>D, <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;D&gt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Take.html" title="struct rayon::iter::Take">Take</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I, F&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Map.html" title="struct rayon::iter::Map">Map</a>&lt;I, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="../../rayon/iter/trait.MapOp.html" title="trait rayon::iter::MapOp">MapOp</a>&lt;I::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Weight.html" title="struct rayon::iter::Weight">Weight</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">ParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;A, B&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Zip.html" title="struct rayon::iter::Zip">Zip</a>&lt;A, B&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;A: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;B: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.Rev.html" title="struct rayon::iter::Rev">Rev</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.MinLen.html" title="struct rayon::iter::MinLen">MinLen</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ParallelIterator for <a class="struct" href="../../rayon/iter/struct.MaxLen.html" title="struct rayon::iter::MaxLen">MaxLen</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::option::<a class="struct" href="../../rayon/option/struct.IntoIter.html" title="struct rayon::option::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ParallelIterator for rayon::option::<a class="struct" href="../../rayon/option/struct.Iter.html" title="struct rayon::option::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'a&gt; ParallelIterator for rayon::option::<a class="struct" href="../../rayon/option/struct.IterMut.html" title="struct rayon::option::IterMut">IterMut</a>&lt;'a, T&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i8.html">i8</a>&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i16.html">i16</a>&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.isize.html">isize</a>&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a>&gt;</code></li>
+<li><code>impl ParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a>&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::result::<a class="struct" href="../../rayon/result/struct.IntoIter.html" title="struct rayon::result::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ParallelIterator for rayon::result::<a class="struct" href="../../rayon/result/struct.Iter.html" title="struct rayon::result::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'a&gt; ParallelIterator for rayon::result::<a class="struct" href="../../rayon/result/struct.IterMut.html" title="struct rayon::result::IterMut">IterMut</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'data&gt; ParallelIterator for rayon::slice::<a class="struct" href="../../rayon/slice/struct.Iter.html" title="struct rayon::slice::Iter">Iter</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'data&gt; ParallelIterator for <a class="struct" href="../../rayon/slice/struct.Chunks.html" title="struct rayon::slice::Chunks">Chunks</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'data&gt; ParallelIterator for <a class="struct" href="../../rayon/slice/struct.Windows.html" title="struct rayon::slice::Windows">Windows</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'data&gt; ParallelIterator for rayon::slice::<a class="struct" href="../../rayon/slice/struct.IterMut.html" title="struct rayon::slice::IterMut">IterMut</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'data&gt; ParallelIterator for <a class="struct" href="../../rayon/slice/struct.ChunksMut.html" title="struct rayon::slice::ChunksMut">ChunksMut</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;'ch&gt; ParallelIterator for <a class="struct" href="../../rayon/str/struct.Chars.html" title="struct rayon::str::Chars">Chars</a>&lt;'ch&gt;</code></li>
+<li><code>impl&lt;'ch, P:&nbsp;<a class="trait" href="../../rayon/str/trait.Pattern.html" title="trait rayon::str::Pattern">Pattern</a>&gt; ParallelIterator for rayon::str::<a class="struct" href="../../rayon/str/struct.Split.html" title="struct rayon::str::Split">Split</a>&lt;'ch, P&gt;</code></li>
+<li><code>impl&lt;'ch, P:&nbsp;<a class="trait" href="../../rayon/str/trait.Pattern.html" title="trait rayon::str::Pattern">Pattern</a>&gt; ParallelIterator for <a class="struct" href="../../rayon/str/struct.SplitTerminator.html" title="struct rayon::str::SplitTerminator">SplitTerminator</a>&lt;'ch, P&gt;</code></li>
+<li><code>impl&lt;'ch&gt; ParallelIterator for <a class="struct" href="../../rayon/str/struct.Lines.html" title="struct rayon::str::Lines">Lines</a>&lt;'ch&gt;</code></li>
+<li><code>impl&lt;'ch&gt; ParallelIterator for <a class="struct" href="../../rayon/str/struct.SplitWhitespace.html" title="struct rayon::str::SplitWhitespace">SplitWhitespace</a>&lt;'ch&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ParallelIterator for rayon::vec::<a class="struct" href="../../rayon/vec/struct.IntoIter.html" title="struct rayon::vec::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/rayon/iter/trait.ParallelIterator.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rayon";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

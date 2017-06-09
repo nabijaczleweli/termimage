@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ExactParallelIterator` trait in crate `rayon`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ExactParallelIterator">
+
+    <title>rayon::iter::ExactParallelIterator - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Trait ExactParallelIterator</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#provided-methods">Provided Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='../index.html'>rayon</a>::<wbr><a href='index.html'>iter</a></p><script>window.sidebarCurrent = {name: 'ExactParallelIterator', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rayon</a>::<wbr><a href='index.html'>iter</a>::<wbr><a class="trait" href=''>ExactParallelIterator</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/rayon/iter/mod.rs.html#682-694' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait ExactParallelIterator: <a class="trait" href="../../rayon/iter/trait.BoundedParallelIterator.html" title="trait rayon::iter::BoundedParallelIterator">BoundedParallelIterator</a> {
+    fn <a href='#tymethod.len' class='fnname'>len</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>;
+
+    fn <a href='#method.collect_into' class='fnname'>collect_into</a>(self, target: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;) { ... }
+}</pre><div class='docblock'><p>A trait for parallel iterators items where the precise number of
+items is known. This occurs when e.g. iterating over a
+vector. Knowing precisely how many items will be produced is very
+useful.</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.len' class='method'><span id='len.v' class='invisible'><code>fn <a href='#tymethod.len' class='fnname'>len</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span></h3><div class='docblock'><p>Produces an exact count of how many items this iterator will
+produce, presuming no panic occurs.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.collect_into' class='method'><span id='collect_into.v' class='invisible'><code>fn <a href='#method.collect_into' class='fnname'>collect_into</a>(self, target: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;Self::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;)</code></span></h3><div class='docblock'><p>Collects the results of the iterator into the specified
+vector. The vector is always truncated before execution
+begins. If possible, reusing the vector across calls can lead
+to better performance since it reuses the same backing buffer.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ExactParallelIterator for rayon::collections::binary_heap::<a class="struct" href="../../rayon/collections/binary_heap/struct.IntoIter.html" title="struct rayon::collections::binary_heap::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ExactParallelIterator for rayon::collections::binary_heap::<a class="struct" href="../../rayon/collections/binary_heap/struct.Iter.html" title="struct rayon::collections::binary_heap::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ExactParallelIterator for rayon::collections::vec_deque::<a class="struct" href="../../rayon/collections/vec_deque/struct.IntoIter.html" title="struct rayon::collections::vec_deque::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ExactParallelIterator for rayon::collections::vec_deque::<a class="struct" href="../../rayon/collections/vec_deque/struct.Iter.html" title="struct rayon::collections::vec_deque::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'a&gt; ExactParallelIterator for rayon::collections::vec_deque::<a class="struct" href="../../rayon/collections/vec_deque/struct.IterMut.html" title="struct rayon::collections::vec_deque::IterMut">IterMut</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;A, B&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.Chain.html" title="struct rayon::iter::Chain">Chain</a>&lt;A, B&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;A: <a class="trait" href="../../rayon/iter/trait.ExactParallelIterator.html" title="trait rayon::iter::ExactParallelIterator">ExactParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;B: <a class="trait" href="../../rayon/iter/trait.ExactParallelIterator.html" title="trait rayon::iter::ExactParallelIterator">ExactParallelIterator</a>&lt;Item = A::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.Enumerate.html" title="struct rayon::iter::Enumerate">Enumerate</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.Skip.html" title="struct rayon::iter::Skip">Skip</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.Take.html" title="struct rayon::iter::Take">Take</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I, F&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.Map.html" title="struct rayon::iter::Map">Map</a>&lt;I, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.ExactParallelIterator.html" title="trait rayon::iter::ExactParallelIterator">ExactParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="../../rayon/iter/trait.MapOp.html" title="trait rayon::iter::MapOp">MapOp</a>&lt;I::<a class="trait" href="../../rayon/iter/trait.ParallelIterator.html" title="trait rayon::iter::ParallelIterator">Item</a>&gt;,&nbsp;</span></code></li>
+<li><code>impl&lt;I:&nbsp;<a class="trait" href="../../rayon/iter/trait.ExactParallelIterator.html" title="trait rayon::iter::ExactParallelIterator">ExactParallelIterator</a>&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.Weight.html" title="struct rayon::iter::Weight">Weight</a>&lt;I&gt;</code></li>
+<li><code>impl&lt;A, B&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.Zip.html" title="struct rayon::iter::Zip">Zip</a>&lt;A, B&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;A: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;B: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.Rev.html" title="struct rayon::iter::Rev">Rev</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.MinLen.html" title="struct rayon::iter::MinLen">MinLen</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;I&gt; ExactParallelIterator for <a class="struct" href="../../rayon/iter/struct.MaxLen.html" title="struct rayon::iter::MaxLen">MaxLen</a>&lt;I&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="../../rayon/iter/trait.IndexedParallelIterator.html" title="trait rayon::iter::IndexedParallelIterator">IndexedParallelIterator</a>,&nbsp;</span></code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ExactParallelIterator for rayon::option::<a class="struct" href="../../rayon/option/struct.IntoIter.html" title="struct rayon::option::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ExactParallelIterator for rayon::option::<a class="struct" href="../../rayon/option/struct.Iter.html" title="struct rayon::option::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'a&gt; ExactParallelIterator for rayon::option::<a class="struct" href="../../rayon/option/struct.IterMut.html" title="struct rayon::option::IterMut">IterMut</a>&lt;'a, T&gt;</code></li>
+<li><code>impl ExactParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</code></li>
+<li><code>impl ExactParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>&gt;</code></li>
+<li><code>impl ExactParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></li>
+<li><code>impl ExactParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;</code></li>
+<li><code>impl ExactParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i8.html">i8</a>&gt;</code></li>
+<li><code>impl ExactParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i16.html">i16</a>&gt;</code></li>
+<li><code>impl ExactParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;</code></li>
+<li><code>impl ExactParallelIterator for rayon::range::<a class="struct" href="../../rayon/range/struct.Iter.html" title="struct rayon::range::Iter">Iter</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.isize.html">isize</a>&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ExactParallelIterator for rayon::result::<a class="struct" href="../../rayon/result/struct.IntoIter.html" title="struct rayon::result::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'a&gt; ExactParallelIterator for rayon::result::<a class="struct" href="../../rayon/result/struct.Iter.html" title="struct rayon::result::Iter">Iter</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;'a, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'a&gt; ExactParallelIterator for rayon::result::<a class="struct" href="../../rayon/result/struct.IterMut.html" title="struct rayon::result::IterMut">IterMut</a>&lt;'a, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'data&gt; ExactParallelIterator for rayon::slice::<a class="struct" href="../../rayon/slice/struct.Iter.html" title="struct rayon::slice::Iter">Iter</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'data&gt; ExactParallelIterator for <a class="struct" href="../../rayon/slice/struct.Chunks.html" title="struct rayon::slice::Chunks">Chunks</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'data&gt; ExactParallelIterator for <a class="struct" href="../../rayon/slice/struct.Windows.html" title="struct rayon::slice::Windows">Windows</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'data&gt; ExactParallelIterator for rayon::slice::<a class="struct" href="../../rayon/slice/struct.IterMut.html" title="struct rayon::slice::IterMut">IterMut</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;'data, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'data&gt; ExactParallelIterator for <a class="struct" href="../../rayon/slice/struct.ChunksMut.html" title="struct rayon::slice::ChunksMut">ChunksMut</a>&lt;'data, T&gt;</code></li>
+<li><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; ExactParallelIterator for rayon::vec::<a class="struct" href="../../rayon/vec/struct.IntoIter.html" title="struct rayon::vec::IntoIter">IntoIter</a>&lt;T&gt;</code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/rayon/iter/trait.ExactParallelIterator.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rayon";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -9,6 +9,7 @@
 
     <title>rayon::initialize - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>rayon</a>::<wbr><a class='fn' href=''>initialize</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>rayon</a>::<wbr><a class="fn" href=''>initialize</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-40' class='srclink' href='../src/rayon/api.rs.html#110-126' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn initialize(config: <a class='struct' href='../rayon/struct.Configuration.html' title='rayon::Configuration'>Configuration</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../rayon/enum.InitError.html' title='rayon::InitError'>InitError</a>&gt;</pre><div class='docblock'><p>Initializes the global thread pool. This initialization is
+               </span><a class='srclink' href='../src/rayon_core/lib.rs.html#285-289' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn initialize(config: <a class="struct" href="../rayon/struct.Configuration.html" title="struct rayon::Configuration">Configuration</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html" title="trait std::error::Error">Error</a> + 'static&gt;&gt;</pre><div class='docblock'><p>Initializes the global thread pool. This initialization is
 <strong>optional</strong>.  If you do not call this function, the thread pool
 will be automatically initialized with the default
 configuration. In fact, calling <code>initialize</code> is not recommended,
@@ -65,11 +66,8 @@ this cost is minimal.</li>
 <p>Initialization of the global thread pool happens exactly
 once. Once started, the configuration cannot be
 changed. Therefore, if you call <code>initialize</code> a second time, it
-will simply check that the global thread pool already has the
-configuration you requested, rather than making changes.</p>
-
-<p>An <code>Ok</code> result indicates that the thread pool is running with the
-given configuration. Otherwise, a suitable error is returned.</p>
+will return an error. An <code>Ok</code> result indicates that this
+is the first initialization of the thread pool.</p>
 </div></section>
     <section id='search' class="content hidden"></section>
 

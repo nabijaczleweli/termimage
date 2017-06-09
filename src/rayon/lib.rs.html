@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.6.0/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.7.1/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -74,39 +75,65 @@
 <span id="30">30</span>
 <span id="31">31</span>
 <span id="32">32</span>
-</pre><pre class='rust '>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>non_camel_case_types</span>)]</span> <span class='comment'>// I prefer to use ALL_CAPS for type parameters</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>test</span>, <span class='ident'>feature</span>(<span class='ident'>conservative_impl_trait</span>))]</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+</pre><pre class="rust ">
+<span class="attribute">#<span class="op">!</span>[<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span> <span class="comment">// I prefer to use ALL_CAPS for type parameters</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">cfg_attr</span>(<span class="ident">test</span>, <span class="ident">feature</span>(<span class="ident">conservative_impl_trait</span>))]</span>
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>deque</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_cpus</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
+<span class="comment">// If you&#39;re not compiling the unstable code, it often happens that</span>
+<span class="comment">// there is stuff that is considered &quot;dead code&quot; and so forth. So</span>
+<span class="comment">// disable warnings in that scenario.</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>), <span class="ident">allow</span>(<span class="ident">warnings</span>))]</span>
 
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>mod</span> <span class='ident'>log</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rayon_core</span>;
 
-<span class='kw'>mod</span> <span class='ident'>api</span>;
-<span class='kw'>mod</span> <span class='ident'>latch</span>;
-<span class='kw'>mod</span> <span class='ident'>job</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>par_iter</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>prelude</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>test</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;unstable&quot;</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>scope</span>;
-<span class='kw'>mod</span> <span class='ident'>thread_pool</span>;
-<span class='kw'>mod</span> <span class='ident'>unwind</span>;
-<span class='kw'>mod</span> <span class='ident'>util</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rand</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>Configuration</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>InitError</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>dump_stats</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>initialize</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>join</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>ThreadPool</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;unstable&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>scope</span>::{<span class='ident'>scope</span>, <span class='ident'>Scope</span>};
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">mod</span> <span class="ident">delegate</span>;
+
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">mod</span> <span class="ident">private</span>;
+
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">collections</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">iter</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">option</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prelude</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">range</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">result</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">slice</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">str</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vec</span>;
+
+<span class="kw">mod</span> <span class="ident">test</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">iter</span>::<span class="ident">split</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rayon_core</span>::<span class="ident">current_num_threads</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rayon_core</span>::<span class="ident">Configuration</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rayon_core</span>::<span class="ident">initialize</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rayon_core</span>::<span class="ident">ThreadPool</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rayon_core</span>::<span class="ident">join</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rayon_core</span>::{<span class="ident">scope</span>, <span class="ident">Scope</span>};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rayon_core</span>::<span class="ident">spawn_async</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rayon_core</span>::<span class="ident">spawn_future_async</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rayon_core</span>::<span class="ident">RayonFuture</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

@@ -9,6 +9,7 @@
 
     <title>deque - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'></p><script>window.sidebarCurrent = {name: 'deque', ty: 'mod', relpath: '../'};</script>
+        <p class='location'>Crate deque</p><div class="block items"><ul><li><a href="#reexports">Reexports</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'deque', ty: 'mod', relpath: '../'};</script>
     </nav>
 
     <nav class="sub">
@@ -42,12 +43,12 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>deque</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>deque</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/deque/lib.rs.html#10-331' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/deque/lib.rs.html#10-365' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>A (mostly) lock-free concurrent work-stealing deque</p>
 
 <p>This module contains an implementation of the Chase-Lev work stealing deque
@@ -60,29 +61,29 @@ occasional call to the memory allocator when growing the deque. Otherwise
 all operations are lock-free.</p>
 
 <h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>deque</span>;
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">deque</span>;
 
-<span class='kw'>let</span> (<span class='ident'>worker</span>, <span class='ident'>stealer</span>) <span class='op'>=</span> <span class='ident'>deque</span>::<span class='ident'>new</span>();
+<span class="kw">let</span> (<span class="ident">worker</span>, <span class="ident">stealer</span>) <span class="op">=</span> <span class="ident">deque</span>::<span class="ident">new</span>();
 
-<span class='comment'>// Only the worker may push/pop</span>
-<span class='ident'>worker</span>.<span class='ident'>push</span>(<span class='number'>1</span>);
-<span class='ident'>worker</span>.<span class='ident'>pop</span>();
+<span class="comment">// Only the worker may push/pop</span>
+<span class="ident">worker</span>.<span class="ident">push</span>(<span class="number">1</span>);
+<span class="ident">worker</span>.<span class="ident">pop</span>();
 
-<span class='comment'>// Stealers take data from the other end of the deque</span>
-<span class='ident'>worker</span>.<span class='ident'>push</span>(<span class='number'>1</span>);
-<span class='ident'>stealer</span>.<span class='ident'>steal</span>();
+<span class="comment">// Stealers take data from the other end of the deque</span>
+<span class="ident">worker</span>.<span class="ident">push</span>(<span class="number">1</span>);
+<span class="ident">stealer</span>.<span class="ident">steal</span>();
 
-<span class='comment'>// Stealers can be cloned to have many stealers stealing in parallel</span>
-<span class='ident'>worker</span>.<span class='ident'>push</span>(<span class='number'>1</span>);
-<span class='kw'>let</span> <span class='ident'>stealer2</span> <span class='op'>=</span> <span class='ident'>stealer</span>.<span class='ident'>clone</span>();
-<span class='ident'>stealer2</span>.<span class='ident'>steal</span>();</pre>
+<span class="comment">// Stealers can be cloned to have many stealers stealing in parallel</span>
+<span class="ident">worker</span>.<span class="ident">push</span>(<span class="number">1</span>);
+<span class="kw">let</span> <span class="ident">stealer2</span> <span class="op">=</span> <span class="ident">stealer</span>.<span class="ident">clone</span>();
+<span class="ident">stealer2</span>.<span class="ident">steal</span>();</pre>
 </div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
-<table><tr><td><code>pub use self::<a class='enum' href='../deque/enum.Stolen.html' title='deque::Stolen'>Stolen</a>::*;</code></td></tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr><td><code>pub use self::<a class="enum" href="../deque/enum.Stolen.html" title="enum deque::Stolen">Stolen</a>::*;</code></td></tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Stealer.html'
-                                  title='deque::Stealer'>Stealer</a></td>
+                           <td><a class="struct" href="struct.Stealer.html"
+                                  title='struct deque::Stealer'>Stealer</a></td>
                            <td class='docblock-short'>
                                 <p>The stealing half of the work-stealing deque. Stealers have access to the
 opposite end of the deque from the worker, and they only have access to the
@@ -90,8 +91,8 @@ opposite end of the deque from the worker, and they only have access to the
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Worker.html'
-                                  title='deque::Worker'>Worker</a></td>
+                           <td><a class="struct" href="struct.Worker.html"
+                                  title='struct deque::Worker'>Worker</a></td>
                            <td class='docblock-short'>
                                 <p>Worker half of the work-stealing deque. This worker has exclusive access to
 one side of the deque, and uses <code>push</code> and <code>pop</code> method to manipulate it.</p>
@@ -99,16 +100,16 @@ one side of the deque, and uses <code>push</code> and <code>pop</code> method to
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.Stolen.html'
-                                  title='deque::Stolen'>Stolen</a></td>
+                           <td><a class="enum" href="enum.Stolen.html"
+                                  title='enum deque::Stolen'>Stolen</a></td>
                            <td class='docblock-short'>
                                 <p>When stealing some data, this is an enumeration of the possible outcomes.</p>
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.new.html'
-                                  title='deque::new'>new</a></td>
+                           <td><a class="fn" href="fn.new.html"
+                                  title='fn deque::new'>new</a></td>
                            <td class='docblock-short'>
                                 <p>Allocates a new work-stealing deque.</p>
                            </td>
