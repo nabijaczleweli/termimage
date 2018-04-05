@@ -10,8 +10,11 @@
     <title>rayon::str - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Module str</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../index.html'>rayon</a></p><script>window.sidebarCurrent = {name: 'str', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+        <p class='location'>Module str</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../index.html'>rayon</a></p><script>window.sidebarCurrent = {name: 'str', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -49,10 +60,13 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/rayon/str.rs.html#1-450' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>This module contains extension methods for <code>String</code> that expose
-parallel iterators, such as <code>par_split_whitespace()</code>. You will
-rarely need to interact with it directly, since if you add <code>use rayon::prelude::*</code> to your file, that will include the helper
-traits defined in this module.</p>
+<div class='docblock'><p>Parallel iterator types for <a href="https://doc.rust-lang.org/stable/std/str/">strings</a></p>
+<p>You will rarely need to interact with this module directly unless you need
+to name one of the iterator types.</p>
+<p>Note: <a href="trait.ParallelString.html#method.par_split"><code>ParallelString::par_split()</code></a> and <a href="trait.ParallelString.html#method.par_split_terminator"><code>par_split_terminator()</code></a>
+reference a <code>Pattern</code> trait which is not visible outside this crate.
+This trait is intentionally kept private, for use only by Rayon itself.
+It is implemented for <code>char</code> and any <code>F: Fn(char) -&gt; bool + Sync + Send</code>.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -60,6 +74,7 @@ traits defined in this module.</p>
                                   title='struct rayon::str::Chars'>Chars</a></td>
                            <td class='docblock-short'>
                                 <p>Parallel iterator over the characters of a string</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -67,6 +82,7 @@ traits defined in this module.</p>
                                   title='struct rayon::str::Lines'>Lines</a></td>
                            <td class='docblock-short'>
                                 <p>Parallel iterator over lines in a string</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -74,6 +90,7 @@ traits defined in this module.</p>
                                   title='struct rayon::str::Split'>Split</a></td>
                            <td class='docblock-short'>
                                 <p>Parallel iterator over substrings separated by a pattern</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -81,6 +98,7 @@ traits defined in this module.</p>
                                   title='struct rayon::str::SplitTerminator'>SplitTerminator</a></td>
                            <td class='docblock-short'>
                                 <p>Parallel iterator over substrings separated by a terminator pattern</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -88,6 +106,7 @@ traits defined in this module.</p>
                                   title='struct rayon::str::SplitWhitespace'>SplitWhitespace</a></td>
                            <td class='docblock-short'>
                                 <p>Parallel iterator over substrings separated by whitespace</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -96,14 +115,7 @@ traits defined in this module.</p>
                                   title='trait rayon::str::ParallelString'>ParallelString</a></td>
                            <td class='docblock-short'>
                                 <p>Parallel extensions for strings.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="trait" href="trait.Pattern.html"
-                                  title='trait rayon::str::Pattern'>Pattern</a></td>
-                           <td class='docblock-short'>
-                                <p>Pattern-matching trait for <code>ParallelString</code>, somewhat like a mix of
-<code>std::str::pattern::{Pattern, Searcher}</code>.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -118,18 +130,22 @@ traits defined in this module.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
@@ -162,7 +178,6 @@ traits defined in this module.</p>
         window.rootPath = "../../";
         window.currentCrate = "rayon";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

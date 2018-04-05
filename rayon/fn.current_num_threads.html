@@ -10,8 +10,11 @@
     <title>rayon::current_num_threads - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
         <p class='location'><a href='index.html'>rayon</a></p><script>window.sidebarCurrent = {name: 'current_num_threads', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -48,20 +59,19 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/rayon_core/lib.rs.html#92-94' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/rayon_core/lib.rs.html#84-86' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub fn current_num_threads() -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></pre><div class='docblock'><p>Returns the number of threads in the current registry. If this
-code is executing within the Rayon thread-pool, then this will be
-the number of threads for the current thread-pool. Otherwise, it
-will be the number of threads for the global thread-pool.</p>
-
+code is executing within a Rayon thread-pool, then this will be
+the number of threads for the thread-pool of the current
+thread. Otherwise, it will be the number of threads for the global
+thread-pool.</p>
 <p>This can be useful when trying to judge how many times to split
 parallel work (the parallel iterator traits use this value
 internally for this purpose).</p>
-
-<h3 id='future-compatibility-note' class='section-header'><a href='#future-compatibility-note'>Future compatibility note</a></h3>
+<h1 id="future-compatibility-note" class="section-header"><a href="#future-compatibility-note">Future compatibility note</a></h1>
 <p>Note that unless this thread-pool was created with a
-configuration that specifies the number of threads, then this
-number may vary over time in future versions (see <a href="struct.Configuration.html#method.num_threads">the
+builder that specifies the number of threads, then this
+number may vary over time in future versions (see <a href="struct.ThreadPoolBuilder.html#method.num_threads">the
 <code>num_threads()</code> method for details</a>).</p>
 </div></section>
     <section id='search' class="content hidden"></section>
@@ -76,18 +86,22 @@ number may vary over time in future versions (see <a href="struct.Configuration.
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
@@ -120,7 +134,6 @@ number may vary over time in future versions (see <a href="struct.Configuration.
         window.rootPath = "../";
         window.currentCrate = "rayon";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

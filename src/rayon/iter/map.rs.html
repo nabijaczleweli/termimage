@@ -4,14 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-0.7.1/src/iter/map.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.0.1/src/iter/map.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>map.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -282,132 +293,33 @@
 <span id="237">237</span>
 <span id="238">238</span>
 <span id="239">239</span>
-<span id="240">240</span>
-<span id="241">241</span>
-<span id="242">242</span>
-<span id="243">243</span>
-<span id="244">244</span>
-<span id="245">245</span>
-<span id="246">246</span>
-<span id="247">247</span>
-<span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
-<span id="252">252</span>
-<span id="253">253</span>
-<span id="254">254</span>
-<span id="255">255</span>
-<span id="256">256</span>
-<span id="257">257</span>
-<span id="258">258</span>
-<span id="259">259</span>
-<span id="260">260</span>
-<span id="261">261</span>
-<span id="262">262</span>
-<span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
-<span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
-<span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
-<span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
-<span id="279">279</span>
-<span id="280">280</span>
-<span id="281">281</span>
-<span id="282">282</span>
-<span id="283">283</span>
-<span id="284">284</span>
-<span id="285">285</span>
-<span id="286">286</span>
-<span id="287">287</span>
-<span id="288">288</span>
-<span id="289">289</span>
-<span id="290">290</span>
-<span id="291">291</span>
-<span id="292">292</span>
-<span id="293">293</span>
-<span id="294">294</span>
-<span id="295">295</span>
-<span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
-<span id="307">307</span>
-<span id="308">308</span>
 </pre><pre class="rust ">
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">internal</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">plumbing</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// Specifies a &quot;map operator&quot;, transforming values into something else.</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::{<span class="self">self</span>, <span class="ident">Debug</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>;
+
+
+<span class="doccomment">/// `Map` is an iterator that transforms the elements of an underlying iterator.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Implementing this trait is not permitted outside of `rayon`.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">In</span><span class="op">&gt;</span>: <span class="ident">Sync</span> {
-    <span class="kw">type</span> <span class="ident">Output</span>: <span class="ident">Send</span>;
-    <span class="kw">fn</span> <span class="ident">map</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">In</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span>;
-    <span class="macro">private_decl</span><span class="macro">!</span>{}
-}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MapFn</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw">pub</span> <span class="ident">F</span>);
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">In</span>, <span class="ident">Out</span><span class="op">&gt;</span> <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">In</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MapFn</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">In</span>) <span class="op">-&gt;</span> <span class="ident">Out</span> <span class="op">+</span> <span class="ident">Sync</span>,
-          <span class="ident">Out</span>: <span class="ident">Send</span>
-{
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Out</span>;
-    <span class="kw">fn</span> <span class="ident">map</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">In</span>) <span class="op">-&gt;</span> <span class="ident">Out</span> {
-        (<span class="self">self</span>.<span class="number">0</span>)(<span class="ident">value</span>)
-    }
-    <span class="macro">private_impl</span><span class="macro">!</span>{}
-}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MapCloned</span>;
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">MapOp</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MapCloned</span>
-    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Send</span>
-{
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">T</span>;
-    <span class="kw">fn</span> <span class="ident">map</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
-        <span class="ident">value</span>.<span class="ident">clone</span>()
-    }
-    <span class="macro">private_impl</span><span class="macro">!</span>{}
-}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MapInspect</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw">pub</span> <span class="ident">F</span>);
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">In</span><span class="op">&gt;</span> <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">In</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MapInspect</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">In</span>) <span class="op">+</span> <span class="ident">Sync</span>,
-          <span class="ident">In</span>: <span class="ident">Send</span>
-{
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">In</span>;
-    <span class="kw">fn</span> <span class="ident">map</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">In</span>) <span class="op">-&gt;</span> <span class="ident">In</span> {
-        (<span class="self">self</span>.<span class="number">0</span>)(<span class="kw-2">&amp;</span><span class="ident">value</span>);
-        <span class="ident">value</span>
-    }
-    <span class="macro">private_impl</span><span class="macro">!</span>{}
-}
-
-<span class="doccomment">/// ////////////////////////////////////////////////////////////////////////</span>
-
+<span class="doccomment">/// This struct is created by the [`map()`] method on [`ParallelIterator`]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [`map()`]: trait.ParallelIterator.html#method.map</span>
+<span class="doccomment">/// [`ParallelIterator`]: trait.ParallelIterator.html</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;iterator adaptors are lazy and do nothing unless consumed&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">ParallelIterator</span>, <span class="ident">F</span><span class="op">&gt;</span> {
     <span class="ident">base</span>: <span class="ident">I</span>,
     <span class="ident">map_op</span>: <span class="ident">F</span>,
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">ParallelIterator</span> <span class="op">+</span> <span class="ident">Debug</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Map&quot;</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;base&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">base</span>)
+            .<span class="ident">finish</span>()
+    }
 }
 
 <span class="doccomment">/// Create a new `Map` iterator.</span>
@@ -422,9 +334,10 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">ParallelIterator</span> <span class="kw">for</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">ParallelIterator</span> <span class="kw">for</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>
+          <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">I</span>::<span class="ident">Item</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>,
+          <span class="ident">R</span>: <span class="ident">Send</span>
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">F</span>::<span class="ident">Output</span>;
 
@@ -435,40 +348,27 @@
         <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">drive_unindexed</span>(<span class="ident">consumer1</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">opt_len</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">opt_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">opt_len</span>()
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">BoundedParallelIterator</span> <span class="kw">for</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">BoundedParallelIterator</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">IndexedParallelIterator</span> <span class="kw">for</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">IndexedParallelIterator</span>,
+          <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">I</span>::<span class="ident">Item</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>,
+          <span class="ident">R</span>: <span class="ident">Send</span>
 {
-    <span class="kw">fn</span> <span class="ident">upper_bound</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
-        <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">upper_bound</span>()
-    }
-
     <span class="kw">fn</span> <span class="ident">drive</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">consumer</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="ident">C</span>::<span class="prelude-ty">Result</span>
         <span class="kw">where</span> <span class="ident">C</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>
     {
         <span class="kw">let</span> <span class="ident">consumer1</span> <span class="op">=</span> <span class="ident">MapConsumer</span>::<span class="ident">new</span>(<span class="ident">consumer</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">map_op</span>);
         <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">drive</span>(<span class="ident">consumer1</span>)
     }
-}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">ExactParallelIterator</span> <span class="kw">for</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ExactParallelIterator</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>
-{
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">len</span>()
     }
-}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">IndexedParallelIterator</span> <span class="kw">for</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">F</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">IndexedParallelIterator</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>
-{
     <span class="kw">fn</span> <span class="ident">with_producer</span><span class="op">&lt;</span><span class="ident">CB</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">callback</span>: <span class="ident">CB</span>) <span class="op">-&gt;</span> <span class="ident">CB</span>::<span class="ident">Output</span>
         <span class="kw">where</span> <span class="ident">CB</span>: <span class="ident">ProducerCallback</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>
     {
@@ -482,9 +382,10 @@
             <span class="ident">map_op</span>: <span class="ident">F</span>,
         }
 
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">CB</span><span class="op">&gt;</span> <span class="ident">ProducerCallback</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Callback</span><span class="op">&lt;</span><span class="ident">CB</span>, <span class="ident">F</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-                  <span class="ident">CB</span>: <span class="ident">ProducerCallback</span><span class="op">&lt;</span><span class="ident">F</span>::<span class="ident">Output</span><span class="op">&gt;</span>
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">CB</span><span class="op">&gt;</span> <span class="ident">ProducerCallback</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Callback</span><span class="op">&lt;</span><span class="ident">CB</span>, <span class="ident">F</span><span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">CB</span>: <span class="ident">ProducerCallback</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
+                  <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Sync</span>,
+                  <span class="ident">R</span>: <span class="ident">Send</span>
         {
             <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">CB</span>::<span class="ident">Output</span>;
 
@@ -508,18 +409,16 @@
     <span class="ident">map_op</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;f</span> <span class="ident">F</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">P</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Producer</span> <span class="kw">for</span> <span class="ident">MapProducer</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">P</span>, <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">P</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">Producer</span> <span class="kw">for</span> <span class="ident">MapProducer</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">P</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">Producer</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">P</span>::<span class="ident">Item</span><span class="op">&gt;</span>
+          <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">P</span>::<span class="ident">Item</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Sync</span>,
+          <span class="ident">R</span>: <span class="ident">Send</span>
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">F</span>::<span class="ident">Output</span>;
-    <span class="kw">type</span> <span class="ident">IntoIter</span> <span class="op">=</span> <span class="ident">MapIter</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">P</span>::<span class="ident">IntoIter</span>, <span class="ident">F</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">IntoIter</span> <span class="op">=</span> <span class="ident">iter</span>::<span class="ident">Map</span><span class="op">&lt;</span><span class="ident">P</span>::<span class="ident">IntoIter</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;f</span> <span class="ident">F</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">IntoIter</span> {
-        <span class="ident">MapIter</span> {
-            <span class="ident">base</span>: <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">into_iter</span>(),
-            <span class="ident">map_op</span>: <span class="self">self</span>.<span class="ident">map_op</span>,
-        }
+        <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="self">self</span>.<span class="ident">map_op</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">min_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
@@ -540,38 +439,12 @@
              <span class="ident">map_op</span>: <span class="self">self</span>.<span class="ident">map_op</span>,
          })
     }
-}
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MapIter</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">F</span>: <span class="lifetime">&#39;f</span><span class="op">&gt;</span> {
-    <span class="ident">base</span>: <span class="ident">T</span>,
-    <span class="ident">map_op</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;f</span> <span class="ident">F</span>,
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">MapIter</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Iterator</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">Item</span><span class="op">&gt;</span>
-{
-    <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">F</span>::<span class="ident">Output</span>;
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">map_op</span>.<span class="ident">map</span>(<span class="ident">value</span>))
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">DoubleEndedIterator</span> <span class="kw">for</span> <span class="ident">MapIter</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">DoubleEndedIterator</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">Item</span><span class="op">&gt;</span>
-{
-    <span class="kw">fn</span> <span class="ident">next_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">next_back</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">map_op</span>.<span class="ident">map</span>(<span class="ident">value</span>))
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">ExactSizeIterator</span> <span class="kw">for</span> <span class="ident">MapIter</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">ExactSizeIterator</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">Item</span><span class="op">&gt;</span>
-{
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
-        <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">len</span>()
+    <span class="kw">fn</span> <span class="ident">fold_with</span><span class="op">&lt;</span><span class="ident">G</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">folder</span>: <span class="ident">G</span>) <span class="op">-&gt;</span> <span class="ident">G</span>
+        <span class="kw">where</span> <span class="ident">G</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>
+    {
+        <span class="kw">let</span> <span class="ident">folder1</span> <span class="op">=</span> <span class="ident">MapFolder</span> { <span class="ident">base</span>: <span class="ident">folder</span>, <span class="ident">map_op</span>: <span class="self">self</span>.<span class="ident">map_op</span> };
+        <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">fold_with</span>(<span class="ident">folder1</span>).<span class="ident">base</span>
     }
 }
 
@@ -593,9 +466,10 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MapConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">R</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MapConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">C</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">F</span>::<span class="ident">Output</span><span class="op">&gt;</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+          <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Sync</span>,
+          <span class="ident">R</span>: <span class="ident">Send</span>
 {
     <span class="kw">type</span> <span class="ident">Folder</span> <span class="op">=</span> <span class="ident">MapFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">C</span>::<span class="ident">Folder</span>, <span class="ident">F</span><span class="op">&gt;</span>;
     <span class="kw">type</span> <span class="ident">Reducer</span> <span class="op">=</span> <span class="ident">C</span>::<span class="ident">Reducer</span>;
@@ -618,9 +492,10 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MapConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">R</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MapConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">C</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">F</span>::<span class="ident">Output</span><span class="op">&gt;</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+          <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Sync</span>,
+          <span class="ident">R</span>: <span class="ident">Send</span>
 {
     <span class="kw">fn</span> <span class="ident">split_off_left</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">MapConsumer</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">base</span>.<span class="ident">split_off_left</span>(), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">map_op</span>)
@@ -636,19 +511,17 @@
     <span class="ident">map_op</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;f</span> <span class="ident">F</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MapFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span>, <span class="ident">R</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MapFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">C</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">C</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">F</span>::<span class="ident">Output</span><span class="op">&gt;</span>,
-          <span class="ident">F</span>: <span class="ident">MapOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+          <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">R</span>
 {
     <span class="kw">type</span> <span class="prelude-ty">Result</span> <span class="op">=</span> <span class="ident">C</span>::<span class="prelude-ty">Result</span>;
 
     <span class="kw">fn</span> <span class="ident">consume</span>(<span class="self">self</span>, <span class="ident">item</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">map_op</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">map_op</span>;
-        <span class="kw">let</span> <span class="ident">mapped_item</span> <span class="op">=</span> <span class="ident">map_op</span>.<span class="ident">map</span>(<span class="ident">item</span>);
-        <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">consume</span>(<span class="ident">mapped_item</span>);
+        <span class="kw">let</span> <span class="ident">mapped_item</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">map_op</span>)(<span class="ident">item</span>);
         <span class="ident">MapFolder</span> {
-            <span class="ident">base</span>: <span class="ident">base</span>,
-            <span class="ident">map_op</span>: <span class="ident">map_op</span>,
+            <span class="ident">base</span>: <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">consume</span>(<span class="ident">mapped_item</span>),
+            <span class="ident">map_op</span>: <span class="self">self</span>.<span class="ident">map_op</span>,
         }
     }
 
@@ -674,18 +547,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
@@ -718,7 +595,6 @@
         window.rootPath = "../../../";
         window.currentCrate = "rayon";
     </script>
-    <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     <script defer src="../../../search-index.js"></script>
 </body>

@@ -4,17 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num-iter-0.1.33/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num-iter-0.1.35/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
-    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
+    
     
 </head>
 <body class="rustdoc source">
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
-        <a href='../../num_iter/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <div class="sidebar-menu">&#9776;</div>
+        
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -421,6 +432,19 @@
 <span id="376">376</span>
 <span id="377">377</span>
 <span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright 2013-2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class="comment">// file at the top-level directory of this distribution and at</span>
@@ -433,17 +457,23 @@
 <span class="comment">// except according to those terms.</span>
 
 <span class="doccomment">//! External iterators for generic mathematics</span>
-<span class="attribute">#<span class="op">!</span>[<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png&quot;</span>,
-       <span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://rust-num.github.io/num/favicon.ico&quot;</span>,
-       <span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://rust-num.github.io/num/&quot;</span>,
-       <span class="ident">html_playground_url</span> <span class="op">=</span> <span class="string">&quot;http://play.integer32.com/&quot;</span>)]</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Compatibility</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The `num-iter` crate is tested for rustc 1.8 and greater.</span>
+
+<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://docs.rs/num-iter/0.1&quot;</span>)]</span>
+
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">core</span>;
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_traits</span> <span class="kw">as</span> <span class="ident">traits</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_integer</span> <span class="kw">as</span> <span class="ident">integer</span>;
 
 <span class="kw">use</span> <span class="ident">integer</span>::<span class="ident">Integer</span>;
 <span class="kw">use</span> <span class="ident">traits</span>::{<span class="ident">Zero</span>, <span class="ident">One</span>, <span class="ident">CheckedAdd</span>, <span class="ident">ToPrimitive</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">Sub</span>};
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">Sub</span>};
 
 <span class="doccomment">/// An iterator over the range [start, stop)</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
@@ -688,9 +718,10 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">usize</span>;
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">Mul</span>};
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>;
+    <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">usize</span>;
+    <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">Mul</span>};
+    <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>;
+    <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">iter</span>;
     <span class="kw">use</span> <span class="ident">traits</span>::{<span class="ident">One</span>, <span class="ident">ToPrimitive</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -743,10 +774,12 @@
             }
         }
 
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range</span>(<span class="number">0</span>, <span class="number">5</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range</span>(<span class="op">-</span><span class="number">10</span>, <span class="op">-</span><span class="number">1</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="op">-</span><span class="number">10</span>, <span class="op">-</span><span class="number">9</span>, <span class="op">-</span><span class="number">8</span>, <span class="op">-</span><span class="number">7</span>, <span class="op">-</span><span class="number">6</span>, <span class="op">-</span><span class="number">5</span>, <span class="op">-</span><span class="number">4</span>, <span class="op">-</span><span class="number">3</span>, <span class="op">-</span><span class="number">2</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range</span>(<span class="number">0</span>, <span class="number">5</span>).<span class="ident">rev</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>]);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range</span>(<span class="number">0</span>, <span class="number">5</span>)
+                .<span class="ident">eq</span>([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range</span>(<span class="op">-</span><span class="number">10</span>, <span class="op">-</span><span class="number">1</span>)
+                .<span class="ident">eq</span>([<span class="op">-</span><span class="number">10</span>, <span class="op">-</span><span class="number">9</span>, <span class="op">-</span><span class="number">8</span>, <span class="op">-</span><span class="number">7</span>, <span class="op">-</span><span class="number">6</span>, <span class="op">-</span><span class="number">5</span>, <span class="op">-</span><span class="number">4</span>, <span class="op">-</span><span class="number">3</span>, <span class="op">-</span><span class="number">2</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range</span>(<span class="number">0</span>, <span class="number">5</span>).<span class="ident">rev</span>()
+                .<span class="ident">eq</span>([<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range</span>(<span class="number">200</span>, <span class="op">-</span><span class="number">5</span>).<span class="ident">count</span>(), <span class="number">0</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range</span>(<span class="number">200</span>, <span class="op">-</span><span class="number">5</span>).<span class="ident">rev</span>().<span class="ident">count</span>(), <span class="number">0</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range</span>(<span class="number">200</span>, <span class="number">200</span>).<span class="ident">count</span>(), <span class="number">0</span>);
@@ -760,44 +793,48 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_range_inclusive</span>() {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">0</span>, <span class="number">5</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">0</span>, <span class="number">5</span>).<span class="ident">rev</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>]);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">0</span>, <span class="number">5</span>)
+                .<span class="ident">eq</span>([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">0</span>, <span class="number">5</span>).<span class="ident">rev</span>()
+                .<span class="ident">eq</span>([<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">200</span>, <span class="op">-</span><span class="number">5</span>).<span class="ident">count</span>(), <span class="number">0</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">200</span>, <span class="op">-</span><span class="number">5</span>).<span class="ident">rev</span>().<span class="ident">count</span>(), <span class="number">0</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">200</span>, <span class="number">200</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">200</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">200</span>, <span class="number">200</span>).<span class="ident">rev</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">200</span>]);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">200</span>, <span class="number">200</span>)
+                .<span class="ident">eq</span>(<span class="ident">iter</span>::<span class="ident">once</span>(<span class="number">200</span>)));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_inclusive</span>(<span class="number">200</span>, <span class="number">200</span>).<span class="ident">rev</span>()
+                .<span class="ident">eq</span>(<span class="ident">iter</span>::<span class="ident">once</span>(<span class="number">200</span>)));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_range_step</span>() {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">0</span>, <span class="number">20</span>, <span class="number">5</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">20</span>, <span class="number">0</span>, <span class="op">-</span><span class="number">5</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">20</span>, <span class="number">15</span>, <span class="number">10</span>, <span class="number">5</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">20</span>, <span class="number">0</span>, <span class="op">-</span><span class="number">6</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">20</span>, <span class="number">14</span>, <span class="number">8</span>, <span class="number">2</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">200u8</span>, <span class="number">255</span>, <span class="number">50</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">200u8</span>, <span class="number">250</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">200</span>, <span class="op">-</span><span class="number">5</span>, <span class="number">1</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span> <span class="macro">vec</span><span class="macro">!</span>[]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">200</span>, <span class="number">200</span>, <span class="number">1</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span> <span class="macro">vec</span><span class="macro">!</span>[]);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">0</span>, <span class="number">20</span>, <span class="number">5</span>)
+                .<span class="ident">eq</span>([<span class="number">0</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">20</span>, <span class="number">0</span>, <span class="op">-</span><span class="number">5</span>)
+                .<span class="ident">eq</span>([<span class="number">20</span>, <span class="number">15</span>, <span class="number">10</span>, <span class="number">5</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">20</span>, <span class="number">0</span>, <span class="op">-</span><span class="number">6</span>)
+                .<span class="ident">eq</span>([<span class="number">20</span>, <span class="number">14</span>, <span class="number">8</span>, <span class="number">2</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">200u8</span>, <span class="number">255</span>, <span class="number">50</span>)
+                .<span class="ident">eq</span>([<span class="number">200u8</span>, <span class="number">250</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">200</span>, <span class="op">-</span><span class="number">5</span>, <span class="number">1</span>)
+                .<span class="ident">eq</span>(<span class="ident">iter</span>::<span class="ident">empty</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step</span>(<span class="number">200</span>, <span class="number">200</span>, <span class="number">1</span>)
+                .<span class="ident">eq</span>(<span class="ident">iter</span>::<span class="ident">empty</span>()));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_range_step_inclusive</span>() {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">0</span>, <span class="number">20</span>, <span class="number">5</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">20</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">20</span>, <span class="number">0</span>, <span class="op">-</span><span class="number">5</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">20</span>, <span class="number">15</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">0</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">20</span>, <span class="number">0</span>, <span class="op">-</span><span class="number">6</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">20</span>, <span class="number">14</span>, <span class="number">8</span>, <span class="number">2</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">200u8</span>, <span class="number">255</span>, <span class="number">50</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">200u8</span>, <span class="number">250</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">200</span>, <span class="op">-</span><span class="number">5</span>, <span class="number">1</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">200</span>, <span class="number">200</span>, <span class="number">1</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;&gt;</span>() <span class="op">==</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="number">200</span>]);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">0</span>, <span class="number">20</span>, <span class="number">5</span>)
+                .<span class="ident">eq</span>([<span class="number">0</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">20</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">20</span>, <span class="number">0</span>, <span class="op">-</span><span class="number">5</span>)
+                .<span class="ident">eq</span>([<span class="number">20</span>, <span class="number">15</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">0</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">20</span>, <span class="number">0</span>, <span class="op">-</span><span class="number">6</span>)
+                .<span class="ident">eq</span>([<span class="number">20</span>, <span class="number">14</span>, <span class="number">8</span>, <span class="number">2</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">200u8</span>, <span class="number">255</span>, <span class="number">50</span>)
+                .<span class="ident">eq</span>([<span class="number">200u8</span>, <span class="number">250</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">200</span>, <span class="op">-</span><span class="number">5</span>, <span class="number">1</span>)
+                .<span class="ident">eq</span>(<span class="ident">iter</span>::<span class="ident">empty</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">super</span>::<span class="ident">range_step_inclusive</span>(<span class="number">200</span>, <span class="number">200</span>, <span class="number">1</span>)
+                .<span class="ident">eq</span>(<span class="ident">iter</span>::<span class="ident">once</span>(<span class="number">200</span>)));
     }
 }
 </pre>
@@ -814,18 +851,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
@@ -858,7 +899,6 @@
         window.rootPath = "../../";
         window.currentCrate = "num_iter";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

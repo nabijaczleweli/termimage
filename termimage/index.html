@@ -10,8 +10,11 @@
     <title>termimage - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Crate termimage</p><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'termimage', ty: 'mod', relpath: '../'};</script>
+        <p class='location'>Crate termimage</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'termimage', ty: 'mod', relpath: '../'};</script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -50,16 +61,13 @@
                    </a>
                </span><a class='srclink' href='../src/termimage/lib.rs.html#1-177' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Display images in your terminal, kind of</p>
-
-<p><img src="https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/DS3-winapi.jpg" alt="DS3 SS example WinAPI">
-<img src="https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/DS3-truecolor.png" alt="DS3 SS example truecolor">
-<img src="https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/rust-logo-truecolor.png" alt="rust logo example">
-<img src="https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/playing-dice-truecolor.png" alt="playing dice example"></p>
-
-<h1 id='library-doc' class='section-header'><a href='#library-doc'>Library doc</a></h1>
+<p><img src="https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/DS3-winapi.jpg" alt="DS3 SS example WinAPI" />
+<img src="https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/DS3-truecolor.png" alt="DS3 SS example truecolor" />
+<img src="https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/rust-logo-truecolor.png" alt="rust logo example" />
+<img src="https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/playing-dice-truecolor.png" alt="playing dice example" /></p>
+<h1 id="library-doc" class="section-header"><a href="#library-doc">Library doc</a></h1>
 <p>This library is used by <code>termimage</code> itself for all its function and is therefore contains all necessary functions.</p>
-
-<h2 id='data-flow' class='section-header'><a href='#data-flow'>Data flow</a></h2>
+<h2 id="data-flow" class="section-header"><a href="#data-flow">Data flow</a></h2>
 <pre><code class="language-plaintext">Options::parse()
 |&gt; guess_format()
 |&gt; load_image()
@@ -67,24 +75,18 @@
 |&gt; resize_image()
 |&gt; write_[no_]ansi[_truecolor]()
 </code></pre>
-
-<h3 id='prose-explanation' class='section-header'><a href='#prose-explanation'>Prose explanation</a></h3>
+<h3 id="prose-explanation" class="section-header"><a href="#prose-explanation">Prose explanation</a></h3>
 <p>First, get an <code>Options</code> instance, be it via a struct-literal or <code>Options::parse()</code>;
-or don&#39;t and just create the individual arguments manually.</p>
-
-<p>Then, use <code>ops::load_image()</code>. If you know your image&#39;s format, great. If you don&#39;t, get it via <code>ops::guess_format()</code>.</p>
-
+or don't and just create the individual arguments manually.</p>
+<p>Then, use <code>ops::load_image()</code>. If you know your image's format, great. If you don't, get it via <code>ops::guess_format()</code>.</p>
 <p>After that resize the image to an output-ready size provided by <code>ops::image_resized_size()</code> with <code>resize_image()</code>.
 <code>ops::image_resized_size()</code> takes into consideration using two pixels per cell in the output functions,
 so the size it returns is twice as tall as the terminal output size passed to it.</p>
-
 <p>Finally, call <code>ops::write_ansi()</code>/<code>ops::write_ansi_truecolor()</code>/<code>ops::write_no_ansi()</code> depending on your liking with the
 resulting image.</p>
-
 <p>Or, if you want to display images manually, use <code>ops::create_colourtable()</code> to create an approximate colours table and
 display it, for example, with <code>ncurses</code>.</p>
-
-<h3 id='example' class='section-header'><a href='#example'>Example</a></h3>
+<h3 id="example" class="section-header"><a href="#example">Example</a></h3>
 <p>This is a complete example, from parsing the commandline to displaying the result.</p>
 
 <pre class="rust rust-example-rendered">
@@ -101,46 +103,33 @@ display it, for example, with <code>ncurses</code>.</p>
     <span class="prelude-val">Some</span>(<span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="ident">ops</span>::<span class="ident">write_ansi</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">stdout</span>(), <span class="kw-2">&amp;</span><span class="ident">resized</span>),
     <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">ops</span>::<span class="ident">write_no_ansi</span>(<span class="kw-2">&amp;</span><span class="ident">resized</span>),
 }</pre>
-
-<h1 id='executable-manpage' class='section-header'><a href='#executable-manpage'>Executable manpage</a></h1>
+<h1 id="executable-manpage" class="section-header"><a href="#executable-manpage">Executable manpage</a></h1>
 <p>Exit values and possible errors:</p>
-
-<pre><code class="language-text">1 - failed to guess the file&#39;s format
+<pre><code class="language-text">1 - failed to guess the file's format
 2 - failed to open the image file
 </code></pre>
-
-<h2 id='synopsis' class='section-header'><a href='#synopsis'>SYNOPSIS</a></h2>
+<h2 id="synopsis" class="section-header"><a href="#synopsis">SYNOPSIS</a></h2>
 <p><code>termimage</code> [OPTIONS] &lt;IMAGE&gt;</p>
-
-<h2 id='description' class='section-header'><a href='#description'>DESCRIPTION</a></h2>
+<h2 id="description" class="section-header"><a href="#description">DESCRIPTION</a></h2>
 <p>Show images in your terminal.</p>
-
-<p>The images are automatically downscaled to the terminal&#39;s size and their
-colours are approximated to match the terminal&#39;s display colours.</p>
-
+<p>The images are automatically downscaled to the terminal's size and their
+colours are approximated to match the terminal's display colours.</p>
 <p>With ANSI output this means a 3-bit colour resolution, with WinAPI - 4-bit.</p>
-
 <p>With WinAPI output the output colours are acquired from the console itself,
 with ANSI output a sane default is assumed.</p>
-
-<h2 id='options' class='section-header'><a href='#options'>OPTIONS</a></h2>
+<h2 id="options" class="section-header"><a href="#options">OPTIONS</a></h2>
 <p>&lt;IMAGE&gt;</p>
-
 <pre><code class="language-text">Image to display, must end in a recognisable image format extension.
 </code></pre>
-
 <p>-s --size &lt;size&gt;</p>
-
 <pre><code class="language-text">Output image resolution.
 
-By default this is autodetected to match the output terminal&#39;s resolution,
+By default this is autodetected to match the output terminal's resolution,
 but is required when outputting to a file.
 
 Format: NxM
 </code></pre>
-
 <p>-a --ansi &lt;ANSI_type&gt;</p>
-
 <pre><code class="language-text">Force ANSI output of the specified kind,
 
 The accepted values are &quot;simple&quot; and &quot;truecolor&quot;, truecolor is the default
@@ -149,31 +138,23 @@ on non-Windows.
 Simple ANSI output uses 3-bit background colours, while truecolor supports
 the whole 24-bit pallette.
 </code></pre>
-
 <p>-f --force</p>
-
-<pre><code class="language-text">By default the image&#39;s aspect ratio will be preserved when downscaling,
+<pre><code class="language-text">By default the image's aspect ratio will be preserved when downscaling,
 use this option to override that behaviour.
 </code></pre>
-
-<h2 id='examples' class='section-header'><a href='#examples'>EXAMPLES</a></h2>
+<h2 id="examples" class="section-header"><a href="#examples">EXAMPLES</a></h2>
 <p><code>termimage</code> [<code>-s</code> <em>NxM</em>] [<code>-f</code>] <em>assets/image.png</em></p>
-
 <pre><code class="language-text">Display assets/image.png in the terminal using the default output type,
 optionally not preserving the aspect ratio.
 </code></pre>
-
 <p><code>termimage</code> [<code>-s</code> <em>NxM</em>] [<code>-f</code>] [<code>-a</code> <em>simple</em>] <em>assets/image.png</em></p>
-
 <pre><code class="language-text">Display assets/image.png in the terminal using the simple ANSI output type,
 optionally not preserving the aspect ratio.
 </code></pre>
-
 <p>(for f in $(find <em>image_dir</em> -type f); do <code>termimage -s</code> <em>NxM</em> [<code>-f</code>] [<code>-a</code> <em>ANSI_type</em>] $f; done) &gt; <em>out_file</em></p>
-
 <pre><code class="language-text">Print all images in image_dir to out_file.
 
-Note the --size option being specified, since it&#39;s required when outputting to a file.
+Note the --size option being specified, since it's required when outputting to a file.
 </code></pre>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
@@ -182,6 +163,7 @@ Note the --size option being specified, since it&#39;s required when outputting 
                                   title='mod termimage::ops'>ops</a></td>
                            <td class='docblock-short'>
                                 <p>Main functions doing actual work.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -189,6 +171,7 @@ Note the --size option being specified, since it&#39;s required when outputting 
                                   title='mod termimage::util'>util</a></td>
                            <td class='docblock-short'>
                                 <p>Module containing various utility functions.</p>
+
                            </td>
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -196,7 +179,8 @@ Note the --size option being specified, since it&#39;s required when outputting 
                            <td><a class="struct" href="struct.Options.html"
                                   title='struct termimage::Options'>Options</a></td>
                            <td class='docblock-short'>
-                                <p>Representation of the application&#39;s all configurable values.</p>
+                                <p>Representation of the application's all configurable values.</p>
+
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -205,6 +189,7 @@ Note the --size option being specified, since it&#39;s required when outputting 
                                   title='enum termimage::Error'>Error</a></td>
                            <td class='docblock-short'>
                                 <p>Enum representing all possible values the application can fail.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -219,18 +204,22 @@ Note the --size option being specified, since it&#39;s required when outputting 
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
@@ -263,7 +252,6 @@ Note the --size option being specified, since it&#39;s required when outputting 
         window.rootPath = "../";
         window.currentCrate = "termimage";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

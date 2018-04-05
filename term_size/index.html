@@ -10,8 +10,11 @@
     <title>term_size - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Crate term_size</p><div class="block items"><ul><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'term_size', ty: 'mod', relpath: '../'};</script>
+        <p class='location'>Crate term_size</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'term_size', ty: 'mod', relpath: '../'};</script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -48,13 +59,11 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/term_size/lib.rs.html#6-237' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/term_size/lib.rs.html#6-135' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>System calls for getting the terminal size.</p>
-
 <p>Getting the terminal size is performed using an ioctl command that takes
 the file handle to the terminal -- which in this case, is stdout -- and
 populates a structure containing the values.</p>
-
 <p>The size is needed when the user wants the output formatted into columns:
 the default grid view, or the hybrid grid-details view.</p>
 </div><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
@@ -63,36 +72,9 @@ the default grid view, or the hybrid grid-details view.</p>
                            <td><a class="fn" href="fn.dimensions.html"
                                   title='fn term_size::dimensions'>dimensions</a></td>
                            <td class='docblock-short'>
-                                <p>Query the current processes&#39;s output (<code>stdout</code>), input (<code>stdin</code>), and error (<code>stderr</code>) in
-that order, in the attempt to dtermine terminal width. If one of those streams is actually
-a tty, this function returns its width and height as a number of characters.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.dimensions_stderr.html"
-                                  title='fn term_size::dimensions_stderr'>dimensions_stderr</a></td>
-                           <td class='docblock-short'>
-                                <p>Query the current processes&#39;s error output (<code>stderr</code>) <em>only</em>, in the attempt to dtermine
-terminal width. If that streams is actually a tty, this function returns its width
-and height as a number of characters.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.dimensions_stdin.html"
-                                  title='fn term_size::dimensions_stdin'>dimensions_stdin</a></td>
-                           <td class='docblock-short'>
-                                <p>Query the current processes&#39;s input (<code>stdin</code>) <em>only</em>, in the attempt to dtermine
-terminal width. If that streams is actually a tty, this function returns its width
-and height as a number of characters.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.dimensions_stdout.html"
-                                  title='fn term_size::dimensions_stdout'>dimensions_stdout</a></td>
-                           <td class='docblock-short'>
-                                <p>Query the current processes&#39;s output (<code>stdout</code>) <em>only</em>, in the attempt to dtermine
-terminal width. If that streams is actually a tty, this function returns its width
-and height as a number of characters.</p>
+                                <p>Query the current processes's output, returning its width and height as a
+number of characters. Returns <code>None</code> if the output isn't to a terminal.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -107,18 +89,22 @@ and height as a number of characters.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
@@ -151,7 +137,6 @@ and height as a number of characters.</p>
         window.rootPath = "../";
         window.currentCrate = "term_size";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

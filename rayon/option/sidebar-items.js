@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["IntoIter","Parallel iterator over an option"],["Iter","Parallel iterator over an immutable reference to an option"],["IterMut","Parallel iterator over a mutable reference to an option"]]});
+initSidebarItems({"struct":[["IntoIter","A parallel iterator over the value in [`Some`] variant of an [`Option`]."],["Iter","A parallel iterator over a reference to the [`Some`] variant of an [`Option`]."],["IterMut","A parallel iterator over a mutable reference to the [`Some`] variant of an [`Option`]."]]});

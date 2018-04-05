@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["Float",""],["FloatConst",""]]});
+initSidebarItems({"trait":[["Float","Generic trait for floating point numbers"],["FloatConst",""]]});

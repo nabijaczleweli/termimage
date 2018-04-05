@@ -4,14 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-core-1.0.2/src/job.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-core-1.4.0/src/job.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>job.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -201,6 +212,20 @@
 <span id="156">156</span>
 <span id="157">157</span>
 <span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">latch</span>::<span class="ident">Latch</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">any</span>::<span class="ident">Any</span>;
@@ -220,6 +245,9 @@
 <span class="doccomment">/// deque while the main worker manages the bottom of the deque. This</span>
 <span class="doccomment">/// deque is managed by the `thread_pool` module.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Job</span> {
+    <span class="doccomment">/// Unsafe: this may be called from a different thread than the one</span>
+    <span class="doccomment">/// which scheduled the job, so the implementer must ensure the</span>
+    <span class="doccomment">/// appropriate traits are met, whether `Send`, `Sync`, or both.</span>
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">execute</span>(<span class="ident">this</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="self">Self</span>);
 }
 
@@ -239,6 +267,8 @@
 <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">JobRef</span> {}
 
 <span class="kw">impl</span> <span class="ident">JobRef</span> {
+    <span class="doccomment">/// Unsafe: caller asserts that `data` will remain valid until the</span>
+    <span class="doccomment">/// job is executed.</span>
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">data</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">JobRef</span>
         <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Job</span>
     {
@@ -262,15 +292,22 @@
 
 <span class="doccomment">/// A job that will be owned by a stack slot. This means that when it</span>
 <span class="doccomment">/// executes it need not free any heap data, the cleanup occurs when</span>
-<span class="doccomment">/// the stack frame is later popped.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StackJob</span><span class="op">&lt;</span><span class="ident">L</span>: <span class="ident">Latch</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span> {
+<span class="doccomment">/// the stack frame is later popped.  The function parameter indicates</span>
+<span class="doccomment">/// `true` if the job was stolen -- executed on a different thread.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StackJob</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">L</span>: <span class="ident">Latch</span> <span class="op">+</span> <span class="ident">Sync</span>,
+          <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Send</span>,
+          <span class="ident">R</span>: <span class="ident">Send</span>
+{
     <span class="kw">pub</span> <span class="ident">latch</span>: <span class="ident">L</span>,
     <span class="ident">func</span>: <span class="ident">UnsafeCell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;&gt;</span>,
     <span class="ident">result</span>: <span class="ident">UnsafeCell</span><span class="op">&lt;</span><span class="ident">JobResult</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">L</span>: <span class="ident">Latch</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">StackJob</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>() <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Send</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">StackJob</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">L</span>: <span class="ident">Latch</span> <span class="op">+</span> <span class="ident">Sync</span>,
+          <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Send</span>,
+          <span class="ident">R</span>: <span class="ident">Send</span>
 {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">func</span>: <span class="ident">F</span>, <span class="ident">latch</span>: <span class="ident">L</span>) <span class="op">-&gt;</span> <span class="ident">StackJob</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span> {
         <span class="ident">StackJob</span> {
@@ -284,8 +321,8 @@
         <span class="ident">JobRef</span>::<span class="ident">new</span>(<span class="self">self</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">run_inline</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">R</span> {
-        <span class="self">self</span>.<span class="ident">func</span>.<span class="ident">into_inner</span>().<span class="ident">unwrap</span>()()
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">run_inline</span>(<span class="self">self</span>, <span class="ident">stolen</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">R</span> {
+        <span class="self">self</span>.<span class="ident">func</span>.<span class="ident">into_inner</span>().<span class="ident">unwrap</span>()(<span class="ident">stolen</span>)
     }
 
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">into_result</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">R</span> {
@@ -293,14 +330,16 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">L</span>: <span class="ident">Latch</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">Job</span> <span class="kw">for</span> <span class="ident">StackJob</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>() <span class="op">-&gt;</span> <span class="ident">R</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">Job</span> <span class="kw">for</span> <span class="ident">StackJob</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">L</span>: <span class="ident">Latch</span> <span class="op">+</span> <span class="ident">Sync</span>,
+          <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Send</span>,
+          <span class="ident">R</span>: <span class="ident">Send</span>
 {
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">execute</span>(<span class="ident">this</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="self">Self</span>) {
         <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">this</span>;
         <span class="kw">let</span> <span class="ident">abort</span> <span class="op">=</span> <span class="ident">unwind</span>::<span class="ident">AbortIfPanic</span>;
         <span class="kw">let</span> <span class="ident">func</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">this</span>.<span class="ident">func</span>.<span class="ident">get</span>()).<span class="ident">take</span>().<span class="ident">unwrap</span>();
-        (<span class="kw-2">*</span><span class="ident">this</span>.<span class="ident">result</span>.<span class="ident">get</span>()) <span class="op">=</span> <span class="kw">match</span> <span class="ident">unwind</span>::<span class="ident">halt_unwinding</span>(<span class="op">||</span> <span class="ident">func</span>()) {
+        (<span class="kw-2">*</span><span class="ident">this</span>.<span class="ident">result</span>.<span class="ident">get</span>()) <span class="op">=</span> <span class="kw">match</span> <span class="ident">unwind</span>::<span class="ident">halt_unwinding</span>(<span class="op">||</span> <span class="ident">func</span>(<span class="bool-val">true</span>)) {
             <span class="prelude-val">Ok</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">JobResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">x</span>),
             <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">JobResult</span>::<span class="ident">Panic</span>(<span class="ident">x</span>),
         };
@@ -316,13 +355,13 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// (Probably `StackJob` should be refactored in a similar fashion.)</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HeapJob</span><span class="op">&lt;</span><span class="ident">BODY</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">BODY</span>: <span class="ident">FnOnce</span>()
+    <span class="kw">where</span> <span class="ident">BODY</span>: <span class="ident">FnOnce</span>() <span class="op">+</span> <span class="ident">Send</span>
 {
     <span class="ident">job</span>: <span class="ident">UnsafeCell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BODY</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">BODY</span><span class="op">&gt;</span> <span class="ident">HeapJob</span><span class="op">&lt;</span><span class="ident">BODY</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">BODY</span>: <span class="ident">FnOnce</span>()
+    <span class="kw">where</span> <span class="ident">BODY</span>: <span class="ident">FnOnce</span>() <span class="op">+</span> <span class="ident">Send</span>
 {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">func</span>: <span class="ident">BODY</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">HeapJob</span> { <span class="ident">job</span>: <span class="ident">UnsafeCell</span>::<span class="ident">new</span>(<span class="prelude-val">Some</span>(<span class="ident">func</span>)) }
@@ -338,7 +377,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">BODY</span><span class="op">&gt;</span> <span class="ident">Job</span> <span class="kw">for</span> <span class="ident">HeapJob</span><span class="op">&lt;</span><span class="ident">BODY</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">BODY</span>: <span class="ident">FnOnce</span>()
+    <span class="kw">where</span> <span class="ident">BODY</span>: <span class="ident">FnOnce</span>() <span class="op">+</span> <span class="ident">Send</span>
 {
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">execute</span>(<span class="ident">this</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="self">Self</span>) {
         <span class="kw">let</span> <span class="ident">this</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">this</span>);
@@ -374,18 +413,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
@@ -418,7 +461,6 @@
         window.rootPath = "../../";
         window.currentCrate = "rayon_core";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>
