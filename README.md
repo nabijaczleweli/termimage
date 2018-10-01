@@ -1,8 +1,8 @@
 # termimage [![TravisCI build status](https://travis-ci.org/nabijaczleweli/termimage.svg?branch=master)](https://travis-ci.org/nabijaczleweli/termimage) [![AppVeyorCI build status](https://ci.appveyor.com/api/projects/status/kk34veg25wre0gqe/branch/master?svg=true)](https://ci.appveyor.com/project/nabijaczleweli/termimage/branch/master) [![Licence](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Crates.io version](https://meritbadge.herokuapp.com/termimage)](https://crates.io/crates/termimage)
 Display images in your terminal, kind of
 
-## [Documentation](https://cdn.rawgit.com/nabijaczleweli/termimage/doc/termimage/index.html)
-## [Manpage](https://cdn.rawgit.com/nabijaczleweli/termimage/man/termimage.1.html)
+## [Documentation](https://rawcdn.githack.com/nabijaczleweli/termimage/doc/termimage/index.html)
+## [Manpage](https://rawcdn.githack.com/nabijaczleweli/termimage/man/termimage.1.html)
 
 ### Usage
 
@@ -18,7 +18,7 @@ Print all images in a dir to a file.
 (for f in $(find image_dir -type f); do termimage -s 150x33 $f; done) > out_file
 ```
 
-For more usage examples see [the documentation](https://cdn.rawgit.com/nabijaczleweli/termimage/doc/termimage/index.html).
+For more usage examples see [the documentation](https://rawcdn.githack.com/nabijaczleweli/termimage/doc/termimage/index.html).
 
 ### Examples
 

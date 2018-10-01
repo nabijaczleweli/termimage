@@ -1,9 +1,9 @@
 //! Display images in your terminal, kind of
 //!
-//! ![DS3 SS example WinAPI](https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/DS3-winapi.jpg)
-//! ![DS3 SS example truecolor](https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/DS3-truecolor.png)
-//! ![rust logo example](https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/rust-logo-truecolor.png)
-//! ![playing dice example](https://cdn.rawgit.com/nabijaczleweli/termimage/master/assets/playing-dice-truecolor.png)
+//! ![DS3 SS example WinAPI](https://rawcdn.githack.com/nabijaczleweli/termimage/master/assets/DS3-winapi.jpg)
+//! ![DS3 SS example truecolor](https://rawcdn.githack.com/nabijaczleweli/termimage/master/assets/DS3-truecolor.png)
+//! ![rust logo example](https://rawcdn.githack.com/nabijaczleweli/termimage/master/assets/rust-logo-truecolor.png)
+//! ![playing dice example](https://rawcdn.githack.com/nabijaczleweli/termimage/master/assets/playing-dice-truecolor.png)
 //!
 //! # Library doc
 //!
