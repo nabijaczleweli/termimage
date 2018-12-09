@@ -1,60 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.4.7/src/lib.rs`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang">
-
-    <title>lib.rs.html -- source</title>
-
-    <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
-    
-    <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
-    <script src="../../storage.js"></script>
-    
-
-    
-    
-</head>
-<body class="rustdoc source">
-    <!--[if lte IE 8]>
-    <div class="warning">
-        This old browser is unsupported and will most likely display funky
-        things.
-    </div>
-    <![endif]-->
-
-    
-
-    <nav class="sidebar">
-        <div class="sidebar-menu">&#9776;</div>
-        
-        
-    </nav>
-
-    <div class="theme-picker">
-        <button id="theme-picker" aria-label="Pick another theme!">
-            <img src="../../brush.svg" width="18" alt="Pick another theme!">
-        </button>
-        <div id="theme-choices"></div>
-    </div>
-    <script src="../../theme.js"></script>
-    <nav class="sub">
-        <form class="search-form js-only">
-            <div class="search-container">
-                <input class="search-input" name="search"
-                       autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
-                       type="search">
-            </div>
-        </form>
-    </nav>
-
-    <section id='main' class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/arrayvec-0.4.8/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1121,6 +1065,28 @@
 <span id="1065">1065</span>
 <span id="1066">1066</span>
 <span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! **arrayvec** provides the types `ArrayVec` and `ArrayString`: </span>
 <span class="doccomment">//! array-backed vector and string types, which store their contents inline.</span>
@@ -1142,6 +1108,9 @@
 <span class="doccomment">//! - `serde-1`</span>
 <span class="doccomment">//!   - Optional</span>
 <span class="doccomment">//!   - Enable serialization for ArrayVec and ArrayString using serde 1.0</span>
+<span class="doccomment">//! - `array-sizes-33-128`, `array-sizes-129-255`</span>
+<span class="doccomment">//!   - Optional</span>
+<span class="doccomment">//!   - Enable more array sizes (see [Array] for more information)</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Rust Version</span>
 <span class="doccomment">//!</span>
@@ -1381,7 +1350,8 @@
     <span class="doccomment">/// It is an error if the index is greater than the length or if the</span>
     <span class="doccomment">/// arrayvec is full.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// ***Panics*** on errors. See `try_result` for fallible version.</span>
+    <span class="doccomment">/// ***Panics*** if the array is full or the `index` is out of bounds. See</span>
+    <span class="doccomment">/// `try_insert` for fallible version.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// use arrayvec::ArrayVec;</span>
@@ -1430,7 +1400,7 @@
         <span class="kw">unsafe</span> { <span class="comment">// infallible</span>
             <span class="comment">// The spot to put the new value</span>
             {
-                <span class="kw">let</span> <span class="ident">p</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> _ <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span>);
+                <span class="kw">let</span> <span class="ident">p</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span>);
                 <span class="comment">// Shift everything over to make space. (Duplicating the</span>
                 <span class="comment">// `index`th element into two consecutive places.)</span>
                 <span class="ident">ptr</span>::<span class="ident">copy</span>(<span class="ident">p</span>, <span class="ident">p</span>.<span class="ident">offset</span>(<span class="number">1</span>), <span class="ident">len</span> <span class="op">-</span> <span class="ident">index</span>);
@@ -1587,7 +1557,7 @@
 
     <span class="doccomment">/// Remove all elements in the vector.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clear</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(_) <span class="op">=</span> <span class="self">self</span>.<span class="ident">pop</span>() { }
+        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">pop</span>() { }
     }
 
     <span class="doccomment">/// Retains only the elements specified by the predicate.</span>
@@ -1671,7 +1641,7 @@
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">range</span>.<span class="ident">start</span>().<span class="ident">unwrap_or</span>(<span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">range</span>.<span class="ident">end</span>().<span class="ident">unwrap_or</span>(<span class="ident">len</span>);
         <span class="comment">// bounds check happens here</span>
-        <span class="kw">let</span> <span class="ident">range_slice</span>: <span class="kw-2">*</span><span class="kw">const</span> _ <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>[<span class="ident">start</span>..<span class="ident">end</span>];
+        <span class="kw">let</span> <span class="ident">range_slice</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>[<span class="ident">start</span>..<span class="ident">end</span>];
 
         <span class="kw">unsafe</span> {
             <span class="comment">// set self.vec length&#39;s to start, to be safe in case Drain is leaked</span>
@@ -1680,7 +1650,7 @@
                 <span class="ident">tail_start</span>: <span class="ident">end</span>,
                 <span class="ident">tail_len</span>: <span class="ident">len</span> <span class="op">-</span> <span class="ident">end</span>,
                 <span class="ident">iter</span>: (<span class="kw-2">*</span><span class="ident">range_slice</span>).<span class="ident">iter</span>(),
-                <span class="ident">vec</span>: <span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _,
+                <span class="ident">vec</span>: <span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>,
             }
         }
     }
@@ -1871,6 +1841,30 @@
     }
 }
 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Array</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">IntoIter</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">A</span>::<span class="ident">Item</span>: <span class="ident">Clone</span>,
+{
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">IntoIter</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">v</span>[<span class="self">self</span>.<span class="ident">index</span>.<span class="ident">to_usize</span>()..]
+            .<span class="ident">iter</span>()
+            .<span class="ident">cloned</span>()
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">ArrayVec</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;&gt;</span>()
+            .<span class="ident">into_iter</span>()
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Array</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">IntoIter</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">A</span>::<span class="ident">Item</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
+{
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="ident">f</span>.<span class="ident">debug_list</span>()
+            .<span class="ident">entries</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">v</span>[<span class="self">self</span>.<span class="ident">index</span>.<span class="ident">to_usize</span>()..])
+            .<span class="ident">finish</span>()
+    }
+}
+
 <span class="doccomment">/// A draining iterator for `ArrayVec`.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Drain</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">A</span><span class="op">&gt;</span> 
     <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">Array</span>,
@@ -1897,7 +1891,7 @@
     <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">elt</span><span class="op">|</span>
             <span class="kw">unsafe</span> {
-                <span class="ident">ptr</span>::<span class="ident">read</span>(<span class="ident">elt</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _)
+                <span class="ident">ptr</span>::<span class="ident">read</span>(<span class="ident">elt</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>)
             }
         )
     }
@@ -1915,7 +1909,7 @@
     <span class="kw">fn</span> <span class="ident">next_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">next_back</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">elt</span><span class="op">|</span>
             <span class="kw">unsafe</span> {
-                <span class="ident">ptr</span>::<span class="ident">read</span>(<span class="ident">elt</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _)
+                <span class="ident">ptr</span>::<span class="ident">read</span>(<span class="ident">elt</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>)
             }
         )
     }
@@ -1930,7 +1924,7 @@
         <span class="comment">// len is currently 0 so panicking while dropping will not cause a double drop.</span>
 
         <span class="comment">// exhaust self first</span>
-        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(_) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>() { }
+        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>() { }
 
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">tail_len</span> <span class="op">&gt;</span> <span class="number">0</span> {
             <span class="kw">unsafe</span> {
@@ -2017,22 +2011,16 @@
     <span class="kw">fn</span> <span class="ident">clone_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) {
         <span class="comment">// recursive case for the common prefix</span>
         <span class="kw">let</span> <span class="ident">prefix</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="self">self</span>.<span class="ident">len</span>(), <span class="ident">rhs</span>.<span class="ident">len</span>());
-        {
-            <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>[..<span class="ident">prefix</span>];
-            <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">rhs</span>[..<span class="ident">prefix</span>];
-            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">prefix</span> {
-                <span class="ident">a</span>[<span class="ident">i</span>].<span class="ident">clone_from</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>[<span class="ident">i</span>]);
-            }
-        }
+        <span class="self">self</span>[..<span class="ident">prefix</span>].<span class="ident">clone_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">rhs</span>[..<span class="ident">prefix</span>]);
+
         <span class="kw">if</span> <span class="ident">prefix</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">len</span>() {
             <span class="comment">// rhs was shorter</span>
-            <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="ident">prefix</span> {
+            <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="ident">prefix</span> {
                 <span class="self">self</span>.<span class="ident">pop</span>();
             }
         } <span class="kw">else</span> {
-            <span class="kw">for</span> <span class="ident">elt</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">rhs</span>[<span class="self">self</span>.<span class="ident">len</span>()..] {
-                <span class="self">self</span>.<span class="ident">push</span>(<span class="ident">elt</span>.<span class="ident">clone</span>());
-            }
+            <span class="kw">let</span> <span class="ident">rhs_elems</span> <span class="op">=</span> <span class="ident">rhs</span>[<span class="self">self</span>.<span class="ident">len</span>()..].<span class="ident">iter</span>().<span class="ident">cloned</span>();
+            <span class="self">self</span>.<span class="ident">extend</span>(<span class="ident">rhs_elems</span>);
         }
     }
 }
@@ -2177,7 +2165,7 @@
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">values</span> <span class="op">=</span> <span class="ident">ArrayVec</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>::<span class="ident">new</span>();
 
                 <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>) <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">seq</span>.<span class="ident">next_element</span>()) {
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(_) <span class="op">=</span> <span class="ident">values</span>.<span class="ident">try_push</span>(<span class="ident">value</span>) {
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">values</span>.<span class="ident">try_push</span>(<span class="ident">value</span>) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">SA</span>::<span class="ident">Error</span>::<span class="ident">invalid_length</span>(<span class="ident">A</span>::<span class="ident">capacity</span>() <span class="op">+</span> <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="self">self</span>));
                     }
                 }
@@ -2190,68 +2178,4 @@
     }
 }
 </pre>
-</section>
-    <section id='search' class="content hidden"></section>
-
-    <section class="footer"></section>
-
-    <aside id="help" class="hidden">
-        <div>
-            <h1 class="hidden">Help</h1>
-
-            <div class="shortcuts">
-                <h2>Keyboard Shortcuts</h2>
-
-                <dl>
-                    <dt><kbd>?</kbd></dt>
-                    <dd>Show this help dialog</dd>
-                    <dt><kbd>S</kbd></dt>
-                    <dd>Focus the search field</dd>
-                    <dt><kbd>↑</kbd></dt>
-                    <dd>Move up in search results</dd>
-                    <dt><kbd>↓</kbd></dt>
-                    <dd>Move down in search results</dd>
-                    <dt><kbd>↹</kbd></dt>
-                    <dd>Switch tab</dd>
-                    <dt><kbd>&#9166;</kbd></dt>
-                    <dd>Go to active search result</dd>
-                    <dt><kbd>+</kbd></dt>
-                    <dd>Expand all sections</dd>
-                    <dt><kbd>-</kbd></dt>
-                    <dd>Collapse all sections</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h2>Search Tricks</h2>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>type</code>, <code>macro</code>,
-                    and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../../";
-        window.currentCrate = "arrayvec";
-    </script>
-    <script src="../../main.js"></script>
-    <script defer src="../../search-index.js"></script>
-</body>
-</html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "arrayvec";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

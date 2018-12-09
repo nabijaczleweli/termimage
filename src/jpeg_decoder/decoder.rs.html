@@ -1,60 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.14/src/decoder.rs`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang">
-
-    <title>decoder.rs.html -- source</title>
-
-    <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
-    
-    <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
-    <script src="../../storage.js"></script>
-    
-
-    
-    
-</head>
-<body class="rustdoc source">
-    <!--[if lte IE 8]>
-    <div class="warning">
-        This old browser is unsupported and will most likely display funky
-        things.
-    </div>
-    <![endif]-->
-
-    
-
-    <nav class="sidebar">
-        <div class="sidebar-menu">&#9776;</div>
-        
-        
-    </nav>
-
-    <div class="theme-picker">
-        <button id="theme-picker" aria-label="Pick another theme!">
-            <img src="../../brush.svg" width="18" alt="Pick another theme!">
-        </button>
-        <div id="theme-choices"></div>
-    </div>
-    <script src="../../theme.js"></script>
-    <nav class="sub">
-        <form class="search-form js-only">
-            <div class="search-container">
-                <input class="search-input" name="search"
-                       autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
-                       type="search">
-            </div>
-        </form>
-    </nav>
-
-    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.15/src/decoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>decoder.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -959,10 +903,6 @@
 <span id="903">903</span>
 <span id="904">904</span>
 <span id="905">905</span>
-<span id="906">906</span>
-<span id="907">907</span>
-<span id="908">908</span>
-<span id="909">909</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">byteorder</span>::<span class="ident">ReadBytesExt</span>;
 <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>, <span class="ident">UnsupportedFeature</span>};
@@ -976,8 +916,7 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Range</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">mpsc</span>::{<span class="self">self</span>, <span class="ident">Sender</span>};
-<span class="kw">use</span> <span class="ident">worker_thread</span>::{<span class="ident">RowData</span>, <span class="ident">spawn_worker_thread</span>, <span class="ident">WorkerMsg</span>};
+<span class="kw">use</span> <span class="ident">worker</span>::{<span class="ident">RowData</span>, <span class="ident">PlatformWorker</span>, <span class="ident">Worker</span>};
 
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX_COMPONENTS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
 
@@ -1063,7 +1002,7 @@
                     <span class="number">1</span> <span class="op">=&gt;</span> <span class="ident">PixelFormat</span>::<span class="ident">L8</span>,
                     <span class="number">3</span> <span class="op">=&gt;</span> <span class="ident">PixelFormat</span>::<span class="ident">RGB24</span>,
                     <span class="number">4</span> <span class="op">=&gt;</span> <span class="ident">PixelFormat</span>::<span class="ident">CMYK32</span>,
-                    _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
                 };
 
                 <span class="prelude-val">Some</span>(<span class="ident">ImageInfo</span> {
@@ -1080,7 +1019,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If successful, the metadata can be obtained using the `info` method.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_info</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">decode_internal</span>(<span class="bool-val">true</span>).<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> ())
+        <span class="self">self</span>.<span class="ident">decode_internal</span>(<span class="bool-val">true</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
     }
 
     <span class="doccomment">/// Decodes the image and returns the decoded pixels if successful.</span>
@@ -1099,7 +1038,7 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">previous_marker</span> <span class="op">=</span> <span class="ident">Marker</span>::<span class="ident">SOI</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pending_marker</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">worker_chan</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">worker</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">scans_processed</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">planes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Vec</span>::<span class="ident">new</span>(); <span class="self">self</span>.<span class="ident">frame</span>.<span class="ident">as_ref</span>().<span class="ident">map_or</span>(<span class="number">0</span>, <span class="op">|</span><span class="ident">frame</span><span class="op">|</span> <span class="ident">frame</span>.<span class="ident">components</span>.<span class="ident">len</span>())];
 
@@ -1143,7 +1082,7 @@
                     }
 
                     <span class="comment">// Make sure we support the subsampling ratios used.</span>
-                    <span class="kw">let</span> _ <span class="op">=</span> <span class="ident">Upsampler</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">frame</span>.<span class="ident">components</span>, <span class="ident">frame</span>.<span class="ident">image_size</span>.<span class="ident">width</span>, <span class="ident">frame</span>.<span class="ident">image_size</span>.<span class="ident">height</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">Upsampler</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">frame</span>.<span class="ident">components</span>, <span class="ident">frame</span>.<span class="ident">image_size</span>.<span class="ident">width</span>, <span class="ident">frame</span>.<span class="ident">image_size</span>.<span class="ident">height</span>)<span class="question-mark">?</span>;
 
                     <span class="self">self</span>.<span class="ident">frame</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">frame</span>);
 
@@ -1159,8 +1098,8 @@
                     <span class="kw">if</span> <span class="self">self</span>.<span class="ident">frame</span>.<span class="ident">is_none</span>() {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Format</span>(<span class="string">&quot;scan encountered before frame&quot;</span>.<span class="ident">to_owned</span>()));
                     }
-                    <span class="kw">if</span> <span class="ident">worker_chan</span>.<span class="ident">is_none</span>() {
-                        <span class="ident">worker_chan</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">spawn_worker_thread</span>()<span class="question-mark">?</span>);
+                    <span class="kw">if</span> <span class="ident">worker</span>.<span class="ident">is_none</span>() {
+                        <span class="ident">worker</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">PlatformWorker</span>::<span class="ident">new</span>()<span class="question-mark">?</span>);
                     }
 
                     <span class="kw">let</span> <span class="ident">frame</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">frame</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
@@ -1182,10 +1121,10 @@
                     }
 
                     <span class="kw">let</span> <span class="ident">is_final_scan</span> <span class="op">=</span> <span class="ident">scan</span>.<span class="ident">component_indices</span>.<span class="ident">iter</span>().<span class="ident">all</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">i</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">coefficients_finished</span>[<span class="ident">i</span>] <span class="op">==</span> <span class="op">!</span><span class="number">0</span>);
-                    <span class="kw">let</span> (<span class="ident">marker</span>, <span class="ident">data</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">decode_scan</span>(<span class="kw-2">&amp;</span><span class="ident">frame</span>, <span class="kw-2">&amp;</span><span class="ident">scan</span>, <span class="ident">worker_chan</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>(), <span class="ident">is_final_scan</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let</span> (<span class="ident">marker</span>, <span class="ident">data</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">decode_scan</span>(<span class="kw-2">&amp;</span><span class="ident">frame</span>, <span class="kw-2">&amp;</span><span class="ident">scan</span>, <span class="ident">worker</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>(), <span class="ident">is_final_scan</span>)<span class="question-mark">?</span>;
 
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">data</span>) <span class="op">=</span> <span class="ident">data</span> {
-                        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">plane</span>) <span class="kw">in</span> <span class="ident">data</span>.<span class="ident">into_iter</span>().<span class="ident">enumerate</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(_, <span class="kw-2">ref</span> <span class="ident">plane</span>)<span class="op">|</span> <span class="op">!</span><span class="ident">plane</span>.<span class="ident">is_empty</span>()) {
+                        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">plane</span>) <span class="kw">in</span> <span class="ident">data</span>.<span class="ident">into_iter</span>().<span class="ident">enumerate</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="kw">_</span>, <span class="kw-2">ref</span> <span class="ident">plane</span>)<span class="op">|</span> <span class="op">!</span><span class="ident">plane</span>.<span class="ident">is_empty</span>()) {
                             <span class="ident">planes</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">plane</span>;
                         }
                     }
@@ -1285,7 +1224,7 @@
                 <span class="comment">// End of image</span>
                 <span class="ident">Marker</span>::<span class="ident">EOI</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
 
-                _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Format</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?} marker found where not allowed&quot;</span>, <span class="ident">marker</span>))),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Format</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?} marker found where not allowed&quot;</span>, <span class="ident">marker</span>))),
             }
 
             <span class="ident">previous_marker</span> <span class="op">=</span> <span class="ident">marker</span>;
@@ -1316,14 +1255,14 @@
 
         <span class="kw">match</span> <span class="ident">byte</span> {
             <span class="number">0x00</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Format</span>(<span class="string">&quot;FF 00 found where marker was expected&quot;</span>.<span class="ident">to_owned</span>())),
-            _    <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Marker</span>::<span class="ident">from_u8</span>(<span class="ident">byte</span>).<span class="ident">unwrap</span>()),
+            <span class="kw">_</span>    <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Marker</span>::<span class="ident">from_u8</span>(<span class="ident">byte</span>).<span class="ident">unwrap</span>()),
         }
     }
 
     <span class="kw">fn</span> <span class="ident">decode_scan</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
                    <span class="ident">frame</span>: <span class="kw-2">&amp;</span><span class="ident">FrameInfo</span>,
                    <span class="ident">scan</span>: <span class="kw-2">&amp;</span><span class="ident">ScanInfo</span>,
-                   <span class="ident">worker_chan</span>: <span class="kw-2">&amp;</span><span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">WorkerMsg</span><span class="op">&gt;</span>,
+                   <span class="ident">worker</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">PlatformWorker</span>,
                    <span class="ident">produce_data</span>: <span class="ident">bool</span>)
                    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Marker</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">scan</span>.<span class="ident">component_indices</span>.<span class="ident">len</span>() <span class="op">&lt;=</span> <span class="ident">MAX_COMPONENTS</span>);
@@ -1360,7 +1299,7 @@
                     <span class="ident">quantization_table</span>: <span class="self">self</span>.<span class="ident">quantization_tables</span>[<span class="ident">component</span>.<span class="ident">quantization_table_index</span>].<span class="ident">clone</span>().<span class="ident">unwrap</span>(),
                 };
 
-                <span class="ident">worker_chan</span>.<span class="ident">send</span>(<span class="ident">WorkerMsg</span>::<span class="ident">Start</span>(<span class="ident">row_data</span>))<span class="question-mark">?</span>;
+                <span class="ident">worker</span>.<span class="ident">start</span>(<span class="ident">row_data</span>)<span class="question-mark">?</span>;
             }
         }
 
@@ -1482,7 +1421,7 @@
                         <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mcu_row_coefficients</span>[<span class="ident">i</span>], <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0i16</span>; <span class="ident">coefficients_per_mcu_row</span>])
                     };
 
-                    <span class="ident">worker_chan</span>.<span class="ident">send</span>(<span class="ident">WorkerMsg</span>::<span class="ident">AppendRow</span>((<span class="ident">i</span>, <span class="ident">row_coefficients</span>)))<span class="question-mark">?</span>;
+                    <span class="ident">worker</span>.<span class="ident">append_row</span>((<span class="ident">i</span>, <span class="ident">row_coefficients</span>))<span class="question-mark">?</span>;
                 }
             }
         }
@@ -1494,10 +1433,7 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Vec</span>::<span class="ident">new</span>(); <span class="ident">frame</span>.<span class="ident">components</span>.<span class="ident">len</span>()];
 
             <span class="kw">for</span> (<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">component_index</span>) <span class="kw">in</span> <span class="ident">scan</span>.<span class="ident">component_indices</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-                <span class="kw">let</span> (<span class="ident">tx</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>();
-                <span class="ident">worker_chan</span>.<span class="ident">send</span>(<span class="ident">WorkerMsg</span>::<span class="ident">GetResult</span>((<span class="ident">i</span>, <span class="ident">tx</span>)))<span class="question-mark">?</span>;
-
-                <span class="ident">data</span>[<span class="ident">component_index</span>] <span class="op">=</span> <span class="ident">rx</span>.<span class="ident">recv</span>()<span class="question-mark">?</span>;
+                <span class="ident">data</span>[<span class="ident">component_index</span>] <span class="op">=</span> <span class="ident">worker</span>.<span class="ident">get_result</span>(<span class="ident">i</span>)<span class="question-mark">?</span>;
             }
 
             <span class="prelude-val">Ok</span>((<span class="ident">marker</span>, <span class="prelude-val">Some</span>(<span class="ident">data</span>)))
@@ -1525,7 +1461,7 @@
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">huffman</span>.<span class="ident">decode</span>(<span class="ident">reader</span>, <span class="ident">dc_table</span>.<span class="ident">unwrap</span>())<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">value</span> {
             <span class="number">0</span> <span class="op">=&gt;</span> <span class="number">0</span>,
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="comment">// Section F.1.2.1.1</span>
                 <span class="comment">// Table F.1</span>
                 <span class="kw">if</span> <span class="ident">value</span> <span class="op">&gt;</span> <span class="number">11</span> {
@@ -1569,7 +1505,7 @@
             <span class="kw">if</span> <span class="ident">s</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">match</span> <span class="ident">r</span> {
                     <span class="number">15</span> <span class="op">=&gt;</span> <span class="ident">index</span> <span class="op">+=</span> <span class="number">16</span>, <span class="comment">// Run length of 16 zero coefficients.</span>
-                    _  <span class="op">=&gt;</span> {
+                    <span class="kw">_</span>  <span class="op">=&gt;</span> {
                         <span class="kw-2">*</span><span class="ident">eob_run</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">r</span>) <span class="op">-</span> <span class="number">1</span>;
 
                         <span class="kw">if</span> <span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> {
@@ -1642,7 +1578,7 @@
                             <span class="comment">// and then value (which is zero) gets written, resulting in 16</span>
                             <span class="comment">// zero coefficients.</span>
                         },
-                        _ <span class="op">=&gt;</span> {
+                        <span class="kw">_</span> <span class="op">=&gt;</span> {
                             <span class="kw-2">*</span><span class="ident">eob_run</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">r</span>) <span class="op">-</span> <span class="number">1</span>;
 
                             <span class="kw">if</span> <span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> {
@@ -1662,7 +1598,7 @@
                         <span class="ident">value</span> <span class="op">=</span> <span class="op">-</span><span class="ident">bit</span>;
                     }
                 },
-                _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Format</span>(<span class="string">&quot;unexpected huffman code&quot;</span>.<span class="ident">to_owned</span>())),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Format</span>(<span class="string">&quot;unexpected huffman code&quot;</span>.<span class="ident">to_owned</span>())),
             }
 
             <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">Range</span> {
@@ -1811,11 +1747,11 @@
             <span class="comment">// http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/JPEG.html#Adobe</span>
             <span class="kw">match</span> <span class="ident">color_transform</span> {
                 <span class="prelude-val">Some</span>(<span class="ident">AdobeColorTransform</span>::<span class="ident">Unknown</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">color_convert_line_cmyk</span>),
-                <span class="prelude-val">Some</span>(_) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">color_convert_line_ycck</span>),
+                <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">color_convert_line_ycck</span>),
                 <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Format</span>(<span class="string">&quot;4 components without Adobe APP14 metadata to tell color space&quot;</span>.<span class="ident">to_owned</span>())),
             }
         },
-        _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
     }
 }
 
@@ -1874,68 +1810,4 @@
     <span class="ident">value</span>
 }
 </pre>
-</section>
-    <section id='search' class="content hidden"></section>
-
-    <section class="footer"></section>
-
-    <aside id="help" class="hidden">
-        <div>
-            <h1 class="hidden">Help</h1>
-
-            <div class="shortcuts">
-                <h2>Keyboard Shortcuts</h2>
-
-                <dl>
-                    <dt><kbd>?</kbd></dt>
-                    <dd>Show this help dialog</dd>
-                    <dt><kbd>S</kbd></dt>
-                    <dd>Focus the search field</dd>
-                    <dt><kbd>↑</kbd></dt>
-                    <dd>Move up in search results</dd>
-                    <dt><kbd>↓</kbd></dt>
-                    <dd>Move down in search results</dd>
-                    <dt><kbd>↹</kbd></dt>
-                    <dd>Switch tab</dd>
-                    <dt><kbd>&#9166;</kbd></dt>
-                    <dd>Go to active search result</dd>
-                    <dt><kbd>+</kbd></dt>
-                    <dd>Expand all sections</dd>
-                    <dt><kbd>-</kbd></dt>
-                    <dd>Collapse all sections</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h2>Search Tricks</h2>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>type</code>, <code>macro</code>,
-                    and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../../";
-        window.currentCrate = "jpeg_decoder";
-    </script>
-    <script src="../../main.js"></script>
-    <script defer src="../../search-index.js"></script>
-</body>
-</html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "jpeg_decoder";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
