@@ -72,6 +72,12 @@ with ANSI output a sane default is assumed.
 Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;
        and Josh Triplett &lt;<josh@joshtriplett.org>&gt;
 
+## SPECIAL THANKS
+
+To all who support further development, in particular:
+
+  * ThePhD
+
 ## REPORTING BUGS
 
 &lt;<https://github.com/nabijaczleweli/termimage/issues>&gt;

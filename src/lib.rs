@@ -2,8 +2,14 @@
 //!
 //! ![DS3 SS example WinAPI](https://rawcdn.githack.com/nabijaczleweli/termimage/master/assets/DS3-winapi.jpg)
 //! ![DS3 SS example truecolor](https://rawcdn.githack.com/nabijaczleweli/termimage/master/assets/DS3-truecolor.png)
-//! ![rust logo example](https://rawcdn.githack.com/nabijaczleweli/termimage/master/assets/rust-logo-truecolor.png)
+//! ![Rust logo example](https://rawcdn.githack.com/nabijaczleweli/termimage/master/assets/rust-logo-truecolor.png)
 //! ![playing dice example](https://rawcdn.githack.com/nabijaczleweli/termimage/master/assets/playing-dice-truecolor.png)
+//!
+//! # Special thanks
+//!
+//! To all who support further development on [Patreon](https://patreon.com/nabijaczleweli), in particular: //!
+//!
+//!   * ThePhD
 //!
 //! # Library doc
 //!

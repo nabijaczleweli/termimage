@@ -48,5 +48,11 @@ Windows:
 
 Linux with truecolor support:
 ![DS3 image after](assets/DS3-truecolor.png)
-![rust logo image after](assets/rust-logo-truecolor.png)
+![Rust logo image after](assets/rust-logo-truecolor.png)
 ![playing dice image after](assets/playing-dice-truecolor.png)
+
+## Special thanks
+
+To all who support further development on Patreon, in particular:
+
+  * ThePhD
