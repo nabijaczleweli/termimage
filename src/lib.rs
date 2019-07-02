@@ -165,8 +165,6 @@
 extern crate lazy_static;
 extern crate term_size;
 #[cfg(target_os = "windows")]
-extern crate kernel32;
-#[cfg(target_os = "windows")]
 extern crate winapi;
 extern crate image;
 extern crate regex;

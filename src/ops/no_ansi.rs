@@ -4,11 +4,12 @@ use self::imports::*;
 
 #[cfg(target_os = "windows")]
 mod imports {
-    pub use kernel32::{GetConsoleScreenBufferInfoEx, FillConsoleOutputAttribute, GetStdHandle};
-    pub use winapi::{CONSOLE_SCREEN_BUFFER_INFOEX, STD_OUTPUT_HANDLE, SMALL_RECT, COORD};
+    pub use winapi::um::wincon::{CONSOLE_SCREEN_BUFFER_INFOEX, SMALL_RECT, COORD, GetConsoleScreenBufferInfoEx, FillConsoleOutputAttribute};
     pub use self::super::super::super::util::{closest_colour, mul_str};
+    pub use winapi::um::winbase::STD_OUTPUT_HANDLE;
     pub use self::super::super::create_colourtable;
-    pub use image::{GenericImage, Pixel, Rgb};
+    pub use image::{GenericImageView, Pixel, Rgb};
+    pub use winapi::um::processenv::GetStdHandle;
     pub use std::mem;
 }
 
