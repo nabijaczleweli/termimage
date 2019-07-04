@@ -34,7 +34,7 @@ fn webp() {
 
 #[test]
 fn ppm() {
-    test_correct("ppm", ImageFormat::PPM);
+    test_correct("ppm", ImageFormat::PNM);
 }
 
 #[test]

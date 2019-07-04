@@ -86,7 +86,7 @@ impl Options {
     }
 
     fn parse_size(s: &str) -> Option<(u32, u32)> {
-        SIZE_ARG_RGX.captures(s).map(|c| (u32::from_str(c.at(1).unwrap()).unwrap(), u32::from_str(c.at(2).unwrap()).unwrap()))
+        SIZE_ARG_RGX.captures(s).map(|c| (u32::from_str(c.get(1).unwrap().as_str()).unwrap(), u32::from_str(c.get(2).unwrap().as_str()).unwrap()))
     }
 
     fn image_file_validator(s: String) -> Result<(), String> {

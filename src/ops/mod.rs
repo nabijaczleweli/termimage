@@ -8,7 +8,7 @@
 
 use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_RESET_ATTRIBUTES, ANSI_COLOUR_ESCAPES, ANSI_BG_COLOURS, ANSI_COLOURS, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC,
                         GIF_MAGIC, PNG_MAGIC, closest_colour};
-use image::{self, GenericImage, DynamicImage, ImageFormat, FilterType, Pixel};
+use image::{self, GenericImageView, DynamicImage, ImageFormat, FilterType, Pixel};
 use std::io::{BufReader, Write, Read};
 use self::super::Error;
 use std::path::PathBuf;
@@ -58,7 +58,7 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Error> {
             "jpg" | "jpeg" | "jpe" | "jif" | "jfif" | "jfi" => Some(Ok(ImageFormat::JPEG)),
             "gif" => Some(Ok(ImageFormat::GIF)),
             "webp" => Some(Ok(ImageFormat::WEBP)),
-            "ppm" => Some(Ok(ImageFormat::PPM)),
+            "ppm" => Some(Ok(ImageFormat::PNM)),
             "tiff" | "tif" => Some(Ok(ImageFormat::TIFF)),
             "tga" => Some(Ok(ImageFormat::TGA)),
             "bmp" | "dib" => Some(Ok(ImageFormat::BMP)),

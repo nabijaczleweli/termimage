@@ -44,7 +44,7 @@
 //! ```no_run
 //! # extern crate termimage;
 //! # extern crate image;
-//! # use image::GenericImage;
+//! # use image::GenericImageView;
 //! # use std::io::stdout;
 //! # use termimage::*;
 //! # fn main() {
