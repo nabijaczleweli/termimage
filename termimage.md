@@ -69,8 +69,15 @@ with ANSI output a sane default is assumed.
 
 ## AUTHOR
 
-Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;
-       and Josh Triplett &lt;<josh@joshtriplett.org>&gt;
+Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;,
+           Josh Triplett &lt;<josh@joshtriplett.org>&gt;,
+       and Aaron Hill &lt;<aa1ronham@gmail.com>&gt;
+
+## SPECIAL THANKS
+
+To all who support further development, in particular:
+
+  * ThePhD
 
 ## REPORTING BUGS
 
