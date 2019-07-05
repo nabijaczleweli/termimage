@@ -62,6 +62,7 @@
 <span id="62">62</span>
 <span id="63">63</span>
 <span id="64">64</span>
+<span id="65">65</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">image</span>::<span class="ident">DynamicImage</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;windows&quot;</span>)]</span>
@@ -69,11 +70,12 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;windows&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">imports</span> {
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">kernel32</span>::{<span class="ident">GetConsoleScreenBufferInfoEx</span>, <span class="ident">FillConsoleOutputAttribute</span>, <span class="ident">GetStdHandle</span>};
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winapi</span>::{<span class="ident">CONSOLE_SCREEN_BUFFER_INFOEX</span>, <span class="ident">STD_OUTPUT_HANDLE</span>, <span class="ident">SMALL_RECT</span>, <span class="ident">COORD</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winapi</span>::<span class="ident">um</span>::<span class="ident">wincon</span>::{<span class="ident">CONSOLE_SCREEN_BUFFER_INFOEX</span>, <span class="ident">SMALL_RECT</span>, <span class="ident">COORD</span>, <span class="ident">GetConsoleScreenBufferInfoEx</span>, <span class="ident">FillConsoleOutputAttribute</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">util</span>::{<span class="ident">closest_colour</span>, <span class="ident">mul_str</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winapi</span>::<span class="ident">um</span>::<span class="ident">winbase</span>::<span class="ident">STD_OUTPUT_HANDLE</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">create_colourtable</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">GenericImage</span>, <span class="ident">Pixel</span>, <span class="ident">Rgb</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">GenericImageView</span>, <span class="ident">Pixel</span>, <span class="ident">Rgb</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">winapi</span>::<span class="ident">um</span>::<span class="ident">processenv</span>::<span class="ident">GetStdHandle</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 }
 

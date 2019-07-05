@@ -98,9 +98,6 @@
 <span id="98"> 98</span>
 <span id="99"> 99</span>
 <span id="100">100</span>
-<span id="101">101</span>
-<span id="102">102</span>
-<span id="103">103</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module contains the configuration of the application.</span>
 <span class="doccomment">//!</span>
@@ -115,7 +112,7 @@
 <span class="doccomment">//! ```</span>
 
 
-<span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">App</span>, <span class="ident">Arg</span>, <span class="ident">AppSettings</span>};
+<span class="kw">use</span> <span class="ident">clap</span>::{<span class="ident">Arg</span>, <span class="ident">AppSettings</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">PathBuf</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
 <span class="kw">use</span> <span class="ident">regex</span>::<span class="ident">Regex</span>;
@@ -161,11 +158,8 @@
             <span class="bool-val">false</span>
         };
 
-        <span class="kw">let</span> <span class="ident">matches</span> <span class="op">=</span> <span class="ident">App</span>::<span class="ident">new</span>(<span class="string">&quot;termimage&quot;</span>)
-            .<span class="ident">version</span>(<span class="macro">crate_version</span><span class="macro">!</span>())
-            .<span class="ident">author</span>(<span class="macro">crate_authors</span><span class="macro">!</span>())
+        <span class="kw">let</span> <span class="ident">matches</span> <span class="op">=</span> <span class="macro">app_from_crate</span><span class="macro">!</span>()
             .<span class="ident">setting</span>(<span class="ident">AppSettings</span>::<span class="ident">ColoredHelp</span>)
-            .<span class="ident">about</span>(<span class="string">&quot;Display images in your terminal, kind of&quot;</span>)
             .<span class="ident">arg</span>(<span class="ident">Arg</span>::<span class="ident">from_usage</span>(<span class="string">&quot;&lt;IMAGE&gt; &#39;Image file to display&#39;&quot;</span>).<span class="ident">validator</span>(<span class="ident">Options</span>::<span class="ident">image_file_validator</span>))
             .<span class="ident">arg</span>(<span class="ident">szarg</span>)
             .<span class="ident">arg</span>(<span class="ident">Arg</span>::<span class="ident">from_usage</span>(<span class="string">&quot;-f --force &#39;Don\\&#39;t preserve the image\\&#39;s aspect ratio&#39;&quot;</span>))
