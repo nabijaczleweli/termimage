@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/gif-0.9.2/src/reader/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/gif-0.10.2/src/reader/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../gif/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -559,6 +559,12 @@
 <span id="559">559</span>
 <span id="560">560</span>
 <span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
@@ -658,13 +664,13 @@
     <span class="kw">fn</span> <span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Decoded</span><span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">while</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">at_eof</span> {
             <span class="kw">let</span> (<span class="ident">consumed</span>, <span class="ident">result</span>) <span class="op">=</span> {
-                <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">fill_buf</span>());
+                <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">fill_buf</span>()<span class="question-mark">?</span>;
                 <span class="kw">if</span> <span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
                         <span class="string">&quot;unexpected EOF&quot;</span>
                     ))
                 }
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">update</span>(<span class="ident">buf</span>))
+                <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">update</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>
             };
             <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">consume</span>(<span class="ident">consumed</span>);
             <span class="kw">match</span> <span class="ident">result</span> {
@@ -719,7 +725,7 @@
     
     <span class="kw">fn</span> <span class="ident">init</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">loop</span> {
-            <span class="kw">match</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>()) {
+            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>()<span class="question-mark">?</span> {
                 <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">BackgroundColor</span>(<span class="ident">bg_color</span>)) <span class="op">=&gt;</span> {
                     <span class="self">self</span>.<span class="ident">bg_color</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">bg_color</span>)
                 }
@@ -741,13 +747,19 @@
                 ))
             }
         }
+        <span class="comment">// If the background color is invalid, ignore it</span>
+        <span class="kw">if</span> <span class="kw">let</span> <span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">palette</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">global_palette</span> {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">bg_color</span>.<span class="ident">unwrap_or</span>(<span class="number">0</span>) <span class="kw">as</span> <span class="ident">usize</span> <span class="op">&gt;=</span> <span class="ident">palette</span>.<span class="ident">len</span>() {
+                <span class="self">self</span>.<span class="ident">bg_color</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+            }
+        }
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
     
     <span class="doccomment">/// Returns the next frame info</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_frame_info</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">loop</span> {
-            <span class="kw">match</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>()) {
+            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>()<span class="question-mark">?</span> {
                 <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">Frame</span>(<span class="ident">frame</span>)) <span class="op">=&gt;</span> {
                     <span class="self">self</span>.<span class="ident">current_frame</span> <span class="op">=</span> <span class="ident">frame</span>.<span class="ident">clone</span>();
                     <span class="kw">if</span> <span class="ident">frame</span>.<span class="ident">palette</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">global_palette</span>.<span class="ident">is_none</span>() {
@@ -778,9 +790,9 @@
     <span class="doccomment">/// Do not call `Self::next_frame_info` beforehand.</span>
     <span class="doccomment">/// Deinterlaces the result.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_next_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">next_frame_info</span>()).<span class="ident">is_some</span>() {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next_frame_info</span>()<span class="question-mark">?</span>.<span class="ident">is_some</span>() {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vec</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="self">self</span>.<span class="ident">buffer_size</span>()];
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_into_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">vec</span>));
+            <span class="self">self</span>.<span class="ident">read_into_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">vec</span>)<span class="question-mark">?</span>;
             <span class="self">self</span>.<span class="ident">current_frame</span>.<span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">vec</span>);
             <span class="self">self</span>.<span class="ident">current_frame</span>.<span class="ident">interlaced</span> <span class="op">=</span> <span class="bool-val">false</span>;
             <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">current_frame</span>))
@@ -799,13 +811,13 @@
             <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">line_length</span>();
             <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_frame</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>;
             <span class="kw">for</span> <span class="ident">row</span> <span class="kw">in</span> (<span class="ident">InterlaceIterator</span> { <span class="ident">len</span>: <span class="ident">height</span>, <span class="ident">next</span>: <span class="number">0</span>, <span class="ident">pass</span>: <span class="number">0</span> }) {
-                <span class="kw">if</span> <span class="op">!</span><span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">fill_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="ident">row</span><span class="kw-2">*</span><span class="ident">width</span>..][..<span class="ident">width</span>])) {
+                <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">fill_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="ident">row</span><span class="kw-2">*</span><span class="ident">width</span>..][..<span class="ident">width</span>])<span class="question-mark">?</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;Image truncated&quot;</span>))
                 }
             }
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..<span class="self">self</span>.<span class="ident">buffer_size</span>()];
-            <span class="kw">if</span> <span class="op">!</span><span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">fill_buffer</span>(<span class="ident">buf</span>)) {
+            <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">fill_buffer</span>(<span class="ident">buf</span>)<span class="question-mark">?</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;Image truncated&quot;</span>))
             }
         };
@@ -865,7 +877,7 @@
             }
         }
         <span class="kw">loop</span> {
-            <span class="kw">match</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>()) {
+            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>()<span class="question-mark">?</span> {
                 <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">Data</span>(<span class="ident">data</span>)) <span class="op">=&gt;</span> {
                     <span class="kw">let</span> (<span class="ident">len</span>, <span class="ident">channels</span>) <span class="op">=</span> <span class="macro">handle_data</span><span class="macro">!</span>(<span class="ident">data</span>);
                     <span class="kw">let</span> <span class="ident">buf_</span> <span class="op">=</span> <span class="ident">buf</span>; <span class="ident">buf</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf_</span>[<span class="ident">len</span><span class="kw-2">*</span><span class="ident">channels</span>..]; <span class="comment">// shorten buf</span>
@@ -902,9 +914,9 @@
         <span class="comment">// TODO prevent planic</span>
         <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="self">self</span>.<span class="ident">current_frame</span>.<span class="ident">palette</span> {
             <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">table</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">table</span>,
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">global_palette</span>.<span class="ident">as_ref</span>().<span class="ident">ok_or</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">global_palette</span>.<span class="ident">as_ref</span>().<span class="ident">ok_or</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
                 <span class="string">&quot;No color table available for current frame.&quot;</span>
-            ))),
+            ))<span class="question-mark">?</span>,
         })
     }
     
@@ -1070,7 +1082,7 @@
 
         <span class="kw">fn</span> <span class="ident">current_image_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span>), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_frame</span>.<span class="ident">buffer</span> {
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_next_frame</span>());
+                <span class="self">self</span>.<span class="ident">read_next_frame</span>()<span class="question-mark">?</span>;
             }
             <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">current_frame</span>.<span class="ident">buffer</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">offset</span>))
         }
@@ -1081,7 +1093,7 @@
 
         <span class="kw">fn</span> <span class="ident">next_record_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Block</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
             <span class="kw">loop</span> {
-                <span class="kw">match</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>()) {
+                <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>()<span class="question-mark">?</span> {
                     <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">BlockStart</span>(<span class="ident">type_</span>)) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">type_</span>),
                     <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (),
                     <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Block</span>::<span class="ident">Trailer</span>)
@@ -1095,8 +1107,8 @@
 
         <span class="comment">/*
         unsafe fn read_to_end(&amp;mut self, this: &amp;mut c_api::GifFileType) -&gt; Result&lt;(), DecodingError&gt; {
-            try!(self.read_screen_desc(this));
-            try!(self.read_to_end());
+            self.read_screen_desc(this)?;
+            self.read_to_end()?;
             this.ImageCount = self.frames().len() as c_int;
             let images = saved_images_new(this.ImageCount as usize);
             for (i, frame) in self.frames().iter().enumerate() {

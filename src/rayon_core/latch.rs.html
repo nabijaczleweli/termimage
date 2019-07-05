@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-core-1.4.1/src/latch.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>latch.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-core-1.5.0/src/latch.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>latch.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../rayon_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -183,9 +183,12 @@
 <span id="183">183</span>
 <span id="184">184</span>
 <span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicBool</span>, <span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Mutex</span>, <span class="ident">Condvar</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Condvar</span>, <span class="ident">Mutex</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">usize</span>;
 
 <span class="kw">use</span> <span class="ident">sleep</span>::<span class="ident">Sleep</span>;
@@ -216,12 +219,12 @@
 <span class="doccomment">/// - Once `set()` occurs, the next `probe()` *will* observe it.  This</span>
 <span class="doccomment">///   typically requires a seq-cst ordering. See [the &quot;tickle-then-get-sleepy&quot; scenario in the sleep</span>
 <span class="doccomment">///   README](/src/sleep/README.md#tickle-then-get-sleepy) for details.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Latch</span>: <span class="ident">LatchProbe</span> {
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">trait</span> <span class="ident">Latch</span>: <span class="ident">LatchProbe</span> {
     <span class="doccomment">/// Set the latch, signalling others.</span>
     <span class="kw">fn</span> <span class="ident">set</span>(<span class="kw-2">&amp;</span><span class="self">self</span>);
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">LatchProbe</span> {
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">trait</span> <span class="ident">LatchProbe</span> {
     <span class="doccomment">/// Test if the latch is set.</span>
     <span class="kw">fn</span> <span class="ident">probe</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
 }
@@ -229,14 +232,16 @@
 <span class="doccomment">/// Spin latches are the simplest, most efficient kind, but they do</span>
 <span class="doccomment">/// not support a `wait()` operation. They just have a boolean flag</span>
 <span class="doccomment">/// that becomes true when `set()` is called.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpinLatch</span> {
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct</span> <span class="ident">SpinLatch</span> {
     <span class="ident">b</span>: <span class="ident">AtomicBool</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">SpinLatch</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">SpinLatch</span> {
-        <span class="ident">SpinLatch</span> { <span class="ident">b</span>: <span class="ident">AtomicBool</span>::<span class="ident">new</span>(<span class="bool-val">false</span>) }
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">SpinLatch</span> {
+        <span class="ident">SpinLatch</span> {
+            <span class="ident">b</span>: <span class="ident">AtomicBool</span>::<span class="ident">new</span>(<span class="bool-val">false</span>),
+        }
     }
 }
 
@@ -256,14 +261,14 @@
 
 <span class="doccomment">/// A Latch starts as false and eventually becomes true. You can block</span>
 <span class="doccomment">/// until it becomes true.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LockLatch</span> {
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct</span> <span class="ident">LockLatch</span> {
     <span class="ident">m</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
     <span class="ident">v</span>: <span class="ident">Condvar</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">LockLatch</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">LockLatch</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">LockLatch</span> {
         <span class="ident">LockLatch</span> {
             <span class="ident">m</span>: <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="bool-val">false</span>),
             <span class="ident">v</span>: <span class="ident">Condvar</span>::<span class="ident">new</span>(),
@@ -271,7 +276,7 @@
     }
 
     <span class="doccomment">/// Block until latch is set.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wait</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">wait</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">m</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
         <span class="kw">while</span> <span class="op">!</span><span class="kw-2">*</span><span class="ident">guard</span> {
             <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">v</span>.<span class="ident">wait</span>(<span class="ident">guard</span>).<span class="ident">unwrap</span>();
@@ -303,18 +308,20 @@
 <span class="doccomment">/// decrements the counter. The latch is only &quot;set&quot; (in the sense that</span>
 <span class="doccomment">/// `probe()` returns true) once the counter reaches zero.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CountLatch</span> {
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct</span> <span class="ident">CountLatch</span> {
     <span class="ident">counter</span>: <span class="ident">AtomicUsize</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">CountLatch</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">CountLatch</span> {
-        <span class="ident">CountLatch</span> { <span class="ident">counter</span>: <span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="number">1</span>) }
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">CountLatch</span> {
+        <span class="ident">CountLatch</span> {
+            <span class="ident">counter</span>: <span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="number">1</span>),
+        }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">increment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">increment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="op">!</span><span class="self">self</span>.<span class="ident">probe</span>());
         <span class="self">self</span>.<span class="ident">counter</span>.<span class="ident">fetch_add</span>(<span class="number">1</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
     }
@@ -336,21 +343,20 @@
     }
 }
 
-
 <span class="doccomment">/// A tickling latch wraps another latch type, and will also awaken a thread</span>
 <span class="doccomment">/// pool when it is set.  This is useful for jobs injected between thread pools,</span>
 <span class="doccomment">/// so the source pool can continue processing its own work while waiting.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TickleLatch</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">L</span>: <span class="ident">Latch</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct</span> <span class="ident">TickleLatch</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">L</span>: <span class="ident">Latch</span><span class="op">&gt;</span> {
     <span class="ident">inner</span>: <span class="ident">L</span>,
     <span class="ident">sleep</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Sleep</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">L</span>: <span class="ident">Latch</span><span class="op">&gt;</span> <span class="ident">TickleLatch</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">L</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">latch</span>: <span class="ident">L</span>, <span class="ident">sleep</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Sleep</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">latch</span>: <span class="ident">L</span>, <span class="ident">sleep</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Sleep</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">TickleLatch</span> {
             <span class="ident">inner</span>: <span class="ident">latch</span>,
-            <span class="ident">sleep</span>: <span class="ident">sleep</span>,
+            <span class="ident">sleep</span>,
         }
     }
 }

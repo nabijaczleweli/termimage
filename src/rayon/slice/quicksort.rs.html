@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.0.3/src/slice/quicksort.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>quicksort.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.1.0/src/slice/quicksort.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>quicksort.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../rayon/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -787,6 +787,18 @@
 <span id="787">787</span>
 <span id="788">788</span>
 <span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Parallel quicksort.</span>
 <span class="doccomment">//!</span>
@@ -854,7 +866,9 @@
             <span class="comment">// Read the first element into a stack-allocated variable. If a following comparison</span>
             <span class="comment">// operation panics, `hole` will get dropped and automatically write the element back</span>
             <span class="comment">// into the slice.</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">NoDrop</span> { <span class="ident">value</span>: <span class="prelude-val">Some</span>(<span class="ident">ptr</span>::<span class="ident">read</span>(<span class="ident">v</span>.<span class="ident">get_unchecked</span>(<span class="number">0</span>))) };
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">NoDrop</span> {
+                <span class="ident">value</span>: <span class="prelude-val">Some</span>(<span class="ident">ptr</span>::<span class="ident">read</span>(<span class="ident">v</span>.<span class="ident">get_unchecked</span>(<span class="number">0</span>))),
+            };
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hole</span> <span class="op">=</span> <span class="ident">CopyOnDrop</span> {
                 <span class="ident">src</span>: <span class="ident">tmp</span>.<span class="ident">value</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>(),
                 <span class="ident">dest</span>: <span class="ident">v</span>.<span class="ident">get_unchecked_mut</span>(<span class="number">1</span>),
@@ -887,7 +901,9 @@
             <span class="comment">// Read the last element into a stack-allocated variable. If a following comparison</span>
             <span class="comment">// operation panics, `hole` will get dropped and automatically write the element back</span>
             <span class="comment">// into the slice.</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">NoDrop</span> { <span class="ident">value</span>: <span class="prelude-val">Some</span>(<span class="ident">ptr</span>::<span class="ident">read</span>(<span class="ident">v</span>.<span class="ident">get_unchecked</span>(<span class="ident">len</span> <span class="op">-</span> <span class="number">1</span>))) };
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">NoDrop</span> {
+                <span class="ident">value</span>: <span class="prelude-val">Some</span>(<span class="ident">ptr</span>::<span class="ident">read</span>(<span class="ident">v</span>.<span class="ident">get_unchecked</span>(<span class="ident">len</span> <span class="op">-</span> <span class="number">1</span>))),
+            };
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hole</span> <span class="op">=</span> <span class="ident">CopyOnDrop</span> {
                 <span class="ident">src</span>: <span class="ident">tmp</span>.<span class="ident">value</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>(),
                 <span class="ident">dest</span>: <span class="ident">v</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">len</span> <span class="op">-</span> <span class="number">2</span>),
@@ -961,7 +977,7 @@
     <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>,
 {
     <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">v</span>.<span class="ident">len</span>() {
-        <span class="ident">shift_tail</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">v</span>[..<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>], <span class="ident">is_less</span>);
+        <span class="ident">shift_tail</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">v</span>[..=<span class="ident">i</span>], <span class="ident">is_less</span>);
     }
 }
 
@@ -1045,7 +1061,7 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">offsets_l</span>: [<span class="ident">u8</span>; <span class="ident">BLOCK</span>] <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">uninitialized</span>() };
 
     <span class="comment">// The current block on the right side (from `r.offset(-block_r)` to `r`).</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">l</span>.<span class="ident">offset</span>(<span class="ident">v</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">isize</span>) };
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">l</span>.<span class="ident">add</span>(<span class="ident">v</span>.<span class="ident">len</span>()) };
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">block_r</span> <span class="op">=</span> <span class="ident">BLOCK</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start_r</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null_mut</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">end_r</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null_mut</span>();
@@ -1119,8 +1135,16 @@
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">width</span>(<span class="ident">start_l</span>, <span class="ident">end_l</span>), <span class="ident">width</span>(<span class="ident">start_r</span>, <span class="ident">end_r</span>));
 
         <span class="kw">if</span> <span class="ident">count</span> <span class="op">&gt;</span> <span class="number">0</span> {
-            <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">left</span> { () <span class="op">=&gt;</span> { <span class="ident">l</span>.<span class="ident">offset</span>(<span class="kw-2">*</span><span class="ident">start_l</span> <span class="kw">as</span> <span class="ident">isize</span>) } }
-            <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">right</span> { () <span class="op">=&gt;</span> { <span class="ident">r</span>.<span class="ident">offset</span>(<span class="op">-</span>(<span class="kw-2">*</span><span class="ident">start_r</span> <span class="kw">as</span> <span class="ident">isize</span>) <span class="op">-</span> <span class="number">1</span>) } }
+            <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">left</span> {
+                () <span class="op">=&gt;</span> {
+                    <span class="ident">l</span>.<span class="ident">offset</span>(<span class="kw-2">*</span><span class="ident">start_l</span> <span class="kw">as</span> <span class="ident">isize</span>)
+                };
+            }
+            <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">right</span> {
+                () <span class="op">=&gt;</span> {
+                    <span class="ident">r</span>.<span class="ident">offset</span>(<span class="op">-</span>(<span class="kw-2">*</span><span class="ident">start_r</span> <span class="kw">as</span> <span class="ident">isize</span>) <span class="op">-</span> <span class="number">1</span>)
+                };
+            }
 
             <span class="comment">// Instead of swapping one pair at the time, it is more efficient to perform a cyclic</span>
             <span class="comment">// permutation. This is not strictly equivalent to swapping, but produces a similar</span>
@@ -1145,12 +1169,12 @@
 
         <span class="kw">if</span> <span class="ident">start_l</span> <span class="op">==</span> <span class="ident">end_l</span> {
             <span class="comment">// All out-of-order elements in the left block were moved. Move to the next block.</span>
-            <span class="ident">l</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">l</span>.<span class="ident">offset</span>(<span class="ident">block_l</span> <span class="kw">as</span> <span class="ident">isize</span>) };
+            <span class="ident">l</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">l</span>.<span class="ident">add</span>(<span class="ident">block_l</span>) };
         }
 
         <span class="kw">if</span> <span class="ident">start_r</span> <span class="op">==</span> <span class="ident">end_r</span> {
             <span class="comment">// All out-of-order elements in the right block were moved. Move to the previous block.</span>
-            <span class="ident">r</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">r</span>.<span class="ident">offset</span>(<span class="op">-</span>(<span class="ident">block_r</span> <span class="kw">as</span> <span class="ident">isize</span>)) };
+            <span class="ident">r</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">r</span>.<span class="ident">sub</span>(<span class="ident">block_r</span>) };
         }
 
         <span class="kw">if</span> <span class="ident">is_done</span> {
@@ -1317,10 +1341,12 @@
             <span class="ident">random</span> <span class="op">^=</span> <span class="ident">random</span> <span class="op">&lt;&lt;</span> <span class="number">5</span>;
             <span class="ident">random</span>
         };
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">gen_usize</span> <span class="op">=</span> <span class="op">||</span> <span class="kw">if</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>() <span class="op">&lt;=</span> <span class="number">4</span> {
-            <span class="ident">gen_u32</span>() <span class="kw">as</span> <span class="ident">usize</span>
-        } <span class="kw">else</span> {
-            (((<span class="ident">gen_u32</span>() <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>) <span class="op">|</span> (<span class="ident">gen_u32</span>() <span class="kw">as</span> <span class="ident">u64</span>)) <span class="kw">as</span> <span class="ident">usize</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">gen_usize</span> <span class="op">=</span> <span class="op">||</span> {
+            <span class="kw">if</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>() <span class="op">&lt;=</span> <span class="number">4</span> {
+                <span class="ident">gen_u32</span>() <span class="kw">as</span> <span class="ident">usize</span>
+            } <span class="kw">else</span> {
+                ((<span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">gen_u32</span>()) <span class="op">&lt;&lt;</span> <span class="number">32</span>) <span class="op">|</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">gen_u32</span>())) <span class="kw">as</span> <span class="ident">usize</span>
+            }
         };
 
         <span class="comment">// Take random numbers modulo this number.</span>
@@ -1478,7 +1504,7 @@
                 <span class="kw">let</span> <span class="ident">mid</span> <span class="op">=</span> <span class="ident">partition_equal</span>(<span class="ident">v</span>, <span class="ident">pivot</span>, <span class="ident">is_less</span>);
 
                 <span class="comment">// Continue sorting elements greater than the pivot.</span>
-                <span class="ident">v</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> {<span class="ident">v</span>}[<span class="ident">mid</span>..];
+                <span class="ident">v</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> { <span class="ident">v</span> }[<span class="ident">mid</span>..];
                 <span class="kw">continue</span>;
             }
         }
@@ -1489,7 +1515,7 @@
         <span class="ident">was_partitioned</span> <span class="op">=</span> <span class="ident">was_p</span>;
 
         <span class="comment">// Split the slice into `left`, `pivot`, and `right`.</span>
-        <span class="kw">let</span> (<span class="ident">left</span>, <span class="ident">right</span>) <span class="op">=</span> {<span class="ident">v</span>}.<span class="ident">split_at_mut</span>(<span class="ident">mid</span>);
+        <span class="kw">let</span> (<span class="ident">left</span>, <span class="ident">right</span>) <span class="op">=</span> { <span class="ident">v</span> }.<span class="ident">split_at_mut</span>(<span class="ident">mid</span>);
         <span class="kw">let</span> (<span class="ident">pivot</span>, <span class="ident">right</span>) <span class="op">=</span> <span class="ident">right</span>.<span class="ident">split_at_mut</span>(<span class="number">1</span>);
         <span class="kw">let</span> <span class="ident">pivot</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pivot</span>[<span class="number">0</span>];
 
@@ -1519,7 +1545,7 @@
 <span class="doccomment">/// Sorts `v` using pattern-defeating quicksort in parallel.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The algorithm is unstable, in-place, and `O(n log n)` worst-case.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">par_quicksort</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>], <span class="ident">is_less</span>: <span class="ident">F</span>)
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">par_quicksort</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>], <span class="ident">is_less</span>: <span class="ident">F</span>)
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Send</span>,
     <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Sync</span>,
@@ -1537,9 +1563,9 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">rand</span>::{<span class="ident">thread_rng</span>, <span class="ident">Rng</span>};
-    <span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">distributions</span>::<span class="ident">Uniform</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">heapsort</span>;
+    <span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">distributions</span>::<span class="ident">Uniform</span>;
+    <span class="kw">use</span> <span class="ident">rand</span>::{<span class="ident">thread_rng</span>, <span class="ident">Rng</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_heapsort</span>() {
@@ -1549,9 +1575,7 @@
             <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">modulus</span> <span class="kw">in</span> <span class="kw-2">&amp;</span>[<span class="number">5</span>, <span class="number">10</span>, <span class="number">100</span>] {
                 <span class="kw">let</span> <span class="ident">dist</span> <span class="op">=</span> <span class="ident">Uniform</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="ident">modulus</span>);
                 <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">100</span> {
-                    <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">rng</span>.<span class="ident">sample_iter</span>(<span class="kw-2">&amp;</span><span class="ident">dist</span>)
-                        .<span class="ident">take</span>(<span class="ident">len</span>)
-                        .<span class="ident">collect</span>();
+                    <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">rng</span>.<span class="ident">sample_iter</span>(<span class="kw-2">&amp;</span><span class="ident">dist</span>).<span class="ident">take</span>(<span class="ident">len</span>).<span class="ident">collect</span>();
 
                     <span class="comment">// Test heapsort using `&lt;` operator.</span>
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">clone</span>();

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.0.3/src/iter/zip.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>zip.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.1.0/src/iter/zip.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>zip.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../rayon/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -146,6 +146,17 @@
 <span id="146">146</span>
 <span id="147">147</span>
 <span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">plumbing</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
@@ -165,24 +176,27 @@
     <span class="ident">b</span>: <span class="ident">B</span>,
 }
 
-<span class="doccomment">/// Create a new `Zip` iterator.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// NB: a free fn because it is NOT part of the end-user API.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">A</span>, <span class="ident">b</span>: <span class="ident">B</span>) <span class="op">-&gt;</span> <span class="ident">Zip</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">IndexedParallelIterator</span>,
-          <span class="ident">B</span>: <span class="ident">IndexedParallelIterator</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">Zip</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">A</span>: <span class="ident">IndexedParallelIterator</span>,
+    <span class="ident">B</span>: <span class="ident">IndexedParallelIterator</span>,
 {
-    <span class="ident">Zip</span> { <span class="ident">a</span>: <span class="ident">a</span>, <span class="ident">b</span>: <span class="ident">b</span> }
+    <span class="doccomment">/// Create a new `Zip` iterator.</span>
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">a</span>: <span class="ident">A</span>, <span class="ident">b</span>: <span class="ident">B</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Zip</span> { <span class="ident">a</span>, <span class="ident">b</span> }
+    }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">ParallelIterator</span> <span class="kw">for</span> <span class="ident">Zip</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">IndexedParallelIterator</span>,
-          <span class="ident">B</span>: <span class="ident">IndexedParallelIterator</span>
+<span class="kw">where</span>
+    <span class="ident">A</span>: <span class="ident">IndexedParallelIterator</span>,
+    <span class="ident">B</span>: <span class="ident">IndexedParallelIterator</span>,
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> (<span class="ident">A</span>::<span class="ident">Item</span>, <span class="ident">B</span>::<span class="ident">Item</span>);
 
     <span class="kw">fn</span> <span class="ident">drive_unindexed</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">consumer</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="ident">C</span>::<span class="prelude-ty">Result</span>
-        <span class="kw">where</span> <span class="ident">C</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">C</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
     {
         <span class="ident">bridge</span>(<span class="self">self</span>, <span class="ident">consumer</span>)
     }
@@ -193,11 +207,13 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">IndexedParallelIterator</span> <span class="kw">for</span> <span class="ident">Zip</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">IndexedParallelIterator</span>,
-          <span class="ident">B</span>: <span class="ident">IndexedParallelIterator</span>
+<span class="kw">where</span>
+    <span class="ident">A</span>: <span class="ident">IndexedParallelIterator</span>,
+    <span class="ident">B</span>: <span class="ident">IndexedParallelIterator</span>,
 {
     <span class="kw">fn</span> <span class="ident">drive</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">consumer</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="ident">C</span>::<span class="prelude-ty">Result</span>
-        <span class="kw">where</span> <span class="ident">C</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">C</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
     {
         <span class="ident">bridge</span>(<span class="self">self</span>, <span class="ident">consumer</span>)
     }
@@ -207,12 +223,13 @@
     }
 
     <span class="kw">fn</span> <span class="ident">with_producer</span><span class="op">&lt;</span><span class="ident">CB</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">callback</span>: <span class="ident">CB</span>) <span class="op">-&gt;</span> <span class="ident">CB</span>::<span class="ident">Output</span>
-        <span class="kw">where</span> <span class="ident">CB</span>: <span class="ident">ProducerCallback</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">CB</span>: <span class="ident">ProducerCallback</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
     {
         <span class="kw">return</span> <span class="self">self</span>.<span class="ident">a</span>.<span class="ident">with_producer</span>(<span class="ident">CallbackA</span> {
-                                        <span class="ident">callback</span>: <span class="ident">callback</span>,
-                                        <span class="ident">b</span>: <span class="self">self</span>.<span class="ident">b</span>,
-                                    });
+            <span class="ident">callback</span>,
+            <span class="ident">b</span>: <span class="self">self</span>.<span class="ident">b</span>,
+        });
 
         <span class="kw">struct</span> <span class="ident">CallbackA</span><span class="op">&lt;</span><span class="ident">CB</span>, <span class="ident">B</span><span class="op">&gt;</span> {
             <span class="ident">callback</span>: <span class="ident">CB</span>,
@@ -220,18 +237,20 @@
         }
 
         <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">CB</span>, <span class="ident">ITEM</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">ProducerCallback</span><span class="op">&lt;</span><span class="ident">ITEM</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CallbackA</span><span class="op">&lt;</span><span class="ident">CB</span>, <span class="ident">B</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">B</span>: <span class="ident">IndexedParallelIterator</span>,
-                  <span class="ident">CB</span>: <span class="ident">ProducerCallback</span><span class="op">&lt;</span>(<span class="ident">ITEM</span>, <span class="ident">B</span>::<span class="ident">Item</span>)<span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">B</span>: <span class="ident">IndexedParallelIterator</span>,
+            <span class="ident">CB</span>: <span class="ident">ProducerCallback</span><span class="op">&lt;</span>(<span class="ident">ITEM</span>, <span class="ident">B</span>::<span class="ident">Item</span>)<span class="op">&gt;</span>,
         {
             <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">CB</span>::<span class="ident">Output</span>;
 
             <span class="kw">fn</span> <span class="ident">callback</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">a_producer</span>: <span class="ident">A</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span>
-                <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">Producer</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">ITEM</span><span class="op">&gt;</span>
+            <span class="kw">where</span>
+                <span class="ident">A</span>: <span class="ident">Producer</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">ITEM</span><span class="op">&gt;</span>,
             {
-                <span class="kw">return</span> <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">with_producer</span>(<span class="ident">CallbackB</span> {
-                                                <span class="ident">a_producer</span>: <span class="ident">a_producer</span>,
-                                                <span class="ident">callback</span>: <span class="self">self</span>.<span class="ident">callback</span>,
-                                            });
+                <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">with_producer</span>(<span class="ident">CallbackB</span> {
+                    <span class="ident">a_producer</span>,
+                    <span class="ident">callback</span>: <span class="self">self</span>.<span class="ident">callback</span>,
+                })
             }
         }
 
@@ -241,21 +260,22 @@
         }
 
         <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">CB</span>, <span class="ident">A</span>, <span class="ident">ITEM</span><span class="op">&gt;</span> <span class="ident">ProducerCallback</span><span class="op">&lt;</span><span class="ident">ITEM</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CallbackB</span><span class="op">&lt;</span><span class="ident">CB</span>, <span class="ident">A</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">Producer</span>,
-                  <span class="ident">CB</span>: <span class="ident">ProducerCallback</span><span class="op">&lt;</span>(<span class="ident">A</span>::<span class="ident">Item</span>, <span class="ident">ITEM</span>)<span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">A</span>: <span class="ident">Producer</span>,
+            <span class="ident">CB</span>: <span class="ident">ProducerCallback</span><span class="op">&lt;</span>(<span class="ident">A</span>::<span class="ident">Item</span>, <span class="ident">ITEM</span>)<span class="op">&gt;</span>,
         {
             <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">CB</span>::<span class="ident">Output</span>;
 
             <span class="kw">fn</span> <span class="ident">callback</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">b_producer</span>: <span class="ident">B</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span>
-                <span class="kw">where</span> <span class="ident">B</span>: <span class="ident">Producer</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">ITEM</span><span class="op">&gt;</span>
+            <span class="kw">where</span>
+                <span class="ident">B</span>: <span class="ident">Producer</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">ITEM</span><span class="op">&gt;</span>,
             {
                 <span class="self">self</span>.<span class="ident">callback</span>.<span class="ident">callback</span>(<span class="ident">ZipProducer</span> {
-                                           <span class="ident">a</span>: <span class="self">self</span>.<span class="ident">a_producer</span>,
-                                           <span class="ident">b</span>: <span class="ident">b_producer</span>,
-                                       })
+                    <span class="ident">a</span>: <span class="self">self</span>.<span class="ident">a_producer</span>,
+                    <span class="ident">b</span>: <span class="ident">b_producer</span>,
+                })
             }
         }
-
     }
 }
 
@@ -285,14 +305,16 @@
     <span class="kw">fn</span> <span class="ident">split_at</span>(<span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
         <span class="kw">let</span> (<span class="ident">a_left</span>, <span class="ident">a_right</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">a</span>.<span class="ident">split_at</span>(<span class="ident">index</span>);
         <span class="kw">let</span> (<span class="ident">b_left</span>, <span class="ident">b_right</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">split_at</span>(<span class="ident">index</span>);
-        (<span class="ident">ZipProducer</span> {
-             <span class="ident">a</span>: <span class="ident">a_left</span>,
-             <span class="ident">b</span>: <span class="ident">b_left</span>,
-         },
-         <span class="ident">ZipProducer</span> {
-             <span class="ident">a</span>: <span class="ident">a_right</span>,
-             <span class="ident">b</span>: <span class="ident">b_right</span>,
-         })
+        (
+            <span class="ident">ZipProducer</span> {
+                <span class="ident">a</span>: <span class="ident">a_left</span>,
+                <span class="ident">b</span>: <span class="ident">b_left</span>,
+            },
+            <span class="ident">ZipProducer</span> {
+                <span class="ident">a</span>: <span class="ident">a_right</span>,
+                <span class="ident">b</span>: <span class="ident">b_right</span>,
+            },
+        )
     }
 }
 </pre></div>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/png-0.5.2/src/decoder/stream.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>stream.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/png-0.14.1/src/decoder/stream.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>stream.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../png/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -621,33 +621,14 @@
 <span id="621">621</span>
 <span id="622">622</span>
 <span id="623">623</span>
-<span id="624">624</span>
-<span id="625">625</span>
-<span id="626">626</span>
-<span id="627">627</span>
-<span id="628">628</span>
-<span id="629">629</span>
-<span id="630">630</span>
-<span id="631">631</span>
-<span id="632">632</span>
-<span id="633">633</span>
-<span id="634">634</span>
-<span id="635">635</span>
-<span id="636">636</span>
-<span id="637">637</span>
-<span id="638">638</span>
-<span id="639">639</span>
-<span id="640">640</span>
-<span id="641">641</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">default</span>::<span class="ident">Default</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Read</span>, <span class="ident">Write</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">min</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::{<span class="ident">From</span>, <span class="ident">AsRef</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">From</span>;
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">inflate</span>;
 
@@ -682,7 +663,7 @@
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="doccomment">/// Result of the decoding process</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Decoded</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Decoded</span> {
     <span class="doccomment">/// Nothing decoded yet</span>
     <span class="ident">Nothing</span>,
     <span class="ident">Header</span>(<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">BitDepth</span>, <span class="ident">ColorType</span>, <span class="ident">bool</span>),
@@ -690,10 +671,10 @@
     <span class="ident">ChunkComplete</span>(<span class="ident">u32</span>, <span class="ident">ChunkType</span>),
     <span class="ident">PixelDimensions</span>(<span class="ident">PixelDimensions</span>),
     <span class="ident">AnimationControl</span>(<span class="ident">AnimationControl</span>),
-    <span class="ident">FrameControl</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">FrameControl</span>),
+    <span class="ident">FrameControl</span>(<span class="ident">FrameControl</span>),
     <span class="doccomment">/// Decoded raw image data.</span>
-    <span class="ident">ImageData</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]),
-    <span class="ident">PartialChunk</span>(<span class="ident">ChunkType</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]),
+    <span class="ident">ImageData</span>,
+    <span class="ident">PartialChunk</span>(<span class="ident">ChunkType</span>),
     <span class="ident">ImageEnd</span>,
 }
 
@@ -720,10 +701,9 @@
         <span class="kw">use</span> <span class="self">self</span>::<span class="ident">DecodingError</span>::<span class="kw-2">*</span>;
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">IoError</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=&gt;</span> <span class="ident">err</span>.<span class="ident">description</span>(),
-            <span class="ident">Format</span>(<span class="kw-2">ref</span> <span class="ident">desc</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">desc</span>,
+            <span class="ident">Format</span>(<span class="kw-2">ref</span> <span class="ident">desc</span>) <span class="op">|</span> <span class="ident">Other</span>(<span class="kw-2">ref</span> <span class="ident">desc</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">desc</span>,
             <span class="ident">InvalidSignature</span> <span class="op">=&gt;</span> <span class="string">&quot;invalid signature&quot;</span>,
             <span class="ident">CrcMismatch</span> { .. } <span class="op">=&gt;</span> <span class="string">&quot;CRC error&quot;</span>,
-            <span class="ident">Other</span>(<span class="kw-2">ref</span> <span class="ident">desc</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">desc</span>,
             <span class="ident">CorruptFlateStream</span> <span class="op">=&gt;</span> <span class="string">&quot;compressed data stream corrupted&quot;</span>
         }
     }
@@ -778,7 +758,7 @@
         <span class="ident">StreamingDecoder</span> {
             <span class="ident">state</span>: <span class="prelude-val">Some</span>(<span class="ident">State</span>::<span class="ident">Signature</span>(<span class="number">0</span>, [<span class="number">0</span>; <span class="number">7</span>])),
             <span class="ident">current_chunk</span>: (<span class="ident">Crc32</span>::<span class="ident">new</span>(), <span class="number">0</span>, <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">CHUNCK_BUFFER_SIZE</span>)),
-            <span class="ident">inflater</span>: <span class="ident">InflateStream</span>::<span class="ident">from_zlib</span>(),
+            <span class="ident">inflater</span>: <span class="kw">if</span> <span class="macro">cfg</span><span class="macro">!</span>(<span class="ident">fuzzing</span>) {<span class="ident">InflateStream</span>::<span class="ident">from_zlib_no_checksum</span>()} <span class="kw">else</span> {<span class="ident">InflateStream</span>::<span class="ident">from_zlib</span>()},
             <span class="ident">info</span>: <span class="prelude-val">None</span>,
             <span class="ident">current_seq_no</span>: <span class="prelude-val">None</span>,
             <span class="ident">have_idat</span>: <span class="bool-val">false</span>
@@ -791,7 +771,7 @@
         <span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">0</span> <span class="op">=</span> <span class="ident">Crc32</span>::<span class="ident">new</span>();
         <span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">1</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">2</span>.<span class="ident">clear</span>();
-        <span class="self">self</span>.<span class="ident">inflater</span> <span class="op">=</span> <span class="ident">InflateStream</span>::<span class="ident">from_zlib</span>();
+        <span class="self">self</span>.<span class="ident">inflater</span> <span class="op">=</span> <span class="kw">if</span> <span class="macro">cfg</span><span class="macro">!</span>(<span class="ident">fuzzing</span>) {<span class="ident">InflateStream</span>::<span class="ident">from_zlib_no_checksum</span>()} <span class="kw">else</span> {<span class="ident">InflateStream</span>::<span class="ident">from_zlib</span>()};
         <span class="self">self</span>.<span class="ident">info</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="self">self</span>.<span class="ident">current_seq_no</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="self">self</span>.<span class="ident">have_idat</span> <span class="op">=</span> <span class="bool-val">false</span>;
@@ -799,36 +779,20 @@
 
     <span class="doccomment">/// Low level StreamingDecoder interface.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Allows to stream partial data to the encoder. Returns a tuple containing the</span>
-    <span class="doccomment">/// bytes that have been consumed from the input buffer and the current decoding</span>
-    <span class="doccomment">/// result.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>])
-    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">Decoded</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
-        <span class="comment">// NOTE: Do not change the function signature without double-checking the</span>
-        <span class="comment">//       unsafe block!</span>
+    <span class="doccomment">/// Allows to stream partial data to the encoder. Returns a tuple containing the bytes that have</span>
+    <span class="doccomment">/// been consumed from the input buffer and the current decoding result. If the decoded chunk</span>
+    <span class="doccomment">/// was an image data chunk, it also appends the read data to `image_data`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">image_data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>)
+    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">Decoded</span>), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>();
         <span class="kw">while</span> <span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">is_some</span>() {
-            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_state</span>(<span class="ident">buf</span>) {
+            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_state</span>(<span class="ident">buf</span>, <span class="ident">image_data</span>) {
                 <span class="prelude-val">Ok</span>((<span class="ident">bytes</span>, <span class="ident">Decoded</span>::<span class="ident">Nothing</span>)) <span class="op">=&gt;</span> {
                     <span class="ident">buf</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">buf</span>[<span class="ident">bytes</span>..]
                 }
                 <span class="prelude-val">Ok</span>((<span class="ident">bytes</span>, <span class="ident">result</span>)) <span class="op">=&gt;</span> {
                     <span class="ident">buf</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">buf</span>[<span class="ident">bytes</span>..];
-                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(
-                        (<span class="ident">len</span><span class="op">-</span><span class="ident">buf</span>.<span class="ident">len</span>(),
-                        <span class="comment">// This transmute just casts the lifetime away. Since Rust only</span>
-                        <span class="comment">// has SESE regions, this early return cannot be worked out and</span>
-                        <span class="comment">// such that the borrow region of self includes the whole block.</span>
-                        <span class="comment">// The explixit lifetimes in the function signature ensure that</span>
-                        <span class="comment">// this is safe.</span>
-                        <span class="comment">// ### NOTE</span>
-                        <span class="comment">// To check that everything is sound, return the result without</span>
-                        <span class="comment">// the match (e.g. `return Ok(try!(self.next_state(buf)))`). If</span>
-                        <span class="comment">// it compiles the returned lifetime is correct.</span>
-                        <span class="kw">unsafe</span> {
-                            <span class="ident">mem</span>::<span class="ident">transmute</span>::<span class="op">&lt;</span><span class="ident">Decoded</span>, <span class="ident">Decoded</span><span class="op">&gt;</span>(<span class="ident">result</span>)
-                        }
-                    ))
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>((<span class="ident">len</span><span class="op">-</span><span class="ident">buf</span>.<span class="ident">len</span>(), <span class="ident">result</span>));
                 }
                 <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>)
             }
@@ -836,8 +800,8 @@
         <span class="prelude-val">Ok</span>((<span class="ident">len</span><span class="op">-</span><span class="ident">buf</span>.<span class="ident">len</span>(), <span class="ident">Decoded</span>::<span class="ident">Nothing</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">next_state</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>])
-    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">Decoded</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next_state</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">image_data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>)
+    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">Decoded</span>), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="self">self</span>::<span class="ident">State</span>::<span class="kw-2">*</span>;
 
         <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">goto</span> (
@@ -897,7 +861,7 @@
                         )
                     },
                     <span class="ident">Crc</span>(<span class="ident">type_str</span>) <span class="op">=&gt;</span> {
-                        <span class="kw">if</span> <span class="ident">val</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">0</span>.<span class="ident">checksum</span>() {
+                        <span class="kw">if</span> <span class="macro">cfg</span><span class="macro">!</span>(<span class="ident">fuzzing</span>) <span class="op">||</span> <span class="ident">val</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">0</span>.<span class="ident">checksum</span>() {
                             <span class="macro">goto</span><span class="macro">!</span>(
                                 <span class="ident">State</span>::<span class="ident">U32</span>(<span class="ident">U32Value</span>::<span class="ident">Length</span>),
                                 <span class="ident">emit</span> <span class="kw">if</span> <span class="ident">type_str</span> <span class="op">==</span> <span class="ident">IEND</span> {
@@ -933,7 +897,7 @@
                         <span class="macro">goto</span><span class="macro">!</span>(
                             <span class="number">0</span>,
                             <span class="ident">DecodeData</span>(<span class="ident">type_str</span>, <span class="number">0</span>),
-                            <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">PartialChunk</span>(<span class="ident">type_str</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">2</span>)
+                            <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">PartialChunk</span>(<span class="ident">type_str</span>)
                         )
                     },
                     <span class="ident">chunk</span>::<span class="ident">fdAT</span> <span class="op">=&gt;</span> {
@@ -954,17 +918,17 @@
                         <span class="macro">goto</span><span class="macro">!</span>(
                             <span class="number">0</span>,
                             <span class="ident">DecodeData</span>(<span class="ident">type_str</span>, <span class="number">4</span>),
-                            <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">PartialChunk</span>(<span class="ident">type_str</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">2</span>)
+                            <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">PartialChunk</span>(<span class="ident">type_str</span>)
                         )
                     },
-                    <span class="comment">// Skip other chunks</span>
+                    <span class="comment">// Handle other chunks</span>
                     <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">1</span> <span class="op">==</span> <span class="number">0</span> { <span class="comment">// complete chunk</span>
                             <span class="prelude-val">Ok</span>((<span class="number">0</span>, <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">parse_chunk</span>(<span class="ident">type_str</span>))))
                         } <span class="kw">else</span> {
                             <span class="macro">goto</span><span class="macro">!</span>(
                                 <span class="number">0</span>, <span class="ident">ReadChunk</span>(<span class="ident">type_str</span>, <span class="bool-val">true</span>),
-                                <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">PartialChunk</span>(<span class="ident">type_str</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">2</span>)
+                                <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">PartialChunk</span>(<span class="ident">type_str</span>)
                             )
                         }
                     }
@@ -1002,18 +966,19 @@
             <span class="ident">DecodeData</span>(<span class="ident">type_str</span>, <span class="kw-2">mut</span> <span class="ident">n</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">chunk_len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">2</span>.<span class="ident">len</span>();
                 <span class="kw">let</span> (<span class="ident">c</span>, <span class="ident">data</span>) <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">inflater</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">current_chunk</span>.<span class="number">2</span>[<span class="ident">n</span>..]));
+                <span class="ident">image_data</span>.<span class="ident">extend_from_slice</span>(<span class="ident">data</span>);
                 <span class="ident">n</span> <span class="op">+=</span> <span class="ident">c</span>;
                 <span class="kw">if</span> <span class="ident">n</span> <span class="op">==</span> <span class="ident">chunk_len</span> <span class="op">&amp;&amp;</span> <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">c</span> <span class="op">==</span> <span class="number">0</span> {
                     <span class="macro">goto</span><span class="macro">!</span>(
                         <span class="number">0</span>,
                         <span class="ident">ReadChunk</span>(<span class="ident">type_str</span>, <span class="bool-val">true</span>),
-                        <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">ImageData</span>(<span class="ident">data</span>)
+                        <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">ImageData</span>
                     )
                 } <span class="kw">else</span> {
                     <span class="macro">goto</span><span class="macro">!</span>(
                         <span class="number">0</span>,
                         <span class="ident">DecodeData</span>(<span class="ident">type_str</span>, <span class="ident">n</span>),
-                        <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">ImageData</span>(<span class="ident">data</span>)
+                        <span class="ident">emit</span> <span class="ident">Decoded</span>::<span class="ident">ImageData</span>
                     )
                 }
             }
@@ -1023,7 +988,6 @@
     <span class="kw">fn</span> <span class="ident">parse_chunk</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">type_str</span>: [<span class="ident">u8</span>; <span class="number">4</span>])
     <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoded</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">State</span>::<span class="ident">U32</span>(<span class="ident">U32Value</span>::<span class="ident">Crc</span>(<span class="ident">type_str</span>)));
-        <span class="kw">let</span> <span class="ident">state_ptr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">state</span>;
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">info</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="ident">type_str</span> <span class="op">!=</span> <span class="ident">IHDR</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="macro">format</span><span class="macro">!</span>(
                 <span class="string">&quot;{} chunk appeared before IHDR chunk&quot;</span>, <span class="ident">String</span>::<span class="ident">from_utf8_lossy</span>(<span class="kw-2">&amp;</span><span class="ident">type_str</span>)
@@ -1048,12 +1012,11 @@
             <span class="ident">chunk</span>::<span class="ident">fcTL</span> <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">parse_fctl</span>()
             }
-            <span class="comment">// Skip other and unknown chunks:</span>
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoded</span>::<span class="ident">Nothing</span>)
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoded</span>::<span class="ident">PartialChunk</span>(<span class="ident">type_str</span>))
         } {
             <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span>{
                 <span class="comment">// Borrow of self ends here, because Decoding error does not borrow self.</span>
-                <span class="kw-2">*</span><span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">state_ptr</span> } <span class="op">=</span> <span class="prelude-val">None</span>;
+                <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="prelude-val">None</span>;
                 <span class="prelude-val">Err</span>(<span class="ident">err</span>)
             },
             <span class="ident">ok</span> <span class="op">=&gt;</span> <span class="ident">ok</span>
@@ -1091,8 +1054,8 @@
             }
             <span class="number">0</span>
         });
-        <span class="self">self</span>.<span class="ident">inflater</span> <span class="op">=</span> <span class="ident">InflateStream</span>::<span class="ident">from_zlib</span>();
-        <span class="self">self</span>.<span class="ident">info</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>().<span class="ident">frame_control</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">FrameControl</span> {
+        <span class="self">self</span>.<span class="ident">inflater</span> <span class="op">=</span> <span class="kw">if</span> <span class="macro">cfg</span><span class="macro">!</span>(<span class="ident">fuzzing</span>) {<span class="ident">InflateStream</span>::<span class="ident">from_zlib_no_checksum</span>()} <span class="kw">else</span> {<span class="ident">InflateStream</span>::<span class="ident">from_zlib</span>()};
+        <span class="kw">let</span> <span class="ident">fc</span> <span class="op">=</span> <span class="ident">FrameControl</span> {
             <span class="ident">sequence_number</span>: <span class="ident">next_seq_no</span>,
             <span class="ident">width</span>: <span class="macro">try</span><span class="macro">!</span>(<span class="ident">buf</span>.<span class="ident">read_be</span>()),
             <span class="ident">height</span>: <span class="macro">try</span><span class="macro">!</span>(<span class="ident">buf</span>.<span class="ident">read_be</span>()),
@@ -1102,14 +1065,15 @@
             <span class="ident">delay_den</span>: <span class="macro">try</span><span class="macro">!</span>(<span class="ident">buf</span>.<span class="ident">read_be</span>()),
             <span class="ident">dispose_op</span>: <span class="macro">try</span><span class="macro">!</span>(<span class="ident">buf</span>.<span class="ident">read_be</span>()),
             <span class="ident">blend_op</span> : <span class="macro">try</span><span class="macro">!</span>(<span class="ident">buf</span>.<span class="ident">read_be</span>()),
-        });
-        <span class="prelude-val">Ok</span>(<span class="ident">Decoded</span>::<span class="ident">FrameControl</span>(<span class="self">self</span>.<span class="ident">info</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>().<span class="ident">frame_control</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>()))
+        };
+        <span class="self">self</span>.<span class="ident">info</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>().<span class="ident">frame_control</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">fc</span>.<span class="ident">clone</span>());
+        <span class="prelude-val">Ok</span>(<span class="ident">Decoded</span>::<span class="ident">FrameControl</span>(<span class="ident">fc</span>))
     }
 
     <span class="kw">fn</span> <span class="ident">parse_actl</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>)
     <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoded</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">have_idat</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
+            <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
                 <span class="string">&quot;acTL chunk appeared after first IDAT chunk&quot;</span>.<span class="ident">into</span>()
             ))
         } <span class="kw">else</span> {
@@ -1194,7 +1158,7 @@
     <span class="kw">fn</span> <span class="ident">parse_phys</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>)
     <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoded</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">have_idat</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
+            <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
                 <span class="string">&quot;pHYs chunk appeared after first IDAT chunk&quot;</span>.<span class="ident">into</span>()
             ))
         } <span class="kw">else</span> {

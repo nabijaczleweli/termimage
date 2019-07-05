@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["vp8","An implementation of the VP8 Video Codec"]],"struct":[["WebpDecoder","A Representation of a Webp Image format decoder."]]});
+initSidebarItems({"mod":[["vp8","An implementation of the VP8 Video Codec"]],"struct":[["WebpDecoder","Webp Image format decoder. Currently only supportes the luma channel (meaning that decoded images will be grayscale)."]]});

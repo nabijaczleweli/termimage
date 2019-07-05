@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.10.4/./src/imageops/colorops.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>colorops.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.21.2/./src/imageops/colorops.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>colorops.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -317,23 +317,34 @@
 <span id="317">317</span>
 <span id="318">318</span>
 <span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Functions for altering and converting the color of pixelbufs</span>
 
-<span class="kw">use</span> <span class="ident">color</span>::{<span class="ident">Luma</span>, <span class="ident">Rgba</span>};
 <span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
-<span class="kw">use</span> <span class="ident">traits</span>::<span class="ident">Primitive</span>;
-<span class="kw">use</span> <span class="ident">image</span>::<span class="ident">GenericImage</span>;
-<span class="kw">use</span> <span class="ident">math</span>::<span class="ident">utils</span>::<span class="ident">clamp</span>;
+<span class="kw">use</span> <span class="ident">color</span>::{<span class="ident">Luma</span>, <span class="ident">Rgba</span>};
+<span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">GenericImage</span>, <span class="ident">GenericImageView</span>};
 <span class="kw">use</span> <span class="ident">math</span>::<span class="ident">nq</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">f64</span>::<span class="ident">consts</span>::<span class="ident">PI</span>;
+<span class="kw">use</span> <span class="ident">math</span>::<span class="ident">utils</span>::<span class="ident">clamp</span>;
 <span class="kw">use</span> <span class="ident">num_traits</span>::{<span class="ident">Num</span>, <span class="ident">NumCast</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">f64</span>::<span class="ident">consts</span>::<span class="ident">PI</span>;
+<span class="kw">use</span> <span class="ident">traits</span>::<span class="ident">Primitive</span>;
+
+<span class="kw">type</span> <span class="ident">Subpixel</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;&lt;</span><span class="ident">I</span> <span class="kw">as</span> <span class="ident">GenericImageView</span><span class="op">&gt;</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>;
 
 <span class="doccomment">/// Convert the supplied image to grayscale</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">grayscale</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>)
-    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Luma</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
-    <span class="kw">where</span> <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span>,
-          <span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span> <span class="kw">as</span> <span class="ident">Num</span><span class="op">&gt;</span>::<span class="ident">FromStrRadixErr</span>: <span class="lifetime">&#39;static</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">grayscale</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&gt;</span>(
+    <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
+) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Luma</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">Subpixel</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>: <span class="lifetime">&#39;static</span>,
+    <span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">Num</span><span class="op">&gt;</span>::<span class="ident">FromStrRadixErr</span>: <span class="lifetime">&#39;static</span>,
+{
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
@@ -365,12 +376,12 @@
 <span class="doccomment">/// Adjust the contrast of the supplied image.</span>
 <span class="doccomment">/// ```contrast``` is the amount to adjust the contrast by.</span>
 <span class="doccomment">/// Negative values decrease the contrast and positive values increase the contrast.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contrast</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">contrast</span>: <span class="ident">f32</span>)
-    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span><span class="op">=</span><span class="ident">P</span><span class="op">&gt;</span>,
-          <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-          <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
-
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contrast</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">contrast</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span>,
+    <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+{
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
@@ -384,7 +395,7 @@
             <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">b</span><span class="op">|</span> {
                 <span class="kw">let</span> <span class="ident">c</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">b</span>).<span class="ident">unwrap</span>();
 
-                <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> ((<span class="ident">c</span> <span class="op">/</span> <span class="ident">max</span> <span class="op">-</span> <span class="number">0.5</span>) <span class="op">*</span> <span class="ident">percent</span>  <span class="op">+</span> <span class="number">0.5</span>) <span class="op">*</span> <span class="ident">max</span>;
+                <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> ((<span class="ident">c</span> <span class="op">/</span> <span class="ident">max</span> <span class="op">-</span> <span class="number">0.5</span>) <span class="op">*</span> <span class="ident">percent</span> <span class="op">+</span> <span class="number">0.5</span>) <span class="op">*</span> <span class="ident">max</span>;
                 <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">d</span>, <span class="number">0.0</span>, <span class="ident">max</span>);
 
                 <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">e</span>).<span class="ident">unwrap</span>()
@@ -400,12 +411,12 @@
 <span class="doccomment">/// Brighten the supplied image.</span>
 <span class="doccomment">/// ```value``` is the amount to brighten each pixel by.</span>
 <span class="doccomment">/// Negative values decrease the brightness and positive values increase it.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">brighten</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">value</span>: <span class="ident">i32</span>)
-    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span><span class="op">=</span><span class="ident">P</span><span class="op">&gt;</span>,
-          <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-          <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
-
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">brighten</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">value</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span>,
+    <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+{
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
@@ -414,12 +425,15 @@
 
     <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">height</span> {
         <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">width</span> {
-            <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">map_with_alpha</span>(<span class="op">|</span><span class="ident">b</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">c</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">b</span>).<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">c</span> <span class="op">+</span> <span class="ident">value</span>, <span class="number">0</span>, <span class="ident">max</span>);
+            <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">map_with_alpha</span>(
+                <span class="op">|</span><span class="ident">b</span><span class="op">|</span> {
+                    <span class="kw">let</span> <span class="ident">c</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">b</span>).<span class="ident">unwrap</span>();
+                    <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="ident">clamp</span>(<span class="ident">c</span> <span class="op">+</span> <span class="ident">value</span>, <span class="number">0</span>, <span class="ident">max</span>);
 
-                <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">d</span>).<span class="ident">unwrap</span>()
-            }, <span class="op">|</span><span class="ident">alpha</span><span class="op">|</span> <span class="ident">alpha</span>);
+                    <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">d</span>).<span class="ident">unwrap</span>()
+                },
+                <span class="op">|</span><span class="ident">alpha</span><span class="op">|</span> <span class="ident">alpha</span>,
+            );
 
             <span class="ident">out</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">e</span>);
         }
@@ -432,19 +446,19 @@
 <span class="doccomment">/// `value` is the degrees to rotate each pixel by.</span>
 <span class="doccomment">/// 0 and 360 do nothing, the rest rotates by the given degree value.</span>
 <span class="doccomment">/// just like the css webkit filter hue-rotate(180)</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">huerotate</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">value</span>: <span class="ident">i32</span>)
-    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span><span class="op">=</span><span class="ident">P</span><span class="op">&gt;</span>,
-          <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-          <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
-
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">huerotate</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">value</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span>,
+    <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+{
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
-    <span class="kw">let</span> <span class="ident">angle</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">value</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">angle</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">value</span>).<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> <span class="ident">cosv</span> <span class="op">=</span> (<span class="ident">angle</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="ident">PI</span> <span class="op">/</span> <span class="number">180.0</span>).<span class="ident">cos</span>();
-    <span class="kw">let</span> <span class="ident">sinv</span> <span class="op">=</span> (<span class="ident">angle</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="ident">PI</span> <span class="op">/</span> <span class="number">180.0</span>).<span class="ident">sin</span>();
+    <span class="kw">let</span> <span class="ident">cosv</span> <span class="op">=</span> (<span class="ident">angle</span> <span class="op">*</span> <span class="ident">PI</span> <span class="op">/</span> <span class="number">180.0</span>).<span class="ident">cos</span>();
+    <span class="kw">let</span> <span class="ident">sinv</span> <span class="op">=</span> (<span class="ident">angle</span> <span class="op">*</span> <span class="ident">PI</span> <span class="op">/</span> <span class="number">180.0</span>).<span class="ident">sin</span>();
     <span class="kw">let</span> <span class="ident">matrix</span>: [<span class="ident">f64</span>; <span class="number">9</span>] <span class="op">=</span> [
         <span class="comment">// Reds</span>
         <span class="number">0.213</span> <span class="op">+</span> <span class="ident">cosv</span> <span class="op">*</span> <span class="number">0.787</span> <span class="op">-</span> <span class="ident">sinv</span> <span class="op">*</span> <span class="number">0.213</span>,
@@ -457,8 +471,7 @@
         <span class="comment">// Blues</span>
         <span class="number">0.213</span> <span class="op">-</span> <span class="ident">cosv</span> <span class="op">*</span> <span class="number">0.213</span> <span class="op">-</span> <span class="ident">sinv</span> <span class="op">*</span> <span class="number">0.787</span>,
         <span class="number">0.715</span> <span class="op">-</span> <span class="ident">cosv</span> <span class="op">*</span> <span class="number">0.715</span> <span class="op">+</span> <span class="ident">sinv</span> <span class="op">*</span> <span class="number">0.715</span>,
-        <span class="number">0.072</span> <span class="op">+</span> <span class="ident">cosv</span> <span class="op">*</span> <span class="number">0.928</span> <span class="op">+</span> <span class="ident">sinv</span> <span class="op">*</span> <span class="number">0.072</span>
-
+        <span class="number">0.072</span> <span class="op">+</span> <span class="ident">cosv</span> <span class="op">*</span> <span class="number">0.928</span> <span class="op">+</span> <span class="ident">sinv</span> <span class="op">*</span> <span class="number">0.072</span>,
     ];
     <span class="kw">for</span> (<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>) <span class="kw">in</span> <span class="ident">out</span>.<span class="ident">enumerate_pixels_mut</span>() {
         <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>);
@@ -467,7 +480,7 @@
             <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k1</span>).<span class="ident">unwrap</span>(),
             <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k2</span>).<span class="ident">unwrap</span>(),
             <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k3</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k4</span>).<span class="ident">unwrap</span>()
+            <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">k4</span>).<span class="ident">unwrap</span>(),
         );
 
         <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">vec</span>.<span class="number">0</span>;
@@ -482,7 +495,7 @@
             <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">new_r</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
             <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">new_g</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
             <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">new_b</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
-            <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">vec</span>.<span class="number">3</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>()
+            <span class="ident">NumCast</span>::<span class="ident">from</span>(<span class="ident">clamp</span>(<span class="ident">vec</span>.<span class="number">3</span>, <span class="number">0.0</span>, <span class="ident">max</span>)).<span class="ident">unwrap</span>(),
         );
         <span class="kw-2">*</span><span class="ident">pixel</span> <span class="op">=</span> <span class="ident">outpixel</span>;
     }
@@ -540,19 +553,14 @@
 }
 
 <span class="doccomment">/// Floyd-Steinberg error diffusion</span>
-<span class="kw">fn</span> <span class="ident">diffuse_err</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>(<span class="ident">pixel</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P</span>, <span class="ident">error</span>: [<span class="ident">i16</span>; <span class="number">3</span>], <span class="ident">factor</span>: <span class="ident">i16</span>) {
+<span class="kw">fn</span> <span class="ident">diffuse_err</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">u8</span><span class="op">&gt;&gt;</span>(<span class="ident">pixel</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P</span>, <span class="ident">error</span>: [<span class="ident">i16</span>; <span class="number">3</span>], <span class="ident">factor</span>: <span class="ident">i16</span>) {
     <span class="kw">for</span> (<span class="ident">e</span>, <span class="ident">c</span>) <span class="kw">in</span> <span class="ident">error</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">pixel</span>.<span class="ident">channels_mut</span>().<span class="ident">iter_mut</span>()) {
-        <span class="kw-2">*</span><span class="ident">c</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">c</span> <span class="kw">as</span> <span class="ident">i16</span> <span class="op">+</span> <span class="ident">e</span> <span class="op">*</span> <span class="ident">factor</span> <span class="op">/</span> <span class="number">16</span> {
-            <span class="ident">val</span> <span class="kw">if</span> <span class="ident">val</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="op">=&gt;</span> {
-                <span class="number">0</span>
-            },
-            <span class="ident">val</span> <span class="kw">if</span> <span class="ident">val</span> <span class="op">&gt;</span> <span class="number">0xFF</span> <span class="op">=&gt;</span> {
-                <span class="number">0xFF</span>
-            },
-            <span class="ident">val</span> <span class="op">=&gt;</span> <span class="ident">val</span> <span class="kw">as</span> <span class="ident">u8</span>
+        <span class="kw-2">*</span><span class="ident">c</span> <span class="op">=</span> <span class="kw">match</span> <span class="op">&lt;</span><span class="ident">i16</span> <span class="kw">as</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>::<span class="ident">from</span>(<span class="kw-2">*</span><span class="ident">c</span>) <span class="op">+</span> <span class="ident">e</span> <span class="op">*</span> <span class="ident">factor</span> <span class="op">/</span> <span class="number">16</span> {
+            <span class="ident">val</span> <span class="kw">if</span> <span class="ident">val</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+            <span class="ident">val</span> <span class="kw">if</span> <span class="ident">val</span> <span class="op">&gt;</span> <span class="number">0xFF</span> <span class="op">=&gt;</span> <span class="number">0xFF</span>,
+            <span class="ident">val</span> <span class="op">=&gt;</span> <span class="ident">val</span> <span class="kw">as</span> <span class="ident">u8</span>,
         }
     }
-
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">do_dithering</span>(
@@ -565,7 +573,7 @@
                                         .<span class="ident">zip</span>(<span class="ident">old_pixel</span>.<span class="ident">channels</span>().<span class="ident">iter</span>())
                                         .<span class="ident">zip</span>(<span class="ident">new_pixel</span>.<span class="ident">channels</span>().<span class="ident">iter</span>())
             {
-                <span class="kw-2">*</span><span class="ident">e</span> <span class="op">=</span> <span class="ident">old</span> <span class="kw">as</span> <span class="ident">i16</span> <span class="op">-</span> <span class="ident">new</span> <span class="kw">as</span> <span class="ident">i16</span>
+                <span class="kw-2">*</span><span class="ident">e</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">i16</span> <span class="kw">as</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>::<span class="ident">from</span>(<span class="ident">old</span>) <span class="op">-</span> <span class="op">&lt;</span><span class="ident">i16</span> <span class="kw">as</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>::<span class="ident">from</span>(<span class="ident">new</span>)
             }
         }
     )
@@ -574,46 +582,50 @@
 <span class="doccomment">/// Reduces the colors of the image using the supplied `color_map` while applying</span>
 <span class="doccomment">/// Floyd-Steinberg dithering to improve the visual conception</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dither</span><span class="op">&lt;</span><span class="ident">Pix</span>, <span class="ident">Map</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Pix</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>, <span class="ident">color_map</span>: <span class="kw-2">&amp;</span><span class="ident">Map</span>)
-<span class="kw">where</span> <span class="ident">Map</span>: <span class="ident">ColorMap</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">=</span><span class="ident">Pix</span><span class="op">&gt;</span>,
-      <span class="ident">Pix</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+<span class="kw">where</span>
+    <span class="ident">Map</span>: <span class="ident">ColorMap</span><span class="op">&lt;</span><span class="ident">Color</span> <span class="op">=</span> <span class="ident">Pix</span><span class="op">&gt;</span>,
+    <span class="ident">Pix</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">u8</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">err</span>: [<span class="ident">i16</span>; <span class="number">3</span>] <span class="op">=</span> [<span class="number">0</span>; <span class="number">3</span>];
-    <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">height</span><span class="op">-</span><span class="number">1</span> {
+    <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">height</span> <span class="op">-</span> <span class="number">1</span> {
         <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="macro">do_dithering</span><span class="macro">!</span>(<span class="ident">color_map</span>, <span class="ident">image</span>, <span class="ident">err</span>, <span class="ident">x</span>, <span class="ident">y</span>);
-        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">+</span><span class="number">1</span>, <span class="ident">y</span><span class="op">+</span><span class="number">0</span>), <span class="ident">err</span>, <span class="number">7</span>);
-        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">+</span><span class="number">0</span>, <span class="ident">y</span><span class="op">+</span><span class="number">1</span>), <span class="ident">err</span>, <span class="number">5</span>);
-        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">+</span><span class="number">1</span>, <span class="ident">y</span><span class="op">+</span><span class="number">1</span>), <span class="ident">err</span>, <span class="number">1</span>);
-        <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">width</span><span class="op">-</span><span class="number">1</span> {
+        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">y</span>), <span class="ident">err</span>, <span class="number">7</span>);
+        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span>, <span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>), <span class="ident">err</span>, <span class="number">5</span>);
+        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>), <span class="ident">err</span>, <span class="number">1</span>);
+        <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">width</span> <span class="op">-</span> <span class="number">1</span> {
             <span class="macro">do_dithering</span><span class="macro">!</span>(<span class="ident">color_map</span>, <span class="ident">image</span>, <span class="ident">err</span>, <span class="ident">x</span>, <span class="ident">y</span>);
-            <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">+</span><span class="number">1</span>, <span class="ident">y</span><span class="op">+</span><span class="number">0</span>), <span class="ident">err</span>, <span class="number">7</span>);
-            <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">-</span><span class="number">1</span>, <span class="ident">y</span><span class="op">+</span><span class="number">1</span>), <span class="ident">err</span>, <span class="number">3</span>);
-            <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">+</span><span class="number">0</span>, <span class="ident">y</span><span class="op">+</span><span class="number">1</span>), <span class="ident">err</span>, <span class="number">5</span>);
-            <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">+</span><span class="number">1</span>, <span class="ident">y</span><span class="op">+</span><span class="number">1</span>), <span class="ident">err</span>, <span class="number">1</span>);
+            <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">y</span>), <span class="ident">err</span>, <span class="number">7</span>);
+            <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span> <span class="op">-</span> <span class="number">1</span>, <span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>), <span class="ident">err</span>, <span class="number">3</span>);
+            <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span>, <span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>), <span class="ident">err</span>, <span class="number">5</span>);
+            <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>), <span class="ident">err</span>, <span class="number">1</span>);
         }
-        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">width</span><span class="op">-</span><span class="number">1</span>;
+        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">width</span> <span class="op">-</span> <span class="number">1</span>;
         <span class="macro">do_dithering</span><span class="macro">!</span>(<span class="ident">color_map</span>, <span class="ident">image</span>, <span class="ident">err</span>, <span class="ident">x</span>, <span class="ident">y</span>);
-        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">-</span><span class="number">1</span>, <span class="ident">y</span><span class="op">+</span><span class="number">1</span>), <span class="ident">err</span>, <span class="number">3</span>);
-        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">+</span><span class="number">0</span>, <span class="ident">y</span><span class="op">+</span><span class="number">1</span>), <span class="ident">err</span>, <span class="number">5</span>);
+        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span> <span class="op">-</span> <span class="number">1</span>, <span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>), <span class="ident">err</span>, <span class="number">3</span>);
+        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span>, <span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>), <span class="ident">err</span>, <span class="number">5</span>);
     }
-    <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> <span class="ident">height</span><span class="op">-</span><span class="number">1</span>;
+    <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> <span class="ident">height</span> <span class="op">-</span> <span class="number">1</span>;
     <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="macro">do_dithering</span><span class="macro">!</span>(<span class="ident">color_map</span>, <span class="ident">image</span>, <span class="ident">err</span>, <span class="ident">x</span>, <span class="ident">y</span>);
-    <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">+</span><span class="number">1</span>, <span class="ident">y</span><span class="op">+</span><span class="number">0</span>), <span class="ident">err</span>, <span class="number">7</span>);
-    <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">width</span><span class="op">-</span><span class="number">1</span> {
+    <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">y</span>), <span class="ident">err</span>, <span class="number">7</span>);
+    <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">width</span> <span class="op">-</span> <span class="number">1</span> {
         <span class="macro">do_dithering</span><span class="macro">!</span>(<span class="ident">color_map</span>, <span class="ident">image</span>, <span class="ident">err</span>, <span class="ident">x</span>, <span class="ident">y</span>);
-        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span><span class="op">+</span><span class="number">1</span>, <span class="ident">y</span><span class="op">+</span><span class="number">0</span>), <span class="ident">err</span>, <span class="number">7</span>);
+        <span class="ident">diffuse_err</span>(<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">y</span>), <span class="ident">err</span>, <span class="number">7</span>);
     }
-    <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">width</span><span class="op">-</span><span class="number">1</span>;
+    <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">width</span> <span class="op">-</span> <span class="number">1</span>;
     <span class="macro">do_dithering</span><span class="macro">!</span>(<span class="ident">color_map</span>, <span class="ident">image</span>, <span class="ident">err</span>, <span class="ident">x</span>, <span class="ident">y</span>);
 }
 
 <span class="doccomment">/// Reduces the colors using the supplied `color_map` and returns an image of the indices</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_colors</span><span class="op">&lt;</span><span class="ident">Pix</span>, <span class="ident">Map</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Pix</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>, <span class="ident">color_map</span>: <span class="kw-2">&amp;</span><span class="ident">Map</span>) <span class="op">-&gt;</span>
-<span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Luma</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>
-<span class="kw">where</span> <span class="ident">Map</span>: <span class="ident">ColorMap</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">=</span><span class="ident">Pix</span><span class="op">&gt;</span>,
-      <span class="ident">Pix</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span><span class="op">=</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_colors</span><span class="op">&lt;</span><span class="ident">Pix</span>, <span class="ident">Map</span><span class="op">&gt;</span>(
+    <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Pix</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">color_map</span>: <span class="kw-2">&amp;</span><span class="ident">Map</span>,
+) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Luma</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">Map</span>: <span class="ident">ColorMap</span><span class="op">&lt;</span><span class="ident">Color</span> <span class="op">=</span> <span class="ident">Pix</span><span class="op">&gt;</span>,
+    <span class="ident">Pix</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">u8</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">indices</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">image</span>.<span class="ident">width</span>(), <span class="ident">image</span>.<span class="ident">height</span>());
     <span class="kw">for</span> (<span class="ident">pixel</span>, <span class="ident">idx</span>) <span class="kw">in</span> <span class="ident">image</span>.<span class="ident">pixels</span>().<span class="ident">zip</span>(<span class="ident">indices</span>.<span class="ident">pixels_mut</span>()) {
@@ -625,8 +637,8 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">test</span> {
 
-    <span class="kw">use</span> <span class="ident">ImageBuffer</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident">ImageBuffer</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_dither</span>() {

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/crossbeam-epoch-0.3.1/src/guard.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>guard.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/crossbeam-epoch-0.7.1/src/guard.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>guard.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../crossbeam_epoch/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -415,11 +415,123 @@
 <span id="415">415</span>
 <span id="416">416</span>
 <span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">ptr</span>;
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">mem</span>;
 
-<span class="kw">use</span> <span class="ident">garbage</span>::<span class="ident">Garbage</span>;
+<span class="kw">use</span> <span class="ident">atomic</span>::<span class="ident">Shared</span>;
+<span class="kw">use</span> <span class="ident">collector</span>::<span class="ident">Collector</span>;
+<span class="kw">use</span> <span class="ident">deferred</span>::<span class="ident">Deferred</span>;
 <span class="kw">use</span> <span class="ident">internal</span>::<span class="ident">Local</span>;
 
 <span class="doccomment">/// A guard that keeps the current thread pinned.</span>
@@ -480,35 +592,37 @@
 <span class="doccomment">/// assert!(!epoch::is_pinned());</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// The same can be achieved by cloning guards:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// use crossbeam_epoch as epoch;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let guard1 = epoch::pin();</span>
-<span class="doccomment">/// let guard2 = guard1.clone();</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// [`pin`]: fn.pin.html</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Guard</span> {
-    <span class="ident">local</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Local</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">local</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Local</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Guard</span> {
-    <span class="doccomment">/// Creates a new guard from a pointer to `Local`.</span>
+    <span class="doccomment">/// Stores a function so that it can be executed at some point after all currently pinned</span>
+    <span class="doccomment">/// threads get unpinned.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">/// This method first stores `f` into the thread-local (or handle-local) cache. If this cache</span>
+    <span class="doccomment">/// becomes full, some functions are moved into the global cache. At the same time, some</span>
+    <span class="doccomment">/// functions from both local and global caches may get executed in order to incrementally</span>
+    <span class="doccomment">/// clean up the caches as they fill up.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The `local` should be a valid pointer created by `Local::register()`.</span>
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">local</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Local</span>) <span class="op">-&gt;</span> <span class="ident">Guard</span> {
-        <span class="ident">Guard</span> { <span class="ident">local</span>: <span class="ident">local</span> }
-    }
-
-    <span class="doccomment">/// Accesses the internal pointer to `Local`.</span>
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_local</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Local</span> {
-        <span class="self">self</span>.<span class="ident">local</span>
+    <span class="doccomment">/// There is no guarantee when exactly `f` will be executed. The only guarantee is that it</span>
+    <span class="doccomment">/// won&#39;t be executed until all currently pinned threads get unpinned. In theory, `f` might</span>
+    <span class="doccomment">/// never run, but the epoch-based garbage collection will make an effort to execute it</span>
+    <span class="doccomment">/// reasonably soon.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this method is called from an [`unprotected`] guard, the function will simply be</span>
+    <span class="doccomment">/// executed immediately.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`unprotected`]: fn.unprotected.html</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">defer</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>)
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">FnOnce</span>() <span class="op">-&gt;</span> <span class="ident">R</span>,
+        <span class="ident">F</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="kw">unsafe</span> {
+            <span class="self">self</span>.<span class="ident">defer_unchecked</span>(<span class="ident">f</span>);
+        }
     }
 
     <span class="doccomment">/// Stores a function so that it can be executed at some point after all currently pinned</span>
@@ -519,9 +633,10 @@
     <span class="doccomment">/// functions from both local and global caches may get executed in order to incrementally</span>
     <span class="doccomment">/// clean up the caches as they fill up.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// There is no guarantee when exactly `f` will be executed. The only guarantee is that won&#39;t</span>
-    <span class="doccomment">/// until all currently pinned threads get unpinned. In theory, `f` might never be deallocated,</span>
-    <span class="doccomment">/// but the epoch-based garbage collection will make an effort to execute it reasonably soon.</span>
+    <span class="doccomment">/// There is no guarantee when exactly `f` will be executed. The only guarantee is that it</span>
+    <span class="doccomment">/// won&#39;t be executed until all currently pinned threads get unpinned. In theory, `f` might</span>
+    <span class="doccomment">/// never run, but the epoch-based garbage collection will make an effort to execute it</span>
+    <span class="doccomment">/// reasonably soon.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If this method is called from an [`unprotected`] guard, the function will simply be</span>
     <span class="doccomment">/// executed immediately.</span>
@@ -538,25 +653,38 @@
     <span class="doccomment">/// let guard = &amp;epoch::pin();</span>
     <span class="doccomment">/// let message = &quot;Hello!&quot;;</span>
     <span class="doccomment">/// unsafe {</span>
-    <span class="doccomment">///     // ALWAYS use `move` when sending a closure into `defef`.</span>
-    <span class="doccomment">///     guard.defer(move || {</span>
+    <span class="doccomment">///     // ALWAYS use `move` when sending a closure into `defer_unchecked`.</span>
+    <span class="doccomment">///     guard.defer_unchecked(move || {</span>
     <span class="doccomment">///         println!(&quot;{}&quot;, message);</span>
     <span class="doccomment">///     });</span>
     <span class="doccomment">/// }</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Apart from that, keep in mind that another thread may execute `f`, so anything accessed</span>
-    <span class="doccomment">/// by the closure must be `Send`.</span>
+    <span class="doccomment">/// Apart from that, keep in mind that another thread may execute `f`, so anything accessed by</span>
+    <span class="doccomment">/// the closure must be `Send`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// We intentionally didn&#39;t require `F: Send`, because Rust&#39;s type systems usually cannot prove</span>
+    <span class="doccomment">/// `F: Send` for typical use cases. For example, consider the following code snippet, which</span>
+    <span class="doccomment">/// exemplifies the typical use case of deferring the deallocation of a shared reference:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```ignore</span>
+    <span class="doccomment">/// let shared = Owned::new(7i32).into_shared(guard);</span>
+    <span class="doccomment">/// guard.defer_unchecked(move || shared.into_owned()); // `Shared` is not `Send`!</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// While `Shared` is not `Send`, it&#39;s safe for another thread to call the deferred function,</span>
+    <span class="doccomment">/// because it&#39;s called only after the grace period and `shared` is no longer shared with other</span>
+    <span class="doccomment">/// threads. But we don&#39;t expect type systems to prove this.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// When a heap-allocated object in a data structure becomes unreachable, it has to be</span>
     <span class="doccomment">/// deallocated. However, the current thread and other threads may be still holding references</span>
-    <span class="doccomment">/// on the stack to that same object. Therefore it cannot be deallocated before those</span>
-    <span class="doccomment">/// references get dropped. This method can defer deallocation until all those threads get</span>
-    <span class="doccomment">/// unpinned and consequently drop all their references on the stack.</span>
+    <span class="doccomment">/// on the stack to that same object. Therefore it cannot be deallocated before those references</span>
+    <span class="doccomment">/// get dropped. This method can defer deallocation until all those threads get unpinned and</span>
+    <span class="doccomment">/// consequently drop all their references on the stack.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// ```</span>
     <span class="doccomment">/// use crossbeam_epoch::{self as epoch, Atomic, Owned};</span>
     <span class="doccomment">/// use std::sync::atomic::Ordering::SeqCst;</span>
     <span class="doccomment">///</span>
@@ -575,8 +703,8 @@
     <span class="doccomment">///     // The object `p` is pointing to is now unreachable.</span>
     <span class="doccomment">///     // Defer its deallocation until all currently pinned threads get unpinned.</span>
     <span class="doccomment">///     unsafe {</span>
-    <span class="doccomment">///         // ALWAYS use `move` when sending a closure into `defer`.</span>
-    <span class="doccomment">///         guard.defer(move || {</span>
+    <span class="doccomment">///         // ALWAYS use `move` when sending a closure into `defer_unchecked`.</span>
+    <span class="doccomment">///         guard.defer_unchecked(move || {</span>
     <span class="doccomment">///             println!(&quot;{} is now being deallocated.&quot;, p.deref());</span>
     <span class="doccomment">///             // Now we have unique access to the object pointed to by `p` and can turn it</span>
     <span class="doccomment">///             // into an `Owned`. Dropping the `Owned` will deallocate the object.</span>
@@ -587,15 +715,87 @@
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`unprotected`]: fn.unprotected.html</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">defer</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>)
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">defer_unchecked</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>)
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="ident">FnOnce</span>() <span class="op">-&gt;</span> <span class="ident">R</span>,
     {
-        <span class="kw">let</span> <span class="ident">garbage</span> <span class="op">=</span> <span class="ident">Garbage</span>::<span class="ident">new</span>(<span class="op">||</span> <span class="ident">drop</span>(<span class="ident">f</span>()));
-
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">local</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">local</span>.<span class="ident">as_ref</span>() {
-            <span class="ident">local</span>.<span class="ident">defer</span>(<span class="ident">garbage</span>, <span class="self">self</span>);
+            <span class="ident">local</span>.<span class="ident">defer</span>(<span class="ident">Deferred</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">||</span> <span class="ident">drop</span>(<span class="ident">f</span>())), <span class="self">self</span>);
         }
+    }
+
+    <span class="doccomment">/// Stores a destructor for an object so that it can be deallocated and dropped at some point</span>
+    <span class="doccomment">/// after all currently pinned threads get unpinned.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method first stores the destructor into the thread-local (or handle-local) cache. If</span>
+    <span class="doccomment">/// this cache becomes full, some destructors are moved into the global cache. At the same</span>
+    <span class="doccomment">/// time, some destructors from both local and global caches may get executed in order to</span>
+    <span class="doccomment">/// incrementally clean up the caches as they fill up.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// There is no guarantee when exactly the destructor will be executed. The only guarantee is</span>
+    <span class="doccomment">/// that it won&#39;t be executed until all currently pinned threads get unpinned. In theory, the</span>
+    <span class="doccomment">/// destructor might never run, but the epoch-based garbage collection will make an effort to</span>
+    <span class="doccomment">/// execute it reasonably soon.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this method is called from an [`unprotected`] guard, the destructor will simply be</span>
+    <span class="doccomment">/// executed immediately.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The object must not be reachable by other threads anymore, otherwise it might be still in</span>
+    <span class="doccomment">/// use when the destructor runs.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Apart from that, keep in mind that another thread may execute the destructor, so the object</span>
+    <span class="doccomment">/// must be sendable to other threads.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// We intentionally didn&#39;t require `T: Send`, because Rust&#39;s type systems usually cannot prove</span>
+    <span class="doccomment">/// `T: Send` for typical use cases. For example, consider the following code snippet, which</span>
+    <span class="doccomment">/// exemplifies the typical use case of deferring the deallocation of a shared reference:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```ignore</span>
+    <span class="doccomment">/// let shared = Owned::new(7i32).into_shared(guard);</span>
+    <span class="doccomment">/// guard.defer_destroy(shared); // `Shared` is not `Send`!</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// While `Shared` is not `Send`, it&#39;s safe for another thread to call the destructor, because</span>
+    <span class="doccomment">/// it&#39;s called only after the grace period and `shared` is no longer shared with other</span>
+    <span class="doccomment">/// threads. But we don&#39;t expect type systems to prove this.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When a heap-allocated object in a data structure becomes unreachable, it has to be</span>
+    <span class="doccomment">/// deallocated. However, the current thread and other threads may be still holding references</span>
+    <span class="doccomment">/// on the stack to that same object. Therefore it cannot be deallocated before those references</span>
+    <span class="doccomment">/// get dropped. This method can defer deallocation until all those threads get unpinned and</span>
+    <span class="doccomment">/// consequently drop all their references on the stack.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use crossbeam_epoch::{self as epoch, Atomic, Owned};</span>
+    <span class="doccomment">/// use std::sync::atomic::Ordering::SeqCst;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let a = Atomic::new(&quot;foo&quot;);</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// // Now suppose that `a` is shared among multiple threads and concurrently</span>
+    <span class="doccomment">/// // accessed and modified...</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// // Pin the current thread.</span>
+    <span class="doccomment">/// let guard = &amp;epoch::pin();</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// // Steal the object currently stored in `a` and swap it with another one.</span>
+    <span class="doccomment">/// let p = a.swap(Owned::new(&quot;bar&quot;).into_shared(guard), SeqCst, guard);</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// if !p.is_null() {</span>
+    <span class="doccomment">///     // The object `p` is pointing to is now unreachable.</span>
+    <span class="doccomment">///     // Defer its deallocation until all currently pinned threads get unpinned.</span>
+    <span class="doccomment">///     unsafe {</span>
+    <span class="doccomment">///         guard.defer_destroy(p);</span>
+    <span class="doccomment">///     }</span>
+    <span class="doccomment">/// }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`unprotected`]: fn.unprotected.html</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">defer_destroy</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ptr</span>: <span class="ident">Shared</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {
+        <span class="self">self</span>.<span class="ident">defer_unchecked</span>(<span class="kw">move</span> <span class="op">||</span> <span class="ident">ptr</span>.<span class="ident">into_owned</span>());
     }
 
     <span class="doccomment">/// Clears up the thread-local cache of deferred functions by executing them or moving into the</span>
@@ -718,6 +918,28 @@
 
         <span class="ident">f</span>()
     }
+
+    <span class="doccomment">/// Returns the `Collector` associated with this guard.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method is useful when you need to ensure that all guards used with</span>
+    <span class="doccomment">/// a data structure come from the same collector.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this method is called from an [`unprotected`] guard, then `None` is returned.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use crossbeam_epoch as epoch;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let mut guard1 = epoch::pin();</span>
+    <span class="doccomment">/// let mut guard2 = epoch::pin();</span>
+    <span class="doccomment">/// assert!(guard1.collector() == guard2.collector());</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`unprotected`]: fn.unprotected.html</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">collector</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Collector</span><span class="op">&gt;</span> {
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">local</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">local</span><span class="op">|</span> <span class="ident">local</span>.<span class="ident">collector</span>()) }
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Guard</span> {
@@ -729,13 +951,9 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Guard</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Guard</span> {
-        <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">local</span>.<span class="ident">as_ref</span>() } {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Guard</span> { <span class="ident">local</span>: <span class="ident">ptr</span>::<span class="ident">null</span>() },
-            <span class="prelude-val">Some</span>(<span class="ident">local</span>) <span class="op">=&gt;</span> <span class="ident">local</span>.<span class="ident">pin</span>(),
-        }
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Guard</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;Guard { .. }&quot;</span>)
     }
 }
 
@@ -788,19 +1006,19 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use crossbeam_epoch::{self as epoch, Atomic};</span>
-<span class="doccomment">/// use std::ptr;</span>
+<span class="doccomment">/// use std::mem::ManuallyDrop;</span>
 <span class="doccomment">/// use std::sync::atomic::Ordering::Relaxed;</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// struct Stack {</span>
-<span class="doccomment">///     head: epoch::Atomic&lt;Node&gt;,</span>
+<span class="doccomment">/// struct Stack&lt;T&gt; {</span>
+<span class="doccomment">///     head: Atomic&lt;Node&lt;T&gt;&gt;,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// struct Node {</span>
-<span class="doccomment">///     data: u32,</span>
-<span class="doccomment">///     next: epoch::Atomic&lt;Node&gt;,</span>
+<span class="doccomment">/// struct Node&lt;T&gt; {</span>
+<span class="doccomment">///     data: ManuallyDrop&lt;T&gt;,</span>
+<span class="doccomment">///     next: Atomic&lt;Node&lt;T&gt;&gt;,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// impl Drop for Stack {</span>
+<span class="doccomment">/// impl&lt;T&gt; Drop for Stack&lt;T&gt; {</span>
 <span class="doccomment">///     fn drop(&amp;mut self) {</span>
 <span class="doccomment">///         unsafe {</span>
 <span class="doccomment">///             // Unprotected load.</span>
@@ -810,8 +1028,10 @@
 <span class="doccomment">///                 // Unprotected load.</span>
 <span class="doccomment">///                 let next = n.next.load(Relaxed, epoch::unprotected());</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///                 // Take ownership of the node, then drop it.</span>
-<span class="doccomment">///                 drop(node.into_owned());</span>
+<span class="doccomment">///                 // Take ownership of the node, then drop its data and deallocate it.</span>
+<span class="doccomment">///                 let mut o = node.into_owned();</span>
+<span class="doccomment">///                 ManuallyDrop::drop(&amp;mut o.data);</span>
+<span class="doccomment">///                 drop(o);</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///                 node = next;</span>
 <span class="doccomment">///             }</span>

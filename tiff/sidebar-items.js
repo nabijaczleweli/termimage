@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ColorType","An enumeration over supported color types and their bit depths"],["TiffError","Tiff error kinds."],["TiffFormatError",""],["TiffUnsupportedError",""]],"mod":[["decoder",""]],"type":[["TiffResult","Result of an image decoding/encoding process"]]});

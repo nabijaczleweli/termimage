@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.10.4/./src/imageops/affine.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>affine.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.21.2/./src/imageops/affine.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>affine.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -209,18 +209,29 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Functions for performing affine transformations.</span>
 
 <span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
-<span class="kw">use</span> <span class="ident">image</span>::<span class="ident">GenericImage</span>;
+<span class="kw">use</span> <span class="ident">image</span>::<span class="ident">GenericImageView</span>;
 
 <span class="doccomment">/// Rotate an image 90 degrees clockwise.</span>
 <span class="comment">// TODO: Is the &#39;static bound on `I` really required? Can we avoid it?</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate90</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">image</span>:  <span class="kw-2">&amp;</span><span class="ident">I</span>)
-    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
-          <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate90</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
+) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
+    <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span>,
+{
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">height</span>, <span class="ident">width</span>);
 
@@ -236,10 +247,13 @@
 
 <span class="doccomment">/// Rotate an image 180 degrees clockwise.</span>
 <span class="comment">// TODO: Is the &#39;static bound on `I` really required? Can we avoid it?</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate180</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">image</span>:  <span class="kw-2">&amp;</span><span class="ident">I</span>)
-    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
-          <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate180</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
+) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
+    <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span>,
+{
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
@@ -255,10 +269,13 @@
 
 <span class="doccomment">/// Rotate an image 270 degrees clockwise.</span>
 <span class="comment">// TODO: Is the &#39;static bound on `I` really required? Can we avoid it?</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate270</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">image</span>:  <span class="kw-2">&amp;</span><span class="ident">I</span>)
-    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
-          <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate270</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
+) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
+    <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span>,
+{
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">height</span>, <span class="ident">width</span>);
 
@@ -274,10 +291,13 @@
 
 <span class="doccomment">/// Flip an image horizontally</span>
 <span class="comment">// TODO: Is the &#39;static bound on `I` really required? Can we avoid it?</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flip_horizontal</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">image</span>:  <span class="kw-2">&amp;</span><span class="ident">I</span>)
-    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
-          <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flip_horizontal</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
+) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
+    <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span>,
+{
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
@@ -293,10 +313,13 @@
 
 <span class="doccomment">/// Flip an image vertically</span>
 <span class="comment">// TODO: Is the &#39;static bound on `I` really required? Can we avoid it?</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flip_vertical</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImage</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">image</span>:  <span class="kw-2">&amp;</span><span class="ident">I</span>)
-    <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
-          <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flip_vertical</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
+) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
+    <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span>,
+{
     <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">image</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>);
 
@@ -312,18 +335,21 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">test</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">rotate90</span>,<span class="ident">rotate180</span>,<span class="ident">rotate270</span>,<span class="ident">flip_horizontal</span>,<span class="ident">flip_vertical</span>};
-    <span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>,<span class="ident">Pixel</span>,<span class="ident">GrayImage</span>};
-    <span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">GenericImage</span>};
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">flip_horizontal</span>, <span class="ident">flip_vertical</span>, <span class="ident">rotate180</span>, <span class="ident">rotate270</span>, <span class="ident">rotate90</span>};
+    <span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">GrayImage</span>, <span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
+    <span class="kw">use</span> <span class="ident">image</span>::<span class="ident">GenericImage</span>;
 
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">assert_pixels_eq</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">actual</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">expected</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> ({
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">actual</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">expected</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
             <span class="kw">let</span> <span class="ident">actual_dim</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">actual</span>.<span class="ident">dimensions</span>();
             <span class="kw">let</span> <span class="ident">expected_dim</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">expected</span>.<span class="ident">dimensions</span>();
 
             <span class="kw">if</span> <span class="ident">actual_dim</span> <span class="op">!=</span> <span class="ident">expected_dim</span> {
-                <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;dimensions do not match. \
-                    actual: {:?}, expected: {:?}&quot;</span>, <span class="ident">actual_dim</span>, <span class="ident">expected_dim</span>)
+                <span class="macro">panic</span><span class="macro">!</span>(
+                    <span class="string">&quot;dimensions do not match. \
+                     actual: {:?}, expected: {:?}&quot;</span>,
+                    <span class="ident">actual_dim</span>, <span class="ident">expected_dim</span>
+                )
             }
 
             <span class="kw">let</span> <span class="ident">diffs</span> <span class="op">=</span> <span class="ident">pixel_diffs</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">actual</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">expected</span>);
@@ -341,80 +367,70 @@
                 <span class="ident">err</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">diff_messages</span>);
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">err</span>)
             }
-         })
-     }
+        }};
+    }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_rotate90</span>() {
-        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>,
-            <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>, <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">10u8</span>, <span class="number">00u8</span>,
-            <span class="number">11u8</span>, <span class="number">01u8</span>,
-            <span class="number">12u8</span>, <span class="number">02u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">10u8</span>, <span class="number">00u8</span>, <span class="number">11u8</span>, <span class="number">01u8</span>, <span class="number">12u8</span>, <span class="number">02u8</span>]).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_pixels_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">rotate90</span>(<span class="kw-2">&amp;</span><span class="ident">image</span>), <span class="kw-2">&amp;</span><span class="ident">expected</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_rotate180</span>() {
-        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>,
-            <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>, <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">12u8</span>, <span class="number">11u8</span>, <span class="number">10u8</span>,
-            <span class="number">02u8</span>, <span class="number">01u8</span>, <span class="number">00u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">12u8</span>, <span class="number">11u8</span>, <span class="number">10u8</span>, <span class="number">02u8</span>, <span class="number">01u8</span>, <span class="number">00u8</span>]).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_pixels_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">rotate180</span>(<span class="kw-2">&amp;</span><span class="ident">image</span>), <span class="kw-2">&amp;</span><span class="ident">expected</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_rotate270</span>() {
-        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>,
-            <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>, <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">02u8</span>, <span class="number">12u8</span>,
-            <span class="number">01u8</span>, <span class="number">11u8</span>,
-            <span class="number">00u8</span>, <span class="number">10u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">02u8</span>, <span class="number">12u8</span>, <span class="number">01u8</span>, <span class="number">11u8</span>, <span class="number">00u8</span>, <span class="number">10u8</span>]).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_pixels_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">rotate270</span>(<span class="kw-2">&amp;</span><span class="ident">image</span>), <span class="kw-2">&amp;</span><span class="ident">expected</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_flip_horizontal</span>() {
-        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>,
-            <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>, <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">02u8</span>, <span class="number">01u8</span>, <span class="number">00u8</span>,
-            <span class="number">12u8</span>, <span class="number">11u8</span>, <span class="number">10u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">02u8</span>, <span class="number">01u8</span>, <span class="number">00u8</span>, <span class="number">12u8</span>, <span class="number">11u8</span>, <span class="number">10u8</span>]).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_pixels_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">flip_horizontal</span>(<span class="kw-2">&amp;</span><span class="ident">image</span>), <span class="kw-2">&amp;</span><span class="ident">expected</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_flip_vertical</span>() {
-        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>,
-            <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">image</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>, <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>]).<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>,
-            <span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">GrayImage</span> <span class="op">=</span>
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="number">3</span>, <span class="number">2</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">10u8</span>, <span class="number">11u8</span>, <span class="number">12u8</span>, <span class="number">00u8</span>, <span class="number">01u8</span>, <span class="number">02u8</span>]).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_pixels_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">flip_vertical</span>(<span class="kw-2">&amp;</span><span class="ident">image</span>), <span class="kw-2">&amp;</span><span class="ident">expected</span>);
     }
 
     <span class="kw">fn</span> <span class="ident">pixel_diffs</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">J</span>, <span class="ident">P</span><span class="op">&gt;</span>(<span class="ident">left</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">right</span>: <span class="kw-2">&amp;</span><span class="ident">J</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>((<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">P</span>), (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">P</span>))<span class="op">&gt;</span>
-        <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span><span class="op">=</span><span class="ident">P</span><span class="op">&gt;</span>,
-              <span class="ident">J</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span><span class="op">=</span><span class="ident">P</span><span class="op">&gt;</span>,
-              <span class="ident">P</span>: <span class="ident">Pixel</span> <span class="op">+</span> <span class="ident">Eq</span> {
+    <span class="kw">where</span>
+        <span class="ident">I</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span>,
+        <span class="ident">J</span>: <span class="ident">GenericImage</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span>,
+        <span class="ident">P</span>: <span class="ident">Pixel</span> <span class="op">+</span> <span class="ident">Eq</span>,
+    {
         <span class="ident">left</span>.<span class="ident">pixels</span>()
             .<span class="ident">zip</span>(<span class="ident">right</span>.<span class="ident">pixels</span>())
             .<span class="ident">filter</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">p</span>, <span class="ident">q</span>)<span class="op">|</span> <span class="ident">p</span> <span class="op">!=</span> <span class="ident">q</span>)

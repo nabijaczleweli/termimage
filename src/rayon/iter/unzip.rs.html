@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.0.3/src/iter/unzip.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>unzip.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.1.0/src/iter/unzip.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>unzip.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../rayon/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -449,6 +449,19 @@
 <span id="449">449</span>
 <span id="450">450</span>
 <span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">plumbing</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
@@ -465,8 +478,9 @@
 
     <span class="doccomment">/// Consume one item and feed it to one or both of the underlying folders.</span>
     <span class="kw">fn</span> <span class="ident">consume</span><span class="op">&lt;</span><span class="ident">FA</span>, <span class="ident">FB</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">item</span>: <span class="ident">T</span>, <span class="ident">left</span>: <span class="ident">FA</span>, <span class="ident">right</span>: <span class="ident">FB</span>) <span class="op">-&gt;</span> (<span class="ident">FA</span>, <span class="ident">FB</span>)
-        <span class="kw">where</span> <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
-              <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Right</span><span class="op">&gt;</span>;
+    <span class="kw">where</span>
+        <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
+        <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Right</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reports whether this op may support indexed consumers.</span>
     <span class="doccomment">/// - e.g. true for `unzip` where the item count passed through directly.</span>
@@ -478,10 +492,11 @@
 
 <span class="doccomment">/// Run an unzip-like operation into default `ParallelExtend` collections.</span>
 <span class="kw">fn</span> <span class="ident">execute</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">OP</span>, <span class="ident">FromA</span>, <span class="ident">FromB</span><span class="op">&gt;</span>(<span class="ident">pi</span>: <span class="ident">I</span>, <span class="ident">op</span>: <span class="ident">OP</span>) <span class="op">-&gt;</span> (<span class="ident">FromA</span>, <span class="ident">FromB</span>)
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
-          <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">FromA</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
-          <span class="ident">FromB</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
+    <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
+    <span class="ident">FromA</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
+    <span class="ident">FromB</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>,
 {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">FromA</span>::<span class="ident">default</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">FromB</span>::<span class="ident">default</span>();
@@ -489,54 +504,51 @@
     (<span class="ident">a</span>, <span class="ident">b</span>)
 }
 
-
 <span class="doccomment">/// Run an unzip-like operation into `ParallelExtend` collections.</span>
 <span class="kw">fn</span> <span class="ident">execute_into</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">OP</span>, <span class="ident">FromA</span>, <span class="ident">FromB</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">FromA</span>, <span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">FromB</span>, <span class="ident">pi</span>: <span class="ident">I</span>, <span class="ident">op</span>: <span class="ident">OP</span>)
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
-          <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">FromA</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
-          <span class="ident">FromB</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
+    <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
+    <span class="ident">FromA</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
+    <span class="ident">FromB</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>,
 {
     <span class="comment">// We have no idea what the consumers will look like for these</span>
     <span class="comment">// collections&#39; `par_extend`, but we can intercept them in our own</span>
     <span class="comment">// `drive_unindexed`.  Start with the left side, type `A`:</span>
-    <span class="kw">let</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">UnzipA</span> {
-        <span class="ident">base</span>: <span class="ident">pi</span>,
-        <span class="ident">op</span>: <span class="ident">op</span>,
-        <span class="ident">b</span>: <span class="ident">b</span>,
-    };
+    <span class="kw">let</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">UnzipA</span> { <span class="ident">base</span>: <span class="ident">pi</span>, <span class="ident">op</span>, <span class="ident">b</span> };
     <span class="ident">a</span>.<span class="ident">par_extend</span>(<span class="ident">iter</span>);
 }
-
 
 <span class="doccomment">/// Unzips the items of a parallel iterator into a pair of arbitrary</span>
 <span class="doccomment">/// `ParallelExtend` containers.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This is not directly public, but called by `ParallelIterator::unzip`.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unzip</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">FromA</span>, <span class="ident">FromB</span><span class="op">&gt;</span>(<span class="ident">pi</span>: <span class="ident">I</span>) <span class="op">-&gt;</span> (<span class="ident">FromA</span>, <span class="ident">FromB</span>)
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ParallelIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">A</span>, <span class="ident">B</span>)<span class="op">&gt;</span>,
-          <span class="ident">FromA</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-          <span class="ident">FromB</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
-          <span class="ident">A</span>: <span class="ident">Send</span>,
-          <span class="ident">B</span>: <span class="ident">Send</span>
+<span class="doccomment">/// This is called by `ParallelIterator::unzip`.</span>
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">unzip</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">FromA</span>, <span class="ident">FromB</span><span class="op">&gt;</span>(<span class="ident">pi</span>: <span class="ident">I</span>) <span class="op">-&gt;</span> (<span class="ident">FromA</span>, <span class="ident">FromB</span>)
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">ParallelIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">A</span>, <span class="ident">B</span>)<span class="op">&gt;</span>,
+    <span class="ident">FromA</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">FromB</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+    <span class="ident">A</span>: <span class="ident">Send</span>,
+    <span class="ident">B</span>: <span class="ident">Send</span>,
 {
     <span class="ident">execute</span>(<span class="ident">pi</span>, <span class="ident">Unzip</span>)
 }
 
 <span class="doccomment">/// Unzip an `IndexedParallelIterator` into two arbitrary `Consumer`s.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This is not directly public, but called by `super::collect::unzip_into_vecs`.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unzip_indexed</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">CA</span>, <span class="ident">CB</span><span class="op">&gt;</span>(<span class="ident">pi</span>: <span class="ident">I</span>, <span class="ident">left</span>: <span class="ident">CA</span>, <span class="ident">right</span>: <span class="ident">CB</span>) <span class="op">-&gt;</span> (<span class="ident">CA</span>::<span class="prelude-ty">Result</span>, <span class="ident">CB</span>::<span class="prelude-ty">Result</span>)
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">IndexedParallelIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">A</span>, <span class="ident">B</span>)<span class="op">&gt;</span>,
-          <span class="ident">CA</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-          <span class="ident">CB</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
-          <span class="ident">A</span>: <span class="ident">Send</span>,
-          <span class="ident">B</span>: <span class="ident">Send</span>
+<span class="doccomment">/// This is called by `super::collect::unzip_into_vecs`.</span>
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">unzip_indexed</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">CA</span>, <span class="ident">CB</span><span class="op">&gt;</span>(<span class="ident">pi</span>: <span class="ident">I</span>, <span class="ident">left</span>: <span class="ident">CA</span>, <span class="ident">right</span>: <span class="ident">CB</span>) <span class="op">-&gt;</span> (<span class="ident">CA</span>::<span class="prelude-ty">Result</span>, <span class="ident">CB</span>::<span class="prelude-ty">Result</span>)
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">IndexedParallelIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">A</span>, <span class="ident">B</span>)<span class="op">&gt;</span>,
+    <span class="ident">CA</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">CB</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+    <span class="ident">A</span>: <span class="ident">Send</span>,
+    <span class="ident">B</span>: <span class="ident">Send</span>,
 {
     <span class="kw">let</span> <span class="ident">consumer</span> <span class="op">=</span> <span class="ident">UnzipConsumer</span> {
         <span class="ident">op</span>: <span class="kw-2">&amp;</span><span class="ident">Unzip</span>,
-        <span class="ident">left</span>: <span class="ident">left</span>,
-        <span class="ident">right</span>: <span class="ident">right</span>,
+        <span class="ident">left</span>,
+        <span class="ident">right</span>,
     };
     <span class="ident">pi</span>.<span class="ident">drive</span>(<span class="ident">consumer</span>)
 }
@@ -549,8 +561,9 @@
     <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> <span class="ident">B</span>;
 
     <span class="kw">fn</span> <span class="ident">consume</span><span class="op">&lt;</span><span class="ident">FA</span>, <span class="ident">FB</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">item</span>: (<span class="ident">A</span>, <span class="ident">B</span>), <span class="ident">left</span>: <span class="ident">FA</span>, <span class="ident">right</span>: <span class="ident">FB</span>) <span class="op">-&gt;</span> (<span class="ident">FA</span>, <span class="ident">FB</span>)
-        <span class="kw">where</span> <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-              <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+        <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
     {
         (<span class="ident">left</span>.<span class="ident">consume</span>(<span class="ident">item</span>.<span class="number">0</span>), <span class="ident">right</span>.<span class="ident">consume</span>(<span class="ident">item</span>.<span class="number">1</span>))
     }
@@ -560,18 +573,18 @@
     }
 }
 
-
 <span class="doccomment">/// Partitions the items of a parallel iterator into a pair of arbitrary</span>
 <span class="doccomment">/// `ParallelExtend` containers.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This is not directly public, but called by `ParallelIterator::partition`.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">partition</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">P</span><span class="op">&gt;</span>(<span class="ident">pi</span>: <span class="ident">I</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> (<span class="ident">A</span>, <span class="ident">B</span>)
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
-          <span class="ident">A</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">B</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">P</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">I</span>::<span class="ident">Item</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>
+<span class="doccomment">/// This is called by `ParallelIterator::partition`.</span>
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">partition</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">P</span><span class="op">&gt;</span>(<span class="ident">pi</span>: <span class="ident">I</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> (<span class="ident">A</span>, <span class="ident">B</span>)
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
+    <span class="ident">A</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
+    <span class="ident">B</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
+    <span class="ident">P</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">I</span>::<span class="ident">Item</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>,
 {
-    <span class="ident">execute</span>(<span class="ident">pi</span>, <span class="ident">Partition</span> { <span class="ident">predicate</span>: <span class="ident">predicate</span> })
+    <span class="ident">execute</span>(<span class="ident">pi</span>, <span class="ident">Partition</span> { <span class="ident">predicate</span> })
 }
 
 <span class="doccomment">/// An `UnzipOp` that routes items depending on a predicate function.</span>
@@ -580,15 +593,17 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Partition</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>,
-          <span class="ident">T</span>: <span class="ident">Send</span>
+<span class="kw">where</span>
+    <span class="ident">P</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>,
+    <span class="ident">T</span>: <span class="ident">Send</span>,
 {
     <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> <span class="ident">T</span>;
     <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> <span class="ident">T</span>;
 
     <span class="kw">fn</span> <span class="ident">consume</span><span class="op">&lt;</span><span class="ident">FA</span>, <span class="ident">FB</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">item</span>: <span class="ident">T</span>, <span class="ident">left</span>: <span class="ident">FA</span>, <span class="ident">right</span>: <span class="ident">FB</span>) <span class="op">-&gt;</span> (<span class="ident">FA</span>, <span class="ident">FB</span>)
-        <span class="kw">where</span> <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-              <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+        <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     {
         <span class="kw">if</span> (<span class="self">self</span>.<span class="ident">predicate</span>)(<span class="kw-2">&amp;</span><span class="ident">item</span>) {
             (<span class="ident">left</span>.<span class="ident">consume</span>(<span class="ident">item</span>), <span class="ident">right</span>)
@@ -598,20 +613,20 @@
     }
 }
 
-
 <span class="doccomment">/// Partitions and maps the items of a parallel iterator into a pair of</span>
 <span class="doccomment">/// arbitrary `ParallelExtend` containers.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This is not directly public, but called by `ParallelIterator::partition_map`.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">partition_map</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">P</span>, <span class="ident">L</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">pi</span>: <span class="ident">I</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> (<span class="ident">A</span>, <span class="ident">B</span>)
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
-          <span class="ident">A</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">L</span><span class="op">&gt;</span>,
-          <span class="ident">B</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
-          <span class="ident">P</span>: <span class="ident">Fn</span>(<span class="ident">I</span>::<span class="ident">Item</span>) <span class="op">-&gt;</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>,
-          <span class="ident">L</span>: <span class="ident">Send</span>,
-          <span class="ident">R</span>: <span class="ident">Send</span>
+<span class="doccomment">/// This called by `ParallelIterator::partition_map`.</span>
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">partition_map</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">P</span>, <span class="ident">L</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">pi</span>: <span class="ident">I</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> (<span class="ident">A</span>, <span class="ident">B</span>)
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
+    <span class="ident">A</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">L</span><span class="op">&gt;</span>,
+    <span class="ident">B</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
+    <span class="ident">P</span>: <span class="ident">Fn</span>(<span class="ident">I</span>::<span class="ident">Item</span>) <span class="op">-&gt;</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>,
+    <span class="ident">L</span>: <span class="ident">Send</span>,
+    <span class="ident">R</span>: <span class="ident">Send</span>,
 {
-    <span class="ident">execute</span>(<span class="ident">pi</span>, <span class="ident">PartitionMap</span> { <span class="ident">predicate</span>: <span class="ident">predicate</span> })
+    <span class="ident">execute</span>(<span class="ident">pi</span>, <span class="ident">PartitionMap</span> { <span class="ident">predicate</span> })
 }
 
 <span class="doccomment">/// An `UnzipOp` that routes items depending on how they are mapped `Either`.</span>
@@ -620,16 +635,18 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">L</span>, <span class="ident">R</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PartitionMap</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">Fn</span>(<span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>,
-          <span class="ident">L</span>: <span class="ident">Send</span>,
-          <span class="ident">R</span>: <span class="ident">Send</span>
+<span class="kw">where</span>
+    <span class="ident">P</span>: <span class="ident">Fn</span>(<span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span>,
+    <span class="ident">L</span>: <span class="ident">Send</span>,
+    <span class="ident">R</span>: <span class="ident">Send</span>,
 {
     <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> <span class="ident">L</span>;
     <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> <span class="ident">R</span>;
 
     <span class="kw">fn</span> <span class="ident">consume</span><span class="op">&lt;</span><span class="ident">FA</span>, <span class="ident">FB</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">item</span>: <span class="ident">T</span>, <span class="ident">left</span>: <span class="ident">FA</span>, <span class="ident">right</span>: <span class="ident">FB</span>) <span class="op">-&gt;</span> (<span class="ident">FA</span>, <span class="ident">FB</span>)
-        <span class="kw">where</span> <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">L</span><span class="op">&gt;</span>,
-              <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">L</span><span class="op">&gt;</span>,
+        <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
     {
         <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">predicate</span>)(<span class="ident">item</span>) {
             <span class="ident">Either</span>::<span class="ident">Left</span>(<span class="ident">item</span>) <span class="op">=&gt;</span> (<span class="ident">left</span>.<span class="ident">consume</span>(<span class="ident">item</span>), <span class="ident">right</span>),
@@ -637,7 +654,6 @@
         }
     }
 }
-
 
 <span class="doccomment">/// A fake iterator to intercept the `Consumer` for type `A`.</span>
 <span class="kw">struct</span> <span class="ident">UnzipA</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">I</span>, <span class="ident">OP</span>, <span class="ident">FromB</span>: <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
@@ -647,14 +663,16 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">I</span>, <span class="ident">OP</span>, <span class="ident">FromB</span><span class="op">&gt;</span> <span class="ident">ParallelIterator</span> <span class="kw">for</span> <span class="ident">UnzipA</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">I</span>, <span class="ident">OP</span>, <span class="ident">FromB</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
-          <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">FromB</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
+    <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
+    <span class="ident">FromB</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>,
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">OP</span>::<span class="ident">Left</span>;
 
     <span class="kw">fn</span> <span class="ident">drive_unindexed</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">consumer</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="ident">C</span>::<span class="prelude-ty">Result</span>
-        <span class="kw">where</span> <span class="ident">C</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">C</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         {
@@ -684,10 +702,11 @@
 
 <span class="doccomment">/// A fake iterator to intercept the `Consumer` for type `B`.</span>
 <span class="kw">struct</span> <span class="ident">UnzipB</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">I</span>, <span class="ident">OP</span>, <span class="ident">CA</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
-          <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">CA</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
-          <span class="ident">CA</span>::<span class="prelude-ty">Result</span>: <span class="lifetime">&#39;r</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
+    <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
+    <span class="ident">CA</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
+    <span class="ident">CA</span>::<span class="prelude-ty">Result</span>: <span class="lifetime">&#39;r</span>,
 {
     <span class="ident">base</span>: <span class="ident">I</span>,
     <span class="ident">op</span>: <span class="ident">OP</span>,
@@ -696,14 +715,16 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">I</span>, <span class="ident">OP</span>, <span class="ident">CA</span><span class="op">&gt;</span> <span class="ident">ParallelIterator</span> <span class="kw">for</span> <span class="ident">UnzipB</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">I</span>, <span class="ident">OP</span>, <span class="ident">CA</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
-          <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">CA</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">ParallelIterator</span>,
+    <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
+    <span class="ident">CA</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">OP</span>::<span class="ident">Right</span>;
 
     <span class="kw">fn</span> <span class="ident">drive_unindexed</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">consumer</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="ident">C</span>::<span class="prelude-ty">Result</span>
-        <span class="kw">where</span> <span class="ident">C</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">C</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>,
     {
         <span class="comment">// Now that we have two consumers, we can unzip the real iterator.</span>
         <span class="kw">let</span> <span class="ident">consumer</span> <span class="op">=</span> <span class="ident">UnzipConsumer</span> {
@@ -726,7 +747,6 @@
     }
 }
 
-
 <span class="doccomment">/// `Consumer` that unzips into two other `Consumer`s</span>
 <span class="kw">struct</span> <span class="ident">UnzipConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">OP</span>: <span class="lifetime">&#39;a</span>, <span class="ident">CA</span>, <span class="ident">CB</span><span class="op">&gt;</span> {
     <span class="ident">op</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">OP</span>,
@@ -735,9 +755,10 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">OP</span>, <span class="ident">CA</span>, <span class="ident">CB</span><span class="op">&gt;</span> <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">UnzipConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">OP</span>, <span class="ident">CA</span>, <span class="ident">CB</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-          <span class="ident">CA</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
-          <span class="ident">CB</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">CA</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
+    <span class="ident">CB</span>: <span class="ident">Consumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>,
 {
     <span class="kw">type</span> <span class="ident">Folder</span> <span class="op">=</span> <span class="ident">UnzipFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">OP</span>, <span class="ident">CA</span>::<span class="ident">Folder</span>, <span class="ident">CB</span>::<span class="ident">Folder</span><span class="op">&gt;</span>;
     <span class="kw">type</span> <span class="ident">Reducer</span> <span class="op">=</span> <span class="ident">UnzipReducer</span><span class="op">&lt;</span><span class="ident">CA</span>::<span class="ident">Reducer</span>, <span class="ident">CB</span>::<span class="ident">Reducer</span><span class="op">&gt;</span>;
@@ -747,20 +768,22 @@
         <span class="kw">let</span> (<span class="ident">left1</span>, <span class="ident">left2</span>, <span class="ident">left_reducer</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">left</span>.<span class="ident">split_at</span>(<span class="ident">index</span>);
         <span class="kw">let</span> (<span class="ident">right1</span>, <span class="ident">right2</span>, <span class="ident">right_reducer</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">right</span>.<span class="ident">split_at</span>(<span class="ident">index</span>);
 
-        (<span class="ident">UnzipConsumer</span> {
-             <span class="ident">op</span>: <span class="self">self</span>.<span class="ident">op</span>,
-             <span class="ident">left</span>: <span class="ident">left1</span>,
-             <span class="ident">right</span>: <span class="ident">right1</span>,
-         },
-         <span class="ident">UnzipConsumer</span> {
-             <span class="ident">op</span>: <span class="self">self</span>.<span class="ident">op</span>,
-             <span class="ident">left</span>: <span class="ident">left2</span>,
-             <span class="ident">right</span>: <span class="ident">right2</span>,
-         },
-         <span class="ident">UnzipReducer</span> {
-             <span class="ident">left</span>: <span class="ident">left_reducer</span>,
-             <span class="ident">right</span>: <span class="ident">right_reducer</span>,
-         })
+        (
+            <span class="ident">UnzipConsumer</span> {
+                <span class="ident">op</span>: <span class="self">self</span>.<span class="ident">op</span>,
+                <span class="ident">left</span>: <span class="ident">left1</span>,
+                <span class="ident">right</span>: <span class="ident">right1</span>,
+            },
+            <span class="ident">UnzipConsumer</span> {
+                <span class="ident">op</span>: <span class="self">self</span>.<span class="ident">op</span>,
+                <span class="ident">left</span>: <span class="ident">left2</span>,
+                <span class="ident">right</span>: <span class="ident">right2</span>,
+            },
+            <span class="ident">UnzipReducer</span> {
+                <span class="ident">left</span>: <span class="ident">left_reducer</span>,
+                <span class="ident">right</span>: <span class="ident">right_reducer</span>,
+            },
+        )
     }
 
     <span class="kw">fn</span> <span class="ident">into_folder</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Folder</span> {
@@ -778,9 +801,10 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">OP</span>, <span class="ident">CA</span>, <span class="ident">CB</span><span class="op">&gt;</span> <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">UnzipConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">OP</span>, <span class="ident">CA</span>, <span class="ident">CB</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-          <span class="ident">CA</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
-          <span class="ident">CB</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">CA</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
+    <span class="ident">CB</span>: <span class="ident">UnindexedConsumer</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>,
 {
     <span class="kw">fn</span> <span class="ident">split_off_left</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">UnzipConsumer</span> {
@@ -798,7 +822,6 @@
     }
 }
 
-
 <span class="doccomment">/// `Folder` that unzips into two other `Folder`s</span>
 <span class="kw">struct</span> <span class="ident">UnzipFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">OP</span>: <span class="lifetime">&#39;a</span>, <span class="ident">FA</span>, <span class="ident">FB</span><span class="op">&gt;</span> {
     <span class="ident">op</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">OP</span>,
@@ -807,9 +830,10 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">OP</span>, <span class="ident">FA</span>, <span class="ident">FB</span><span class="op">&gt;</span> <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">UnzipFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">OP</span>, <span class="ident">FA</span>, <span class="ident">FB</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-          <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
-          <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">OP</span>: <span class="ident">UnzipOp</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">FA</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Left</span><span class="op">&gt;</span>,
+    <span class="ident">FB</span>: <span class="ident">Folder</span><span class="op">&lt;</span><span class="ident">OP</span>::<span class="ident">Right</span><span class="op">&gt;</span>,
 {
     <span class="kw">type</span> <span class="prelude-ty">Result</span> <span class="op">=</span> (<span class="ident">FA</span>::<span class="prelude-ty">Result</span>, <span class="ident">FB</span>::<span class="prelude-ty">Result</span>);
 
@@ -817,8 +841,8 @@
         <span class="kw">let</span> (<span class="ident">left</span>, <span class="ident">right</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">op</span>.<span class="ident">consume</span>(<span class="ident">item</span>, <span class="self">self</span>.<span class="ident">left</span>, <span class="self">self</span>.<span class="ident">right</span>);
         <span class="ident">UnzipFolder</span> {
             <span class="ident">op</span>: <span class="self">self</span>.<span class="ident">op</span>,
-            <span class="ident">left</span>: <span class="ident">left</span>,
-            <span class="ident">right</span>: <span class="ident">right</span>,
+            <span class="ident">left</span>,
+            <span class="ident">right</span>,
         }
     }
 
@@ -832,7 +856,6 @@
     }
 }
 
-
 <span class="doccomment">/// `Reducer` that unzips into two other `Reducer`s</span>
 <span class="kw">struct</span> <span class="ident">UnzipReducer</span><span class="op">&lt;</span><span class="ident">RA</span>, <span class="ident">RB</span><span class="op">&gt;</span> {
     <span class="ident">left</span>: <span class="ident">RA</span>,
@@ -840,14 +863,17 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">RA</span>, <span class="ident">RB</span><span class="op">&gt;</span> <span class="ident">Reducer</span><span class="op">&lt;</span>(<span class="ident">A</span>, <span class="ident">B</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">UnzipReducer</span><span class="op">&lt;</span><span class="ident">RA</span>, <span class="ident">RB</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">RA</span>: <span class="ident">Reducer</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-          <span class="ident">RB</span>: <span class="ident">Reducer</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">RA</span>: <span class="ident">Reducer</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">RB</span>: <span class="ident">Reducer</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
 {
     <span class="kw">fn</span> <span class="ident">reduce</span>(<span class="self">self</span>, <span class="ident">left</span>: (<span class="ident">A</span>, <span class="ident">B</span>), <span class="ident">right</span>: (<span class="ident">A</span>, <span class="ident">B</span>)) <span class="op">-&gt;</span> (<span class="ident">A</span>, <span class="ident">B</span>) {
-        (<span class="self">self</span>.<span class="ident">left</span>.<span class="ident">reduce</span>(<span class="ident">left</span>.<span class="number">0</span>, <span class="ident">right</span>.<span class="number">0</span>), <span class="self">self</span>.<span class="ident">right</span>.<span class="ident">reduce</span>(<span class="ident">left</span>.<span class="number">1</span>, <span class="ident">right</span>.<span class="number">1</span>))
+        (
+            <span class="self">self</span>.<span class="ident">left</span>.<span class="ident">reduce</span>(<span class="ident">left</span>.<span class="number">0</span>, <span class="ident">right</span>.<span class="number">0</span>),
+            <span class="self">self</span>.<span class="ident">right</span>.<span class="ident">reduce</span>(<span class="ident">left</span>.<span class="number">1</span>, <span class="ident">right</span>.<span class="number">1</span>),
+        )
     }
 }
-
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">FromA</span>, <span class="ident">FromB</span><span class="op">&gt;</span> <span class="ident">ParallelExtend</span><span class="op">&lt;</span>(<span class="ident">A</span>, <span class="ident">B</span>)<span class="op">&gt;</span> <span class="kw">for</span> (<span class="ident">FromA</span>, <span class="ident">FromB</span>)
 <span class="kw">where</span>

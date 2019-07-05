@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.0.3/src/iter/collect/consumer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>consumer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.1.0/src/iter/collect/consumer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>consumer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../rayon/index.html'><div class='logo-container'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -100,23 +100,40 @@
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">plumbing</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">noop</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">plumbing</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ptr</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">slice</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>};
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CollectConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;c</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct</span> <span class="ident">CollectConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;c</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Tracks how many items we successfully wrote. Used to guarantee</span>
     <span class="doccomment">/// safety in the face of panics or buggy parallel iterators.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// In theory we could just produce this as a `CollectConsumer::Result`,</span>
+    <span class="doccomment">/// folding local counts and reducing by addition, but that requires a</span>
+    <span class="doccomment">/// certain amount of trust that the producer driving this will behave</span>
+    <span class="doccomment">/// itself. Since this count is important to the safety of marking the</span>
+    <span class="doccomment">/// memory initialized (`Vec::set_len`), we choose to keep it internal.</span>
     <span class="ident">writes</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="ident">AtomicUsize</span>,
 
     <span class="doccomment">/// A slice covering the target memory, not yet initialized!</span>
     <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="kw-2">mut</span> [<span class="ident">T</span>],
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CollectFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;c</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct</span> <span class="ident">CollectFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;c</span><span class="op">&gt;</span> {
     <span class="ident">global_writes</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="ident">AtomicUsize</span>,
     <span class="ident">local_writes</span>: <span class="ident">usize</span>,
 
@@ -124,15 +141,11 @@
     <span class="ident">target</span>: <span class="ident">slice</span>::<span class="ident">IterMut</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span><span class="op">&gt;</span>,
 }
 
-
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;c</span><span class="op">&gt;</span> <span class="ident">CollectConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// The target memory is considered uninitialized, and will be</span>
     <span class="doccomment">/// overwritten without dropping anything.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">writes</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="ident">AtomicUsize</span>, <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="kw-2">mut</span> [<span class="ident">T</span>]) <span class="op">-&gt;</span> <span class="ident">CollectConsumer</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">CollectConsumer</span> {
-            <span class="ident">writes</span>: <span class="ident">writes</span>,
-            <span class="ident">target</span>: <span class="ident">target</span>,
-        }
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">writes</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="ident">AtomicUsize</span>, <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="kw-2">mut</span> [<span class="ident">T</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">CollectConsumer</span> { <span class="ident">writes</span>, <span class="ident">target</span> }
     }
 }
 
@@ -150,14 +163,18 @@
         <span class="comment">// Produce new consumers. Normal slicing ensures that the</span>
         <span class="comment">// memory range given to each consumer is disjoint.</span>
         <span class="kw">let</span> (<span class="ident">left</span>, <span class="ident">right</span>) <span class="op">=</span> <span class="ident">target</span>.<span class="ident">split_at_mut</span>(<span class="ident">index</span>);
-        (<span class="ident">CollectConsumer</span>::<span class="ident">new</span>(<span class="ident">writes</span>, <span class="ident">left</span>), <span class="ident">CollectConsumer</span>::<span class="ident">new</span>(<span class="ident">writes</span>, <span class="ident">right</span>), <span class="ident">NoopReducer</span>)
+        (
+            <span class="ident">CollectConsumer</span>::<span class="ident">new</span>(<span class="ident">writes</span>, <span class="ident">left</span>),
+            <span class="ident">CollectConsumer</span>::<span class="ident">new</span>(<span class="ident">writes</span>, <span class="ident">right</span>),
+            <span class="ident">NoopReducer</span>,
+        )
     }
 
     <span class="kw">fn</span> <span class="ident">into_folder</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">CollectFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">CollectFolder</span> {
             <span class="ident">global_writes</span>: <span class="self">self</span>.<span class="ident">writes</span>,
             <span class="ident">local_writes</span>: <span class="number">0</span>,
-            <span class="ident">target</span>: <span class="self">self</span>.<span class="ident">target</span>.<span class="ident">into_iter</span>(),
+            <span class="ident">target</span>: <span class="self">self</span>.<span class="ident">target</span>.<span class="ident">iter_mut</span>(),
         }
     }
 
@@ -172,7 +189,10 @@
     <span class="kw">fn</span> <span class="ident">consume</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">CollectFolder</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">T</span><span class="op">&gt;</span> {
         <span class="comment">// Compute target pointer and write to it. Safe because the iterator</span>
         <span class="comment">// does all the bounds checking; we&#39;re only avoiding the target drop.</span>
-        <span class="kw">let</span> <span class="ident">head</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">target</span>.<span class="ident">next</span>().<span class="ident">expect</span>(<span class="string">&quot;too many values pushed to consumer&quot;</span>);
+        <span class="kw">let</span> <span class="ident">head</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">target</span>
+            .<span class="ident">next</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;too many values pushed to consumer&quot;</span>);
         <span class="kw">unsafe</span> {
             <span class="ident">ptr</span>::<span class="ident">write</span>(<span class="ident">head</span>, <span class="ident">item</span>);
         }
@@ -182,10 +202,12 @@
     }
 
     <span class="kw">fn</span> <span class="ident">complete</span>(<span class="self">self</span>) {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">target</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>, <span class="string">&quot;too few values pushed to consumer&quot;</span>);
+        <span class="comment">// NB: We don&#39;t explicitly check that the local writes were complete,</span>
+        <span class="comment">// but `Collect::complete()` will assert the global write count.</span>
 
         <span class="comment">// track total values written</span>
-        <span class="self">self</span>.<span class="ident">global_writes</span>.<span class="ident">fetch_add</span>(<span class="self">self</span>.<span class="ident">local_writes</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
+        <span class="self">self</span>.<span class="ident">global_writes</span>
+            .<span class="ident">fetch_add</span>(<span class="self">self</span>.<span class="ident">local_writes</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
     }
 
     <span class="kw">fn</span> <span class="ident">full</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
