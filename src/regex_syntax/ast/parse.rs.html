@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.7/src/ast/parse.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parse.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../regex_syntax/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.8/src/ast/parse.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parse.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../regex_syntax/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -5382,6 +5382,49 @@
 <span id="5382">5382</span>
 <span id="5383">5383</span>
 <span id="5384">5384</span>
+<span id="5385">5385</span>
+<span id="5386">5386</span>
+<span id="5387">5387</span>
+<span id="5388">5388</span>
+<span id="5389">5389</span>
+<span id="5390">5390</span>
+<span id="5391">5391</span>
+<span id="5392">5392</span>
+<span id="5393">5393</span>
+<span id="5394">5394</span>
+<span id="5395">5395</span>
+<span id="5396">5396</span>
+<span id="5397">5397</span>
+<span id="5398">5398</span>
+<span id="5399">5399</span>
+<span id="5400">5400</span>
+<span id="5401">5401</span>
+<span id="5402">5402</span>
+<span id="5403">5403</span>
+<span id="5404">5404</span>
+<span id="5405">5405</span>
+<span id="5406">5406</span>
+<span id="5407">5407</span>
+<span id="5408">5408</span>
+<span id="5409">5409</span>
+<span id="5410">5410</span>
+<span id="5411">5411</span>
+<span id="5412">5412</span>
+<span id="5413">5413</span>
+<span id="5414">5414</span>
+<span id="5415">5415</span>
+<span id="5416">5416</span>
+<span id="5417">5417</span>
+<span id="5418">5418</span>
+<span id="5419">5419</span>
+<span id="5420">5420</span>
+<span id="5421">5421</span>
+<span id="5422">5422</span>
+<span id="5423">5423</span>
+<span id="5424">5424</span>
+<span id="5425">5425</span>
+<span id="5426">5426</span>
+<span id="5427">5427</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright 2018 The Rust Project Developers. See the COPYRIGHT</span>
 <span class="comment">// file at the top-level directory of this distribution and at</span>
@@ -6498,7 +6541,11 @@ This module provides a regular expression parser.
                 <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">RepetitionCountUnclosed</span>,
             ));
         }
-        <span class="kw">let</span> <span class="ident">count_start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">parse_decimal</span>()<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">count_start</span> <span class="op">=</span> <span class="ident">specialize_err</span>(
+            <span class="self">self</span>.<span class="ident">parse_decimal</span>(),
+            <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">DecimalEmpty</span>,
+            <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">RepetitionCountDecimalEmpty</span>,
+        )<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">ast</span>::<span class="ident">RepetitionRange</span>::<span class="ident">Exactly</span>(<span class="ident">count_start</span>);
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_eof</span>() {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">error</span>(
@@ -6514,7 +6561,11 @@ This module provides a regular expression parser.
                 ));
             }
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">char</span>() <span class="op">!=</span> <span class="string">&#39;}&#39;</span> {
-                <span class="kw">let</span> <span class="ident">count_end</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">parse_decimal</span>()<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">count_end</span> <span class="op">=</span> <span class="ident">specialize_err</span>(
+                    <span class="self">self</span>.<span class="ident">parse_decimal</span>(),
+                    <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">DecimalEmpty</span>,
+                    <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">RepetitionCountDecimalEmpty</span>,
+                )<span class="question-mark">?</span>;
                 <span class="ident">range</span> <span class="op">=</span> <span class="ident">ast</span>::<span class="ident">RepetitionRange</span>::<span class="ident">Bounded</span>(<span class="ident">count_start</span>, <span class="ident">count_end</span>);
             } <span class="kw">else</span> {
                 <span class="ident">range</span> <span class="op">=</span> <span class="ident">ast</span>::<span class="ident">RepetitionRange</span>::<span class="ident">AtLeast</span>(<span class="ident">count_start</span>);
@@ -7645,6 +7696,29 @@ This module provides a regular expression parser.
     }
 }
 
+<span class="doccomment">/// When the result is an error, transforms the ast::ErrorKind from the source</span>
+<span class="doccomment">/// Result into another one. This function is used to return clearer error</span>
+<span class="doccomment">/// messages when possible.</span>
+<span class="kw">fn</span> <span class="ident">specialize_err</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
+    <span class="ident">result</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">from</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>,
+    <span class="ident">to</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">result</span> {
+        <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span> <span class="op">==</span> <span class="ident">from</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">ast</span>::<span class="ident">Error</span> {
+                <span class="ident">kind</span>: <span class="ident">to</span>,
+                <span class="ident">pattern</span>: <span class="ident">e</span>.<span class="ident">pattern</span>,
+                <span class="ident">span</span>: <span class="ident">e</span>.<span class="ident">span</span>,
+            })
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>)
+        }
+    } <span class="kw">else</span> {
+        <span class="ident">result</span>
+    }
+}
+
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Range</span>;
@@ -8529,6 +8603,18 @@ bar
                 <span class="ident">kind</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">RepetitionMissing</span>,
             });
         <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">parser</span>(<span class="string">r&quot;a{]}&quot;</span>).<span class="ident">parse</span>().<span class="ident">unwrap_err</span>(),
+            <span class="ident">TestError</span> {
+                <span class="ident">span</span>: <span class="ident">span</span>(<span class="number">2</span>..<span class="number">2</span>),
+                <span class="ident">kind</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">RepetitionCountDecimalEmpty</span>,
+            });
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">parser</span>(<span class="string">r&quot;a{1,]}&quot;</span>).<span class="ident">parse</span>().<span class="ident">unwrap_err</span>(),
+            <span class="ident">TestError</span> {
+                <span class="ident">span</span>: <span class="ident">span</span>(<span class="number">4</span>..<span class="number">4</span>),
+                <span class="ident">kind</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">RepetitionCountDecimalEmpty</span>,
+            });
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">parser</span>(<span class="string">r&quot;a{&quot;</span>).<span class="ident">parse</span>().<span class="ident">unwrap_err</span>(),
             <span class="ident">TestError</span> {
                 <span class="ident">span</span>: <span class="ident">span</span>(<span class="number">1</span>..<span class="number">2</span>),
@@ -8538,13 +8624,13 @@ bar
             <span class="ident">parser</span>(<span class="string">r&quot;a{}&quot;</span>).<span class="ident">parse</span>().<span class="ident">unwrap_err</span>(),
             <span class="ident">TestError</span> {
                 <span class="ident">span</span>: <span class="ident">span</span>(<span class="number">2</span>..<span class="number">2</span>),
-                <span class="ident">kind</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">DecimalEmpty</span>,
+                <span class="ident">kind</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">RepetitionCountDecimalEmpty</span>,
             });
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">parser</span>(<span class="string">r&quot;a{a&quot;</span>).<span class="ident">parse</span>().<span class="ident">unwrap_err</span>(),
             <span class="ident">TestError</span> {
                 <span class="ident">span</span>: <span class="ident">span</span>(<span class="number">2</span>..<span class="number">2</span>),
-                <span class="ident">kind</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">DecimalEmpty</span>,
+                <span class="ident">kind</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">RepetitionCountDecimalEmpty</span>,
             });
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">parser</span>(<span class="string">r&quot;a{9999999999}&quot;</span>).<span class="ident">parse</span>().<span class="ident">unwrap_err</span>(),
@@ -8562,7 +8648,7 @@ bar
             <span class="ident">parser</span>(<span class="string">r&quot;a{9,a&quot;</span>).<span class="ident">parse</span>().<span class="ident">unwrap_err</span>(),
             <span class="ident">TestError</span> {
                 <span class="ident">span</span>: <span class="ident">span</span>(<span class="number">4</span>..<span class="number">4</span>),
-                <span class="ident">kind</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">DecimalEmpty</span>,
+                <span class="ident">kind</span>: <span class="ident">ast</span>::<span class="ident">ErrorKind</span>::<span class="ident">RepetitionCountDecimalEmpty</span>,
             });
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">parser</span>(<span class="string">r&quot;a{9,9999999999}&quot;</span>).<span class="ident">parse</span>().<span class="ident">unwrap_err</span>(),
