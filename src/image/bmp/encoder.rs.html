@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.21.2/./src/bmp/encoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>encoder.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.3/./src/bmp/encoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>encoder.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -309,15 +309,6 @@
 <span id="309">309</span>
 <span id="310">310</span>
 <span id="311">311</span>
-<span id="312">312</span>
-<span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
-<span id="320">320</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">LittleEndian</span>, <span class="ident">WriteBytesExt</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Write</span>};
@@ -351,7 +342,7 @@
     ) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">bmp_header_size</span> <span class="op">=</span> <span class="ident">BITMAPFILEHEADER_SIZE</span>;
 
-        <span class="kw">let</span> (<span class="ident">dib_header_size</span>, <span class="ident">written_pixel_size</span>, <span class="ident">palette_color_count</span>) <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">get_pixel_info</span>(<span class="ident">c</span>));
+        <span class="kw">let</span> (<span class="ident">dib_header_size</span>, <span class="ident">written_pixel_size</span>, <span class="ident">palette_color_count</span>) <span class="op">=</span> <span class="ident">get_pixel_info</span>(<span class="ident">c</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">row_pad_size</span> <span class="op">=</span> (<span class="number">4</span> <span class="op">-</span> (<span class="ident">width</span> <span class="op">*</span> <span class="ident">written_pixel_size</span>) <span class="op">%</span> <span class="number">4</span>) <span class="op">%</span> <span class="number">4</span>; <span class="comment">// each row must be padded to a multiple of 4 bytes</span>
 
         <span class="kw">let</span> <span class="ident">image_size</span> <span class="op">=</span> <span class="ident">width</span> <span class="op">*</span> <span class="ident">height</span> <span class="op">*</span> <span class="ident">written_pixel_size</span> <span class="op">+</span> (<span class="ident">height</span> <span class="op">*</span> <span class="ident">row_pad_size</span>);
@@ -359,62 +350,53 @@
         <span class="kw">let</span> <span class="ident">file_size</span> <span class="op">=</span> <span class="ident">bmp_header_size</span> <span class="op">+</span> <span class="ident">dib_header_size</span> <span class="op">+</span> <span class="ident">palette_size</span> <span class="op">+</span> <span class="ident">image_size</span>;
 
         <span class="comment">// write BMP header</span>
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="string">b&#39;B&#39;</span>));
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="string">b&#39;M&#39;</span>));
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file_size</span>)); <span class="comment">// file size</span>
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)); <span class="comment">// reserved 1</span>
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)); <span class="comment">// reserved 2</span>
-        <span class="macro">try</span><span class="macro">!</span>(
-            <span class="self">self</span>.<span class="ident">writer</span>
-                .<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">bmp_header_size</span> <span class="op">+</span> <span class="ident">dib_header_size</span> <span class="op">+</span> <span class="ident">palette_size</span>)
-        ); <span class="comment">// image data offset</span>
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="string">b&#39;B&#39;</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="string">b&#39;M&#39;</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file_size</span>)<span class="question-mark">?</span>; <span class="comment">// file size</span>
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>; <span class="comment">// reserved 1</span>
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>; <span class="comment">// reserved 2</span>
+        <span class="self">self</span>.<span class="ident">writer</span>
+            .<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">bmp_header_size</span> <span class="op">+</span> <span class="ident">dib_header_size</span> <span class="op">+</span> <span class="ident">palette_size</span>)<span class="question-mark">?</span>; <span class="comment">// image data offset</span>
 
         <span class="comment">// write DIB header</span>
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">dib_header_size</span>));
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">width</span> <span class="kw">as</span> <span class="ident">i32</span>));
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">height</span> <span class="kw">as</span> <span class="ident">i32</span>));
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">1</span>)); <span class="comment">// color planes</span>
-        <span class="macro">try</span><span class="macro">!</span>(
-            <span class="self">self</span>.<span class="ident">writer</span>
-                .<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>((<span class="ident">written_pixel_size</span> <span class="op">*</span> <span class="number">8</span>) <span class="kw">as</span> <span class="ident">u16</span>)
-        ); <span class="comment">// bits per pixel</span>
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">dib_header_size</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">width</span> <span class="kw">as</span> <span class="ident">i32</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">height</span> <span class="kw">as</span> <span class="ident">i32</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">1</span>)<span class="question-mark">?</span>; <span class="comment">// color planes</span>
+        <span class="self">self</span>.<span class="ident">writer</span>
+            .<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>((<span class="ident">written_pixel_size</span> <span class="op">*</span> <span class="number">8</span>) <span class="kw">as</span> <span class="ident">u16</span>)<span class="question-mark">?</span>; <span class="comment">// bits per pixel</span>
         <span class="kw">if</span> <span class="ident">dib_header_size</span> <span class="op">&gt;=</span> <span class="ident">BITMAPV4HEADER_SIZE</span> {
             <span class="comment">// Assume BGRA32</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">3</span>)); <span class="comment">// compression method - bitfields</span>
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">3</span>)<span class="question-mark">?</span>; <span class="comment">// compression method - bitfields</span>
         } <span class="kw">else</span> {
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)); <span class="comment">// compression method - no compression</span>
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>; <span class="comment">// compression method - no compression</span>
         }
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">image_size</span>));
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)); <span class="comment">// horizontal ppm</span>
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)); <span class="comment">// vertical ppm</span>
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">palette_color_count</span>));
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)); <span class="comment">// all colors are important</span>
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">image_size</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>; <span class="comment">// horizontal ppm</span>
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>; <span class="comment">// vertical ppm</span>
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">palette_color_count</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>; <span class="comment">// all colors are important</span>
         <span class="kw">if</span> <span class="ident">dib_header_size</span> <span class="op">&gt;=</span> <span class="ident">BITMAPV4HEADER_SIZE</span> {
             <span class="comment">// Assume BGRA32</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0xff</span> <span class="op">&lt;&lt;</span> <span class="number">16</span>)); <span class="comment">// red mask</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0xff</span> <span class="op">&lt;&lt;</span> <span class="number">8</span>)); <span class="comment">// green mask</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0xff</span> <span class="op">&lt;&lt;</span> <span class="number">0</span>)); <span class="comment">// blue mask</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0xff</span> <span class="op">&lt;&lt;</span> <span class="number">24</span>)); <span class="comment">// alpha mask</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0x73524742</span>)); <span class="comment">// colorspace - sRGB</span>
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0xff</span> <span class="op">&lt;&lt;</span> <span class="number">16</span>)<span class="question-mark">?</span>; <span class="comment">// red mask</span>
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0xff</span> <span class="op">&lt;&lt;</span> <span class="number">8</span>)<span class="question-mark">?</span>; <span class="comment">// green mask</span>
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0xff</span> <span class="op">&lt;&lt;</span> <span class="number">0</span>)<span class="question-mark">?</span>; <span class="comment">// blue mask</span>
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0xff</span> <span class="op">&lt;&lt;</span> <span class="number">24</span>)<span class="question-mark">?</span>; <span class="comment">// alpha mask</span>
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0x73524742</span>)<span class="question-mark">?</span>; <span class="comment">// colorspace - sRGB</span>
+
             <span class="comment">// endpoints (3x3) and gamma (3)</span>
             <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">12</span> {
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>));
+                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>;
             }
         }
 
         <span class="comment">// write image data</span>
         <span class="kw">match</span> <span class="ident">c</span> {
-            <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>) <span class="op">=&gt;</span> {
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">encode_rgb</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">row_pad_size</span>, <span class="number">3</span>))
-            }
-            <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>) <span class="op">=&gt;</span> {
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">encode_rgba</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">row_pad_size</span>, <span class="number">4</span>))
-            }
-            <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>) <span class="op">=&gt;</span> {
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">encode_gray</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">row_pad_size</span>, <span class="number">1</span>))
-            }
+            <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">encode_rgb</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">row_pad_size</span>, <span class="number">3</span>)<span class="question-mark">?</span>,
+            <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">encode_rgba</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">row_pad_size</span>, <span class="number">4</span>)<span class="question-mark">?</span>,
+            <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">encode_gray</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">row_pad_size</span>, <span class="number">1</span>)<span class="question-mark">?</span>,
             <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">8</span>) <span class="op">=&gt;</span> {
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">encode_gray</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">row_pad_size</span>, <span class="number">2</span>))
+                <span class="self">self</span>.<span class="ident">encode_gray</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">row_pad_size</span>, <span class="number">2</span>)<span class="question-mark">?</span>
             }
             <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
@@ -446,13 +428,13 @@
                 <span class="kw">let</span> <span class="ident">g</span> <span class="op">=</span> <span class="ident">image</span>[<span class="ident">pixel_start</span> <span class="op">+</span> <span class="number">1</span>];
                 <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">image</span>[<span class="ident">pixel_start</span> <span class="op">+</span> <span class="number">2</span>];
                 <span class="comment">// written as BGR</span>
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">b</span>));
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">g</span>));
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">r</span>));
+                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">b</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">g</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">r</span>)<span class="question-mark">?</span>;
                 <span class="comment">// alpha is never written as it&#39;s not widely supported</span>
             }
 
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">write_row_pad</span>(<span class="ident">row_pad_size</span>));
+            <span class="self">self</span>.<span class="ident">write_row_pad</span>(<span class="ident">row_pad_size</span>)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -478,13 +460,13 @@
                 <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">image</span>[<span class="ident">pixel_start</span> <span class="op">+</span> <span class="number">2</span>];
                 <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">image</span>[<span class="ident">pixel_start</span> <span class="op">+</span> <span class="number">3</span>];
                 <span class="comment">// written as BGRA</span>
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">b</span>));
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">g</span>));
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">r</span>));
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">a</span>));
+                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">b</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">g</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">r</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">a</span>)<span class="question-mark">?</span>;
             }
 
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">write_row_pad</span>(<span class="ident">row_pad_size</span>));
+            <span class="self">self</span>.<span class="ident">write_row_pad</span>(<span class="ident">row_pad_size</span>)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -502,10 +484,10 @@
         <span class="kw">for</span> <span class="ident">val</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">256</span> {
             <span class="comment">// each color is written as BGRA, where A is always 0 and since only grayscale is being written, B = G = R = index</span>
             <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">val</span> <span class="kw">as</span> <span class="ident">u8</span>;
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">val</span>));
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">val</span>));
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">val</span>));
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="number">0</span>));
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">val</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">val</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">val</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="number">0</span>)<span class="question-mark">?</span>;
         }
 
         <span class="comment">// write image data</span>
@@ -517,11 +499,11 @@
             <span class="kw">for</span> <span class="ident">col</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">width</span> {
                 <span class="kw">let</span> <span class="ident">pixel_start</span> <span class="op">=</span> (<span class="ident">row_start</span> <span class="op">+</span> (<span class="ident">col</span> <span class="op">*</span> <span class="ident">x_stride</span>)) <span class="kw">as</span> <span class="ident">usize</span>;
                 <span class="comment">// color value is equal to the palette index</span>
-                <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">image</span>[<span class="ident">pixel_start</span>]));
+                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="ident">image</span>[<span class="ident">pixel_start</span>])<span class="question-mark">?</span>;
                 <span class="comment">// alpha is never written as it&#39;s not widely supported</span>
             }
 
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">write_row_pad</span>(<span class="ident">row_pad_size</span>));
+            <span class="self">self</span>.<span class="ident">write_row_pad</span>(<span class="ident">row_pad_size</span>)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -529,7 +511,7 @@
 
     <span class="kw">fn</span> <span class="ident">write_row_pad</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">row_pad_size</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">row_pad_size</span> {
-            <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="number">0</span>));
+            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_u8</span>(<span class="number">0</span>)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())

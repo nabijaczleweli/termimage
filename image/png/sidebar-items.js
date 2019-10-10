@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["PNGDecoder","PNG decoder"],["PNGEncoder","PNG encoder"]]});
+initSidebarItems({"struct":[["PNGDecoder","PNG decoder"],["PNGEncoder","PNG encoder"],["PNGReader","PNG Reader"]]});

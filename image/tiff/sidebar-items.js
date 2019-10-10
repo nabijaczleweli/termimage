@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["TIFFDecoder","Decoder for TIFF images."]]});
+initSidebarItems({"struct":[["TIFFDecoder","Decoder for TIFF images."],["TiffEncoder","Encoder for tiff images"],["TiffReader","Wrapper struct around a `Cursor<Vec<u8>>`"]]});

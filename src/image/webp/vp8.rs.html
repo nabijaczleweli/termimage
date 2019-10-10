@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.21.2/./src/webp/vp8.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>vp8.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.3/./src/webp/vp8.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>vp8.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -2001,14 +2001,6 @@
 <span id="2001">2001</span>
 <span id="2002">2002</span>
 <span id="2003">2003</span>
-<span id="2004">2004</span>
-<span id="2005">2005</span>
-<span id="2006">2006</span>
-<span id="2007">2007</span>
-<span id="2008">2008</span>
-<span id="2009">2009</span>
-<span id="2010">2010</span>
-<span id="2011">2011</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! An implementation of the VP8 Video Codec</span>
 <span class="doccomment">//!</span>
@@ -2026,7 +2018,7 @@
 
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">LittleEndian</span>, <span class="ident">ReadBytesExt</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">default</span>::<span class="ident">Default</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">cmp</span>, <span class="ident">io</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Read</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">transform</span>;
@@ -2632,7 +2624,7 @@
 <span class="kw">static</span> <span class="ident">DCT_CAT_BASE</span>: [<span class="ident">u8</span>; <span class="number">6</span>] <span class="op">=</span> [<span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">19</span>, <span class="number">35</span>, <span class="number">67</span>];
 <span class="kw">static</span> <span class="ident">COEFF_BANDS</span>: [<span class="ident">u8</span>; <span class="number">16</span>] <span class="op">=</span> [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">7</span>];
 
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">rustfmt</span>, <span class="ident">rustfmt_skip</span>)]</span>
+<span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
 <span class="kw">static</span> <span class="ident">DC_QUANT</span>: [<span class="ident">i16</span>; <span class="number">128</span>] <span class="op">=</span> [
       <span class="number">4</span>,   <span class="number">5</span>,   <span class="number">6</span>,   <span class="number">7</span>,   <span class="number">8</span>,   <span class="number">9</span>,  <span class="number">10</span>,  <span class="number">10</span>,
      <span class="number">11</span>,  <span class="number">12</span>,  <span class="number">13</span>,  <span class="number">14</span>,  <span class="number">15</span>,  <span class="number">16</span>,  <span class="number">17</span>,  <span class="number">17</span>,
@@ -2652,7 +2644,7 @@
     <span class="number">138</span>, <span class="number">140</span>, <span class="number">143</span>, <span class="number">145</span>, <span class="number">148</span>, <span class="number">151</span>, <span class="number">154</span>, <span class="number">157</span>,
 ];
 
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">rustfmt</span>, <span class="ident">rustfmt_skip</span>)]</span>
+<span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
 <span class="kw">static</span> <span class="ident">AC_QUANT</span>: [<span class="ident">i16</span>; <span class="number">128</span>] <span class="op">=</span> [
       <span class="number">4</span>,   <span class="number">5</span>,   <span class="number">6</span>,   <span class="number">7</span>,   <span class="number">8</span>,    <span class="number">9</span>,  <span class="number">10</span>,  <span class="number">11</span>,
       <span class="number">12</span>,  <span class="number">13</span>,  <span class="number">14</span>,  <span class="number">15</span>,  <span class="number">16</span>,  <span class="number">17</span>,  <span class="number">18</span>,  <span class="number">19</span>,
@@ -2684,7 +2676,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">BoolReader</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">BoolReader</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">BoolReader</span> {
         <span class="ident">BoolReader</span> {
             <span class="ident">buf</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
             <span class="ident">range</span>: <span class="number">0</span>,
@@ -2694,7 +2686,7 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="number">2</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Expected at least 2 bytes of decoder initialization data&quot;</span>.<span class="ident">into</span>()));
@@ -2710,7 +2702,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_bool</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">probability</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_bool</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">probability</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">split</span> <span class="op">=</span> <span class="number">1</span> <span class="op">+</span> (((<span class="self">self</span>.<span class="ident">range</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">*</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">probability</span>)) <span class="op">&gt;&gt;</span> <span class="number">8</span>);
         <span class="kw">let</span> <span class="ident">bigsplit</span> <span class="op">=</span> <span class="ident">split</span> <span class="op">&lt;&lt;</span> <span class="number">8</span>;
 
@@ -2743,7 +2735,7 @@
         <span class="ident">retval</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_literal</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">u8</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_literal</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">u8</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="number">0u8</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">n</span>;
 
@@ -2755,7 +2747,7 @@
         <span class="ident">v</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_magnitude_and_sign</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_magnitude_and_sign</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
         <span class="kw">let</span> <span class="ident">magnitude</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_literal</span>(<span class="ident">n</span>);
         <span class="kw">let</span> <span class="ident">sign</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_literal</span>(<span class="number">1</span>);
 
@@ -2766,7 +2758,7 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_with_tree</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tree</span>: <span class="kw-2">&amp;</span>[<span class="ident">i8</span>], <span class="ident">probs</span>: <span class="kw-2">&amp;</span>[<span class="ident">Prob</span>], <span class="ident">start</span>: <span class="ident">isize</span>) <span class="op">-&gt;</span> <span class="ident">i8</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_with_tree</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tree</span>: <span class="kw-2">&amp;</span>[<span class="ident">i8</span>], <span class="ident">probs</span>: <span class="kw-2">&amp;</span>[<span class="ident">Prob</span>], <span class="ident">start</span>: <span class="ident">isize</span>) <span class="op">-&gt;</span> <span class="ident">i8</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">start</span>;
 
         <span class="kw">loop</span> {
@@ -2782,7 +2774,7 @@
         <span class="op">-</span><span class="ident">index</span> <span class="kw">as</span> <span class="ident">i8</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_flag</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_flag</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="number">0</span> <span class="op">!=</span> <span class="self">self</span>.<span class="ident">read_literal</span>(<span class="number">1</span>)
     }
 }
@@ -3155,7 +3147,7 @@
 
             <span class="kw">if</span> <span class="ident">color_space</span> <span class="op">!=</span> <span class="number">0</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
-                    <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Only YUV color space is specified.&quot;</span>)))
+                    <span class="string">&quot;Only YUV color space is specified.&quot;</span>.<span class="ident">to_string</span>()))
             }
         }
 
@@ -3375,9 +3367,9 @@
                     <span class="kw">continue</span>;
                 }
 
-                <span class="ident">literal</span> @ <span class="ident">DCT_1</span>...<span class="ident">DCT_4</span> <span class="op">=&gt;</span> <span class="ident">i16</span>::<span class="ident">from</span>(<span class="ident">literal</span>),
+                <span class="ident">literal</span> @ <span class="ident">DCT_1</span>..=<span class="ident">DCT_4</span> <span class="op">=&gt;</span> <span class="ident">i16</span>::<span class="ident">from</span>(<span class="ident">literal</span>),
 
-                <span class="ident">category</span> @ <span class="ident">DCT_CAT1</span>...<span class="ident">DCT_CAT6</span> <span class="op">=&gt;</span> {
+                <span class="ident">category</span> @ <span class="ident">DCT_CAT1</span>..=<span class="ident">DCT_CAT6</span> <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">PROB_DCT_CAT</span>[(<span class="ident">category</span> <span class="op">-</span> <span class="ident">DCT_CAT1</span>) <span class="kw">as</span> <span class="ident">usize</span>];
 
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">extra</span> <span class="op">=</span> <span class="number">0i16</span>;
@@ -3495,23 +3487,15 @@
     }
 
     <span class="doccomment">/// Decodes the current frame and returns a reference to it</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Frame</span><span class="op">&gt;</span> {
-        <span class="comment">// FIXME: hack to keep the public return type.</span>
-        <span class="self">self</span>.<span class="ident">read_frame_header</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span> {
-            <span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="ident">err</span>,
-            <span class="ident">other</span> <span class="op">=&gt;</span> <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidData</span>, <span class="ident">other</span>),
-        })<span class="question-mark">?</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Frame</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">read_frame_header</span>()<span class="question-mark">?</span>;
 
         <span class="kw">for</span> <span class="ident">mby</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">mbheight</span> <span class="kw">as</span> <span class="ident">usize</span> {
             <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">mby</span> <span class="op">%</span> <span class="self">self</span>.<span class="ident">num_partitions</span> <span class="kw">as</span> <span class="ident">usize</span>;
             <span class="self">self</span>.<span class="ident">left</span> <span class="op">=</span> <span class="ident">MacroBlock</span>::<span class="ident">default</span>();
 
             <span class="kw">for</span> <span class="ident">mbx</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">mbwidth</span> <span class="kw">as</span> <span class="ident">usize</span> {
-                <span class="comment">// FIXME: hack to keep the public return type.</span>
-                <span class="kw">let</span> (<span class="ident">skip</span>, <span class="ident">mb</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_macroblock_header</span>(<span class="ident">mbx</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span> {
-                    <span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="ident">err</span>,
-                    <span class="ident">other</span> <span class="op">=&gt;</span> <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidData</span>, <span class="ident">other</span>),
-                })<span class="question-mark">?</span>;
+                <span class="kw">let</span> (<span class="ident">skip</span>, <span class="ident">mb</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_macroblock_header</span>(<span class="ident">mbx</span>)<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">blocks</span> <span class="op">=</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">skip</span> {
                     <span class="self">self</span>.<span class="ident">read_residual_data</span>(<span class="kw-2">&amp;</span><span class="ident">mb</span>, <span class="ident">mbx</span>, <span class="ident">p</span>)
                 } <span class="kw">else</span> {

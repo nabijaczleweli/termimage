@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/crossbeam-utils-0.6.5/src/thread.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>thread.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../crossbeam_utils/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/crossbeam-utils-0.6.6/src/thread.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>thread.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../crossbeam_utils/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -604,7 +604,7 @@
 <span class="doccomment">//! `&#39;static` lifetime because the borrow checker cannot be sure when the thread will complete.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! A scope creates a clear boundary between variables outside the scope and threads inside the</span>
-<span class="doccomment">//! scope. Whenever a s.spawns a thread, it promises to join the thread before the scope ends.</span>
+<span class="doccomment">//! scope. Whenever a scope spawns a thread, it promises to join the thread before the scope ends.</span>
 <span class="doccomment">//! This way we guarantee to the borrow checker that scoped threads only live within the scope and</span>
 <span class="doccomment">//! can safely access variables outside it.</span>
 <span class="doccomment">//!</span>
@@ -622,14 +622,14 @@
 <span class="doccomment">//!         // Not going to compile because we&#39;re trying to borrow `s`,</span>
 <span class="doccomment">//!         // which lives *inside* the scope! :(</span>
 <span class="doccomment">//!         s.spawn(|_| println!(&quot;nested thread&quot;));</span>
-<span class="doccomment">//!     }});</span>
+<span class="doccomment">//!     });</span>
 <span class="doccomment">//! });</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Fortunately, there is a solution. Every scoped thread is passed a reference to its scope as an</span>
 <span class="doccomment">//! argument, which can be used for spawning nested threads:</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ```ignore</span>
+<span class="doccomment">//! ```</span>
 <span class="doccomment">//! use crossbeam_utils::thread;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! thread::scope(|s| {</span>
@@ -637,7 +637,7 @@
 <span class="doccomment">//!     s.spawn(|s| {</span>
 <span class="doccomment">//!         // Yay, this works because we&#39;re using a fresh argument `s`! :)</span>
 <span class="doccomment">//!         s.spawn(|_| println!(&quot;nested thread&quot;));</span>
-<span class="doccomment">//!     }});</span>
+<span class="doccomment">//!     });</span>
 <span class="doccomment">//! });</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>

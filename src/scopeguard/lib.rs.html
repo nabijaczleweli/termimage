@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/scopeguard-0.3.3/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../scopeguard/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/scopeguard-1.0.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../scopeguard/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -407,14 +407,206 @@
 <span id="407">407</span>
 <span id="408">408</span>
 <span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)), <span class="ident">no_std</span>)]</span>
+<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://docs.rs/scopeguard/1/&quot;</span>)]</span>
 
 <span class="doccomment">//! A scope guard will run a given closure when it goes out of scope,</span>
 <span class="doccomment">//! even if the code between panics.</span>
 <span class="doccomment">//! (as long as panic doesn&#39;t abort)</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Examples</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Hello World</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This example creates a scope guard with an example function:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! extern crate scopeguard;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! fn f() {</span>
+<span class="doccomment">//!     let _guard = scopeguard::guard((), |_| {</span>
+<span class="doccomment">//!         println!(&quot;Hello Scope Exit!&quot;);</span>
+<span class="doccomment">//!     });</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     // rest of the code here.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     // Here, at the end of `_guard`&#39;s scope, the guard&#39;s closure is called.</span>
+<span class="doccomment">//!     // It is also called if we exit this scope through unwinding instead.</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! # fn main() {</span>
+<span class="doccomment">//! #    f();</span>
+<span class="doccomment">//! # }</span>
+<span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## `defer!`</span>
 <span class="doccomment">//!</span>
@@ -461,8 +653,16 @@
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//! extern crate scopeguard;</span>
 <span class="doccomment">//! </span>
-<span class="doccomment">//! use std::fs::File;</span>
+<span class="doccomment">//! use std::fs::*;</span>
 <span class="doccomment">//! use std::io::{self, Write};</span>
+<span class="doccomment">//! # // Mock file so that we don&#39;t actually write a file</span>
+<span class="doccomment">//! # struct MockFile;</span>
+<span class="doccomment">//! # impl MockFile {</span>
+<span class="doccomment">//! #     fn create(_s: &amp;str) -&gt; io::Result&lt;Self&gt; { Ok(MockFile) }</span>
+<span class="doccomment">//! #     fn write_all(&amp;self, _b: &amp;[u8]) -&gt; io::Result&lt;()&gt; { Ok(()) }</span>
+<span class="doccomment">//! #     fn sync_all(&amp;self) -&gt; io::Result&lt;()&gt; { Ok(()) }</span>
+<span class="doccomment">//! # }</span>
+<span class="doccomment">//! # use self::MockFile as File;</span>
 <span class="doccomment">//! </span>
 <span class="doccomment">//! fn try_main() -&gt; io::Result&lt;()&gt; {</span>
 <span class="doccomment">//!     let f = File::create(&quot;newfile.txt&quot;)?;</span>
@@ -471,7 +671,7 @@
 <span class="doccomment">//!         let _ = f.sync_all();</span>
 <span class="doccomment">//!     });</span>
 <span class="doccomment">//!     // Access the file through the scope guard itself</span>
-<span class="doccomment">//!     file.write(b&quot;test me\n&quot;).map(|_| ())</span>
+<span class="doccomment">//!     file.write_all(b&quot;test me\n&quot;).map(|_| ())</span>
 <span class="doccomment">//! }</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! fn main() {</span>
@@ -553,19 +753,30 @@
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! # Crate features:</span>
+<span class="doccomment">//! # Crate Features</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! - `use_std`</span>
-<span class="doccomment">//!   + Enabled by default. Enables the `OnUnwind` strategy.</span>
+<span class="doccomment">//!   + Enabled by default. Enables the `OnUnwind` and `OnSuccess` strategies.</span>
 <span class="doccomment">//!   + Disable to use `no_std`.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Rust Version</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This version of the crate requires Rust 1.20 or later.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The scopeguard 1.x release series will use a carefully considered version</span>
+<span class="doccomment">//! upgrade policy, where in a later 1.x version, we will raise the minimum</span>
+<span class="doccomment">//! required Rust version.</span>
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)))]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">core</span> <span class="kw">as</span> <span class="ident">std</span>;
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>::{<span class="self">self</span>, <span class="ident">ManuallyDrop</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ptr</span>;
 
+<span class="doccomment">/// Controls in which cases the associated code should be run</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Strategy</span> {
     <span class="doccomment">/// Return `true` if the guard’s associated code should run</span>
     <span class="doccomment">/// (in the context where this method is called).</span>
@@ -592,8 +803,7 @@
 <span class="doccomment">/// Requires crate feature `use_std`.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">enum</span> <span class="ident">OnSuccess</span> {}
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OnSuccess</span> {}
 
 <span class="kw">impl</span> <span class="ident">Strategy</span> <span class="kw">for</span> <span class="ident">Always</span> {
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
@@ -602,14 +812,13 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
 <span class="kw">impl</span> <span class="ident">Strategy</span> <span class="kw">for</span> <span class="ident">OnUnwind</span> {
-    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">should_run</span>() <span class="op">-&gt;</span> <span class="ident">bool</span> { <span class="ident">std</span>::<span class="ident">thread</span>::<span class="ident">panicking</span>() }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">impl</span> <span class="ident">Strategy</span> <span class="kw">for</span> <span class="ident">OnSuccess</span> {
-    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">should_run</span>() <span class="op">-&gt;</span> <span class="ident">bool</span> { <span class="op">!</span><span class="ident">std</span>::<span class="ident">thread</span>::<span class="ident">panicking</span>() }
 }
 
@@ -621,7 +830,7 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">defer</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
-        <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">guard</span>((), <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>);
+        <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">guard</span>((), <span class="op">|</span>()<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>);
     }
 }
 
@@ -632,10 +841,11 @@
 <span class="doccomment">/// be a whole block.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Requires crate feature `use_std`.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">defer_on_success</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
-        <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">guard_on_success</span>((), <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>);
+        <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">guard_on_success</span>((), <span class="op">|</span>()<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>);
     }
 }
 
@@ -646,10 +856,11 @@
 <span class="doccomment">/// be a whole block.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Requires crate feature `use_std`.</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">defer_on_unwind</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
-        <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">guard_on_unwind</span>((), <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>);
+        <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">guard_on_unwind</span>((), <span class="op">|</span>()<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>);
     }
 }
 
@@ -663,19 +874,20 @@
 <span class="doccomment">/// The `S` parameter for [`Strategy`](Strategy.t.html) determines if</span>
 <span class="doccomment">/// the closure actually runs.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// The guard&#39;s closure will be called with a mut ref to the held value</span>
-<span class="doccomment">/// in the destructor. It&#39;s called only once.</span>
+<span class="doccomment">/// The guard&#39;s closure will be called with the held value in the destructor.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The `ScopeGuard` implements `Deref` so that you can access the inner value.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span>: <span class="ident">Strategy</span> <span class="op">=</span> <span class="ident">Always</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span> <span class="op">=</span> <span class="ident">Always</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>),
+          <span class="ident">S</span>: <span class="ident">Strategy</span>,
 {
-    <span class="ident">__dropfn</span>: <span class="ident">F</span>,
-    <span class="ident">__value</span>: <span class="ident">T</span>,
-    <span class="ident">strategy</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
+    <span class="ident">value</span>: <span class="ident">ManuallyDrop</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">dropfn</span>: <span class="ident">ManuallyDrop</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
+    <span class="ident">strategy</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw">fn</span>(<span class="ident">S</span>) <span class="op">-&gt;</span> <span class="ident">S</span><span class="op">&gt;</span>,
 }
+
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>),
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>),
           <span class="ident">S</span>: <span class="ident">Strategy</span>,
 {
     <span class="doccomment">/// Create a `ScopeGuard` that owns `v` (accessible through deref) and calls</span>
@@ -685,9 +897,46 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_strategy</span>(<span class="ident">v</span>: <span class="ident">T</span>, <span class="ident">dropfn</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span> {
         <span class="ident">ScopeGuard</span> {
-            <span class="ident">__value</span>: <span class="ident">v</span>,
-            <span class="ident">__dropfn</span>: <span class="ident">dropfn</span>,
+            <span class="ident">value</span>: <span class="ident">ManuallyDrop</span>::<span class="ident">new</span>(<span class="ident">v</span>),
+            <span class="ident">dropfn</span>: <span class="ident">ManuallyDrop</span>::<span class="ident">new</span>(<span class="ident">dropfn</span>),
             <span class="ident">strategy</span>: <span class="ident">PhantomData</span>,
+        }
+    }
+
+    <span class="doccomment">/// “Defuse” the guard and extract the value without calling the closure.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// extern crate scopeguard;</span>
+    <span class="doccomment">/// use scopeguard::{guard, ScopeGuard};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// fn conditional() -&gt; bool { true }</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// fn main() {</span>
+    <span class="doccomment">///     let mut guard = guard(Vec::new(), |mut v| v.clear());</span>
+    <span class="doccomment">///     guard.push(1);</span>
+    <span class="doccomment">///     </span>
+    <span class="doccomment">///     if conditional() {</span>
+    <span class="doccomment">///         // a condition maybe makes us decide to</span>
+    <span class="doccomment">///         // “defuse” the guard and get back its inner parts</span>
+    <span class="doccomment">///         let value = ScopeGuard::into_inner(guard);</span>
+    <span class="doccomment">///     } else {</span>
+    <span class="doccomment">///         // guard still exists in this branch</span>
+    <span class="doccomment">///     }</span>
+    <span class="doccomment">/// }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="ident">guard</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+        <span class="comment">// Cannot pattern match out of Drop-implementing types, so</span>
+        <span class="comment">// ptr::read the value and forget the guard.</span>
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">guard</span>.<span class="ident">value</span>);
+            <span class="comment">// read the closure so that it is dropped, and assign it to a local</span>
+            <span class="comment">// variable to ensure that it is only dropped after the guard has</span>
+            <span class="comment">// been forgotten. (In case the Drop impl of the closure, or that</span>
+            <span class="comment">// of any consumed captured variable, panics).</span>
+            <span class="kw">let</span> <span class="ident">_dropfn</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">guard</span>.<span class="ident">dropfn</span>);
+            <span class="ident">mem</span>::<span class="ident">forget</span>(<span class="ident">guard</span>);
+            <span class="ident">value</span>
         }
     }
 }
@@ -696,7 +945,7 @@
 <span class="doccomment">/// Create a new `ScopeGuard` owning `v` and with deferred closure `dropfn`.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">guard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">v</span>: <span class="ident">T</span>, <span class="ident">dropfn</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">Always</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>)
 {
     <span class="ident">ScopeGuard</span>::<span class="ident">with_strategy</span>(<span class="ident">v</span>, <span class="ident">dropfn</span>)
 }
@@ -705,10 +954,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Requires crate feature `use_std`.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">guard_on_success</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">v</span>: <span class="ident">T</span>, <span class="ident">dropfn</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">OnSuccess</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">guard_on_success</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">v</span>: <span class="ident">T</span>, <span class="ident">dropfn</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">OnSuccess</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>)
 {
     <span class="ident">ScopeGuard</span>::<span class="ident">with_strategy</span>(<span class="ident">v</span>, <span class="ident">dropfn</span>)
 }
@@ -716,56 +964,97 @@
 <span class="doccomment">/// Create a new `ScopeGuard` owning `v` and with deferred closure `dropfn`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Requires crate feature `use_std`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For performance reasons, or to emulate “only run guard on unwind” in</span>
+<span class="doccomment">/// no-std environments, we can also use the default guard and simply manually</span>
+<span class="doccomment">/// defuse it at the end of scope like the following example. (The performance</span>
+<span class="doccomment">/// reason would be if the [`OnUnwind`]&#39;s call to [std::thread::panicking()] is</span>
+<span class="doccomment">/// an issue.)</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// extern crate scopeguard;</span>
+<span class="doccomment">/// </span>
+<span class="doccomment">/// use scopeguard::ScopeGuard;</span>
+<span class="doccomment">/// # fn main() {</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///     let guard = scopeguard::guard((), |_| { });</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     // rest of the code here</span>
+<span class="doccomment">///     </span>
+<span class="doccomment">///     // we reached the end of scope without unwinding - defuse it</span>
+<span class="doccomment">///     ScopeGuard::into_inner(guard);</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// # }</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">guard_on_unwind</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">v</span>: <span class="ident">T</span>, <span class="ident">dropfn</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">OnUnwind</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>)
 {
     <span class="ident">ScopeGuard</span>::<span class="ident">with_strategy</span>(<span class="ident">v</span>, <span class="ident">dropfn</span>)
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span>: <span class="ident">Strategy</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)
+<span class="comment">// ScopeGuard can be Sync even if F isn&#39;t because the closure is</span>
+<span class="comment">// not accessible from references.</span>
+<span class="comment">// The guard does not store any instance of S, so it is also irellevant.</span>
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Sync</span>,
+          <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>),
+          <span class="ident">S</span>: <span class="ident">Strategy</span>
+{ }
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>),
+          <span class="ident">S</span>: <span class="ident">Strategy</span>
 {
     <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">T</span>;
     <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">__value</span>
+        <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">value</span>
     }
-
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span>: <span class="ident">Strategy</span><span class="op">&gt;</span> <span class="ident">DerefMut</span> <span class="kw">for</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">DerefMut</span> <span class="kw">for</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>),
+          <span class="ident">S</span>: <span class="ident">Strategy</span>
 {
     <span class="kw">fn</span> <span class="ident">deref_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> {
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">__value</span>
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">value</span>
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span>: <span class="ident">Strategy</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>),
+          <span class="ident">S</span>: <span class="ident">Strategy</span>
 {
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="comment">// This is OK because the fields are `ManuallyDrop`s</span>
+        <span class="comment">// which will not be dropped by the compiler.</span>
+        <span class="kw">let</span> (<span class="ident">value</span>, <span class="ident">dropfn</span>) <span class="op">=</span> <span class="kw">unsafe</span> {
+            (<span class="ident">ptr</span>::<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">value</span>), <span class="ident">ptr</span>::<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">dropfn</span>))
+        };
         <span class="kw">if</span> <span class="ident">S</span>::<span class="ident">should_run</span>() {
-            (<span class="self">self</span>.<span class="ident">__dropfn</span>)(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">__value</span>)
+            <span class="ident">dropfn</span>(<span class="ident">value</span>);
         }
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">ScopeGuard</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">S</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
-          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>),
-          <span class="ident">S</span>: <span class="ident">Strategy</span> <span class="op">+</span> <span class="ident">fmt</span>::<span class="ident">Debug</span>,
+          <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">T</span>),
+          <span class="ident">S</span>: <span class="ident">Strategy</span>
 {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;ScopeGuard&quot;</span>)
-         .<span class="ident">field</span>(<span class="string">&quot;value&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">__value</span>)
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">ScopeGuard</span>))
+         .<span class="ident">field</span>(<span class="string">&quot;value&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">value</span>)
          .<span class="ident">finish</span>()
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">Cell</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">panic</span>::<span class="ident">catch_unwind</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">panic</span>::<span class="ident">AssertUnwindSafe</span>;
@@ -777,6 +1066,7 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">drops</span>.<span class="ident">get</span>(), <span class="number">0</span>);
     }
 
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_defer_success_1</span>() {
         <span class="kw">let</span> <span class="ident">drops</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="number">0</span>);
@@ -787,6 +1077,7 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">drops</span>.<span class="ident">get</span>(), <span class="number">1</span>);
     }
 
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_defer_success_2</span>() {
         <span class="kw">let</span> <span class="ident">drops</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="number">0</span>);
@@ -797,6 +1088,7 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">drops</span>.<span class="ident">get</span>(), <span class="number">0</span>);
     }
 
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_defer_unwind_1</span>() {
         <span class="kw">let</span> <span class="ident">drops</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="number">0</span>);
@@ -808,6 +1100,7 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">drops</span>.<span class="ident">get</span>(), <span class="number">1</span>);
     }
 
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_defer_unwind_2</span>() {
         <span class="kw">let</span> <span class="ident">drops</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="number">0</span>);
@@ -815,6 +1108,51 @@
             <span class="macro">defer_on_unwind</span><span class="macro">!</span>(<span class="ident">drops</span>.<span class="ident">set</span>(<span class="number">1</span>));
         }
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">drops</span>.<span class="ident">get</span>(), <span class="number">0</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_only_dropped_by_closure_when_run</span>() {
+        <span class="kw">let</span> <span class="ident">value_drops</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="number">0</span>);
+        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">guard</span>((), <span class="op">|</span>()<span class="op">|</span> <span class="ident">value_drops</span>.<span class="ident">set</span>(<span class="number">1</span> <span class="op">+</span> <span class="ident">value_drops</span>.<span class="ident">get</span>()));
+        <span class="kw">let</span> <span class="ident">closure_drops</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="number">0</span>);
+        <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">guard</span>(<span class="ident">value</span>, <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">closure_drops</span>.<span class="ident">set</span>(<span class="number">1</span> <span class="op">+</span> <span class="ident">closure_drops</span>.<span class="ident">get</span>()));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">value_drops</span>.<span class="ident">get</span>(), <span class="number">0</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">closure_drops</span>.<span class="ident">get</span>(), <span class="number">0</span>);
+        <span class="ident">drop</span>(<span class="ident">guard</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">value_drops</span>.<span class="ident">get</span>(), <span class="number">1</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">closure_drops</span>.<span class="ident">get</span>(), <span class="number">1</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_std&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_dropped_once_when_not_run</span>() {
+        <span class="kw">let</span> <span class="ident">value_drops</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="number">0</span>);
+        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">guard</span>((), <span class="op">|</span>()<span class="op">|</span> <span class="ident">value_drops</span>.<span class="ident">set</span>(<span class="number">1</span> <span class="op">+</span> <span class="ident">value_drops</span>.<span class="ident">get</span>()));
+        <span class="kw">let</span> <span class="ident">captured_drops</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="number">0</span>);
+        <span class="kw">let</span> <span class="ident">captured</span> <span class="op">=</span> <span class="ident">guard</span>((), <span class="op">|</span>()<span class="op">|</span> <span class="ident">captured_drops</span>.<span class="ident">set</span>(<span class="number">1</span> <span class="op">+</span> <span class="ident">captured_drops</span>.<span class="ident">get</span>()));
+        <span class="kw">let</span> <span class="ident">closure_drops</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="number">0</span>);
+        <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">guard_on_unwind</span>(<span class="ident">value</span>, <span class="op">|</span><span class="ident">value</span><span class="op">|</span> {
+            <span class="ident">drop</span>(<span class="ident">value</span>);
+            <span class="ident">drop</span>(<span class="ident">captured</span>);
+            <span class="ident">closure_drops</span>.<span class="ident">set</span>(<span class="number">1</span> <span class="op">+</span> <span class="ident">closure_drops</span>.<span class="ident">get</span>())
+        });
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">value_drops</span>.<span class="ident">get</span>(), <span class="number">0</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">captured_drops</span>.<span class="ident">get</span>(), <span class="number">0</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">closure_drops</span>.<span class="ident">get</span>(), <span class="number">0</span>);
+        <span class="ident">drop</span>(<span class="ident">guard</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">value_drops</span>.<span class="ident">get</span>(), <span class="number">1</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">captured_drops</span>.<span class="ident">get</span>(), <span class="number">1</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">closure_drops</span>.<span class="ident">get</span>(), <span class="number">0</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_into_inner</span>() {
+        <span class="kw">let</span> <span class="ident">dropped</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="bool-val">false</span>);
+        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">guard</span>(<span class="number">42</span>, <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">dropped</span>.<span class="ident">set</span>(<span class="bool-val">true</span>));
+        <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">guard</span>(<span class="ident">value</span>, <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">dropped</span>.<span class="ident">set</span>(<span class="bool-val">true</span>));
+        <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">ScopeGuard</span>::<span class="ident">into_inner</span>(<span class="ident">guard</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dropped</span>.<span class="ident">get</span>(), <span class="bool-val">false</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">inner</span>, <span class="number">42</span>);
     }
 }
 </pre></div>

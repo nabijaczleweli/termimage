@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-core-1.5.0/src/registry.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>registry.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../rayon_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-core-1.6.0/src/registry.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>registry.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../rayon_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -896,8 +896,9 @@
 <span id="896">896</span>
 <span id="897">897</span>
 <span id="898">898</span>
+<span id="899">899</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">crossbeam_deque</span>::{<span class="self">self</span> <span class="kw">as</span> <span class="ident">deque</span>, <span class="ident">Pop</span>, <span class="ident">Steal</span>, <span class="ident">Stealer</span>, <span class="ident">Worker</span>};
+<span class="kw">use</span> <span class="ident">crossbeam_deque</span>::{<span class="ident">Steal</span>, <span class="ident">Stealer</span>, <span class="ident">Worker</span>};
 <span class="kw">use</span> <span class="ident">crossbeam_queue</span>::<span class="ident">SegQueue</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">rayon_unstable</span>)]</span>
 <span class="kw">use</span> <span class="ident">internal</span>::<span class="ident">task</span>::<span class="ident">Task</span>;
@@ -918,7 +919,7 @@
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::<span class="ident">ATOMIC_USIZE_INIT</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Once</span>, <span class="ident">ONCE_INIT</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Once</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">thread</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">usize</span>;
 <span class="kw">use</span> <span class="ident">unwind</span>;
@@ -1060,7 +1061,7 @@
 <span class="doccomment">/// Initialization</span>
 
 <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">THE_REGISTRY</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Registry</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-<span class="kw">static</span> <span class="ident">THE_REGISTRY_SET</span>: <span class="ident">Once</span> <span class="op">=</span> <span class="ident">ONCE_INIT</span>;
+<span class="kw">static</span> <span class="ident">THE_REGISTRY_SET</span>: <span class="ident">Once</span> <span class="op">=</span> <span class="ident">Once</span>::<span class="ident">new</span>();
 
 <span class="doccomment">/// Starts the worker threads (if that has not already happened). If</span>
 <span class="doccomment">/// initialization has not already occurred, use the default</span>
@@ -1123,11 +1124,14 @@
 
         <span class="kw">let</span> (<span class="ident">workers</span>, <span class="ident">stealers</span>): (<span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>) <span class="op">=</span> (<span class="number">0</span>..<span class="ident">n_threads</span>)
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-                <span class="kw">if</span> <span class="ident">breadth_first</span> {
-                    <span class="ident">deque</span>::<span class="ident">fifo</span>()
+                <span class="kw">let</span> <span class="ident">worker</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">breadth_first</span> {
+                    <span class="ident">Worker</span>::<span class="ident">new_fifo</span>()
                 } <span class="kw">else</span> {
-                    <span class="ident">deque</span>::<span class="ident">lifo</span>()
-                }
+                    <span class="ident">Worker</span>::<span class="ident">new_lifo</span>()
+                };
+
+                <span class="kw">let</span> <span class="ident">stealer</span> <span class="op">=</span> <span class="ident">worker</span>.<span class="ident">stealer</span>();
+                (<span class="ident">worker</span>, <span class="ident">stealer</span>)
             })
             .<span class="ident">unzip</span>();
 
@@ -1218,7 +1222,7 @@
         <span class="self">self</span>.<span class="ident">thread_infos</span>.<span class="ident">len</span>()
     }
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">handle_panic</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">err</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Any</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>) {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">handle_panic</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">err</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> <span class="ident">Any</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>) {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">panic_handler</span> {
             <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">handler</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// If the customizable panic handler itself panics,</span>
@@ -1385,19 +1389,23 @@
         <span class="ident">OP</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">WorkerThread</span>, <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">R</span> <span class="op">+</span> <span class="ident">Send</span>,
         <span class="ident">R</span>: <span class="ident">Send</span>,
     {
-        <span class="comment">// This thread isn&#39;t a member of *any* thread pool, so just block.</span>
-        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">WorkerThread</span>::<span class="ident">current</span>().<span class="ident">is_null</span>());
-        <span class="kw">let</span> <span class="ident">job</span> <span class="op">=</span> <span class="ident">StackJob</span>::<span class="ident">new</span>(
-            <span class="op">|</span><span class="ident">injected</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">worker_thread</span> <span class="op">=</span> <span class="ident">WorkerThread</span>::<span class="ident">current</span>();
-                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">injected</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">worker_thread</span>.<span class="ident">is_null</span>());
-                <span class="ident">op</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">worker_thread</span>, <span class="bool-val">true</span>)
-            },
-            <span class="ident">LockLatch</span>::<span class="ident">new</span>(),
-        );
-        <span class="self">self</span>.<span class="ident">inject</span>(<span class="kw-2">&amp;</span>[<span class="ident">job</span>.<span class="ident">as_job_ref</span>()]);
-        <span class="ident">job</span>.<span class="ident">latch</span>.<span class="ident">wait</span>();
-        <span class="ident">job</span>.<span class="ident">into_result</span>()
+        <span class="macro">thread_local</span><span class="macro">!</span>(<span class="kw">static</span> <span class="ident">LOCK_LATCH</span>: <span class="ident">LockLatch</span> <span class="op">=</span> <span class="ident">LockLatch</span>::<span class="ident">new</span>());
+
+        <span class="ident">LOCK_LATCH</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> {
+            <span class="comment">// This thread isn&#39;t a member of *any* thread pool, so just block.</span>
+            <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">WorkerThread</span>::<span class="ident">current</span>().<span class="ident">is_null</span>());
+            <span class="kw">let</span> <span class="ident">job</span> <span class="op">=</span> <span class="ident">StackJob</span>::<span class="ident">new</span>(
+                <span class="op">|</span><span class="ident">injected</span><span class="op">|</span> {
+                    <span class="kw">let</span> <span class="ident">worker_thread</span> <span class="op">=</span> <span class="ident">WorkerThread</span>::<span class="ident">current</span>();
+                    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">injected</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">worker_thread</span>.<span class="ident">is_null</span>());
+                    <span class="ident">op</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">worker_thread</span>, <span class="bool-val">true</span>)
+                },
+                <span class="ident">l</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inject</span>(<span class="kw-2">&amp;</span>[<span class="ident">job</span>.<span class="ident">as_job_ref</span>()]);
+            <span class="ident">job</span>.<span class="ident">latch</span>.<span class="ident">wait_and_reset</span>(); <span class="comment">// Make sure we can use the same latch again next time.</span>
+            <span class="ident">job</span>.<span class="ident">into_result</span>()
+        })
     }
 
     <span class="attribute">#[<span class="ident">cold</span>]</span>
@@ -1573,13 +1581,7 @@
     <span class="doccomment">/// bottom.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">take_local_job</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">JobRef</span><span class="op">&gt;</span> {
-        <span class="kw">loop</span> {
-            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">worker</span>.<span class="ident">pop</span>() {
-                <span class="ident">Pop</span>::<span class="ident">Empty</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
-                <span class="ident">Pop</span>::<span class="ident">Data</span>(<span class="ident">d</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">d</span>),
-                <span class="ident">Pop</span>::<span class="ident">Retry</span> <span class="op">=&gt;</span> {}
-            }
-        }
+        <span class="self">self</span>.<span class="ident">worker</span>.<span class="ident">pop</span>()
     }
 
     <span class="doccomment">/// Wait until the latch is set. Try to keep busy by popping and</span>
@@ -1662,7 +1664,7 @@
                 <span class="kw">loop</span> {
                     <span class="kw">match</span> <span class="ident">victim</span>.<span class="ident">stealer</span>.<span class="ident">steal</span>() {
                         <span class="ident">Steal</span>::<span class="ident">Empty</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
-                        <span class="ident">Steal</span>::<span class="ident">Data</span>(<span class="ident">d</span>) <span class="op">=&gt;</span> {
+                        <span class="ident">Steal</span>::<span class="ident">Success</span>(<span class="ident">d</span>) <span class="op">=&gt;</span> {
                             <span class="macro">log</span><span class="macro">!</span>(<span class="ident">StoleWork</span> {
                                 <span class="ident">worker</span>: <span class="self">self</span>.<span class="ident">index</span>,
                                 <span class="ident">victim</span>: <span class="ident">victim_index</span>

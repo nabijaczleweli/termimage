@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/crossbeam-utils-0.6.5/src/atomic/atomic_cell.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>atomic_cell.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../crossbeam_utils/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/crossbeam-utils-0.6.6/src/atomic/atomic_cell.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>atomic_cell.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../crossbeam_utils/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -922,13 +922,59 @@
 <span id="922">922</span>
 <span id="923">923</span>
 <span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">cell</span>::<span class="ident">UnsafeCell</span>;
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">ptr</span>;
-<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">slice</span>;
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="self">self</span>, <span class="ident">AtomicBool</span>, <span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>};
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">panic</span>::{<span class="ident">RefUnwindSafe</span>, <span class="ident">UnwindSafe</span>};
 
 <span class="kw">use</span> <span class="ident">Backoff</span>;
 
@@ -940,9 +986,15 @@
 <span class="doccomment">/// global locks otherwise. You can call [`AtomicCell::&lt;T&gt;::is_lock_free()`] to check whether</span>
 <span class="doccomment">/// atomic instructions or locks will be used.</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// Atomic loads use the [`Acquire`] ordering and atomic stores use the [`Release`] ordering.</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// [`Cell`]: https://doc.rust-lang.org/std/cell/struct.Cell.html</span>
 <span class="doccomment">/// [`AtomicCell::&lt;T&gt;::is_lock_free()`]: struct.AtomicCell.html#method.is_lock_free</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="doccomment">/// [`Acquire`]: https://doc.rust-lang.org/std/sync/atomic/enum.Ordering.html#variant.Acquire</span>
+<span class="doccomment">/// [`Release`]: https://doc.rust-lang.org/std/sync/atomic/enum.Ordering.html#variant.Release</span>
+<span class="comment">// TODO(@jeehoonkang): when the minimum supported Rust version is bumped to 1.28+, apply the</span>
+<span class="comment">// attribute `#[repr(transparent)]`.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> {
     <span class="doccomment">/// The inner value.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If this value can be transmuted into a primitive atomic type, it will be treated as such.</span>
@@ -953,6 +1005,11 @@
 
 <span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
 <span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">UnwindSafe</span> <span class="kw">for</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">RefUnwindSafe</span> <span class="kw">for</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a new atomic cell initialized with `val`.</span>
@@ -968,22 +1025,6 @@
         <span class="ident">AtomicCell</span> {
             <span class="ident">value</span>: <span class="ident">UnsafeCell</span>::<span class="ident">new</span>(<span class="ident">val</span>),
         }
-    }
-
-    <span class="doccomment">/// Returns a mutable reference to the inner value.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use crossbeam_utils::atomic::AtomicCell;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let mut a = AtomicCell::new(7);</span>
-    <span class="doccomment">/// *a.get_mut() += 1;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// assert_eq!(a.load(), 8);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> {
-        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() }
     }
 
     <span class="doccomment">/// Unwraps the atomic cell and returns its inner value.</span>
@@ -1075,6 +1116,61 @@
     }
 }
 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Returns a raw pointer to the underlying data in this atomic cell.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use crossbeam_utils::atomic::AtomicCell;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let mut a = AtomicCell::new(5);</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let ptr = a.as_ptr();</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">T</span> {
+        <span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>()
+    }
+
+    <span class="doccomment">/// Returns a mutable reference to the inner value.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use crossbeam_utils::atomic::AtomicCell;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let mut a = AtomicCell::new(7);</span>
+    <span class="doccomment">/// *a.get_mut() += 1;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// assert_eq!(a.load(), 8);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;this method is unsound and will be removed in the next release&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> {
+        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() }
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Default</span><span class="op">&gt;</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Takes the value of the atomic cell, leaving `Default::default()` in its place.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use crossbeam_utils::atomic::AtomicCell;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let a = AtomicCell::new(5);</span>
+    <span class="doccomment">/// let five = a.take();</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// assert_eq!(five, 5);</span>
+    <span class="doccomment">/// assert_eq!(a.into_inner(), 0);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+        <span class="self">self</span>.<span class="ident">swap</span>(<span class="ident">Default</span>::<span class="ident">default</span>())
+    }
+}
+
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Copy</span><span class="op">&gt;</span> <span class="ident">AtomicCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Loads a value.</span>
     <span class="doccomment">///</span>
@@ -1105,10 +1201,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// let a = AtomicCell::new(1);</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// assert_eq!(a.compare_exchange(2, 3), Err(1));</span>
+    <span class="doccomment">/// assert_eq!(a.compare_and_swap(2, 3), 1);</span>
     <span class="doccomment">/// assert_eq!(a.load(), 1);</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// assert_eq!(a.compare_exchange(1, 2), Ok(1));</span>
+    <span class="doccomment">/// assert_eq!(a.compare_and_swap(1, 2), 1);</span>
     <span class="doccomment">/// assert_eq!(a.load(), 2);</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compare_and_swap</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">current</span>: <span class="ident">T</span>, <span class="ident">new</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
@@ -1136,23 +1232,8 @@
     <span class="doccomment">/// assert_eq!(a.compare_exchange(1, 2), Ok(1));</span>
     <span class="doccomment">/// assert_eq!(a.load(), 2);</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compare_exchange</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">current</span>: <span class="ident">T</span>, <span class="ident">new</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">loop</span> {
-            <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">atomic_compare_exchange_weak</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>(), <span class="ident">current</span>, <span class="ident">new</span>) } {
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">current</span>),
-                <span class="prelude-val">Err</span>(<span class="ident">previous</span>) <span class="op">=&gt;</span> {
-                    <span class="kw">if</span> <span class="ident">previous</span> <span class="op">!=</span> <span class="ident">current</span> {
-                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">previous</span>);
-                    }
-
-                    <span class="comment">// The compare-exchange operation has failed and didn&#39;t store `new`. The</span>
-                    <span class="comment">// failure is either spurious, or `previous` was semantically equal to</span>
-                    <span class="comment">// `current` but not byte-equal. Let&#39;s retry with `previous` as the new</span>
-                    <span class="comment">// `current`.</span>
-                    <span class="ident">current</span> <span class="op">=</span> <span class="ident">previous</span>;
-                }
-            }
-        }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compare_exchange</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">current</span>: <span class="ident">T</span>, <span class="ident">new</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="kw">unsafe</span> { <span class="ident">atomic_compare_exchange_weak</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>(), <span class="ident">current</span>, <span class="ident">new</span>) }
     }
 }
 
@@ -1177,7 +1258,7 @@
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_add</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">if</span> <span class="ident">can_transmute</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>, <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span><span class="op">&gt;</span>() {
                     <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span>) };
-                    <span class="ident">a</span>.<span class="ident">fetch_add</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
+                    <span class="ident">a</span>.<span class="ident">fetch_add</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">lock</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">write</span>();
                     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>()) };
@@ -1205,7 +1286,7 @@
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_sub</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">if</span> <span class="ident">can_transmute</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>, <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span><span class="op">&gt;</span>() {
                     <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span>) };
-                    <span class="ident">a</span>.<span class="ident">fetch_sub</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
+                    <span class="ident">a</span>.<span class="ident">fetch_sub</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">lock</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">write</span>();
                     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>()) };
@@ -1231,7 +1312,7 @@
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_and</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">if</span> <span class="ident">can_transmute</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>, <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span><span class="op">&gt;</span>() {
                     <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span>) };
-                    <span class="ident">a</span>.<span class="ident">fetch_and</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
+                    <span class="ident">a</span>.<span class="ident">fetch_and</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">lock</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">write</span>();
                     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>()) };
@@ -1257,7 +1338,7 @@
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_or</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">if</span> <span class="ident">can_transmute</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>, <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span><span class="op">&gt;</span>() {
                     <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span>) };
-                    <span class="ident">a</span>.<span class="ident">fetch_or</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
+                    <span class="ident">a</span>.<span class="ident">fetch_or</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">lock</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">write</span>();
                     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>()) };
@@ -1283,7 +1364,7 @@
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_xor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">if</span> <span class="ident">can_transmute</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>, <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span><span class="op">&gt;</span>() {
                     <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">atomic</span>::<span class="ident">AtomicUsize</span>) };
-                    <span class="ident">a</span>.<span class="ident">fetch_xor</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
+                    <span class="ident">a</span>.<span class="ident">fetch_xor</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>) <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">lock</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">write</span>();
                     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>()) };
@@ -1313,7 +1394,7 @@
             <span class="attribute">#[<span class="ident">inline</span>]</span>
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_add</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">atomic</span>) };
-                <span class="ident">a</span>.<span class="ident">fetch_add</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>)
+                <span class="ident">a</span>.<span class="ident">fetch_add</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>)
             }
 
             <span class="doccomment">/// Decrements the current value by `val` and returns the previous value.</span>
@@ -1333,7 +1414,7 @@
             <span class="attribute">#[<span class="ident">inline</span>]</span>
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_sub</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">atomic</span>) };
-                <span class="ident">a</span>.<span class="ident">fetch_sub</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>)
+                <span class="ident">a</span>.<span class="ident">fetch_sub</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>)
             }
 
             <span class="doccomment">/// Applies bitwise &quot;and&quot; to the current value and returns the previous value.</span>
@@ -1351,7 +1432,7 @@
             <span class="attribute">#[<span class="ident">inline</span>]</span>
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_and</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">atomic</span>) };
-                <span class="ident">a</span>.<span class="ident">fetch_and</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>)
+                <span class="ident">a</span>.<span class="ident">fetch_and</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>)
             }
 
             <span class="doccomment">/// Applies bitwise &quot;or&quot; to the current value and returns the previous value.</span>
@@ -1369,7 +1450,7 @@
             <span class="attribute">#[<span class="ident">inline</span>]</span>
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_or</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">atomic</span>) };
-                <span class="ident">a</span>.<span class="ident">fetch_or</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>)
+                <span class="ident">a</span>.<span class="ident">fetch_or</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>)
             }
 
             <span class="doccomment">/// Applies bitwise &quot;xor&quot; to the current value and returns the previous value.</span>
@@ -1387,7 +1468,7 @@
             <span class="attribute">#[<span class="ident">inline</span>]</span>
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_xor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">atomic</span>) };
-                <span class="ident">a</span>.<span class="ident">fetch_xor</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>)
+                <span class="ident">a</span>.<span class="ident">fetch_xor</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>)
             }
         }
     };
@@ -1453,7 +1534,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_and</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">AtomicBool</span>) };
-        <span class="ident">a</span>.<span class="ident">fetch_and</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>)
+        <span class="ident">a</span>.<span class="ident">fetch_and</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>)
     }
 
     <span class="doccomment">/// Applies logical &quot;or&quot; to the current value and returns the previous value.</span>
@@ -1474,7 +1555,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_or</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">AtomicBool</span>) };
-        <span class="ident">a</span>.<span class="ident">fetch_or</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>)
+        <span class="ident">a</span>.<span class="ident">fetch_or</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>)
     }
 
     <span class="doccomment">/// Applies logical &quot;xor&quot; to the current value and returns the previous value.</span>
@@ -1495,7 +1576,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_xor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">AtomicBool</span>) };
-        <span class="ident">a</span>.<span class="ident">fetch_xor</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>)
+        <span class="ident">a</span>.<span class="ident">fetch_xor</span>(<span class="ident">val</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>)
     }
 }
 
@@ -1510,15 +1591,6 @@
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;AtomicCell&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;value&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">load</span>())
             .<span class="ident">finish</span>()
-    }
-}
-
-<span class="doccomment">/// Returns `true` if the two values are equal byte-for-byte.</span>
-<span class="kw">fn</span> <span class="ident">byte_eq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-    <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(<span class="ident">a</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>, <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>());
-        <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(<span class="ident">b</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>, <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>());
-        <span class="ident">a</span> <span class="op">==</span> <span class="ident">b</span>
     }
 }
 
@@ -1728,7 +1800,7 @@
 
 <span class="doccomment">/// Atomically reads data from `src`.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This operation uses the `SeqCst` ordering. If possible, an atomic instructions is used, and a</span>
+<span class="doccomment">/// This operation uses the `Acquire` ordering. If possible, an atomic instructions is used, and a</span>
 <span class="doccomment">/// global lock otherwise.</span>
 <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">atomic_load</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">src</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span>
 <span class="kw">where</span>
@@ -1738,7 +1810,7 @@
         <span class="ident">T</span>, <span class="ident">a</span>,
         {
             <span class="ident">a</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">src</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>);
-            <span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">SeqCst</span>))
+            <span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>))
         },
         {
             <span class="kw">let</span> <span class="ident">lock</span> <span class="op">=</span> <span class="ident">lock</span>(<span class="ident">src</span> <span class="kw">as</span> <span class="ident">usize</span>);
@@ -1769,34 +1841,33 @@
 
 <span class="doccomment">/// Atomically writes `val` to `dst`.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This operation uses the `SeqCst` ordering. If possible, an atomic instructions is used, and a</span>
+<span class="doccomment">/// This operation uses the `Release` ordering. If possible, an atomic instructions is used, and a</span>
 <span class="doccomment">/// global lock otherwise.</span>
 <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">atomic_store</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">dst</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">val</span>: <span class="ident">T</span>) {
     <span class="macro">atomic</span><span class="macro">!</span> {
         <span class="ident">T</span>, <span class="ident">a</span>,
         {
             <span class="ident">a</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">dst</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>);
-            <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">a</span>.<span class="ident">store</span>(<span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>), <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>);
+            <span class="ident">a</span>.<span class="ident">store</span>(<span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>), <span class="ident">Ordering</span>::<span class="ident">Release</span>);
             <span class="ident">mem</span>::<span class="ident">forget</span>(<span class="ident">val</span>);
-            <span class="ident">res</span>
         },
         {
             <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">lock</span>(<span class="ident">dst</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">write</span>();
-            <span class="ident">ptr</span>::<span class="ident">write</span>(<span class="ident">dst</span>, <span class="ident">val</span>)
+            <span class="ident">ptr</span>::<span class="ident">write</span>(<span class="ident">dst</span>, <span class="ident">val</span>);
         }
     }
 }
 
 <span class="doccomment">/// Atomically swaps data at `dst` with `val`.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This operation uses the `SeqCst` ordering. If possible, an atomic instructions is used, and a</span>
+<span class="doccomment">/// This operation uses the `AcqRel` ordering. If possible, an atomic instructions is used, and a</span>
 <span class="doccomment">/// global lock otherwise.</span>
 <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">atomic_swap</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">dst</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">val</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
     <span class="macro">atomic</span><span class="macro">!</span> {
         <span class="ident">T</span>, <span class="ident">a</span>,
         {
             <span class="ident">a</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">dst</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>);
-            <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>.<span class="ident">swap</span>(<span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>), <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>));
+            <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>.<span class="ident">swap</span>(<span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>), <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>));
             <span class="ident">mem</span>::<span class="ident">forget</span>(<span class="ident">val</span>);
             <span class="ident">res</span>
         },
@@ -1812,31 +1883,48 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Returns the old value on success, or the current value at `dst` on failure.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This operation uses the `SeqCst` ordering. If possible, an atomic instructions is used, and a</span>
+<span class="doccomment">/// This operation uses the `AcqRel` ordering. If possible, an atomic instructions is used, and a</span>
 <span class="doccomment">/// global lock otherwise.</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">atomic_compare_exchange_weak</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">dst</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">current</span>: <span class="ident">T</span>, <span class="ident">new</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span>
+<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">atomic_compare_exchange_weak</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">dst</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="kw-2">mut</span> <span class="ident">current</span>: <span class="ident">T</span>, <span class="ident">new</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">Copy</span>,
+    <span class="ident">T</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">Eq</span>,
 {
     <span class="macro">atomic</span><span class="macro">!</span> {
         <span class="ident">T</span>, <span class="ident">a</span>,
         {
             <span class="ident">a</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">dst</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>);
-            <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">a</span>.<span class="ident">compare_exchange_weak</span>(
-                <span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">current</span>),
-                <span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">new</span>),
-                <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>,
-                <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>,
-            );
-            <span class="kw">match</span> <span class="ident">res</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>)),
-                <span class="prelude-val">Err</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>)),
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">current_raw</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">current</span>);
+            <span class="kw">let</span> <span class="ident">new_raw</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">new</span>);
+
+            <span class="kw">loop</span> {
+                <span class="kw">match</span> <span class="ident">a</span>.<span class="ident">compare_exchange_weak</span>(
+                    <span class="ident">current_raw</span>,
+                    <span class="ident">new_raw</span>,
+                    <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>,
+                    <span class="ident">Ordering</span>::<span class="ident">Acquire</span>,
+                ) {
+                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">break</span> <span class="prelude-val">Ok</span>(<span class="ident">current</span>),
+                    <span class="prelude-val">Err</span>(<span class="ident">previous_raw</span>) <span class="op">=&gt;</span> {
+                        <span class="kw">let</span> <span class="ident">previous</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">previous_raw</span>);
+
+                        <span class="kw">if</span> <span class="op">!</span><span class="ident">T</span>::<span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="ident">previous</span>, <span class="kw-2">&amp;</span><span class="ident">current</span>) {
+                            <span class="kw">break</span> <span class="prelude-val">Err</span>(<span class="ident">previous</span>);
+                        }
+
+                        <span class="comment">// The compare-exchange operation has failed and didn&#39;t store `new`. The</span>
+                        <span class="comment">// failure is either spurious, or `previous` was semantically equal to</span>
+                        <span class="comment">// `current` but not byte-equal. Let&#39;s retry with `previous` as the new</span>
+                        <span class="comment">// `current`.</span>
+                        <span class="ident">current</span> <span class="op">=</span> <span class="ident">previous</span>;
+                        <span class="ident">current_raw</span> <span class="op">=</span> <span class="ident">previous_raw</span>;
+                    }
+                }
             }
         },
         {
             <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">lock</span>(<span class="ident">dst</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">write</span>();
 
-            <span class="kw">if</span> <span class="ident">byte_eq</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">dst</span>, <span class="kw-2">&amp;</span><span class="ident">current</span>) {
+            <span class="kw">if</span> <span class="ident">T</span>::<span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">dst</span>, <span class="kw-2">&amp;</span><span class="ident">current</span>) {
                 <span class="prelude-val">Ok</span>(<span class="ident">ptr</span>::<span class="ident">replace</span>(<span class="ident">dst</span>, <span class="ident">new</span>))
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">read</span>(<span class="ident">dst</span>);

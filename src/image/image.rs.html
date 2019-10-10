@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.21.2/./src/image.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>image.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.3/./src/image.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>image.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -956,29 +956,14 @@
 <span id="956">956</span>
 <span id="957">957</span>
 <span id="958">958</span>
-<span id="959">959</span>
-<span id="960">960</span>
-<span id="961">961</span>
-<span id="962">962</span>
-<span id="963">963</span>
-<span id="964">964</span>
-<span id="965">965</span>
-<span id="966">966</span>
-<span id="967">967</span>
-<span id="968">968</span>
-<span id="969">969</span>
-<span id="970">970</span>
-<span id="971">971</span>
-<span id="972">972</span>
-<span id="973">973</span>
-<span id="974">974</span>
-<span id="975">975</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">too_many_arguments</span>)]</span>
+
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Read</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>};
 
 <span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
@@ -1066,7 +1051,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
@@ -1116,6 +1101,15 @@
 
     <span class="doccomment">/// An Image in Radiance HDR Format</span>
     <span class="ident">HDR</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">ImageFormat</span> {
+    <span class="doccomment">/// Return the image format specified by the path&#39;s file extension.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_path</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="ident">path</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">P</span> : <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span> {
+        <span class="comment">// thin wrapper function to strip generics before calling from_path_impl</span>
+        ::<span class="ident">io</span>::<span class="ident">free_functions</span>::<span class="ident">guess_format_from_path_impl</span>(<span class="ident">path</span>.<span class="ident">as_ref</span>())
+            .<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
+    }
 }
 
 <span class="doccomment">/// An enumeration of supported image formats for encoding.</span>
@@ -1186,7 +1180,7 @@
     <span class="ident">offset</span>: <span class="ident">usize</span>,
 }
 <span class="kw">impl</span> <span class="ident">ImageReadBuffer</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">scanline_bytes</span>: <span class="ident">usize</span>, <span class="ident">total_bytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">scanline_bytes</span>: <span class="ident">usize</span>, <span class="ident">total_bytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">scanline_bytes</span>,
             <span class="ident">buffer</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
@@ -1195,7 +1189,7 @@
             <span class="ident">offset</span>: <span class="number">0</span>,
         }
     }
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="kw-2">mut</span> <span class="ident">read_scanline</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="kw-2">mut</span> <span class="ident">read_scanline</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
     {
@@ -1240,12 +1234,12 @@
 
 <span class="doccomment">/// Decodes a specific region of the image, represented by the rectangle</span>
 <span class="doccomment">/// starting from ```x``` and ```y``` and having ```length``` and ```width```</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">load_rect</span><span class="op">&lt;</span><span class="ident">D</span>, <span class="ident">F</span>, <span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">u64</span>, <span class="ident">y</span>: <span class="ident">u64</span>, <span class="ident">width</span>: <span class="ident">u64</span>, <span class="ident">height</span>: <span class="ident">u64</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>],
-                                      <span class="ident">progress_callback</span>: <span class="ident">F</span>,
-                                      <span class="ident">decoder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">D</span>,
-                                      <span class="kw-2">mut</span> <span class="ident">seek_scanline</span>: <span class="ident">F1</span>,
-                                      <span class="kw-2">mut</span> <span class="ident">read_scanline</span>: <span class="ident">F2</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">ImageDecoder</span>,
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">load_rect</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">D</span>, <span class="ident">F</span>, <span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">u64</span>, <span class="ident">y</span>: <span class="ident">u64</span>, <span class="ident">width</span>: <span class="ident">u64</span>, <span class="ident">height</span>: <span class="ident">u64</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>],
+                                          <span class="ident">progress_callback</span>: <span class="ident">F</span>,
+                                          <span class="ident">decoder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">D</span>,
+                                          <span class="kw-2">mut</span> <span class="ident">seek_scanline</span>: <span class="ident">F1</span>,
+                                          <span class="kw-2">mut</span> <span class="ident">read_scanline</span>: <span class="ident">F2</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
           <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">Progress</span>),
           <span class="ident">F1</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">D</span>, <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
           <span class="ident">F2</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">D</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>
@@ -1253,7 +1247,7 @@
     <span class="kw">let</span> <span class="ident">dimensions</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">dimensions</span>();
     <span class="kw">let</span> <span class="ident">row_bytes</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">row_bytes</span>();
     <span class="kw">let</span> <span class="ident">scanline_bytes</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">scanline_bytes</span>();
-    <span class="kw">let</span> <span class="ident">bits_per_pixel</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">bits_per_pixel</span>(<span class="ident">decoder</span>.<span class="ident">colortype</span>()) <span class="kw">as</span> <span class="ident">u64</span>;
+    <span class="kw">let</span> <span class="ident">bits_per_pixel</span> <span class="op">=</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">color</span>::<span class="ident">bits_per_pixel</span>(<span class="ident">decoder</span>.<span class="ident">colortype</span>()));
     <span class="kw">let</span> <span class="ident">total_bits</span> <span class="op">=</span> <span class="ident">width</span> <span class="op">*</span> <span class="ident">height</span> <span class="op">*</span> <span class="ident">bits_per_pixel</span>;
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bits_read</span> <span class="op">=</span> <span class="number">0u64</span>;
@@ -1335,9 +1329,9 @@
 }
 
 <span class="doccomment">/// The trait that all decoders implement</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ImageDecoder</span>: <span class="ident">Sized</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>: <span class="ident">Sized</span> {
     <span class="doccomment">/// The type of reader produced by `into_reader`.</span>
-    <span class="kw">type</span> <span class="ident">Reader</span>: <span class="ident">Read</span>;
+    <span class="kw">type</span> <span class="ident">Reader</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>;
 
     <span class="doccomment">/// Returns a tuple containing the width and height of the image</span>
     <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u64</span>, <span class="ident">u64</span>);
@@ -1353,7 +1347,7 @@
     <span class="doccomment">/// Returns the number of bytes in a single row of the image. All decoders will pad image rows</span>
     <span class="doccomment">/// to a byte boundary.</span>
     <span class="kw">fn</span> <span class="ident">row_bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
-        (<span class="self">self</span>.<span class="ident">dimensions</span>().<span class="number">0</span> <span class="op">*</span> <span class="ident">color</span>::<span class="ident">bits_per_pixel</span>(<span class="self">self</span>.<span class="ident">colortype</span>()) <span class="kw">as</span> <span class="ident">u64</span> <span class="op">+</span> <span class="number">7</span>) <span class="op">/</span> <span class="number">8</span>
+        (<span class="self">self</span>.<span class="ident">dimensions</span>().<span class="number">0</span> <span class="op">*</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">color</span>::<span class="ident">bits_per_pixel</span>(<span class="self">self</span>.<span class="ident">colortype</span>())) <span class="op">+</span> <span class="number">7</span>) <span class="op">/</span> <span class="number">8</span>
     }
 
     <span class="doccomment">/// Returns the total number of bytes in the image.</span>
@@ -1411,7 +1405,7 @@
 }
 
 <span class="doccomment">/// ImageDecoderExt trait</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ImageDecoderExt</span>: <span class="ident">ImageDecoder</span> <span class="op">+</span> <span class="ident">Sized</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ImageDecoderExt</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>: <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Sized</span> {
     <span class="doccomment">/// Read a rectangular section of the image.</span>
     <span class="kw">fn</span> <span class="ident">read_rect</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
@@ -1465,48 +1459,6 @@
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="ident">pixel</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="self">self</span>.<span class="ident">x</span>, <span class="self">self</span>.<span class="ident">y</span>);
             <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">x</span>, <span class="self">self</span>.<span class="ident">y</span>, <span class="ident">pixel</span>);
-
-            <span class="self">self</span>.<span class="ident">x</span> <span class="op">+=</span> <span class="number">1</span>;
-
-            <span class="prelude-val">Some</span>(<span class="ident">p</span>)
-        }
-    }
-}
-
-<span class="doccomment">/// Mutable pixel iterator</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// DEPRECATED: It is currently not possible to create a safe iterator for this in Rust. You have to use an iterator over the image buffer instead.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MutPixels</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">I</span>,
-    <span class="ident">x</span>: <span class="ident">u32</span>,
-    <span class="ident">y</span>: <span class="ident">u32</span>,
-    <span class="ident">width</span>: <span class="ident">u32</span>,
-    <span class="ident">height</span>: <span class="ident">u32</span>,
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>: <span class="ident">GenericImage</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">MutPixels</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;a</span>,
-    <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;a</span>,
-{
-    <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">I</span>::<span class="ident">Pixel</span>);
-
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">I</span>::<span class="ident">Pixel</span>)<span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">x</span> <span class="op">&gt;=</span> <span class="self">self</span>.<span class="ident">width</span> {
-            <span class="self">self</span>.<span class="ident">x</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="self">self</span>.<span class="ident">y</span> <span class="op">+=</span> <span class="number">1</span>;
-        }
-
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">y</span> <span class="op">&gt;=</span> <span class="self">self</span>.<span class="ident">height</span> {
-            <span class="prelude-val">None</span>
-        } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">image</span>.<span class="ident">get_pixel_mut</span>(<span class="self">self</span>.<span class="ident">x</span>, <span class="self">self</span>.<span class="ident">y</span>);
-
-            <span class="comment">// NOTE: This is potentially dangerous. It would require the signature fn next(&amp;&#39;a mut self) to be safe.</span>
-            <span class="comment">// error: lifetime of `self` is too short to guarantee its contents can be safely reborrowed...</span>
-            <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">tmp</span>) };
-
-            <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">x</span>, <span class="self">self</span>.<span class="ident">y</span>, <span class="ident">ptr</span>);
 
             <span class="self">self</span>.<span class="ident">x</span> <span class="op">+=</span> <span class="number">1</span>;
 
@@ -1584,6 +1536,7 @@
     <span class="kw">fn</span> <span class="ident">inner</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">InnerImageView</span>;
 
     <span class="doccomment">/// Returns an subimage that is an immutable view into this image.</span>
+    <span class="doccomment">/// You can use [`GenericImage::sub_image`] if you need a mutable view instead.</span>
     <span class="kw">fn</span> <span class="ident">view</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">SubImage</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">InnerImageView</span><span class="op">&gt;</span> {
         <span class="ident">SubImage</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">inner</span>(), <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">width</span>, <span class="ident">height</span>)
     }
@@ -1622,30 +1575,12 @@
     <span class="doccomment">/// DEPRECATED: This method will be removed. Blend the pixel directly instead.</span>
     <span class="kw">fn</span> <span class="ident">blend_pixel</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>, <span class="ident">pixel</span>: <span class="self">Self</span>::<span class="ident">Pixel</span>);
 
-    <span class="doccomment">/// Returns an Iterator over mutable pixels of this image.</span>
-    <span class="doccomment">/// The iterator yields the coordinates of each pixel</span>
-    <span class="doccomment">/// along with a mutable reference to them.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>(
-        <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;This cannot be implemented safely in Rust. Please use the image buffer directly.&quot;</span>
-    )]</span>
-    <span class="kw">fn</span> <span class="ident">pixels_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">MutPixels</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dimensions</span>();
-
-        <span class="ident">MutPixels</span> {
-            <span class="ident">image</span>: <span class="self">self</span>,
-            <span class="ident">x</span>: <span class="number">0</span>,
-            <span class="ident">y</span>: <span class="number">0</span>,
-            <span class="ident">width</span>,
-            <span class="ident">height</span>,
-        }
-    }
-
     <span class="doccomment">/// Copies all of the pixels from another image into this image.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The other image is copied with the top-left corner of the</span>
     <span class="doccomment">/// other image placed at (x, y).</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// In order to copy only a piece of the other image, use `sub_image`.</span>
+    <span class="doccomment">/// In order to copy only a piece of the other image, use [`GenericImageView::view`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Returns</span>
     <span class="doccomment">/// `true` if the copy was successful, `false` if the image could not</span>
@@ -1672,7 +1607,8 @@
     <span class="doccomment">/// Returns a mutable reference to the underlying image.</span>
     <span class="kw">fn</span> <span class="ident">inner_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>::<span class="ident">InnerImage</span>;
 
-    <span class="doccomment">/// Returns a subimage that is a view into this image.</span>
+    <span class="doccomment">/// Returns a mutable subimage that is a view into this image.</span>
+    <span class="doccomment">/// If you want an immutable subimage instead, use [`GenericImageView::view`]</span>
     <span class="kw">fn</span> <span class="ident">sub_image</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">x</span>: <span class="ident">u32</span>,
@@ -1685,6 +1621,11 @@
 }
 
 <span class="doccomment">/// A View into another image</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Instances of this struct can be created using:</span>
+<span class="doccomment">///   - [`GenericImage::sub_image`] to create a mutable view,</span>
+<span class="doccomment">///   - [`GenericImageView::view`] to create an immutable view,</span>
+<span class="doccomment">///   - [`SubImage::new`] to instantiate the struct directly.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SubImage</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
     <span class="ident">image</span>: <span class="ident">I</span>,
     <span class="ident">xoffset</span>: <span class="ident">u32</span>,
@@ -1813,8 +1754,10 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 
-    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">GenericImage</span>, <span class="ident">GenericImageView</span>};
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">ColorType</span>, <span class="ident">ImageDecoder</span>, <span class="ident">ImageResult</span>, <span class="ident">GenericImage</span>, <span class="ident">GenericImageView</span>, <span class="ident">load_rect</span>, <span class="ident">ImageFormat</span>};
     <span class="kw">use</span> <span class="ident">buffer</span>::<span class="ident">ImageBuffer</span>;
     <span class="kw">use</span> <span class="ident">color</span>::<span class="ident">Rgba</span>;
 
@@ -1887,11 +1830,9 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_load_rect</span>() {
-        <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-
         <span class="kw">struct</span> <span class="ident">MockDecoder</span> {<span class="ident">scanline_number</span>: <span class="ident">u64</span>, <span class="ident">scanline_bytes</span>: <span class="ident">u64</span>}
-        <span class="kw">impl</span> <span class="ident">ImageDecoder</span> <span class="kw">for</span> <span class="ident">MockDecoder</span> {
-            <span class="kw">type</span> <span class="ident">Reader</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span>::<span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Read</span><span class="op">&gt;</span>;
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MockDecoder</span> {
+            <span class="kw">type</span> <span class="ident">Reader</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> <span class="ident">io</span>::<span class="ident">Read</span><span class="op">&gt;</span>;
             <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u64</span>, <span class="ident">u64</span>) {(<span class="number">5</span>, <span class="number">5</span>)}
             <span class="kw">fn</span> <span class="ident">colortype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ColorType</span> {  <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>) }
             <span class="kw">fn</span> <span class="ident">into_reader</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Reader</span><span class="op">&gt;</span> {<span class="macro">unimplemented</span><span class="macro">!</span>()}
@@ -1947,6 +1888,31 @@
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">output</span>[<span class="number">0</span>..<span class="number">9</span>], [<span class="number">6</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">16</span>, <span class="number">17</span>, <span class="number">21</span>, <span class="number">22</span>, <span class="number">0</span>]);
 
         }
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_image_format_from_path</span>() {
+        <span class="kw">fn</span> <span class="ident">from_path</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">ImageFormat</span><span class="op">&gt;</span> {
+            <span class="ident">ImageFormat</span>::<span class="ident">from_path</span>(<span class="ident">Path</span>::<span class="ident">new</span>(<span class="ident">s</span>))
+        }
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.jpg&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">JPEG</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.jpeg&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">JPEG</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.JPEG&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">JPEG</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.pNg&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">PNG</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.gif&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">GIF</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.webp&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">WEBP</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.tiFF&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">TIFF</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.tif&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">TIFF</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.tga&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">TGA</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.bmp&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">BMP</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.Ico&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">ICO</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.hdr&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">HDR</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.pbm&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">PNM</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.pAM&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">PNM</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.Ppm&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">PNM</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.pgm&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">ImageFormat</span>::<span class="ident">PNM</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a.txt&quot;</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">from_path</span>(<span class="string">&quot;./a&quot;</span>).<span class="ident">is_err</span>());
     }
 }
 </pre></div>

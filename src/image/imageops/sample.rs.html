@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.21.2/./src/imageops/sample.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>sample.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.3/./src/imageops/sample.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>sample.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -806,13 +806,6 @@
 <span id="806">806</span>
 <span id="807">807</span>
 <span id="808">808</span>
-<span id="809">809</span>
-<span id="810">810</span>
-<span id="811">811</span>
-<span id="812">812</span>
-<span id="813">813</span>
-<span id="814">814</span>
-<span id="815">815</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Functions and filters for the sampling of pixels.</span>
 
@@ -848,12 +841,12 @@
 }
 
 <span class="doccomment">/// A Representation of a separable filter.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Filter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Filter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// The filter&#39;s filter function.</span>
-    <span class="kw">pub</span> <span class="ident">kernel</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Fn</span>(<span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">kernel</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> <span class="ident">Fn</span>(<span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// The window on which this filter operates.</span>
-    <span class="kw">pub</span> <span class="ident">support</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">support</span>: <span class="ident">f32</span>,
 }
 
 <span class="comment">// sinc function: the ideal sampling filter.</span>
@@ -896,30 +889,30 @@
 
 <span class="doccomment">/// The Gaussian Function.</span>
 <span class="doccomment">/// ```r``` is the standard deviation.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gaussian</span>(<span class="ident">x</span>: <span class="ident">f32</span>, <span class="ident">r</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">gaussian</span>(<span class="ident">x</span>: <span class="ident">f32</span>, <span class="ident">r</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
     ((<span class="number">2.0</span> <span class="op">*</span> <span class="ident">f32</span>::<span class="ident">consts</span>::<span class="ident">PI</span>).<span class="ident">sqrt</span>() <span class="op">*</span> <span class="ident">r</span>).<span class="ident">recip</span>() <span class="op">*</span> (<span class="op">-</span><span class="ident">x</span>.<span class="ident">powi</span>(<span class="number">2</span>) <span class="op">/</span> (<span class="number">2.0</span> <span class="op">*</span> <span class="ident">r</span>.<span class="ident">powi</span>(<span class="number">2</span>))).<span class="ident">exp</span>()
 }
 
 <span class="doccomment">/// Calculate the lanczos kernel with a window of 3</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lanczos3_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">lanczos3_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
     <span class="ident">lanczos</span>(<span class="ident">x</span>, <span class="number">3.0</span>)
 }
 
 <span class="doccomment">/// Calculate the gaussian function with a</span>
 <span class="doccomment">/// standard deviation of 0.5</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gaussian_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">gaussian_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
     <span class="ident">gaussian</span>(<span class="ident">x</span>, <span class="number">0.5</span>)
 }
 
 <span class="doccomment">/// Calculate the Catmull-Rom cubic spline.</span>
 <span class="doccomment">/// Also known as a form of `BiCubic` sampling in two dimensions.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">catmullrom_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">catmullrom_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
     <span class="ident">bc_cubic_spline</span>(<span class="ident">x</span>, <span class="number">0.0</span>, <span class="number">0.5</span>)
 }
 
 <span class="doccomment">/// Calculate the triangle function.</span>
 <span class="doccomment">/// Also known as `BiLinear` sampling in two dimensions.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">triangle_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">triangle_kernel</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
     <span class="kw">if</span> <span class="ident">x</span>.<span class="ident">abs</span>() <span class="op">&lt;</span> <span class="number">1.0</span> {
         <span class="number">1.0</span> <span class="op">-</span> <span class="ident">x</span>.<span class="ident">abs</span>()
     } <span class="kw">else</span> {
@@ -930,7 +923,7 @@
 <span class="doccomment">/// Calculate the box kernel.</span>
 <span class="doccomment">/// Only pixels inside the box should be considered, and those</span>
 <span class="doccomment">/// contribute equally.  So this method simply returns 1.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">box_kernel</span>(<span class="ident">_x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">box_kernel</span>(<span class="ident">_x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
     <span class="number">1.0</span>
 }
 
@@ -938,14 +931,13 @@
 <span class="comment">// The height of the image remains unchanged.</span>
 <span class="comment">// ```new_width``` is the desired width of the new image</span>
 <span class="comment">// ```filter``` is the filter to use for sampling.</span>
-<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
 <span class="kw">fn</span> <span class="ident">horizontal_sample</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(
     <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
     <span class="ident">new_width</span>: <span class="ident">u32</span>,
     <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Filter</span>,
 ) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span>,
     <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
@@ -1030,14 +1022,13 @@
 <span class="comment">// The width of the image remains unchanged.</span>
 <span class="comment">// ```new_height``` is the desired height of the new image</span>
 <span class="comment">// ```filter``` is the filter to use for sampling.</span>
-<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
 <span class="kw">fn</span> <span class="ident">vertical_sample</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(
     <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
     <span class="ident">new_height</span>: <span class="ident">u32</span>,
     <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Filter</span>,
 ) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span>,
     <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
@@ -1382,10 +1373,9 @@
 
 <span class="doccomment">/// Perform a 3x3 box filter on the supplied image.</span>
 <span class="doccomment">/// ```kernel``` is an array of the filter weights of length 9.</span>
-<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filter3x3</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">kernel</span>: <span class="kw-2">&amp;</span>[<span class="ident">f32</span>]) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span>,
     <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
@@ -1463,8 +1453,7 @@
 <span class="doccomment">/// Resize the supplied image to the specified dimensions.</span>
 <span class="doccomment">/// ```nwidth``` and ```nheight``` are the new dimensions.</span>
 <span class="doccomment">/// ```filter``` is the sampling filter to use.</span>
-<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resize</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resize</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&gt;</span>(
     <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
     <span class="ident">nwidth</span>: <span class="ident">u32</span>,
     <span class="ident">nheight</span>: <span class="ident">u32</span>,
@@ -1503,14 +1492,12 @@
 
 <span class="doccomment">/// Performs a Gaussian blur on the supplied image.</span>
 <span class="doccomment">/// ```sigma``` is a measure of how much to blur by.</span>
-<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blur</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blur</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&gt;</span>(
     <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
     <span class="ident">sigma</span>: <span class="ident">f32</span>,
 ) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span>, <span class="ident">Vec</span><span class="op">&lt;&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span><span class="op">&gt;&gt;</span>
 <span class="kw">where</span>
     <span class="ident">I</span>::<span class="ident">Pixel</span>: <span class="lifetime">&#39;static</span>,
-    <span class="op">&lt;</span><span class="ident">I</span>::<span class="ident">Pixel</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span>,
 {
     <span class="kw">let</span> <span class="ident">sigma</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">sigma</span> <span class="op">&lt;</span> <span class="number">0.0</span> { <span class="number">1.0</span> } <span class="kw">else</span> { <span class="ident">sigma</span> };
 
@@ -1532,10 +1519,9 @@
 <span class="doccomment">/// ```threshold``` is the threshold for the difference between</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// See &lt;https://en.wikipedia.org/wiki/Unsharp_masking#Digital_unsharp_masking&gt;</span>
-<span class="comment">// TODO: Do we really need the &#39;static bound on `I`? Can we avoid it?</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unsharpen</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">sigma</span>: <span class="ident">f32</span>, <span class="ident">threshold</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">I</span>: <span class="ident">GenericImageView</span><span class="op">&lt;</span><span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span><span class="op">&gt;</span>,
     <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">S</span>: <span class="ident">Primitive</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {

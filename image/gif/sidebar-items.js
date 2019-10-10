@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["DisposalMethod","Disposal method"]],"struct":[["Decoder","GIF decoder"],["Encoder","GIF encoder."],["Frame","A GIF frame"]]});
+initSidebarItems({"enum":[["DisposalMethod","Disposal method"]],"struct":[["Decoder","GIF decoder"],["Encoder","GIF encoder."],["Frame","A GIF frame"],["GifReader","Wrapper struct around a `Cursor<Vec<u8>>`"]]});
