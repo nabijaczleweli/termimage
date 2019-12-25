@@ -19,6 +19,29 @@ If it does, you're ready to move on to the Usage sexion below.
 
 If, however, you've encountered a problem during the installation, do not hesitate to open an issue [here](https://github.com/nabijaczleweli/termimage/issues/new).
 
+#### From Debian repository
+
+The following line in `/etc/apt/sources.list`:
+```apt
+deb https://foreign.nabijaczleweli.xyz/debian stable main
+```
+
+With [my PGP key](https://keybase.io/nabijaczleweli) (the two URLs are interchangeable):
+```sh
+wget -O- https://foreign.nabijaczleweli.xyz/debian/nabijaczleweli.gpg.key | sudo apt-key add
+# or
+sudo wget -O/etc/apt/trusted.gpg.d/nabijaczleweli.asc https://keybase.io/nabijaczleweli/pgp_keys.asc
+```
+
+Then the usual
+```sh
+sudo apt update
+sudo apt install termimage
+```
+will work on x86_64 and i686.
+
+See the [repository README](https://foreign.nabijaczleweli.xyz/debian/README) for more information.
+
 #### From pre-built executables
 
 Alternatively, have a glance over at the [releases page](https://github.com/nabijaczleweli/termimage/releases), which should host Windows and Linux x86_64 binaries.

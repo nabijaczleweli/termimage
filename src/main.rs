@@ -23,8 +23,8 @@ fn actual_main() -> i32 {
 fn result_main() -> Result<(), termimage::Error> {
     let opts = termimage::Options::parse();
 
-    let format = try!(termimage::ops::guess_format(&opts.image));
-    let img = try!(termimage::ops::load_image(&opts.image, format));
+    let format = termimage::ops::guess_format(&opts.image)?;
+    let img = termimage::ops::load_image(&opts.image, format)?;
 
     let img_s = termimage::ops::image_resized_size(img.dimensions(), opts.size, opts.preserve_aspect);
     let resized = termimage::ops::resize_image(&img, img_s);

@@ -68,7 +68,7 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Error> {
         })
         .unwrap_or_else(|| {
             let mut buf = [0; 32];
-            let read = try!(File::open(&file.1).map_err(|_| Error::OpeningImageFailed(file.0.clone()))).read(&mut buf).unwrap();
+            let read = File::open(&file.1).map_err(|_| Error::OpeningImageFailed(file.0.clone()))?.read(&mut buf).unwrap();
             let buf = &buf[..read];
 
             if buf.len() >= PNG_MAGIC.len() && &buf[..PNG_MAGIC.len()] == PNG_MAGIC {
@@ -91,7 +91,7 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Error> {
 ///
 /// Get the image fromat with `guess_format()`.
 pub fn load_image(file: &(String, PathBuf), format: ImageFormat) -> Result<DynamicImage, Error> {
-    Ok(image::load(BufReader::new(try!(File::open(&file.1).map_err(|_| Error::OpeningImageFailed(file.0.clone())))),
+    Ok(image::load(BufReader::new(File::open(&file.1).map_err(|_| Error::OpeningImageFailed(file.0.clone()))?),
                    format)
         .unwrap())
 }
