@@ -12,7 +12,7 @@ Show images in your terminal.
 The images are automatically downscaled to the terminal's size and their
 colours are approximated to match the terminal's display colours.
 
-With ANSI output this means a 3-bit colour resolution, with WinAPI - 4-bit.
+With simple ANSI output this means a 3-bit colour resolution, with WinAPI - 4-bit.
 
 With WinAPI output the output colours are acquired from the console itself,
 with ANSI output a sane default is assumed.

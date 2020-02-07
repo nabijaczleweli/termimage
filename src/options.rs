@@ -57,7 +57,7 @@ impl Options {
             false
         };
 
-        let matches = app_from_crate!()
+        let matches = app_from_crate!("\n")
             .setting(AppSettings::ColoredHelp)
             .arg(Arg::from_usage("<IMAGE> 'Image file to display'").validator(Options::image_file_validator))
             .arg(szarg)
