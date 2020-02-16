@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.3/./src/pnm/decoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>decoder.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.5/./src/pnm/decoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>decoder.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1078,14 +1078,14 @@
 }
 
 <span class="kw">trait</span> <span class="ident">Sample</span> {
-    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// It is guaranteed that `bytes.len() == bytelen(width, height, samples)`</span>
     <span class="kw">fn</span> <span class="ident">from_bytes</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>)
-        <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>;
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">from_ascii</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dyn</span> <span class="ident">Read</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>)
-        <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>;
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">struct</span> <span class="ident">U8</span>;
@@ -1094,7 +1094,7 @@
 <span class="kw">struct</span> <span class="ident">BWBit</span>;
 
 <span class="kw">trait</span> <span class="ident">DecodableImageHeader</span> {
-    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// PNM decoder</span>
@@ -1106,24 +1106,24 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a new decoder that decodes from the stream ```read```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">read</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">read</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BufReader</span>::<span class="ident">new</span>(<span class="ident">read</span>);
         <span class="kw">let</span> <span class="ident">magic</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">read_magic_constant</span>()<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">magic</span>[<span class="number">0</span>] <span class="op">!=</span> <span class="string">b&#39;P&#39;</span> {
+        <span class="kw">if</span> <span class="ident">magic</span>[<span class="number">0</span>] <span class="op">!</span><span class="op">=</span> <span class="string">b&#39;P&#39;</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Expected magic constant for pnm, P1 through P7 instead of {:?}&quot;</span>, <span class="ident">magic</span>),
             ));
         }
 
         <span class="kw">let</span> <span class="ident">subtype</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">magic</span>[<span class="number">1</span>] {
-            <span class="string">b&#39;1&#39;</span> <span class="op">=&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Bitmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>),
-            <span class="string">b&#39;2&#39;</span> <span class="op">=&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Graymap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>),
-            <span class="string">b&#39;3&#39;</span> <span class="op">=&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>),
-            <span class="string">b&#39;4&#39;</span> <span class="op">=&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Bitmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>),
-            <span class="string">b&#39;5&#39;</span> <span class="op">=&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Graymap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>),
-            <span class="string">b&#39;6&#39;</span> <span class="op">=&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>),
-            <span class="string">b&#39;7&#39;</span> <span class="op">=&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">ArbitraryMap</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> {
+            <span class="string">b&#39;1&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Bitmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>),
+            <span class="string">b&#39;2&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Graymap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>),
+            <span class="string">b&#39;3&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>),
+            <span class="string">b&#39;4&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Bitmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>),
+            <span class="string">b&#39;5&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Graymap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>),
+            <span class="string">b&#39;6&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>),
+            <span class="string">b&#39;7&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMSubtype</span>::<span class="ident">ArbitraryMap</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                     <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Expected magic constant for pnm, P1 through P7 instead of {:?}&quot;</span>, <span class="ident">magic</span>),
                 ));
@@ -1131,22 +1131,22 @@
         };
 
         <span class="kw">match</span> <span class="ident">subtype</span> {
-            <span class="ident">PNMSubtype</span>::<span class="ident">Bitmap</span>(<span class="ident">enc</span>) <span class="op">=&gt;</span> <span class="ident">PNMDecoder</span>::<span class="ident">read_bitmap_header</span>(<span class="ident">buf</span>, <span class="ident">enc</span>),
-            <span class="ident">PNMSubtype</span>::<span class="ident">Graymap</span>(<span class="ident">enc</span>) <span class="op">=&gt;</span> <span class="ident">PNMDecoder</span>::<span class="ident">read_graymap_header</span>(<span class="ident">buf</span>, <span class="ident">enc</span>),
-            <span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">enc</span>) <span class="op">=&gt;</span> <span class="ident">PNMDecoder</span>::<span class="ident">read_pixmap_header</span>(<span class="ident">buf</span>, <span class="ident">enc</span>),
-            <span class="ident">PNMSubtype</span>::<span class="ident">ArbitraryMap</span> <span class="op">=&gt;</span> <span class="ident">PNMDecoder</span>::<span class="ident">read_arbitrary_header</span>(<span class="ident">buf</span>),
+            <span class="ident">PNMSubtype</span>::<span class="ident">Bitmap</span>(<span class="ident">enc</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMDecoder</span>::<span class="ident">read_bitmap_header</span>(<span class="ident">buf</span>, <span class="ident">enc</span>),
+            <span class="ident">PNMSubtype</span>::<span class="ident">Graymap</span>(<span class="ident">enc</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMDecoder</span>::<span class="ident">read_graymap_header</span>(<span class="ident">buf</span>, <span class="ident">enc</span>),
+            <span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">enc</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMDecoder</span>::<span class="ident">read_pixmap_header</span>(<span class="ident">buf</span>, <span class="ident">enc</span>),
+            <span class="ident">PNMSubtype</span>::<span class="ident">ArbitraryMap</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMDecoder</span>::<span class="ident">read_arbitrary_header</span>(<span class="ident">buf</span>),
         }
     }
 
     <span class="doccomment">/// Extract the reader and header after an image has been read.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">R</span>, <span class="ident">PNMHeader</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">R</span>, <span class="ident">PNMHeader</span>) {
         (<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">into_inner</span>(), <span class="self">self</span>.<span class="ident">header</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">read_bitmap_header</span>(
         <span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
         <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_bitmap_header</span>(<span class="ident">encoding</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">PNMDecoder</span> {
             <span class="ident">reader</span>,
@@ -1161,7 +1161,7 @@
     <span class="kw">fn</span> <span class="ident">read_graymap_header</span>(
         <span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
         <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_graymap_header</span>(<span class="ident">encoding</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">tuple_type</span> <span class="op">=</span> <span class="ident">header</span>.<span class="ident">tuple_type</span>()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">PNMDecoder</span> {
@@ -1177,7 +1177,7 @@
     <span class="kw">fn</span> <span class="ident">read_pixmap_header</span>(
         <span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
         <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_pixmap_header</span>(<span class="ident">encoding</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">tuple_type</span> <span class="op">=</span> <span class="ident">header</span>.<span class="ident">tuple_type</span>()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">PNMDecoder</span> {
@@ -1190,7 +1190,7 @@
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">read_arbitrary_header</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_arbitrary_header</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_arbitrary_header</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">tuple_type</span> <span class="op">=</span> <span class="ident">header</span>.<span class="ident">tuple_type</span>()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">PNMDecoder</span> {
@@ -1206,7 +1206,7 @@
 
 <span class="kw">trait</span> <span class="ident">HeaderReader</span>: <span class="ident">BufRead</span> {
     <span class="doccomment">/// Reads the two magic constant bytes</span>
-    <span class="kw">fn</span> <span class="ident">read_magic_constant</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">2</span>]<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_magic_constant</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">2</span>]<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">magic</span>: [<span class="ident">u8</span>; <span class="number">2</span>] <span class="op">=</span> [<span class="number">0</span>, <span class="number">0</span>];
         <span class="self">self</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">magic</span>)
             .<span class="ident">map_err</span>(<span class="ident">ImageError</span>::<span class="ident">IoError</span>)<span class="question-mark">?</span>;
@@ -1214,37 +1214,37 @@
     }
 
     <span class="doccomment">/// Reads a string as well as a single whitespace after it, ignoring comments</span>
-    <span class="kw">fn</span> <span class="ident">read_next_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_next_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
 
         <span class="comment">// pair input bytes with a bool mask to remove comments</span>
         <span class="kw">let</span> <span class="ident">mark_comments</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bytes</span>().<span class="ident">scan</span>(<span class="bool-val">true</span>, <span class="op">|</span><span class="ident">partof</span>, <span class="ident">read</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">byte</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">read</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>((<span class="kw-2">*</span><span class="ident">partof</span>, <span class="prelude-val">Err</span>(<span class="ident">err</span>))),
-                <span class="prelude-val">Ok</span>(<span class="ident">byte</span>) <span class="op">=&gt;</span> <span class="ident">byte</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>((<span class="kw-2">*</span><span class="ident">partof</span>, <span class="prelude-val">Err</span>(<span class="ident">err</span>))),
+                <span class="prelude-val">Ok</span>(<span class="ident">byte</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">byte</span>,
             };
-            <span class="kw">let</span> <span class="ident">cur_enabled</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">partof</span> <span class="op">&amp;&amp;</span> <span class="ident">byte</span> <span class="op">!=</span> <span class="string">b&#39;#&#39;</span>;
-            <span class="kw">let</span> <span class="ident">next_enabled</span> <span class="op">=</span> <span class="ident">cur_enabled</span> <span class="op">||</span> (<span class="ident">byte</span> <span class="op">==</span> <span class="string">b&#39;\r&#39;</span> <span class="op">||</span> <span class="ident">byte</span> <span class="op">==</span> <span class="string">b&#39;\n&#39;</span>);
+            <span class="kw">let</span> <span class="ident">cur_enabled</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">partof</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">byte</span> <span class="op">!</span><span class="op">=</span> <span class="string">b&#39;#&#39;</span>;
+            <span class="kw">let</span> <span class="ident">next_enabled</span> <span class="op">=</span> <span class="ident">cur_enabled</span> <span class="op">|</span><span class="op">|</span> (<span class="ident">byte</span> <span class="op">=</span><span class="op">=</span> <span class="string">b&#39;\r&#39;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">byte</span> <span class="op">=</span><span class="op">=</span> <span class="string">b&#39;\n&#39;</span>);
             <span class="kw-2">*</span><span class="ident">partof</span> <span class="op">=</span> <span class="ident">next_enabled</span>;
             <span class="prelude-val">Some</span>((<span class="ident">cur_enabled</span>, <span class="prelude-val">Ok</span>(<span class="ident">byte</span>)))
         });
 
         <span class="kw">for</span> (<span class="kw">_</span>, <span class="ident">byte</span>) <span class="kw">in</span> <span class="ident">mark_comments</span>.<span class="ident">filter</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="number">0</span>) {
             <span class="kw">match</span> <span class="ident">byte</span> {
-                <span class="prelude-val">Ok</span>(<span class="string">b&#39;\t&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\n&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\x0b&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\x0c&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\r&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39; &#39;</span>) <span class="op">=&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="string">b&#39;\t&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\n&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\x0b&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\x0c&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\r&#39;</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39; &#39;</span>) <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">if</span> <span class="op">!</span><span class="ident">bytes</span>.<span class="ident">is_empty</span>() {
                         <span class="kw">break</span>; <span class="comment">// We&#39;re done as we already have some content</span>
                     }
                 }
-                <span class="prelude-val">Ok</span>(<span class="ident">byte</span>) <span class="kw">if</span> <span class="op">!</span><span class="ident">byte</span>.<span class="ident">is_ascii</span>() <span class="op">=&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">byte</span>) <span class="kw">if</span> <span class="op">!</span><span class="ident">byte</span>.<span class="ident">is_ascii</span>() <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Non ascii character {} in header&quot;</span>, <span class="ident">byte</span>),
                     ));
                 },
-                <span class="prelude-val">Ok</span>(<span class="ident">byte</span>) <span class="op">=&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">byte</span>) <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="ident">bytes</span>.<span class="ident">push</span>(<span class="ident">byte</span>);
                 },
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">break</span>,
+                <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
             }
         }
 
@@ -1265,14 +1265,14 @@
     }
 
     <span class="doccomment">/// Read the next line</span>
-    <span class="kw">fn</span> <span class="ident">read_next_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_next_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
         <span class="self">self</span>.<span class="ident">read_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>)
             .<span class="ident">map_err</span>(<span class="ident">ImageError</span>::<span class="ident">IoError</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">buffer</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">read_next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_next_string</span>()<span class="question-mark">?</span>;
         <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>()
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
@@ -1280,7 +1280,7 @@
                 ))
     }
 
-    <span class="kw">fn</span> <span class="ident">read_bitmap_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">BitmapHeader</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_bitmap_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">BitmapHeader</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_next_u32</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_next_u32</span>()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">BitmapHeader</span> {
@@ -1290,7 +1290,7 @@
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">read_graymap_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">GraymapHeader</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_graymap_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">GraymapHeader</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">read_pixmap_header</span>(<span class="ident">encoding</span>).<span class="ident">map</span>(
             <span class="op">|</span><span class="ident">PixmapHeader</span> {
                  <span class="ident">encoding</span>,
@@ -1306,7 +1306,7 @@
         )
     }
 
-    <span class="kw">fn</span> <span class="ident">read_pixmap_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PixmapHeader</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_pixmap_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">PixmapHeader</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_next_u32</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_next_u32</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">maxval</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_next_u32</span>()<span class="question-mark">?</span>;
@@ -1318,12 +1318,12 @@
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">read_arbitrary_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">ArbitraryHeader</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_arbitrary_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">ArbitraryHeader</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bytes</span>().<span class="ident">next</span>() {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">UnexpectedEof</span>.<span class="ident">into</span>())),
-            <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>)) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">io</span>)),
-            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="string">b&#39;\n&#39;</span>)) <span class="op">=&gt;</span> (),
-            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">c</span>)) <span class="op">=&gt;</span> {
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">UnexpectedEof</span>.<span class="ident">into</span>())),
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">io</span>)),
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="string">b&#39;\n&#39;</span>)) <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">c</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                     <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Expected newline after P7 magic instead of {}&quot;</span>, <span class="ident">c</span>),
                 ))
@@ -1339,12 +1339,12 @@
         <span class="kw">loop</span> {
             <span class="ident">line</span>.<span class="ident">truncate</span>(<span class="number">0</span>);
             <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">line</span>).<span class="ident">map_err</span>(<span class="ident">ImageError</span>::<span class="ident">IoError</span>)<span class="question-mark">?</span>;
-            <span class="kw">if</span> <span class="ident">len</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">len</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                     <span class="string">&quot;Unexpected end of pnm header&quot;</span>.<span class="ident">to_string</span>(),
                 ))
             }
-            <span class="kw">if</span> <span class="ident">line</span>.<span class="ident">as_bytes</span>()[<span class="number">0</span>] <span class="op">==</span> <span class="string">b&#39;#&#39;</span> {
+            <span class="kw">if</span> <span class="ident">line</span>.<span class="ident">as_bytes</span>()[<span class="number">0</span>] <span class="op">=</span><span class="op">=</span> <span class="string">b&#39;#&#39;</span> {
                 <span class="kw">continue</span>;
             }
             <span class="kw">if</span> <span class="op">!</span><span class="ident">line</span>.<span class="ident">is_ascii</span>() {
@@ -1354,10 +1354,10 @@
             }
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
             <span class="kw">let</span> (<span class="ident">identifier</span>, <span class="ident">rest</span>) <span class="op">=</span> <span class="ident">line</span>.<span class="ident">trim_left</span>()
-                .<span class="ident">split_at</span>(<span class="ident">line</span>.<span class="ident">find</span>(<span class="ident">char</span>::<span class="ident">is_whitespace</span>).<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">line</span>.<span class="ident">len</span>()));
+                .<span class="ident">split_at</span>(<span class="ident">line</span>.<span class="ident">find</span>(<span class="ident">char</span>::<span class="ident">is_whitespace</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">line</span>.<span class="ident">len</span>()));
             <span class="kw">match</span> <span class="ident">identifier</span> {
-                <span class="string">&quot;ENDHDR&quot;</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
-                <span class="string">&quot;HEIGHT&quot;</span> <span class="op">=&gt;</span> <span class="kw">if</span> <span class="ident">height</span>.<span class="ident">is_some</span>() {
+                <span class="string">&quot;ENDHDR&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
+                <span class="string">&quot;HEIGHT&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">if</span> <span class="ident">height</span>.<span class="ident">is_some</span>() {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Duplicate HEIGHT line&quot;</span>.<span class="ident">to_string</span>()));
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">h</span> <span class="op">=</span> <span class="ident">rest</span>.<span class="ident">trim</span>()
@@ -1367,7 +1367,7 @@
                             ))<span class="question-mark">?</span>;
                     <span class="ident">height</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">h</span>);
                 },
-                <span class="string">&quot;WIDTH&quot;</span> <span class="op">=&gt;</span> <span class="kw">if</span> <span class="ident">width</span>.<span class="ident">is_some</span>() {
+                <span class="string">&quot;WIDTH&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">if</span> <span class="ident">width</span>.<span class="ident">is_some</span>() {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Duplicate WIDTH line&quot;</span>.<span class="ident">to_string</span>()));
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">rest</span>.<span class="ident">trim</span>()
@@ -1377,7 +1377,7 @@
                             ))<span class="question-mark">?</span>;
                     <span class="ident">width</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">w</span>);
                 },
-                <span class="string">&quot;DEPTH&quot;</span> <span class="op">=&gt;</span> <span class="kw">if</span> <span class="ident">depth</span>.<span class="ident">is_some</span>() {
+                <span class="string">&quot;DEPTH&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">if</span> <span class="ident">depth</span>.<span class="ident">is_some</span>() {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Duplicate DEPTH line&quot;</span>.<span class="ident">to_string</span>()));
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="ident">rest</span>.<span class="ident">trim</span>()
@@ -1387,7 +1387,7 @@
                             ))<span class="question-mark">?</span>;
                     <span class="ident">depth</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">d</span>);
                 },
-                <span class="string">&quot;MAXVAL&quot;</span> <span class="op">=&gt;</span> <span class="kw">if</span> <span class="ident">maxval</span>.<span class="ident">is_some</span>() {
+                <span class="string">&quot;MAXVAL&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">if</span> <span class="ident">maxval</span>.<span class="ident">is_some</span>() {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Duplicate MAXVAL line&quot;</span>.<span class="ident">to_string</span>()));
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">rest</span>.<span class="ident">trim</span>()
@@ -1397,7 +1397,7 @@
                             ))<span class="question-mark">?</span>;
                     <span class="ident">maxval</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">m</span>);
                 },
-                <span class="string">&quot;TUPLTYPE&quot;</span> <span class="op">=&gt;</span> {
+                <span class="string">&quot;TUPLTYPE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">let</span> <span class="ident">identifier</span> <span class="op">=</span> <span class="ident">rest</span>.<span class="ident">trim</span>();
                     <span class="kw">if</span> <span class="ident">tupltype</span>.<span class="ident">is_some</span>() {
                         <span class="kw">let</span> <span class="ident">appended</span> <span class="op">=</span> <span class="ident">tupltype</span>.<span class="ident">take</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">mut</span> <span class="ident">v</span><span class="op">|</span> {
@@ -1410,45 +1410,45 @@
                         <span class="ident">tupltype</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">identifier</span>.<span class="ident">to_string</span>());
                     }
                 }
-                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Unknown header line&quot;</span>.<span class="ident">to_string</span>())),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Unknown header line&quot;</span>.<span class="ident">to_string</span>())),
             }
         }
 
         <span class="kw">let</span> (<span class="ident">h</span>, <span class="ident">w</span>, <span class="ident">d</span>, <span class="ident">m</span>) <span class="op">=</span> <span class="kw">match</span> (<span class="ident">height</span>, <span class="ident">width</span>, <span class="ident">depth</span>, <span class="ident">maxval</span>) {
-            (<span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> {
+            (<span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                     <span class="string">&quot;Expected one HEIGHT line&quot;</span>.<span class="ident">to_string</span>(),
                 ))
             }
-            (<span class="kw">_</span>, <span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> {
+            (<span class="kw">_</span>, <span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                     <span class="string">&quot;Expected one WIDTH line&quot;</span>.<span class="ident">to_string</span>(),
                 ))
             }
-            (<span class="kw">_</span>, <span class="kw">_</span>, <span class="prelude-val">None</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> {
+            (<span class="kw">_</span>, <span class="kw">_</span>, <span class="prelude-val">None</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                     <span class="string">&quot;Expected one DEPTH line&quot;</span>.<span class="ident">to_string</span>(),
                 ))
             }
-            (<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="prelude-val">None</span>) <span class="op">=&gt;</span> {
+            (<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                     <span class="string">&quot;Expected one MAXVAL line&quot;</span>.<span class="ident">to_string</span>(),
                 ))
             }
-            (<span class="prelude-val">Some</span>(<span class="ident">h</span>), <span class="prelude-val">Some</span>(<span class="ident">w</span>), <span class="prelude-val">Some</span>(<span class="ident">d</span>), <span class="prelude-val">Some</span>(<span class="ident">m</span>)) <span class="op">=&gt;</span> (<span class="ident">h</span>, <span class="ident">w</span>, <span class="ident">d</span>, <span class="ident">m</span>),
+            (<span class="prelude-val">Some</span>(<span class="ident">h</span>), <span class="prelude-val">Some</span>(<span class="ident">w</span>), <span class="prelude-val">Some</span>(<span class="ident">d</span>), <span class="prelude-val">Some</span>(<span class="ident">m</span>)) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">h</span>, <span class="ident">w</span>, <span class="ident">d</span>, <span class="ident">m</span>),
         };
 
         <span class="kw">let</span> <span class="ident">tupltype</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">tupltype</span> {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">==</span> <span class="string">&quot;BLACKANDWHITE&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>),
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">==</span> <span class="string">&quot;BLACKANDWHITE_ALPHA&quot;</span> <span class="op">=&gt;</span> {
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;BLACKANDWHITE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;BLACKANDWHITE_ALPHA&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhiteAlpha</span>)
             }
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">==</span> <span class="string">&quot;GRAYSCALE&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>),
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">==</span> <span class="string">&quot;GRAYSCALE_ALPHA&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">GrayscaleAlpha</span>),
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">==</span> <span class="string">&quot;RGB&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>),
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">==</span> <span class="string">&quot;RGB_ALPHA&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGBAlpha</span>),
-            <span class="prelude-val">Some</span>(<span class="ident">other</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Custom</span>(<span class="ident">other</span>)),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;GRAYSCALE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;GRAYSCALE_ALPHA&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">GrayscaleAlpha</span>),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;RGB&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">t</span>) <span class="kw">if</span> <span class="ident">t</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;RGB_ALPHA&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGBAlpha</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">other</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Custom</span>(<span class="ident">other</span>)),
         };
 
         <span class="prelude-val">Ok</span>(<span class="ident">ArbitraryHeader</span> {
@@ -1464,13 +1464,13 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">HeaderReader</span> <span class="kw">for</span> <span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {}
 
 <span class="doccomment">/// Wrapper struct around a `Cursor&lt;Vec&lt;u8&gt;&gt;`</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PnmReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>, <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PnmReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>);
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">Read</span> <span class="kw">for</span> <span class="ident">PnmReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">read</span>(<span class="ident">buf</span>)
     }
-    <span class="kw">fn</span> <span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">position</span>() <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">buf</span>.<span class="ident">is_empty</span>() {
+    <span class="kw">fn</span> <span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">position</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">buf</span>.<span class="ident">is_empty</span>() {
             <span class="ident">mem</span>::<span class="ident">swap</span>(<span class="ident">buf</span>, <span class="self">self</span>.<span class="number">0</span>.<span class="ident">get_mut</span>());
             <span class="prelude-val">Ok</span>(<span class="ident">buf</span>.<span class="ident">len</span>())
         } <span class="kw">else</span> {
@@ -1482,38 +1482,38 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">R</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Reader</span> <span class="op">=</span> <span class="ident">PnmReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u64</span>, <span class="ident">u64</span>) {
+    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u64</span>, <span class="ident">u64</span>) {
         (<span class="ident">u64</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">header</span>.<span class="ident">width</span>()), <span class="ident">u64</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">header</span>.<span class="ident">height</span>()))
     }
 
-    <span class="kw">fn</span> <span class="ident">colortype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ColorType</span> {
+    <span class="kw">fn</span> <span class="ident">colortype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ColorType</span> {
         <span class="self">self</span>.<span class="ident">tuple</span>.<span class="ident">color</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">into_reader</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Reader</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">into_reader</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Reader</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">PnmReader</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">read_image</span>()<span class="question-mark">?</span>), <span class="ident">PhantomData</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">read_image</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_image</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">read</span>()
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">PNMDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">tuple</span> {
-            <span class="ident">TupleType</span>::<span class="ident">PbmBit</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">PbmBit</span><span class="op">&gt;</span>(<span class="number">1</span>),
-            <span class="ident">TupleType</span>::<span class="ident">BWBit</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">BWBit</span><span class="op">&gt;</span>(<span class="number">1</span>),
-            <span class="ident">TupleType</span>::<span class="ident">RGBU8</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">U8</span><span class="op">&gt;</span>(<span class="number">3</span>),
-            <span class="ident">TupleType</span>::<span class="ident">RGBU16</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">U16</span><span class="op">&gt;</span>(<span class="number">3</span>),
-            <span class="ident">TupleType</span>::<span class="ident">GrayU8</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">U8</span><span class="op">&gt;</span>(<span class="number">1</span>),
-            <span class="ident">TupleType</span>::<span class="ident">GrayU16</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">U16</span><span class="op">&gt;</span>(<span class="number">1</span>),
+            <span class="ident">TupleType</span>::<span class="ident">PbmBit</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">PbmBit</span><span class="op">&gt;</span>(<span class="number">1</span>),
+            <span class="ident">TupleType</span>::<span class="ident">BWBit</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">BWBit</span><span class="op">&gt;</span>(<span class="number">1</span>),
+            <span class="ident">TupleType</span>::<span class="ident">RGBU8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">U8</span><span class="op">&gt;</span>(<span class="number">3</span>),
+            <span class="ident">TupleType</span>::<span class="ident">RGBU16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">U16</span><span class="op">&gt;</span>(<span class="number">3</span>),
+            <span class="ident">TupleType</span>::<span class="ident">GrayU8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">U8</span><span class="op">&gt;</span>(<span class="number">1</span>),
+            <span class="ident">TupleType</span>::<span class="ident">GrayU16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_samples</span>::<span class="op">&lt;</span><span class="ident">U16</span><span class="op">&gt;</span>(<span class="number">1</span>),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">read_samples</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Sample</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">components</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_samples</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Sample</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">components</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">subtype</span>().<span class="ident">sample_encoding</span>() {
-            <span class="ident">SampleEncoding</span>::<span class="ident">Binary</span> <span class="op">=&gt;</span> {
+            <span class="ident">SampleEncoding</span>::<span class="ident">Binary</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">width</span>();
                 <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">height</span>();
                 <span class="kw">let</span> <span class="ident">bytecount</span> <span class="op">=</span> <span class="ident">S</span>::<span class="ident">bytelen</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">components</span>)<span class="question-mark">?</span>;
@@ -1524,50 +1524,50 @@
                 <span class="kw">let</span> <span class="ident">samples</span> <span class="op">=</span> <span class="ident">S</span>::<span class="ident">from_bytes</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">components</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(<span class="ident">samples</span>)
             }
-            <span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span> <span class="op">=&gt;</span> {
+            <span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">samples</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_ascii</span>::<span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">components</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(<span class="ident">samples</span>)
             }
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">read_ascii</span><span class="op">&lt;</span><span class="ident">Basic</span>: <span class="ident">Sample</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">components</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_ascii</span><span class="op">&lt;</span><span class="ident">Basic</span>: <span class="ident">Sample</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">components</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="ident">Basic</span>::<span class="ident">from_ascii</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">reader</span>, <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">width</span>(), <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">height</span>(), <span class="ident">components</span>)
     }
 
     <span class="doccomment">/// Get the pnm subtype, depending on the magic constant contained in the header</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">subtype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">PNMSubtype</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">subtype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PNMSubtype</span> {
         <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">subtype</span>()
     }
 }
 
 <span class="kw">impl</span> <span class="ident">TupleType</span> {
-    <span class="kw">fn</span> <span class="ident">color</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ColorType</span> {
+    <span class="kw">fn</span> <span class="ident">color</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ColorType</span> {
         <span class="kw">use</span> <span class="self">self</span>::<span class="ident">TupleType</span>::<span class="kw-2">*</span>;
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">PbmBit</span> <span class="op">=&gt;</span> <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">1</span>),
-            <span class="ident">BWBit</span> <span class="op">=&gt;</span> <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">1</span>),
-            <span class="ident">GrayU8</span> <span class="op">=&gt;</span> <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>),
-            <span class="ident">GrayU16</span> <span class="op">=&gt;</span> <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">16</span>),
-            <span class="ident">RGBU8</span> <span class="op">=&gt;</span> <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>),
-            <span class="ident">RGBU16</span> <span class="op">=&gt;</span> <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">16</span>),
+            <span class="ident">PbmBit</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">1</span>),
+            <span class="ident">BWBit</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">1</span>),
+            <span class="ident">GrayU8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>),
+            <span class="ident">GrayU16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">16</span>),
+            <span class="ident">RGBU8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>),
+            <span class="ident">RGBU16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">16</span>),
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">read_separated_ascii</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">FromStr</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dyn</span> <span class="ident">Read</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">read_separated_ascii</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">FromStr</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dyn</span> <span class="ident">Read</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">T</span>::<span class="prelude-val">Err</span>: <span class="ident">Display</span>
 {
     <span class="kw">let</span> <span class="ident">is_separator</span> <span class="op">=</span> <span class="op">|</span><span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="ident">u8</span><span class="op">|</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">v</span> {
-        <span class="string">b&#39;\t&#39;</span> <span class="op">|</span> <span class="string">b&#39;\n&#39;</span> <span class="op">|</span> <span class="string">b&#39;\x0b&#39;</span> <span class="op">|</span> <span class="string">b&#39;\x0c&#39;</span> <span class="op">|</span> <span class="string">b&#39;\r&#39;</span> <span class="op">|</span> <span class="string">b&#39; &#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+        <span class="string">b&#39;\t&#39;</span> <span class="op">|</span> <span class="string">b&#39;\n&#39;</span> <span class="op">|</span> <span class="string">b&#39;\x0b&#39;</span> <span class="op">|</span> <span class="string">b&#39;\x0c&#39;</span> <span class="op">|</span> <span class="string">b&#39;\r&#39;</span> <span class="op">|</span> <span class="string">b&#39; &#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
     };
 
     <span class="kw">let</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">reader</span>
         .<span class="ident">bytes</span>()
         .<span class="ident">skip_while</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">as_ref</span>().<span class="ident">ok</span>().<span class="ident">map</span>(<span class="kw-2">&amp;</span><span class="ident">is_separator</span>).<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>))
         .<span class="ident">take_while</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">as_ref</span>().<span class="ident">ok</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="op">!</span><span class="ident">is_separator</span>(<span class="ident">c</span>)).<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>))
-        .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="kw">_</span><span class="op">&gt;&gt;</span>()<span class="question-mark">?</span>;
+        .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
 
     <span class="kw">if</span> <span class="op">!</span><span class="ident">token</span>.<span class="ident">is_ascii</span>() {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
@@ -1585,7 +1585,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Sample</span> <span class="kw">for</span> <span class="ident">U8</span> {
-    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>((<span class="ident">width</span> <span class="op">*</span> <span class="ident">height</span> <span class="op">*</span> <span class="ident">samples</span>) <span class="kw">as</span> <span class="ident">usize</span>)
     }
 
@@ -1594,7 +1594,7 @@
         <span class="ident">_width</span>: <span class="ident">u32</span>,
         <span class="ident">_height</span>: <span class="ident">u32</span>,
         <span class="ident">_samples</span>: <span class="ident">u32</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="ident">buffer</span>.<span class="ident">resize</span>(<span class="ident">bytes</span>.<span class="ident">len</span>(), <span class="number">0</span> <span class="kw">as</span> <span class="ident">u8</span>);
         <span class="ident">buffer</span>.<span class="ident">copy_from_slice</span>(<span class="ident">bytes</span>);
@@ -1606,7 +1606,7 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">samples</span>: <span class="ident">u32</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         (<span class="number">0</span>..<span class="ident">width</span><span class="kw-2">*</span><span class="ident">height</span><span class="kw-2">*</span><span class="ident">samples</span>)
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">read_separated_ascii</span>(<span class="ident">reader</span>))
             .<span class="ident">collect</span>()
@@ -1614,7 +1614,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Sample</span> <span class="kw">for</span> <span class="ident">U16</span> {
-    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>((<span class="ident">width</span> <span class="op">*</span> <span class="ident">height</span> <span class="op">*</span> <span class="ident">samples</span> <span class="op">*</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>)
     }
 
@@ -1623,7 +1623,7 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">samples</span>: <span class="ident">u32</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bytes</span>.<span class="ident">len</span>(), (<span class="ident">width</span><span class="kw-2">*</span><span class="ident">height</span><span class="kw-2">*</span><span class="ident">samples</span><span class="kw-2">*</span><span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">bytes</span>.<span class="ident">to_vec</span>();
@@ -1639,7 +1639,7 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">samples</span>: <span class="ident">u32</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; (<span class="ident">width</span> <span class="op">*</span> <span class="ident">height</span> <span class="op">*</span> <span class="ident">samples</span> <span class="op">*</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>];
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="ident">width</span><span class="kw-2">*</span><span class="ident">height</span><span class="kw-2">*</span><span class="ident">samples</span>) <span class="kw">as</span> <span class="ident">usize</span> {
             <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">read_separated_ascii</span>::<span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>(<span class="ident">reader</span>)<span class="question-mark">?</span>;
@@ -1653,9 +1653,9 @@
 <span class="comment">// be ignored. Also, contrary to rgb, black pixels are encoded as a 1 while white is 0. This will</span>
 <span class="comment">// need to be reversed for the grayscale output.</span>
 <span class="kw">impl</span> <span class="ident">Sample</span> <span class="kw">for</span> <span class="ident">PbmBit</span> {
-    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">width</span> <span class="op">*</span> <span class="ident">samples</span>;
-        <span class="kw">let</span> <span class="ident">linelen</span> <span class="op">=</span> (<span class="ident">count</span> <span class="op">/</span> <span class="number">8</span>) <span class="op">+</span> ((<span class="ident">count</span> <span class="op">%</span> <span class="number">8</span>) <span class="op">!=</span> <span class="number">0</span>) <span class="kw">as</span> <span class="ident">u32</span>;
+        <span class="kw">let</span> <span class="ident">linelen</span> <span class="op">=</span> (<span class="ident">count</span> <span class="op">/</span> <span class="number">8</span>) <span class="op">+</span> ((<span class="ident">count</span> <span class="op">%</span> <span class="number">8</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>) <span class="kw">as</span> <span class="ident">u32</span>;
         <span class="prelude-val">Ok</span>((<span class="ident">linelen</span> <span class="op">*</span> <span class="ident">height</span>) <span class="kw">as</span> <span class="ident">usize</span>)
     }
 
@@ -1664,7 +1664,7 @@
         <span class="ident">_width</span>: <span class="ident">u32</span>,
         <span class="ident">_height</span>: <span class="ident">u32</span>,
         <span class="ident">_samples</span>: <span class="ident">u32</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">bytes</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">pixel</span><span class="op">|</span> <span class="op">!</span><span class="ident">pixel</span>).<span class="ident">collect</span>())
     }
 
@@ -1673,25 +1673,25 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">samples</span>: <span class="ident">u32</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> (<span class="ident">width</span><span class="kw-2">*</span><span class="ident">height</span><span class="kw-2">*</span><span class="ident">samples</span>) <span class="kw">as</span> <span class="ident">usize</span>;
         <span class="kw">let</span> <span class="ident">raw_samples</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">bytes</span>()
             .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">ascii</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">ascii</span> {
-                <span class="prelude-val">Ok</span>(<span class="string">b&#39;0&#39;</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="number">1</span>)),
-                <span class="prelude-val">Ok</span>(<span class="string">b&#39;1&#39;</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="number">0</span>)),
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">err</span>))),
+                <span class="prelude-val">Ok</span>(<span class="string">b&#39;0&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="number">1</span>)),
+                <span class="prelude-val">Ok</span>(<span class="string">b&#39;1&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="number">0</span>)),
+                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">err</span>))),
                 <span class="prelude-val">Ok</span>(<span class="string">b&#39;\t&#39;</span>)
                 <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\n&#39;</span>)
                 <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\x0b&#39;</span>)
                 <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\x0c&#39;</span>)
                 <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39;\r&#39;</span>)
-                <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39; &#39;</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-                <span class="prelude-val">Ok</span>(<span class="ident">c</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+                <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="string">b&#39; &#39;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+                <span class="prelude-val">Ok</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Unexpected character {} within sample raster&quot;</span>, <span class="ident">c</span>),
                     ))),
             })
             .<span class="ident">take</span>(<span class="ident">count</span>)
-            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
 
         <span class="kw">if</span> <span class="ident">raw_samples</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">count</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">NotEnoughData</span>)
@@ -1703,7 +1703,7 @@
 
 <span class="comment">// Encoded just like a normal U8 but we check the values.</span>
 <span class="kw">impl</span> <span class="ident">Sample</span> <span class="kw">for</span> <span class="ident">BWBit</span> {
-    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">bytelen</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">samples</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="ident">U8</span>::<span class="ident">bytelen</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">samples</span>)
     }
 
@@ -1712,7 +1712,7 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">samples</span>: <span class="ident">u32</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="ident">U8</span>::<span class="ident">from_bytes</span>(<span class="ident">bytes</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">samples</span>)<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">val</span>) <span class="op">=</span> <span class="ident">values</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">val</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">val</span> <span class="op">&gt;</span> <span class="number">1</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
@@ -1727,23 +1727,23 @@
         <span class="ident">_width</span>: <span class="ident">u32</span>,
         <span class="ident">_height</span>: <span class="ident">u32</span>,
         <span class="ident">_samples</span>: <span class="ident">u32</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;BW bits from anymaps are never encoded as ascii&quot;</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">DecodableImageHeader</span> <span class="kw">for</span> <span class="ident">BitmapHeader</span> {
-    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">PbmBit</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">DecodableImageHeader</span> <span class="kw">for</span> <span class="ident">GraymapHeader</span> {
-    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">maxwhite</span> {
-            <span class="ident">v</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">&lt;=</span> <span class="number">0xFF</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">GrayU8</span>),
-            <span class="ident">v</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">&lt;=</span> <span class="number">0xFFFF</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">GrayU16</span>),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+            <span class="ident">v</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0xFF</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">GrayU8</span>),
+            <span class="ident">v</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0xFFFF</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">GrayU16</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Image maxval is not less or equal to 65535&quot;</span>.<span class="ident">to_string</span>(),
             )),
         }
@@ -1751,11 +1751,11 @@
 }
 
 <span class="kw">impl</span> <span class="ident">DecodableImageHeader</span> <span class="kw">for</span> <span class="ident">PixmapHeader</span> {
-    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">maxval</span> {
-            <span class="ident">v</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">&lt;=</span> <span class="number">0xFF</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">RGBU8</span>),
-            <span class="ident">v</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">&lt;=</span> <span class="number">0xFFFF</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">RGBU16</span>),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+            <span class="ident">v</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0xFF</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">RGBU8</span>),
+            <span class="ident">v</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0xFFFF</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">RGBU16</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Image maxval is not less or equal to 65535&quot;</span>.<span class="ident">to_string</span>(),
             )),
         }
@@ -1763,50 +1763,50 @@
 }
 
 <span class="kw">impl</span> <span class="ident">DecodableImageHeader</span> <span class="kw">for</span> <span class="ident">ArbitraryHeader</span> {
-    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">tuple_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">TupleType</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">tupltype</span> {
-            <span class="prelude-val">None</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">==</span> <span class="number">1</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">GrayU8</span>),
-            <span class="prelude-val">None</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">==</span> <span class="number">2</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">8</span>))),
-            <span class="prelude-val">None</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">==</span> <span class="number">3</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">RGBU8</span>),
-            <span class="prelude-val">None</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">==</span> <span class="number">4</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>))),
+            <span class="prelude-val">None</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">GrayU8</span>),
+            <span class="prelude-val">None</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">8</span>))),
+            <span class="prelude-val">None</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">RGBU8</span>),
+            <span class="prelude-val">None</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>))),
 
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">==</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">==</span> <span class="number">1</span> <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">BWBit</span>)
             }
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Invalid depth or maxval for tuple type BLACKANDWHITE&quot;</span>.<span class="ident">to_string</span>(),
             )),
 
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">==</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">&lt;=</span> <span class="number">0xFF</span> <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0xFF</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">GrayU8</span>)
             }
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">&lt;=</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">&lt;=</span> <span class="number">0xFFFF</span> <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">1</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0xFFFF</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">GrayU16</span>)
             }
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Invalid depth or maxval for tuple type GRAYSCALE&quot;</span>.<span class="ident">to_string</span>(),
             )),
 
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">==</span> <span class="number">3</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">&lt;=</span> <span class="number">0xFF</span> <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">3</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0xFF</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">RGBU8</span>)
             }
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">==</span> <span class="number">3</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">&lt;=</span> <span class="number">0xFFFF</span> <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">3</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">maxval</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0xFFFF</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">TupleType</span>::<span class="ident">RGBU16</span>)
             }
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Invalid depth for tuple type RGB&quot;</span>.<span class="ident">to_string</span>(),
             )),
 
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhiteAlpha</span>) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhiteAlpha</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">1</span>)))
             }
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">GrayscaleAlpha</span>) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">GrayscaleAlpha</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">8</span>)))
             }
-            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGBAlpha</span>) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGBAlpha</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>)))
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Tuple type not recognized&quot;</span>.<span class="ident">to_string</span>(),
             )),
         }
@@ -1851,8 +1851,8 @@ ENDHDR
                         }),
                     <span class="ident">encoded</span>: <span class="kw">_</span>,
                 },
-            ) <span class="op">=&gt;</span> (),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
+            ) <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
         }
     }
 
@@ -1891,8 +1891,8 @@ ENDHDR
                         }),
                     <span class="ident">encoded</span>: <span class="kw">_</span>,
                 },
-            ) <span class="op">=&gt;</span> (),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
+            ) <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
         }
     }
 
@@ -1929,8 +1929,8 @@ ENDHDR
                         }),
                     <span class="ident">encoded</span>: <span class="kw">_</span>,
                 },
-            ) <span class="op">=&gt;</span> (),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
+            ) <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
         }
     }
 
@@ -1959,8 +1959,8 @@ ENDHDR
                         }),
                     <span class="ident">encoded</span>: <span class="kw">_</span>,
                 },
-            ) <span class="op">=&gt;</span> (),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
+            ) <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
         }
     }
 
@@ -1971,10 +1971,10 @@ ENDHDR
         <span class="kw">struct</span> <span class="ident">FailRead</span>(<span class="ident">Cursor</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>);
 
         <span class="kw">impl</span> <span class="ident">Read</span> <span class="kw">for</span> <span class="ident">FailRead</span> {
-            <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
                 <span class="kw">match</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">read</span>(<span class="ident">buf</span>) {
-                    <span class="prelude-val">Ok</span>(<span class="ident">n</span>) <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">n</span>),
-                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
+                    <span class="prelude-val">Ok</span>(<span class="ident">n</span>) <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">n</span>),
+                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
                         <span class="ident">ErrorKind</span>::<span class="ident">BrokenPipe</span>,
                         <span class="string">&quot;Simulated broken pipe error&quot;</span>
                     )),
@@ -2011,8 +2011,8 @@ ENDHDR
                         }),
                     <span class="ident">encoded</span>: <span class="kw">_</span>,
                 },
-            ) <span class="op">=&gt;</span> (),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
+            ) <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
         }
     }
 
@@ -2039,8 +2039,8 @@ ENDHDR
                         }),
                     <span class="ident">encoded</span>: <span class="kw">_</span>,
                 },
-            ) <span class="op">=&gt;</span> (),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
+            ) <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
         }
     }
 
@@ -2048,7 +2048,7 @@ ENDHDR
     <span class="kw">fn</span> <span class="ident">pgm_binary</span>() {
         <span class="comment">// The data contains two rows of the image (each line is padded to the full byte). For</span>
         <span class="comment">// comments on its format, see documentation of `impl SampleType for PbmBit`.</span>
-        <span class="kw">let</span> <span class="ident">elements</span> <span class="op">=</span> (<span class="number">0</span>..<span class="number">16</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
+        <span class="kw">let</span> <span class="ident">elements</span> <span class="op">=</span> (<span class="number">0</span>..<span class="number">16</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
         <span class="kw">let</span> <span class="ident">pbmbinary</span> <span class="op">=</span> [<span class="kw-2">&amp;</span><span class="string">b&quot;P5 4 4 255\n&quot;</span>[..], <span class="kw-2">&amp;</span><span class="ident">elements</span>].<span class="ident">concat</span>();
         <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">PNMDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">pbmbinary</span>[..]).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">colortype</span>(), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>));
@@ -2071,8 +2071,8 @@ ENDHDR
                         }),
                     <span class="ident">encoded</span>: <span class="kw">_</span>,
                 },
-            ) <span class="op">=&gt;</span> (),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
+            ) <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
         }
     }
 
@@ -2088,7 +2088,7 @@ ENDHDR
             <span class="ident">decoder</span>.<span class="ident">subtype</span>(),
             <span class="ident">PNMSubtype</span>::<span class="ident">Graymap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>)
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_image</span>().<span class="ident">unwrap</span>(), (<span class="number">0</span>..<span class="number">16</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_image</span>().<span class="ident">unwrap</span>(), (<span class="number">0</span>..<span class="number">16</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>());
         <span class="kw">match</span> <span class="ident">PNMDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">pbmbinary</span>[..]).<span class="ident">unwrap</span>().<span class="ident">into_inner</span>() {
             (
                 <span class="kw">_</span>,
@@ -2102,10 +2102,10 @@ ENDHDR
                         }),
                     <span class="ident">encoded</span>: <span class="kw">_</span>,
                 },
-            ) <span class="op">=&gt;</span> (),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
+            ) <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Decoded header is incorrect&quot;</span>),
         }
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "image";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "image";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

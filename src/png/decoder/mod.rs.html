@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/png-0.15.0/src/decoder/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../png/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/png-0.15.3/src/decoder/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../png/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -579,7 +579,7 @@ pub enum InterlaceHandling {
 
 <span class="kw">impl</span> <span class="ident">OutputInfo</span> {
     <span class="doccomment">/// Returns the size needed to hold a decoded frame</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">line_size</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>
     }
 }
@@ -592,7 +592,7 @@ pub enum InterlaceHandling {
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Limits</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">Limits</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Limits</span> {
         <span class="ident">Limits</span> {
             <span class="ident">bytes</span>: <span class="number">1024</span><span class="kw-2">*</span><span class="number">1024</span><span class="kw-2">*</span><span class="number">64</span>,
         }
@@ -610,15 +610,15 @@ pub enum InterlaceHandling {
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="ident">Decoder</span>::<span class="ident">new_with_limits</span>(<span class="ident">r</span>, <span class="ident">Limits</span>::<span class="ident">default</span>())
     }
     
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_limits</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="ident">l</span>: <span class="ident">Limits</span>) <span class="op">-&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_limits</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="ident">limits</span>: <span class="ident">Limits</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="ident">Decoder</span> {
-            <span class="ident">r</span>: <span class="ident">r</span>,
+            <span class="ident">r</span>,
             <span class="ident">transform</span>: <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>,
-            <span class="ident">limits</span>: <span class="ident">l</span>,
+            <span class="ident">limits</span>,
         }
     }
 
@@ -643,7 +643,7 @@ pub enum InterlaceHandling {
     }
 
     <span class="doccomment">/// Reads all meta data until the first IDAT chunk</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_info</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OutputInfo</span>, <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_info</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OutputInfo</span>, <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">Reader</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">r</span>, <span class="ident">StreamingDecoder</span>::<span class="ident">new</span>(), <span class="self">self</span>.<span class="ident">transform</span>, <span class="self">self</span>.<span class="ident">limits</span>);
         <span class="ident">r</span>.<span class="ident">init</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">ct</span>, <span class="ident">bits</span>) <span class="op">=</span> <span class="ident">r</span>.<span class="ident">output_color_type</span>();
@@ -678,7 +678,7 @@ pub enum InterlaceHandling {
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">ReadDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Returns the next decoded chunk. If the chunk is an ImageData chunk, its contents are written</span>
     <span class="doccomment">/// into image_data.</span>
-    <span class="kw">fn</span> <span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">image_data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Decoded</span><span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">image_data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Decoded</span><span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">while</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">at_eof</span> {
             <span class="kw">let</span> (<span class="ident">consumed</span>, <span class="ident">result</span>) <span class="op">=</span> {
                 <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">fill_buf</span>()<span class="question-mark">?</span>;
@@ -691,15 +691,15 @@ pub enum InterlaceHandling {
             };
             <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">consume</span>(<span class="ident">consumed</span>);
             <span class="kw">match</span> <span class="ident">result</span> {
-                <span class="ident">Decoded</span>::<span class="ident">Nothing</span> <span class="op">=&gt;</span> (),
-                <span class="ident">Decoded</span>::<span class="ident">ImageEnd</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">at_eof</span> <span class="op">=</span> <span class="bool-val">true</span>,
-                <span class="ident">result</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">result</span>))
+                <span class="ident">Decoded</span>::<span class="ident">Nothing</span> <span class="op">=</span><span class="op">&gt;</span> (),
+                <span class="ident">Decoded</span>::<span class="ident">ImageEnd</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">at_eof</span> <span class="op">=</span> <span class="bool-val">true</span>,
+                <span class="ident">result</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">result</span>))
             }
         }
         <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Info</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Info</span><span class="op">&gt;</span> {
         <span class="ident">get_info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">decoder</span>)
     }
 }
@@ -724,14 +724,14 @@ pub enum InterlaceHandling {
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">get_info</span>(
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">this</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">this</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">this</span>.<span class="ident">decoder</span>.<span class="ident">info</span>().<span class="ident">unwrap</span>()
     }
 );
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a new PNG reader</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="ident">d</span>: <span class="ident">StreamingDecoder</span>, <span class="ident">t</span>: <span class="ident">Transformations</span>, <span class="ident">limits</span>: <span class="ident">Limits</span>) <span class="op">-&gt;</span> <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="ident">d</span>: <span class="ident">StreamingDecoder</span>, <span class="ident">t</span>: <span class="ident">Transformations</span>, <span class="ident">limits</span>: <span class="ident">Limits</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="ident">Reader</span> {
             <span class="ident">decoder</span>: <span class="ident">ReadDecoder</span> {
                 <span class="ident">reader</span>: <span class="ident">BufReader</span>::<span class="ident">with_capacity</span>(<span class="ident">CHUNCK_BUFFER_SIZE</span>, <span class="ident">r</span>),
@@ -750,24 +750,24 @@ pub enum InterlaceHandling {
     }
 
     <span class="doccomment">/// Reads all meta data until the first IDAT chunk</span>
-    <span class="kw">fn</span> <span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Decoded</span>::<span class="kw-2">*</span>;
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">info</span>().<span class="ident">is_some</span>() {
             <span class="prelude-val">Ok</span>(())
         } <span class="kw">else</span> {
             <span class="kw">loop</span> {
                 <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span>::<span class="ident">new</span>())<span class="question-mark">?</span> {
-                    <span class="prelude-val">Some</span>(<span class="ident">ChunkBegin</span>(<span class="kw">_</span>, <span class="ident">IDAT</span>)) <span class="op">=&gt;</span> <span class="kw">break</span>,
-                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
+                    <span class="prelude-val">Some</span>(<span class="ident">ChunkBegin</span>(<span class="kw">_</span>, <span class="ident">IDAT</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
+                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
                         <span class="string">&quot;IDAT chunk missing&quot;</span>.<span class="ident">into</span>()
                     )),
-                    <span class="kw">_</span> <span class="op">=&gt;</span> (),
+                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (),
                 }
             }
             {
                 <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">info</span>() {
-                    <span class="prelude-val">Some</span>(<span class="ident">info</span>) <span class="op">=&gt;</span> <span class="ident">info</span>,
-                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
+                    <span class="prelude-val">Some</span>(<span class="ident">info</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">info</span>,
+                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
                       <span class="string">&quot;IHDR chunk missing&quot;</span>.<span class="ident">into</span>()
                     ))
                 };
@@ -783,12 +783,12 @@ pub enum InterlaceHandling {
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Info</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Info</span> {
         <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Decodes the next frame into `buf`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="comment">// TODO 16 bit</span>
         <span class="kw">let</span> (<span class="ident">color_type</span>, <span class="ident">bit_depth</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_color_type</span>();
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">width</span>;
@@ -806,28 +806,28 @@ pub enum InterlaceHandling {
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">row</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_row</span>()<span class="question-mark">?</span> {
-                <span class="ident">len</span> <span class="op">+=</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="ident">len</span>..]).<span class="ident">write</span>(<span class="ident">row</span>)<span class="question-mark">?</span>;
+                <span class="ident">len</span> <span class="op">+</span><span class="op">=</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="ident">len</span>..]).<span class="ident">write</span>(<span class="ident">row</span>)<span class="question-mark">?</span>;
             }
         }
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Returns the next processed row of the image</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">next_interlaced_row</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="number">0</span>))
     }
 
     <span class="doccomment">/// Returns the next processed row of the image</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_interlaced_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>)<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_interlaced_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>)<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">common</span>::<span class="ident">ColorType</span>::<span class="kw-2">*</span>;
         <span class="kw">let</span> <span class="ident">transform</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">transform</span>;
-        <span class="kw">if</span> <span class="ident">transform</span> <span class="op">==</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">IDENTITY</span> {
+        <span class="kw">if</span> <span class="ident">transform</span> <span class="op">=</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">IDENTITY</span> {
             <span class="self">self</span>.<span class="ident">next_raw_interlaced_row</span>()
         } <span class="kw">else</span> {
             <span class="comment">// swap buffer to circumvent borrow issues</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">processed</span>, <span class="ident">Vec</span>::<span class="ident">new</span>());
             <span class="kw">let</span> (<span class="ident">got_next</span>, <span class="ident">adam7</span>) <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">row</span>, <span class="ident">adam7</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_raw_interlaced_row</span>()<span class="question-mark">?</span> {
-                (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>[..]).<span class="ident">write</span>(<span class="ident">row</span>)<span class="question-mark">?</span>;
+                (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>[..]).<span class="ident">write_all</span>(<span class="ident">row</span>)<span class="question-mark">?</span>;
                 (<span class="bool-val">true</span>, <span class="ident">adam7</span>)
             } <span class="kw">else</span> {
                 (<span class="bool-val">false</span>, <span class="prelude-val">None</span>)
@@ -848,26 +848,26 @@ pub enum InterlaceHandling {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">output_buffer</span>.<span class="ident">len</span>();
                 <span class="kw">if</span> <span class="ident">transform</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) {
                     <span class="kw">match</span> <span class="ident">color_type</span> {
-                        <span class="ident">Indexed</span> <span class="op">=&gt;</span> {
+                        <span class="ident">Indexed</span> <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="ident">expand_paletted</span>(<span class="ident">output_buffer</span>, <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>))<span class="question-mark">?</span>
                         }
-                        <span class="ident">Grayscale</span> <span class="op">|</span> <span class="ident">GrayscaleAlpha</span> <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">&lt;</span> <span class="number">8</span> <span class="op">=&gt;</span> <span class="ident">expand_gray_u8</span>(
+                        <span class="ident">Grayscale</span> <span class="op">|</span> <span class="ident">GrayscaleAlpha</span> <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">&lt;</span> <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">expand_gray_u8</span>(
                             <span class="ident">output_buffer</span>, <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>)
                         ),
-                        <span class="ident">Grayscale</span> <span class="op">|</span> <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">=&gt;</span> {
+                        <span class="ident">Grayscale</span> <span class="op">|</span> <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="kw">let</span> <span class="ident">channels</span> <span class="op">=</span> <span class="ident">color_type</span>.<span class="ident">samples</span>();
                             <span class="kw">let</span> <span class="ident">trns</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">trns</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>();
-                            <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">==</span> <span class="number">8</span> {
+                            <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">8</span> {
                                 <span class="ident">utils</span>::<span class="ident">expand_trns_line</span>(<span class="ident">output_buffer</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">trns</span>, <span class="ident">channels</span>);
                             } <span class="kw">else</span> {
                                 <span class="ident">utils</span>::<span class="ident">expand_trns_line16</span>(<span class="ident">output_buffer</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">trns</span>, <span class="ident">channels</span>);
                             }
                         },
-                        <span class="kw">_</span> <span class="op">=&gt;</span> ()
+                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> ()
                     }
                 }
-                <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">==</span> <span class="number">16</span> <span class="op">&amp;&amp;</span> <span class="ident">transform</span>.<span class="ident">intersects</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>) {
-                    <span class="ident">len</span> <span class="op">/=</span> <span class="number">2</span>;
+                <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">16</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">transform</span>.<span class="ident">intersects</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>) {
+                    <span class="ident">len</span> <span class="op">/</span><span class="op">=</span> <span class="number">2</span>;
                     <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">len</span> {
                         <span class="ident">output_buffer</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">output_buffer</span>[<span class="number">2</span> <span class="op">*</span> <span class="ident">i</span>];
                     }
@@ -884,28 +884,28 @@ pub enum InterlaceHandling {
 
     <span class="doccomment">/// Returns the color type and the number of bits per sample</span>
     <span class="doccomment">/// of the data returned by `Reader::next_row` and Reader::frames`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_color_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">ColorType</span>, <span class="ident">BitDepth</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_color_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">ColorType</span>, <span class="ident">BitDepth</span>) {
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">common</span>::<span class="ident">ColorType</span>::<span class="kw-2">*</span>;
         <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">transform</span>;
         <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>);
-        <span class="kw">if</span> <span class="ident">t</span> <span class="op">==</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">IDENTITY</span> {
+        <span class="kw">if</span> <span class="ident">t</span> <span class="op">=</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">IDENTITY</span> {
             (<span class="ident">info</span>.<span class="ident">color_type</span>, <span class="ident">info</span>.<span class="ident">bit_depth</span>)
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="ident">bits</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> {
                 <span class="number">16</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">intersects</span>(
                     <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>
-                ) <span class="op">=&gt;</span> <span class="number">8</span>,
-                <span class="kw">_</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> <span class="number">8</span>,
-                <span class="ident">n</span> <span class="op">=&gt;</span> <span class="ident">n</span>
+                ) <span class="op">=</span><span class="op">&gt;</span> <span class="number">8</span>,
+                <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">8</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">8</span>,
+                <span class="ident">n</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">n</span>
             };
             <span class="kw">let</span> <span class="ident">color_type</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) {
                 <span class="kw">let</span> <span class="ident">has_trns</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">trns</span>.<span class="ident">is_some</span>();
                 <span class="kw">match</span> <span class="ident">info</span>.<span class="ident">color_type</span> {
-                    <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=&gt;</span> <span class="ident">GrayscaleAlpha</span>,
-                    <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=&gt;</span> <span class="ident">RGBA</span>,
-                    <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=&gt;</span> <span class="ident">RGBA</span>,
-                    <span class="ident">Indexed</span> <span class="op">=&gt;</span> <span class="ident">RGB</span>,
-                    <span class="ident">ct</span> <span class="op">=&gt;</span> <span class="ident">ct</span>
+                    <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">GrayscaleAlpha</span>,
+                    <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">RGBA</span>,
+                    <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">RGBA</span>,
+                    <span class="ident">Indexed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">RGB</span>,
+                    <span class="ident">ct</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ct</span>
                 }
             } <span class="kw">else</span> {
                 <span class="ident">info</span>.<span class="ident">color_type</span>
@@ -916,16 +916,16 @@ pub enum InterlaceHandling {
 
     <span class="doccomment">/// Returns the number of bytes required to hold a deinterlaced image frame</span>
     <span class="doccomment">/// that is decoded using the given input transformations.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">size</span>();
         <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_line_size</span>(<span class="ident">width</span>);
         <span class="ident">size</span> <span class="op">*</span> <span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>
     }
 
     <span class="doccomment">/// Returns the number of bytes required to hold a deinterlaced row.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_line_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_line_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">line_size</span>(<span class="ident">width</span>);
-        <span class="kw">if</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">==</span> <span class="number">16</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">transform</span>.<span class="ident">intersects</span>(
+        <span class="kw">if</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">=</span><span class="op">=</span> <span class="number">16</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">transform</span>.<span class="ident">intersects</span>(
             <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>
         ) {
             <span class="ident">size</span> <span class="op">/</span> <span class="number">2</span>
@@ -935,31 +935,31 @@ pub enum InterlaceHandling {
     }
 
     <span class="doccomment">/// Returns the number of bytes required to decode a deinterlaced row.</span>
-    <span class="kw">fn</span> <span class="ident">line_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">line_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">common</span>::<span class="ident">ColorType</span>::<span class="kw-2">*</span>;
         <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">transform</span>;
         <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="ident">trns</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">trns</span>.<span class="ident">is_some</span>();
         <span class="comment">// TODO 16 bit</span>
         <span class="kw">let</span> <span class="ident">bits</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">info</span>.<span class="ident">color_type</span> {
-            <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">&amp;&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> <span class="number">4</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> <span class="number">3</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">&amp;&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> <span class="number">4</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">&amp;&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> <span class="number">2</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> <span class="number">1</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">GrayscaleAlpha</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> <span class="number">2</span> <span class="op">*</span> <span class="number">8</span>,
+            <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">4</span> <span class="op">*</span> <span class="number">8</span>,
+            <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">3</span> <span class="op">*</span> <span class="number">8</span>,
+            <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">4</span> <span class="op">*</span> <span class="number">8</span>,
+            <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">2</span> <span class="op">*</span> <span class="number">8</span>,
+            <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span> <span class="op">*</span> <span class="number">8</span>,
+            <span class="ident">GrayscaleAlpha</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">2</span> <span class="op">*</span> <span class="number">8</span>,
             <span class="comment">// divide by 2 as it will get mutiplied by two later</span>
-            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">==</span> <span class="number">16</span> <span class="op">=&gt;</span> <span class="ident">info</span>.<span class="ident">bits_per_pixel</span>() <span class="op">/</span> <span class="number">2</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">info</span>.<span class="ident">bits_per_pixel</span>()
+            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">=</span><span class="op">=</span> <span class="number">16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">info</span>.<span class="ident">bits_per_pixel</span>() <span class="op">/</span> <span class="number">2</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">info</span>.<span class="ident">bits_per_pixel</span>()
         }
         <span class="op">*</span> <span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span>
-        <span class="op">*</span> <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">==</span> <span class="number">16</span> { <span class="number">2</span> } <span class="kw">else</span> { <span class="number">1</span> };
+        <span class="op">*</span> <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">=</span><span class="op">=</span> <span class="number">16</span> { <span class="number">2</span> } <span class="kw">else</span> { <span class="number">1</span> };
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">bits</span> <span class="op">/</span> <span class="number">8</span>;
         <span class="kw">let</span> <span class="ident">extra</span> <span class="op">=</span> <span class="ident">bits</span> <span class="op">%</span> <span class="number">8</span>;
-        <span class="ident">len</span> <span class="op">+</span> <span class="kw">match</span> <span class="ident">extra</span> { <span class="number">0</span> <span class="op">=&gt;</span> <span class="number">0</span>, <span class="kw">_</span> <span class="op">=&gt;</span> <span class="number">1</span> }
+        <span class="ident">len</span> <span class="op">+</span> <span class="kw">match</span> <span class="ident">extra</span> { <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>, <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span> }
     }
 
-    <span class="kw">fn</span> <span class="ident">allocate_out_buf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">allocate_out_buf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">width</span>;
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">limits</span>.<span class="ident">bytes</span>;
         <span class="kw">if</span> <span class="ident">bytes</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">line_size</span>(<span class="ident">width</span>) {
@@ -970,14 +970,14 @@ pub enum InterlaceHandling {
     }
 
     <span class="doccomment">/// Returns the next raw row of the image</span>
-    <span class="kw">fn</span> <span class="ident">next_raw_interlaced_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>)<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next_raw_interlaced_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>)<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="ident">bpp</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bpp</span>;
         <span class="kw">let</span> (<span class="ident">rowlen</span>, <span class="ident">passdata</span>) <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">adam7</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">adam7</span> {
             <span class="kw">let</span> <span class="ident">last_pass</span> <span class="op">=</span> <span class="ident">adam7</span>.<span class="ident">current_pass</span>();
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">pass</span>, <span class="ident">line</span>, <span class="ident">len</span>)) <span class="op">=</span> <span class="ident">adam7</span>.<span class="ident">next</span>() {
                 <span class="kw">let</span> <span class="ident">rowlen</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">raw_row_length_from_width</span>(<span class="ident">len</span>);
-                <span class="kw">if</span> <span class="ident">last_pass</span> <span class="op">!=</span> <span class="ident">pass</span> {
+                <span class="kw">if</span> <span class="ident">last_pass</span> <span class="op">!</span><span class="op">=</span> <span class="ident">pass</span> {
                     <span class="self">self</span>.<span class="ident">prev</span>.<span class="ident">clear</span>();
                     <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">rowlen</span> {
                         <span class="self">self</span>.<span class="ident">prev</span>.<span class="ident">push</span>(<span class="number">0</span>);
@@ -991,7 +991,7 @@ pub enum InterlaceHandling {
             (<span class="self">self</span>.<span class="ident">rowlen</span>, <span class="prelude-val">None</span>)
         };
         <span class="kw">loop</span> {
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">current</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="ident">rowlen</span> {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">current</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">rowlen</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">filter</span>) <span class="op">=</span> <span class="ident">FilterType</span>::<span class="ident">from_u8</span>(<span class="self">self</span>.<span class="ident">current</span>[<span class="number">0</span>]) {
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">message</span>) <span class="op">=</span> <span class="ident">unfilter</span>(<span class="ident">filter</span>, <span class="ident">bpp</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">prev</span>[<span class="number">1</span>..<span class="ident">rowlen</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">current</span>[<span class="number">1</span>..<span class="ident">rowlen</span>]) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
@@ -1014,9 +1014,9 @@ pub enum InterlaceHandling {
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">current</span>)<span class="question-mark">?</span>;
                 <span class="kw">match</span> <span class="ident">val</span> {
-                    <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">ImageData</span>) <span class="op">=&gt;</span> {}
-                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
-                        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">current</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
+                    <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">ImageData</span>) <span class="op">=</span><span class="op">&gt;</span> {}
+                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">current</span>.<span class="ident">is_empty</span>() {
                             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
                               <span class="string">&quot;file truncated&quot;</span>.<span class="ident">into</span>()
                             ))
@@ -1024,14 +1024,14 @@ pub enum InterlaceHandling {
                             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
                         }
                     }
-                    <span class="kw">_</span> <span class="op">=&gt;</span> ()
+                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> ()
                 }
             }
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">expand_paletted</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">Info</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">expand_paletted</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">Info</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">palette</span>) <span class="op">=</span> <span class="ident">info</span>.<span class="ident">palette</span>.<span class="ident">as_ref</span>() {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">BitDepth</span>::<span class="ident">Sixteen</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> {
             <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;Bit depth &#39;16&#39; is not valid for paletted images&quot;</span>.<span class="ident">into</span>()))
@@ -1066,13 +1066,13 @@ pub enum InterlaceHandling {
 <span class="kw">fn</span> <span class="ident">expand_gray_u8</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">Info</span>) {
     <span class="kw">let</span> <span class="ident">rescale</span> <span class="op">=</span> <span class="bool-val">true</span>;
     <span class="kw">let</span> <span class="ident">scaling_factor</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">rescale</span> {
-        (<span class="number">255</span>)<span class="op">/</span>((<span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>) <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u8</span>
+        (<span class="number">255</span>)<span class="op">/</span>((<span class="number">1u16</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>) <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u8</span>
     } <span class="kw">else</span> {
         <span class="number">1</span>
     };
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">trns</span>) <span class="op">=</span> <span class="ident">info</span>.<span class="ident">trns</span> {
         <span class="ident">utils</span>::<span class="ident">unpack_bits</span>(<span class="ident">buffer</span>, <span class="number">2</span>, <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="op">|</span><span class="ident">pixel</span>, <span class="ident">chunk</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="ident">pixel</span> <span class="op">==</span> <span class="ident">trns</span>[<span class="number">0</span>] {
+            <span class="kw">if</span> <span class="ident">pixel</span> <span class="op">=</span><span class="op">=</span> <span class="ident">trns</span>[<span class="number">0</span>] {
                 <span class="ident">chunk</span>[<span class="number">1</span>] <span class="op">=</span> <span class="number">0</span>
             } <span class="kw">else</span> {
                 <span class="ident">chunk</span>[<span class="number">1</span>] <span class="op">=</span> <span class="number">0xFF</span>
@@ -1086,4 +1086,4 @@ pub enum InterlaceHandling {
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "png";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "png";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

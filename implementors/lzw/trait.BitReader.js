@@ -6,5 +6,4 @@ implementors["lzw"] = [];
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

@@ -6,5 +6,4 @@ implementors["scopeguard"] = [];
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

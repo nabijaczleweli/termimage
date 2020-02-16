@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.3/./src/pnm/encoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>encoder.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.5/./src/pnm/encoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>encoder.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -733,7 +733,7 @@
     <span class="doccomment">/// The encoded images will have some `pnm` format. If more control over the image type is</span>
     <span class="doccomment">/// required, use either one of `with_subtype` or `with_header`. For more information on the</span>
     <span class="doccomment">/// behaviour, see `with_dynamic_header`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">writer</span>: <span class="ident">W</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">writer</span>: <span class="ident">W</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">PNMEncoder</span> {
             <span class="ident">writer</span>,
             <span class="ident">header</span>: <span class="ident">HeaderStrategy</span>::<span class="ident">Dynamic</span>,
@@ -747,7 +747,7 @@
     <span class="doccomment">/// RGB image as Graymap) will result in an error.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This will overwrite the effect of earlier calls to `with_header` and `with_dynamic_header`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_subtype</span>(<span class="self">self</span>, <span class="ident">subtype</span>: <span class="ident">PNMSubtype</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_subtype</span>(<span class="self">self</span>, <span class="ident">subtype</span>: <span class="ident">PNMSubtype</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">PNMEncoder</span> {
             <span class="ident">writer</span>: <span class="self">self</span>.<span class="ident">writer</span>,
             <span class="ident">header</span>: <span class="ident">HeaderStrategy</span>::<span class="ident">Subtype</span>(<span class="ident">subtype</span>),
@@ -763,7 +763,7 @@
     <span class="doccomment">/// Choose this option if you want a lossless decoding/encoding round trip.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This will overwrite the effect of earlier calls to `with_subtype` and `with_dynamic_header`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_header</span>(<span class="self">self</span>, <span class="ident">header</span>: <span class="ident">PNMHeader</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_header</span>(<span class="self">self</span>, <span class="ident">header</span>: <span class="ident">PNMHeader</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">PNMEncoder</span> {
             <span class="ident">writer</span>: <span class="self">self</span>.<span class="ident">writer</span>,
             <span class="ident">header</span>: <span class="ident">HeaderStrategy</span>::<span class="ident">Chosen</span>(<span class="ident">header</span>),
@@ -777,7 +777,7 @@
     <span class="doccomment">/// chosen arbitrarily by the library.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This will overwrite the effect of earlier calls to `with_subtype` and `with_header`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_dynamic_header</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_dynamic_header</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">PNMEncoder</span> {
             <span class="ident">writer</span>: <span class="self">self</span>.<span class="ident">writer</span>,
             <span class="ident">header</span>: <span class="ident">HeaderStrategy</span>::<span class="ident">Dynamic</span>,
@@ -794,17 +794,17 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">color</span>: <span class="ident">ColorType</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
-        <span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;s</span><span class="op">&gt;&gt;</span>,
+        <span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;s</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">into</span>();
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">header</span> {
-            <span class="ident">HeaderStrategy</span>::<span class="ident">Dynamic</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">write_dynamic_header</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>),
-            <span class="ident">HeaderStrategy</span>::<span class="ident">Subtype</span>(<span class="ident">subtype</span>) <span class="op">=&gt;</span> {
+            <span class="ident">HeaderStrategy</span>::<span class="ident">Dynamic</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">write_dynamic_header</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>),
+            <span class="ident">HeaderStrategy</span>::<span class="ident">Subtype</span>(<span class="ident">subtype</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="self">self</span>.<span class="ident">write_subtyped_header</span>(<span class="ident">subtype</span>, <span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>)
             }
-            <span class="ident">HeaderStrategy</span>::<span class="ident">Chosen</span>(<span class="kw-2">ref</span> <span class="ident">header</span>) <span class="op">=&gt;</span> {
+            <span class="ident">HeaderStrategy</span>::<span class="ident">Chosen</span>(<span class="kw-2">ref</span> <span class="ident">header</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="self">Self</span>::<span class="ident">write_with_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">writer</span>, <span class="ident">header</span>, <span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>)
             }
         }
@@ -819,16 +819,16 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">color</span>: <span class="ident">ColorType</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">depth</span> <span class="op">=</span> <span class="ident">channel_count</span>(<span class="ident">color</span>).<span class="ident">into</span>();
         <span class="kw">let</span> (<span class="ident">maxval</span>, <span class="ident">tupltype</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">color</span> {
-            <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">1</span>) <span class="op">=&gt;</span> (<span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>),
-            <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">1</span>) <span class="op">=&gt;</span> (<span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhiteAlpha</span>),
-            <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="ident">n</span> @ <span class="number">1</span>..=<span class="number">16</span>) <span class="op">=&gt;</span> ((<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>),
-            <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="ident">n</span> @ <span class="number">1</span>..=<span class="number">16</span>) <span class="op">=&gt;</span> ((<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">GrayscaleAlpha</span>),
-            <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="ident">n</span> @ <span class="number">1</span>..=<span class="number">16</span>) <span class="op">=&gt;</span> ((<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>),
-            <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="ident">n</span> @ <span class="number">1</span>..=<span class="number">16</span>) <span class="op">=&gt;</span> ((<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">RGBAlpha</span>),
-            <span class="kw">_</span> <span class="op">=&gt;</span> {
+            <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>),
+            <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhiteAlpha</span>),
+            <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="ident">n</span> @ <span class="number">2</span>..<span class="op">=</span><span class="number">16</span>) <span class="op">=</span><span class="op">&gt;</span> ((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>),
+            <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="ident">n</span> @ <span class="number">2</span>..<span class="op">=</span><span class="number">16</span>) <span class="op">=</span><span class="op">&gt;</span> ((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">GrayscaleAlpha</span>),
+            <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="ident">n</span> @ <span class="number">1</span>..<span class="op">=</span><span class="number">16</span>) <span class="op">=</span><span class="op">&gt;</span> ((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>),
+            <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="ident">n</span> @ <span class="number">1</span>..<span class="op">=</span><span class="number">16</span>) <span class="op">=</span><span class="op">&gt;</span> ((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>, <span class="ident">ArbitraryTuplType</span>::<span class="ident">RGBAlpha</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                     <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                     <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Encoding colour type {:?} is not supported&quot;</span>, <span class="ident">color</span>)[..],
@@ -858,12 +858,12 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">color</span>: <span class="ident">ColorType</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">subtype</span>, <span class="ident">color</span>) {
-            (<span class="ident">PNMSubtype</span>::<span class="ident">ArbitraryMap</span>, <span class="ident">color</span>) <span class="op">=&gt;</span> {
+            (<span class="ident">PNMSubtype</span>::<span class="ident">ArbitraryMap</span>, <span class="ident">color</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="self">self</span>.<span class="ident">write_dynamic_header</span>(<span class="ident">image</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>)
             }
-            (<span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">encoding</span>), <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>)) <span class="op">=&gt;</span> <span class="ident">PNMHeader</span> {
+            (<span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">encoding</span>), <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMHeader</span> {
                 <span class="ident">decoded</span>: <span class="ident">HeaderRecord</span>::<span class="ident">Pixmap</span>(<span class="ident">PixmapHeader</span> {
                     <span class="ident">encoding</span>,
                     <span class="ident">width</span>,
@@ -872,7 +872,7 @@
                 }),
                 <span class="ident">encoded</span>: <span class="prelude-val">None</span>,
             },
-            (<span class="ident">PNMSubtype</span>::<span class="ident">Graymap</span>(<span class="ident">encoding</span>), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>)) <span class="op">=&gt;</span> <span class="ident">PNMHeader</span> {
+            (<span class="ident">PNMSubtype</span>::<span class="ident">Graymap</span>(<span class="ident">encoding</span>), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMHeader</span> {
                 <span class="ident">decoded</span>: <span class="ident">HeaderRecord</span>::<span class="ident">Graymap</span>(<span class="ident">GraymapHeader</span> {
                     <span class="ident">encoding</span>,
                     <span class="ident">width</span>,
@@ -882,7 +882,7 @@
                 <span class="ident">encoded</span>: <span class="prelude-val">None</span>,
             },
             (<span class="ident">PNMSubtype</span>::<span class="ident">Bitmap</span>(<span class="ident">encoding</span>), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>))
-            <span class="op">|</span> (<span class="ident">PNMSubtype</span>::<span class="ident">Bitmap</span>(<span class="ident">encoding</span>), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">1</span>)) <span class="op">=&gt;</span> <span class="ident">PNMHeader</span> {
+            <span class="op">|</span> (<span class="ident">PNMSubtype</span>::<span class="ident">Bitmap</span>(<span class="ident">encoding</span>), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">1</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PNMHeader</span> {
                 <span class="ident">decoded</span>: <span class="ident">HeaderRecord</span>::<span class="ident">Bitmap</span>(<span class="ident">BitmapHeader</span> {
                     <span class="ident">encoding</span>,
                     <span class="ident">width</span>,
@@ -890,7 +890,7 @@
                 }),
                 <span class="ident">encoded</span>: <span class="prelude-val">None</span>,
             },
-            (<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> {
+            (<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                     <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                     <span class="string">&quot;Color type can not be represented in the chosen format&quot;</span>,
@@ -911,7 +911,7 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">color</span>: <span class="ident">ColorType</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">unchecked</span> <span class="op">=</span> <span class="ident">UncheckedHeader</span> { <span class="ident">header</span> };
 
         <span class="ident">unchecked</span>
@@ -929,7 +929,7 @@
         <span class="ident">width</span>: <span class="ident">u32</span>,
         <span class="ident">height</span>: <span class="ident">u32</span>,
         <span class="ident">color</span>: <span class="ident">ColorType</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CheckedImageBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CheckedImageBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">components</span> <span class="op">=</span> <span class="ident">channel_count</span>(<span class="ident">color</span>) <span class="kw">as</span> <span class="ident">usize</span>;
         <span class="kw">let</span> <span class="ident">uwidth</span> <span class="op">=</span> <span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span>;
         <span class="kw">let</span> <span class="ident">uheight</span> <span class="op">=</span> <span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>;
@@ -937,20 +937,20 @@
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">checked_mul</span>(<span class="ident">uwidth</span>))
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">checked_mul</span>(<span class="ident">uheight</span>))
         {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                 <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
                     <span class="string">&quot;Image dimensions invalid: {}×{}×{} (w×h×d)&quot;</span>,
                     <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">components</span>
                 )[..],
             )),
-            <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="kw">if</span> <span class="ident">v</span> <span class="op">==</span> <span class="ident">image</span>.<span class="ident">len</span>() <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CheckedImageBuffer</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="kw">if</span> <span class="ident">v</span> <span class="op">=</span><span class="op">=</span> <span class="ident">image</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CheckedImageBuffer</span> {
                 <span class="ident">_image</span>: <span class="ident">image</span>,
                 <span class="ident">_width</span>: <span class="ident">width</span>,
                 <span class="ident">_height</span>: <span class="ident">height</span>,
                 <span class="ident">_color</span>: <span class="ident">color</span>,
             }),
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                 <span class="kw-2">&amp;</span><span class="string">&quot;Image buffer does not correspond to size and colour&quot;</span>.<span class="ident">to_string</span>()[..],
             )),
@@ -959,8 +959,8 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">UncheckedHeader</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">check_header_dimensions</span>(<span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CheckedDimensions</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">width</span>() <span class="op">!=</span> <span class="ident">width</span> <span class="op">||</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">height</span>() <span class="op">!=</span> <span class="ident">height</span> {
+    <span class="kw">fn</span> <span class="ident">check_header_dimensions</span>(<span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CheckedDimensions</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">width</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">width</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">header</span>.<span class="ident">height</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">height</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                 <span class="string">&quot;Chosen header does not match Image dimensions&quot;</span>,
@@ -979,21 +979,21 @@
     <span class="comment">// Check color compatibility with the header. This will only error when we are certain that</span>
     <span class="comment">// the comination is bogus (e.g. combining Pixmap and Palette) but allows uncertain</span>
     <span class="comment">// combinations (basically a ArbitraryTuplType::Custom with any color of fitting depth).</span>
-    <span class="kw">fn</span> <span class="ident">check_header_color</span>(<span class="self">self</span>, <span class="ident">color</span>: <span class="ident">ColorType</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CheckedHeaderColor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">check_header_color</span>(<span class="self">self</span>, <span class="ident">color</span>: <span class="ident">ColorType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CheckedHeaderColor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">components</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">color</span> {
-            <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="number">1</span>,
-            <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="number">2</span>,
-            <span class="ident">ColorType</span>::<span class="ident">Palette</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGR</span>(<span class="kw">_</span>)<span class="op">=&gt;</span> <span class="number">3</span>,
-            <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGRA</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="number">4</span>,
+            <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
+            <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">2</span>,
+            <span class="ident">ColorType</span>::<span class="ident">Palette</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGR</span>(<span class="kw">_</span>)<span class="op">=</span><span class="op">&gt;</span> <span class="number">3</span>,
+            <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGRA</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">4</span>,
         };
 
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">unchecked</span>.<span class="ident">header</span> {
             <span class="ident">PNMHeader</span> {
                 <span class="ident">decoded</span>: <span class="ident">HeaderRecord</span>::<span class="ident">Bitmap</span>(<span class="kw">_</span>),
                 ..
-            } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">color</span> {
-                <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (),
-                <span class="kw">_</span> <span class="op">=&gt;</span> {
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">color</span> {
+                <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                         <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                         <span class="string">&quot;PBM format only support ColorType::Gray&quot;</span>,
@@ -1003,9 +1003,9 @@
             <span class="ident">PNMHeader</span> {
                 <span class="ident">decoded</span>: <span class="ident">HeaderRecord</span>::<span class="ident">Graymap</span>(<span class="kw">_</span>),
                 ..
-            } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">color</span> {
-                <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (),
-                <span class="kw">_</span> <span class="op">=&gt;</span> {
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">color</span> {
+                <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                         <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                         <span class="string">&quot;PGM format only support ColorType::Gray&quot;</span>,
@@ -1015,9 +1015,9 @@
             <span class="ident">PNMHeader</span> {
                 <span class="ident">decoded</span>: <span class="ident">HeaderRecord</span>::<span class="ident">Pixmap</span>(<span class="kw">_</span>),
                 ..
-            } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">color</span> {
-                <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (),
-                <span class="kw">_</span> <span class="op">=&gt;</span> {
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">color</span> {
+                <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                         <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                         <span class="string">&quot;PPM format only support ColorType::RGB&quot;</span>,
@@ -1032,25 +1032,25 @@
                         ..
                     }),
                 ..
-            } <span class="op">=&gt;</span> <span class="kw">match</span> (<span class="ident">tupltype</span>, <span class="ident">color</span>) {
-                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
-                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhiteAlpha</span>), <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> (<span class="ident">tupltype</span>, <span class="ident">color</span>) {
+                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhite</span>), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> (),
+                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">BlackAndWhiteAlpha</span>), <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> (),
 
-                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
-                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">GrayscaleAlpha</span>), <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
+                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Grayscale</span>), <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> (),
+                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">GrayscaleAlpha</span>), <span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> (),
 
-                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>), <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
-                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGBAlpha</span>), <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
+                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGB</span>), <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> (),
+                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">RGBAlpha</span>), <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> (),
 
-                (<span class="kw-2">&amp;</span><span class="prelude-val">None</span>, <span class="kw">_</span>) <span class="kw">if</span> <span class="ident">depth</span> <span class="op">==</span> <span class="ident">components</span> <span class="op">=&gt;</span> (),
-                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Custom</span>(<span class="kw">_</span>)), <span class="kw">_</span>) <span class="kw">if</span> <span class="ident">depth</span> <span class="op">==</span> <span class="ident">components</span> <span class="op">=&gt;</span> (),
-                <span class="kw">_</span> <span class="kw">if</span> <span class="ident">depth</span> <span class="op">!=</span> <span class="ident">components</span> <span class="op">=&gt;</span> {
+                (<span class="kw-2">&amp;</span><span class="prelude-val">None</span>, <span class="kw">_</span>) <span class="kw">if</span> <span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="ident">components</span> <span class="op">=</span><span class="op">&gt;</span> (),
+                (<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">ArbitraryTuplType</span>::<span class="ident">Custom</span>(<span class="kw">_</span>)), <span class="kw">_</span>) <span class="kw">if</span> <span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="ident">components</span> <span class="op">=</span><span class="op">&gt;</span> (),
+                <span class="kw">_</span> <span class="kw">if</span> <span class="ident">depth</span> <span class="op">!</span><span class="op">=</span> <span class="ident">components</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                         <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Depth mismatch: header {} vs. color {}&quot;</span>, <span class="ident">depth</span>, <span class="ident">components</span>),
                     ))
                 }
-                <span class="kw">_</span> <span class="op">=&gt;</span> {
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                         <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                         <span class="string">&quot;Invalid color type for selected PAM color type&quot;</span>,
@@ -1067,12 +1067,12 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">CheckedHeaderColor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">check_sample_values</span>(<span class="self">self</span>, <span class="ident">image</span>: <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CheckedHeader</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">check_sample_values</span>(<span class="self">self</span>, <span class="ident">image</span>: <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CheckedHeader</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">header_maxval</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">dimensions</span>.<span class="ident">unchecked</span>.<span class="ident">header</span>.<span class="ident">decoded</span> {
-            <span class="ident">HeaderRecord</span>::<span class="ident">Bitmap</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="number">1</span>,
-            <span class="ident">HeaderRecord</span>::<span class="ident">Graymap</span>(<span class="ident">GraymapHeader</span> { <span class="ident">maxwhite</span>, .. }) <span class="op">=&gt;</span> <span class="ident">maxwhite</span>,
-            <span class="ident">HeaderRecord</span>::<span class="ident">Pixmap</span>(<span class="ident">PixmapHeader</span> { <span class="ident">maxval</span>, .. }) <span class="op">=&gt;</span> <span class="ident">maxval</span>,
-            <span class="ident">HeaderRecord</span>::<span class="ident">Arbitrary</span>(<span class="ident">ArbitraryHeader</span> { <span class="ident">maxval</span>, .. }) <span class="op">=&gt;</span> <span class="ident">maxval</span>,
+            <span class="ident">HeaderRecord</span>::<span class="ident">Bitmap</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
+            <span class="ident">HeaderRecord</span>::<span class="ident">Graymap</span>(<span class="ident">GraymapHeader</span> { <span class="ident">maxwhite</span>, .. }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">maxwhite</span>,
+            <span class="ident">HeaderRecord</span>::<span class="ident">Pixmap</span>(<span class="ident">PixmapHeader</span> { <span class="ident">maxval</span>, .. }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">maxval</span>,
+            <span class="ident">HeaderRecord</span>::<span class="ident">Arbitrary</span>(<span class="ident">ArbitraryHeader</span> { <span class="ident">maxval</span>, .. }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">maxval</span>,
         };
 
         <span class="comment">// We trust the image color bit count to be correct at least.</span>
@@ -1084,7 +1084,7 @@
             <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="ident">n</span>)
             <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="ident">n</span>)
             <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGR</span>(<span class="ident">n</span>)
-            <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGRA</span>(<span class="ident">n</span>) <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span> <span class="number">16</span> <span class="op">=&gt;</span>
+            <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGRA</span>(<span class="ident">n</span>) <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span> <span class="number">16</span> <span class="op">=</span><span class="op">&gt;</span>
             {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                     <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
@@ -1097,11 +1097,11 @@
             <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="ident">n</span>)
             <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="ident">n</span>)
             <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGR</span>(<span class="ident">n</span>)
-            <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGRA</span>(<span class="ident">n</span>) <span class="op">=&gt;</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>,
+            <span class="op">|</span> <span class="ident">ColorType</span>::<span class="ident">BGRA</span>(<span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">n</span>) <span class="op">-</span> <span class="number">1</span>,
         };
 
         <span class="comment">// Avoid the performance heavy check if possible, e.g. if the header has been chosen by us.</span>
-        <span class="kw">if</span> <span class="ident">header_maxval</span> <span class="op">&lt;</span> <span class="ident">max_sample</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">image</span>.<span class="ident">all_smaller</span>(<span class="ident">header_maxval</span>) {
+        <span class="kw">if</span> <span class="ident">header_maxval</span> <span class="op">&lt;</span> <span class="ident">max_sample</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">image</span>.<span class="ident">all_smaller</span>(<span class="ident">header_maxval</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                 <span class="string">&quot;Sample value greater than allowed for chosen header&quot;</span>,
@@ -1126,12 +1126,12 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">CheckedHeader</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">write_header</span>(<span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dyn</span> <span class="ident">Write</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TupleEncoding</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">write_header</span>(<span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dyn</span> <span class="ident">Write</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TupleEncoding</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">header</span>().<span class="ident">write</span>(<span class="ident">writer</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">encoding</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">header</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">PNMHeader</span> {
+    <span class="kw">fn</span> <span class="ident">header</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">PNMHeader</span> {
         <span class="self">self</span>.<span class="ident">color</span>.<span class="ident">dimensions</span>.<span class="ident">unchecked</span>.<span class="ident">header</span>
     }
 }
@@ -1139,7 +1139,7 @@
 <span class="kw">struct</span> <span class="ident">SampleWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">dyn</span> <span class="ident">Write</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">SampleWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">write_samples_ascii</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">samples</span>: <span class="ident">V</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">write_samples_ascii</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">samples</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">V</span>: <span class="ident">Iterator</span>,
         <span class="ident">V</span>::<span class="ident">Item</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>,
@@ -1151,7 +1151,7 @@
         <span class="ident">auto_break_writer</span>.<span class="ident">flush</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">write_pbm_bits</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">samples</span>: <span class="kw-2">&amp;</span>[<span class="ident">V</span>], <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">write_pbm_bits</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">samples</span>: <span class="kw-2">&amp;</span>[<span class="ident">V</span>], <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="comment">/* Default gives 0 for all primitives. TODO: replace this with `Zeroable` once it hits stable */</span>
     <span class="kw">where</span>
         <span class="ident">V</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">Copy</span>,
@@ -1168,8 +1168,8 @@
                 <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
                     <span class="comment">// Black pixels are encoded as 1s</span>
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>) <span class="op">=</span> <span class="ident">byte_bits</span>.<span class="ident">get</span>(<span class="ident">i</span>) {
-                        <span class="kw">if</span> <span class="ident">v</span> <span class="op">==</span> <span class="ident">V</span>::<span class="ident">default</span>() {
-                            <span class="ident">byte</span> <span class="op">|=</span> <span class="number">1u8</span> <span class="op">&lt;&lt;</span> (<span class="number">7</span> <span class="op">-</span> <span class="ident">i</span>)
+                        <span class="kw">if</span> <span class="ident">v</span> <span class="op">=</span><span class="op">=</span> <span class="ident">V</span>::<span class="ident">default</span>() {
+                            <span class="ident">byte</span> <span class="op">|</span><span class="op">=</span> <span class="number">1u8</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="number">7</span> <span class="op">-</span> <span class="ident">i</span>)
                         }
                     }
                 }
@@ -1184,27 +1184,27 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">FlatSamples</span>::<span class="ident">U8</span>(<span class="ident">arr</span>) <span class="op">=&gt;</span> <span class="ident">arr</span>.<span class="ident">len</span>(),
-            <span class="ident">FlatSamples</span>::<span class="ident">U16</span>(<span class="ident">arr</span>) <span class="op">=&gt;</span> <span class="ident">arr</span>.<span class="ident">len</span>(),
+            <span class="ident">FlatSamples</span>::<span class="ident">U8</span>(<span class="ident">arr</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">arr</span>.<span class="ident">len</span>(),
+            <span class="ident">FlatSamples</span>::<span class="ident">U16</span>(<span class="ident">arr</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">arr</span>.<span class="ident">len</span>(),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">all_smaller</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">max_val</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">all_smaller</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">max_val</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">FlatSamples</span>::<span class="ident">U8</span>(<span class="ident">arr</span>) <span class="op">=&gt;</span> <span class="ident">arr</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">val</span><span class="op">|</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">val</span>) <span class="op">&gt;</span> <span class="ident">max_val</span>),
-            <span class="ident">FlatSamples</span>::<span class="ident">U16</span>(<span class="ident">arr</span>) <span class="op">=&gt;</span> <span class="ident">arr</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">val</span><span class="op">|</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">val</span>) <span class="op">&gt;</span> <span class="ident">max_val</span>),
+            <span class="ident">FlatSamples</span>::<span class="ident">U8</span>(<span class="ident">arr</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">arr</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">val</span><span class="op">|</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">val</span>) <span class="op">&gt;</span> <span class="ident">max_val</span>),
+            <span class="ident">FlatSamples</span>::<span class="ident">U16</span>(<span class="ident">arr</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">arr</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">val</span><span class="op">|</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">val</span>) <span class="op">&gt;</span> <span class="ident">max_val</span>),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">encoding_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">header</span>: <span class="kw-2">&amp;</span><span class="ident">HeaderRecord</span>) <span class="op">-&gt;</span> <span class="ident">TupleEncoding</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">encoding_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">header</span>: <span class="kw-2">&amp;</span><span class="ident">HeaderRecord</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TupleEncoding</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">header</span> {
             <span class="ident">HeaderRecord</span>::<span class="ident">Bitmap</span>(<span class="ident">BitmapHeader</span> {
                 <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>,
                 <span class="ident">width</span>,
                 ..
-            }) <span class="op">=&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">PbmBits</span> {
+            }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">PbmBits</span> {
                 <span class="ident">samples</span>: <span class="kw-2">*</span><span class="self">self</span>,
                 <span class="ident">width</span>,
             },
@@ -1212,9 +1212,9 @@
             <span class="ident">HeaderRecord</span>::<span class="ident">Bitmap</span>(<span class="ident">BitmapHeader</span> {
                 <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>,
                 ..
-            }) <span class="op">=&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">Ascii</span> { <span class="ident">samples</span>: <span class="kw-2">*</span><span class="self">self</span> },
+            }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">Ascii</span> { <span class="ident">samples</span>: <span class="kw-2">*</span><span class="self">self</span> },
 
-            <span class="ident">HeaderRecord</span>::<span class="ident">Arbitrary</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">Bytes</span> { <span class="ident">samples</span>: <span class="kw-2">*</span><span class="self">self</span> },
+            <span class="ident">HeaderRecord</span>::<span class="ident">Arbitrary</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">Bytes</span> { <span class="ident">samples</span>: <span class="kw-2">*</span><span class="self">self</span> },
 
             <span class="ident">HeaderRecord</span>::<span class="ident">Graymap</span>(<span class="ident">GraymapHeader</span> {
                 <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>,
@@ -1223,7 +1223,7 @@
             <span class="op">|</span> <span class="ident">HeaderRecord</span>::<span class="ident">Pixmap</span>(<span class="ident">PixmapHeader</span> {
                 <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>,
                 ..
-            }) <span class="op">=&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">Ascii</span> { <span class="ident">samples</span>: <span class="kw-2">*</span><span class="self">self</span> },
+            }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">Ascii</span> { <span class="ident">samples</span>: <span class="kw-2">*</span><span class="self">self</span> },
 
             <span class="ident">HeaderRecord</span>::<span class="ident">Graymap</span>(<span class="ident">GraymapHeader</span> {
                 <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>,
@@ -1232,51 +1232,51 @@
             <span class="op">|</span> <span class="ident">HeaderRecord</span>::<span class="ident">Pixmap</span>(<span class="ident">PixmapHeader</span> {
                 <span class="ident">encoding</span>: <span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>,
                 ..
-            }) <span class="op">=&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">Bytes</span> { <span class="ident">samples</span>: <span class="kw-2">*</span><span class="self">self</span> },
+            }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TupleEncoding</span>::<span class="ident">Bytes</span> { <span class="ident">samples</span>: <span class="kw-2">*</span><span class="self">self</span> },
         }
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">samples</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">samples</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">FlatSamples</span>::<span class="ident">U8</span>(<span class="ident">samples</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u16</span>]<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">samples</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u16</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">samples</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u16</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">FlatSamples</span>::<span class="ident">U16</span>(<span class="ident">samples</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TupleEncoding</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">write_image</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dyn</span> <span class="ident">Write</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">write_image</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dyn</span> <span class="ident">Write</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">TupleEncoding</span>::<span class="ident">PbmBits</span> {
                 <span class="ident">samples</span>: <span class="ident">FlatSamples</span>::<span class="ident">U8</span>(<span class="ident">samples</span>),
                 <span class="ident">width</span>,
-            } <span class="op">=&gt;</span> <span class="ident">SampleWriter</span>(<span class="ident">writer</span>).<span class="ident">write_pbm_bits</span>(<span class="ident">samples</span>, <span class="ident">width</span>),
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SampleWriter</span>(<span class="ident">writer</span>).<span class="ident">write_pbm_bits</span>(<span class="ident">samples</span>, <span class="ident">width</span>),
             <span class="ident">TupleEncoding</span>::<span class="ident">PbmBits</span> {
                 <span class="ident">samples</span>: <span class="ident">FlatSamples</span>::<span class="ident">U16</span>(<span class="ident">samples</span>),
                 <span class="ident">width</span>,
-            } <span class="op">=&gt;</span> <span class="ident">SampleWriter</span>(<span class="ident">writer</span>).<span class="ident">write_pbm_bits</span>(<span class="ident">samples</span>, <span class="ident">width</span>),
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SampleWriter</span>(<span class="ident">writer</span>).<span class="ident">write_pbm_bits</span>(<span class="ident">samples</span>, <span class="ident">width</span>),
 
             <span class="ident">TupleEncoding</span>::<span class="ident">Bytes</span> {
                 <span class="ident">samples</span>: <span class="ident">FlatSamples</span>::<span class="ident">U8</span>(<span class="ident">samples</span>),
-            } <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">samples</span>),
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">samples</span>),
             <span class="ident">TupleEncoding</span>::<span class="ident">Bytes</span> {
                 <span class="ident">samples</span>: <span class="ident">FlatSamples</span>::<span class="ident">U16</span>(<span class="ident">samples</span>),
-            } <span class="op">=&gt;</span> <span class="ident">samples</span>
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">samples</span>
                 .<span class="ident">iter</span>()
                 .<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">sample</span><span class="op">|</span> <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">sample</span>))
                 .<span class="ident">collect</span>(),
 
             <span class="ident">TupleEncoding</span>::<span class="ident">Ascii</span> {
                 <span class="ident">samples</span>: <span class="ident">FlatSamples</span>::<span class="ident">U8</span>(<span class="ident">samples</span>),
-            } <span class="op">=&gt;</span> <span class="ident">SampleWriter</span>(<span class="ident">writer</span>).<span class="ident">write_samples_ascii</span>(<span class="ident">samples</span>.<span class="ident">iter</span>()),
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SampleWriter</span>(<span class="ident">writer</span>).<span class="ident">write_samples_ascii</span>(<span class="ident">samples</span>.<span class="ident">iter</span>()),
             <span class="ident">TupleEncoding</span>::<span class="ident">Ascii</span> {
                 <span class="ident">samples</span>: <span class="ident">FlatSamples</span>::<span class="ident">U16</span>(<span class="ident">samples</span>),
-            } <span class="op">=&gt;</span> <span class="ident">SampleWriter</span>(<span class="ident">writer</span>).<span class="ident">write_samples_ascii</span>(<span class="ident">samples</span>.<span class="ident">iter</span>()),
+            } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SampleWriter</span>(<span class="ident">writer</span>).<span class="ident">write_samples_ascii</span>(<span class="ident">samples</span>.<span class="ident">iter</span>()),
         }
     }
 }
@@ -1306,4 +1306,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "image";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "image";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

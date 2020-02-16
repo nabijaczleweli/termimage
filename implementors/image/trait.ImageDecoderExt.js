@@ -6,5 +6,4 @@ implementors["image"] = [];
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

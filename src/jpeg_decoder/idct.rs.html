@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.16/src/idct.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>idct.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../jpeg_decoder/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.18/src/idct.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>idct.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../jpeg_decoder/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -174,13 +174,194 @@
 <span id="174">174</span>
 <span id="175">175</span>
 <span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Malicious JPEG files can cause operations in the idct to overflow.</span>
 <span class="comment">// One example is tests/crashtest/images/imagetestsuite/b0b8914cc5f7a6eff409f16d8cc236c5.jpg</span>
 <span class="comment">// That&#39;s why wrapping operators are needed.</span>
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">parser</span>::<span class="ident">Dimensions</span>;
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">choose_idct_size</span>(<span class="ident">full_size</span>: <span class="ident">Dimensions</span>, <span class="ident">requested_size</span>: <span class="ident">Dimensions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">scaled</span>(<span class="ident">len</span>: <span class="ident">u16</span>, <span class="ident">scale</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> { ((<span class="ident">len</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="ident">scale</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">/</span> <span class="number">8</span> <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u16</span> }
+
+    <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">scale</span> <span class="kw">in</span> <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>] {
+        <span class="kw">if</span> <span class="ident">scaled</span>(<span class="ident">full_size</span>.<span class="ident">width</span>, <span class="ident">scale</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">requested_size</span>.<span class="ident">width</span> <span class="op">|</span><span class="op">|</span> <span class="ident">scaled</span>(<span class="ident">full_size</span>.<span class="ident">height</span>, <span class="ident">scale</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">requested_size</span>.<span class="ident">height</span> {
+            <span class="kw">return</span> <span class="ident">scale</span>;
+        }
+    }
+
+    <span class="kw">return</span> <span class="number">8</span>;
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">test_choose_idct_size</span>() {
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">200</span>, <span class="ident">height</span>: <span class="number">200</span>}), <span class="number">1</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">500</span>, <span class="ident">height</span>: <span class="number">500</span>}), <span class="number">1</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">684</span>, <span class="ident">height</span>: <span class="number">456</span>}), <span class="number">1</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">999</span>, <span class="ident">height</span>: <span class="number">456</span>}), <span class="number">1</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">684</span>, <span class="ident">height</span>: <span class="number">999</span>}), <span class="number">1</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">500</span>, <span class="ident">height</span>: <span class="number">333</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">63</span>, <span class="ident">height</span>: <span class="number">42</span>}), <span class="number">1</span>);
+
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">685</span>, <span class="ident">height</span>: <span class="number">999</span>}), <span class="number">2</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">1000</span>, <span class="ident">height</span>: <span class="number">1000</span>}), <span class="number">2</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">1400</span>, <span class="ident">height</span>: <span class="number">1400</span>}), <span class="number">4</span>);
+    
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}), <span class="number">8</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">16384</span>, <span class="ident">height</span>: <span class="number">16384</span>}), <span class="number">8</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">1</span>, <span class="ident">height</span>: <span class="number">1</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">65535</span>, <span class="ident">height</span>: <span class="number">65535</span>}), <span class="number">8</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">16384</span>, <span class="ident">height</span>: <span class="number">16384</span>}), <span class="number">8</span>);
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">dequantize_and_idct_block</span>(<span class="ident">scale</span>: <span class="ident">usize</span>, <span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+    <span class="kw">match</span> <span class="ident">scale</span> {
+        <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">dequantize_and_idct_block_8x8</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
+        <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">dequantize_and_idct_block_4x4</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
+        <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">dequantize_and_idct_block_2x2</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
+        <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">dequantize_and_idct_block_1x1</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unsupported IDCT scale {}/8&quot;</span>, <span class="ident">scale</span>),
+    }
+}
 
 <span class="comment">// This is based on stb_image&#39;s &#39;stbi__idct_block&#39;.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dequantize_and_idct_block</span>(<span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+<span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_8x8</span>(<span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
     <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">coefficients</span>.<span class="ident">len</span>(), <span class="number">64</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> <span class="op">=</span> [<span class="number">0i32</span>; <span class="number">64</span>];
@@ -188,9 +369,9 @@
     <span class="comment">// columns</span>
     <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="number">8</span> {
         <span class="comment">// if all zeroes, shortcut -- this avoids dequantizing 0s and IDCTing</span>
-        <span class="kw">if</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>] <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>] <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>] <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span>
-                <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>] <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>] <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>] <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span>
-                <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>] <span class="op">==</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span>
+                <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span>
+                <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">dcterm</span> <span class="op">=</span> (<span class="ident">coefficients</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">i32</span>).<span class="ident">wrapping_shl</span>(<span class="number">2</span>);
             <span class="ident">temp</span>[<span class="ident">i</span>]      <span class="op">=</span> <span class="ident">dcterm</span>;
             <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>]  <span class="op">=</span> <span class="ident">dcterm</span>;
@@ -316,10 +497,10 @@
         <span class="comment">// so we want to round that, which means adding 0.5 * 1&lt;&lt;17,</span>
         <span class="comment">// aka 65536. Also, we&#39;ll end up with -128 to 127 that we want</span>
         <span class="comment">// to encode as 0..255 by adding 128, so we&#39;ll add that before the shift</span>
-        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;&lt;</span> <span class="number">17</span>));
-        <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">x1</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;&lt;</span> <span class="number">17</span>));
-        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;&lt;</span> <span class="number">17</span>));
-        <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">x3</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;&lt;</span> <span class="number">17</span>));
+        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>));
+        <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">x1</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>));
+        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>));
+        <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">x3</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>));
 
         <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span>]     <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t3</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
         <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">7</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t3</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
@@ -332,8 +513,105 @@
     }
 }
 
+<span class="comment">// 4x4 and 2x2 IDCT based on Rakesh Dugad and Narendra Ahuja: &quot;A Fast Scheme for Image Size Change in the Compressed Domain&quot; (2001).</span>
+<span class="comment">// http://sylvana.net/jpegcrop/jidctred/</span>
+<span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_4x4</span>(<span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+    <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">coefficients</span>.<span class="ident">len</span>(), <span class="number">64</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> <span class="op">=</span> [<span class="number">0i32</span>; <span class="number">4</span><span class="kw-2">*</span><span class="number">4</span>];
+
+    <span class="kw">const</span> <span class="ident">CONST_BITS</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">12</span>;
+    <span class="kw">const</span> <span class="ident">PASS1_BITS</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">2</span>;
+    <span class="kw">const</span> <span class="ident">FINAL_BITS</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="ident">CONST_BITS</span> <span class="op">+</span> <span class="ident">PASS1_BITS</span> <span class="op">+</span> <span class="number">3</span>;
+
+    <span class="comment">// columns</span>
+    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="number">4</span> {
+        <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+        <span class="kw">let</span> <span class="ident">s1</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+        <span class="kw">let</span> <span class="ident">s2</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">2</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">2</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+        <span class="kw">let</span> <span class="ident">s3</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">3</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">3</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+    
+        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">s0</span>.<span class="ident">wrapping_add</span>(<span class="ident">s2</span>).<span class="ident">wrapping_shl</span>(<span class="ident">PASS1_BITS</span>);
+        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">s0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">s2</span>).<span class="ident">wrapping_shl</span>(<span class="ident">PASS1_BITS</span>);
+
+        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">s1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s3</span>).<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.541196100</span>));
+        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.847759065</span>))).<span class="ident">wrapping_add</span>(<span class="number">512</span>).<span class="ident">wrapping_shr</span>(<span class="ident">CONST_BITS</span> <span class="op">-</span> <span class="ident">PASS1_BITS</span>);
+        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s1</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>( <span class="number">0.765366865</span>))).<span class="ident">wrapping_add</span>(<span class="number">512</span>).<span class="ident">wrapping_shr</span>(<span class="ident">CONST_BITS</span> <span class="op">-</span> <span class="ident">PASS1_BITS</span>);
+
+        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span><span class="kw-2">*</span><span class="number">0</span>] <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>);
+        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span><span class="kw-2">*</span><span class="number">3</span>] <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t2</span>);
+        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span><span class="kw-2">*</span><span class="number">1</span>] <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="ident">t0</span>);
+        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span><span class="kw-2">*</span><span class="number">2</span>] <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t0</span>);
+    }
+
+    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="number">4</span> {
+        <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">4</span> <span class="op">+</span> <span class="number">0</span>];
+        <span class="kw">let</span> <span class="ident">s1</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">4</span> <span class="op">+</span> <span class="number">1</span>];
+        <span class="kw">let</span> <span class="ident">s2</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">4</span> <span class="op">+</span> <span class="number">2</span>];
+        <span class="kw">let</span> <span class="ident">s3</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">4</span> <span class="op">+</span> <span class="number">3</span>];
+
+        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">s0</span>.<span class="ident">wrapping_add</span>(<span class="ident">s2</span>).<span class="ident">wrapping_shl</span>(<span class="ident">CONST_BITS</span>);
+        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">s0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">s2</span>).<span class="ident">wrapping_shl</span>(<span class="ident">CONST_BITS</span>);
+
+        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">s1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s3</span>).<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.541196100</span>));
+        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.847759065</span>)));
+        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s1</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.765366865</span>)));
+
+        <span class="comment">// constants scaled things up by 1&lt;&lt;12, plus we had 1&lt;&lt;2 from first</span>
+        <span class="comment">// loop, plus horizontal and vertical each scale by sqrt(8) so together</span>
+        <span class="comment">// we&#39;ve got an extra 1&lt;&lt;3, so 1&lt;&lt;17 total we need to remove.</span>
+        <span class="comment">// so we want to round that, which means adding 0.5 * 1&lt;&lt;17,</span>
+        <span class="comment">// aka 65536. Also, we&#39;ll end up with -128 to 127 that we want</span>
+        <span class="comment">// to encode as 0..255 by adding 128, so we&#39;ll add that before the shift</span>
+        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">FINAL_BITS</span> <span class="op">-</span> <span class="number">1</span>)) <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">FINAL_BITS</span>));
+        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">FINAL_BITS</span> <span class="op">-</span> <span class="number">1</span>)) <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">FINAL_BITS</span>));
+
+        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>).<span class="ident">wrapping_shr</span>(<span class="ident">FINAL_BITS</span>));
+        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">3</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t2</span>).<span class="ident">wrapping_shr</span>(<span class="ident">FINAL_BITS</span>));
+        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="ident">t0</span>).<span class="ident">wrapping_shr</span>(<span class="ident">FINAL_BITS</span>));
+        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">2</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t0</span>).<span class="ident">wrapping_shr</span>(<span class="ident">FINAL_BITS</span>));
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_2x2</span>(<span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+    <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">coefficients</span>.<span class="ident">len</span>(), <span class="number">64</span>);
+
+    <span class="kw">const</span> <span class="ident">SCALE_BITS</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">3</span>;
+
+    <span class="comment">// Column 0</span>
+    <span class="kw">let</span> <span class="ident">s00</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+    <span class="kw">let</span> <span class="ident">s10</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+
+    <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">s00</span>.<span class="ident">wrapping_add</span>(<span class="ident">s10</span>);
+    <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">s00</span>.<span class="ident">wrapping_sub</span>(<span class="ident">s10</span>);
+
+    <span class="comment">// Column 1</span>
+    <span class="kw">let</span> <span class="ident">s01</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">0</span><span class="op">+</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">0</span><span class="op">+</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+    <span class="kw">let</span> <span class="ident">s11</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">1</span><span class="op">+</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">1</span><span class="op">+</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+
+    <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">s01</span>.<span class="ident">wrapping_add</span>(<span class="ident">s11</span>);
+    <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">s01</span>.<span class="ident">wrapping_sub</span>(<span class="ident">s11</span>);
+
+    <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">SCALE_BITS</span><span class="op">-</span><span class="number">1</span>)) <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">SCALE_BITS</span>));
+    <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">SCALE_BITS</span><span class="op">-</span><span class="number">1</span>)) <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">SCALE_BITS</span>));
+
+    <span class="comment">// Row 0</span>
+    <span class="ident">output</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="ident">x1</span>).<span class="ident">wrapping_shr</span>(<span class="ident">SCALE_BITS</span>));
+    <span class="ident">output</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">x1</span>).<span class="ident">wrapping_shr</span>(<span class="ident">SCALE_BITS</span>));
+
+    <span class="comment">// Row 1</span>
+    <span class="ident">output</span>[<span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="ident">x3</span>).<span class="ident">wrapping_shr</span>(<span class="ident">SCALE_BITS</span>));
+    <span class="ident">output</span>[<span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">x3</span>).<span class="ident">wrapping_shr</span>(<span class="ident">SCALE_BITS</span>));
+}
+
+<span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_1x1</span>(<span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">_output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+    <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">coefficients</span>.<span class="ident">len</span>(), <span class="number">64</span>);
+
+    <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> (<span class="ident">coefficients</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span>).<span class="ident">wrapping_add</span>(<span class="number">128</span> <span class="op">*</span> <span class="number">8</span>) <span class="op">/</span> <span class="number">8</span>;
+    <span class="ident">output</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">s0</span>);
+}
+
 <span class="comment">// take a -128..127 value and stbi__clamp it and convert to 0..255</span>
-<span class="kw">fn</span> <span class="ident">stbi_clamp</span>(<span class="ident">x</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">u8</span>
+<span class="kw">fn</span> <span class="ident">stbi_clamp</span>(<span class="ident">x</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u8</span>
 {
    <span class="comment">// trick to use a single test to catch both cases</span>
    <span class="kw">if</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">&gt;</span> <span class="number">255</span> {
@@ -344,12 +622,12 @@
    <span class="ident">x</span> <span class="kw">as</span> <span class="ident">u8</span>
 }
 
-<span class="kw">fn</span> <span class="ident">stbi_f2f</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+<span class="kw">fn</span> <span class="ident">stbi_f2f</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
     (<span class="ident">x</span> <span class="op">*</span> <span class="number">4096.0</span> <span class="op">+</span> <span class="number">0.5</span>) <span class="kw">as</span> <span class="ident">i32</span>
 }
 
-<span class="kw">fn</span> <span class="ident">stbi_fsh</span>(<span class="ident">x</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
-    <span class="ident">x</span> <span class="op">&lt;&lt;</span> <span class="number">12</span>
+<span class="kw">fn</span> <span class="ident">stbi_fsh</span>(<span class="ident">x</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
+    <span class="ident">x</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">12</span>
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "jpeg_decoder";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "jpeg_decoder";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

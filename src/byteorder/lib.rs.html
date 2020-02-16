@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/byteorder-1.3.2/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../byteorder/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/byteorder-1.3.4/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../byteorder/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -3326,6 +3326,43 @@
 <span id="3326">3326</span>
 <span id="3327">3327</span>
 <span id="3328">3328</span>
+<span id="3329">3329</span>
+<span id="3330">3330</span>
+<span id="3331">3331</span>
+<span id="3332">3332</span>
+<span id="3333">3333</span>
+<span id="3334">3334</span>
+<span id="3335">3335</span>
+<span id="3336">3336</span>
+<span id="3337">3337</span>
+<span id="3338">3338</span>
+<span id="3339">3339</span>
+<span id="3340">3340</span>
+<span id="3341">3341</span>
+<span id="3342">3342</span>
+<span id="3343">3343</span>
+<span id="3344">3344</span>
+<span id="3345">3345</span>
+<span id="3346">3346</span>
+<span id="3347">3347</span>
+<span id="3348">3348</span>
+<span id="3349">3349</span>
+<span id="3350">3350</span>
+<span id="3351">3351</span>
+<span id="3352">3352</span>
+<span id="3353">3353</span>
+<span id="3354">3354</span>
+<span id="3355">3355</span>
+<span id="3356">3356</span>
+<span id="3357">3357</span>
+<span id="3358">3358</span>
+<span id="3359">3359</span>
+<span id="3360">3360</span>
+<span id="3361">3361</span>
+<span id="3362">3362</span>
+<span id="3363">3363</span>
+<span id="3364">3364</span>
+<span id="3365">3365</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/*!
 This crate provides convenience methods for encoding and decoding numbers in
@@ -3396,6 +3433,9 @@ cases.
 [`Write`]: https://doc.rust-lang.org/std/io/trait.Write.html
 */</span>
 
+<span class="comment">// For the &#39;try!&#39; macro, until we bump MSRV past 1.12.</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
+
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
 
@@ -3421,46 +3461,46 @@ cases.
 <span class="kw">mod</span> <span class="ident">io</span>;
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">extend_sign</span>(<span class="ident">val</span>: <span class="ident">u64</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+<span class="kw">fn</span> <span class="ident">extend_sign</span>(<span class="ident">val</span>: <span class="ident">u64</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i64</span> {
     <span class="kw">let</span> <span class="ident">shift</span> <span class="op">=</span> (<span class="number">8</span> <span class="op">-</span> <span class="ident">nbytes</span>) <span class="op">*</span> <span class="number">8</span>;
-    (<span class="ident">val</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">i64</span> <span class="op">&gt;&gt;</span> <span class="ident">shift</span>
+    (<span class="ident">val</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">i64</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">shift</span>
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">extend_sign128</span>(<span class="ident">val</span>: <span class="ident">u128</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">i128</span> {
+<span class="kw">fn</span> <span class="ident">extend_sign128</span>(<span class="ident">val</span>: <span class="ident">u128</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i128</span> {
     <span class="kw">let</span> <span class="ident">shift</span> <span class="op">=</span> (<span class="number">16</span> <span class="op">-</span> <span class="ident">nbytes</span>) <span class="op">*</span> <span class="number">8</span>;
-    (<span class="ident">val</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">i128</span> <span class="op">&gt;&gt;</span> <span class="ident">shift</span>
+    (<span class="ident">val</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">i128</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">shift</span>
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">unextend_sign</span>(<span class="ident">val</span>: <span class="ident">i64</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+<span class="kw">fn</span> <span class="ident">unextend_sign</span>(<span class="ident">val</span>: <span class="ident">i64</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
     <span class="kw">let</span> <span class="ident">shift</span> <span class="op">=</span> (<span class="number">8</span> <span class="op">-</span> <span class="ident">nbytes</span>) <span class="op">*</span> <span class="number">8</span>;
-    (<span class="ident">val</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">u64</span> <span class="op">&gt;&gt;</span> <span class="ident">shift</span>
+    (<span class="ident">val</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">u64</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">shift</span>
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">unextend_sign128</span>(<span class="ident">val</span>: <span class="ident">i128</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u128</span> {
+<span class="kw">fn</span> <span class="ident">unextend_sign128</span>(<span class="ident">val</span>: <span class="ident">i128</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u128</span> {
     <span class="kw">let</span> <span class="ident">shift</span> <span class="op">=</span> (<span class="number">16</span> <span class="op">-</span> <span class="ident">nbytes</span>) <span class="op">*</span> <span class="number">8</span>;
-    (<span class="ident">val</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">u128</span> <span class="op">&gt;&gt;</span> <span class="ident">shift</span>
+    (<span class="ident">val</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">u128</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">shift</span>
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">pack_size</span>(<span class="ident">n</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
-    <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">8</span> {
+<span class="kw">fn</span> <span class="ident">pack_size</span>(<span class="ident">n</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">8</span> {
         <span class="number">1</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">16</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span> {
         <span class="number">2</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">24</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">24</span> {
         <span class="number">3</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">32</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">32</span> {
         <span class="number">4</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">40</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">40</span> {
         <span class="number">5</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">48</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">48</span> {
         <span class="number">6</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">56</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">56</span> {
         <span class="number">7</span>
     } <span class="kw">else</span> {
         <span class="number">8</span>
@@ -3469,36 +3509,36 @@ cases.
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">pack_size128</span>(<span class="ident">n</span>: <span class="ident">u128</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
-    <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">8</span> {
+<span class="kw">fn</span> <span class="ident">pack_size128</span>(<span class="ident">n</span>: <span class="ident">u128</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">8</span> {
         <span class="number">1</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">16</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span> {
         <span class="number">2</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">24</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">24</span> {
         <span class="number">3</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">32</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">32</span> {
         <span class="number">4</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">40</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">40</span> {
         <span class="number">5</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">48</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">48</span> {
         <span class="number">6</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">56</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">56</span> {
         <span class="number">7</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">64</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">64</span> {
         <span class="number">8</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">72</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">72</span> {
         <span class="number">9</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">80</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">80</span> {
         <span class="number">10</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">88</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">88</span> {
         <span class="number">11</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">96</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">96</span> {
         <span class="number">12</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">104</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">104</span> {
         <span class="number">13</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">112</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">112</span> {
         <span class="number">14</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">120</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">120</span> {
         <span class="number">15</span>
     } <span class="kw">else</span> {
         <span class="number">16</span>
@@ -3557,7 +3597,7 @@ cases.
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics when `buf.len() &lt; 2`.</span>
-    <span class="kw">fn</span> <span class="ident">read_u16</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u16</span>;
+    <span class="kw">fn</span> <span class="ident">read_u16</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span>;
 
     <span class="doccomment">/// Reads an unsigned 24 bit integer from `buf`, stored in u32.</span>
     <span class="doccomment">///</span>
@@ -3576,7 +3616,7 @@ cases.
     <span class="doccomment">/// LittleEndian::write_u24(&amp;mut buf, 1_000_000);</span>
     <span class="doccomment">/// assert_eq!(1_000_000, LittleEndian::read_u24(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">read_u24</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">fn</span> <span class="ident">read_u24</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="self">Self</span>::<span class="ident">read_uint</span>(<span class="ident">buf</span>, <span class="number">3</span>) <span class="kw">as</span> <span class="ident">u32</span>
     }
 
@@ -3597,7 +3637,7 @@ cases.
     <span class="doccomment">/// LittleEndian::write_u32(&amp;mut buf, 1_000_000);</span>
     <span class="doccomment">/// assert_eq!(1_000_000, LittleEndian::read_u32(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">read_u32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u32</span>;
+    <span class="kw">fn</span> <span class="ident">read_u32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span>;
 
     <span class="doccomment">/// Reads an unsigned 48 bit integer from `buf`, stored in u64.</span>
     <span class="doccomment">///</span>
@@ -3616,7 +3656,7 @@ cases.
     <span class="doccomment">/// LittleEndian::write_u48(&amp;mut buf, 1_000_000_000_000);</span>
     <span class="doccomment">/// assert_eq!(1_000_000_000_000, LittleEndian::read_u48(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">read_u48</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+    <span class="kw">fn</span> <span class="ident">read_u48</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="self">Self</span>::<span class="ident">read_uint</span>(<span class="ident">buf</span>, <span class="number">6</span>) <span class="kw">as</span> <span class="ident">u64</span>
     }
 
@@ -3637,7 +3677,7 @@ cases.
     <span class="doccomment">/// LittleEndian::write_u64(&amp;mut buf, 1_000_000);</span>
     <span class="doccomment">/// assert_eq!(1_000_000, LittleEndian::read_u64(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">read_u64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u64</span>;
+    <span class="kw">fn</span> <span class="ident">read_u64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span>;
 
     <span class="doccomment">/// Reads an unsigned 128 bit integer from `buf`.</span>
     <span class="doccomment">///</span>
@@ -3657,7 +3697,7 @@ cases.
     <span class="doccomment">/// assert_eq!(1_000_000, LittleEndian::read_u128(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_u128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u128</span>;
+    <span class="kw">fn</span> <span class="ident">read_u128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u128</span>;
 
     <span class="doccomment">/// Reads an unsigned n-bytes integer from `buf`.</span>
     <span class="doccomment">///</span>
@@ -3677,7 +3717,7 @@ cases.
     <span class="doccomment">/// LittleEndian::write_uint(&amp;mut buf, 1_000_000, 3);</span>
     <span class="doccomment">/// assert_eq!(1_000_000, LittleEndian::read_uint(&amp;buf, 3));</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">read_uint</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u64</span>;
+    <span class="kw">fn</span> <span class="ident">read_uint</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span>;
 
     <span class="doccomment">/// Reads an unsigned n-bytes integer from `buf`.</span>
     <span class="doccomment">///</span>
@@ -3698,7 +3738,7 @@ cases.
     <span class="doccomment">/// assert_eq!(1_000_000, LittleEndian::read_uint128(&amp;buf, 3));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_uint128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u128</span>;
+    <span class="kw">fn</span> <span class="ident">read_uint128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u128</span>;
 
     <span class="doccomment">/// Writes an unsigned 16 bit integer `n` to `buf`.</span>
     <span class="doccomment">///</span>
@@ -3878,7 +3918,7 @@ cases.
     <span class="doccomment">/// assert_eq!(-1_000, LittleEndian::read_i16(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_i16</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">i16</span> {
+    <span class="kw">fn</span> <span class="ident">read_i16</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i16</span> {
         <span class="self">Self</span>::<span class="ident">read_u16</span>(<span class="ident">buf</span>) <span class="kw">as</span> <span class="ident">i16</span>
     }
 
@@ -3900,7 +3940,7 @@ cases.
     <span class="doccomment">/// assert_eq!(-1_000_000, LittleEndian::read_i24(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_i24</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">fn</span> <span class="ident">read_i24</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
         <span class="self">Self</span>::<span class="ident">read_int</span>(<span class="ident">buf</span>, <span class="number">3</span>) <span class="kw">as</span> <span class="ident">i32</span>
     }
 
@@ -3922,7 +3962,7 @@ cases.
     <span class="doccomment">/// assert_eq!(-1_000_000, LittleEndian::read_i32(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_i32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">fn</span> <span class="ident">read_i32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
         <span class="self">Self</span>::<span class="ident">read_u32</span>(<span class="ident">buf</span>) <span class="kw">as</span> <span class="ident">i32</span>
     }
 
@@ -3944,7 +3984,7 @@ cases.
     <span class="doccomment">/// assert_eq!(-1_000_000_000_000, LittleEndian::read_i48(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_i48</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+    <span class="kw">fn</span> <span class="ident">read_i48</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i64</span> {
         <span class="self">Self</span>::<span class="ident">read_int</span>(<span class="ident">buf</span>, <span class="number">6</span>) <span class="kw">as</span> <span class="ident">i64</span>
     }
 
@@ -3966,7 +4006,7 @@ cases.
     <span class="doccomment">/// assert_eq!(-1_000_000_000, LittleEndian::read_i64(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_i64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+    <span class="kw">fn</span> <span class="ident">read_i64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i64</span> {
         <span class="self">Self</span>::<span class="ident">read_u64</span>(<span class="ident">buf</span>) <span class="kw">as</span> <span class="ident">i64</span>
     }
 
@@ -3989,7 +4029,7 @@ cases.
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_i128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">i128</span> {
+    <span class="kw">fn</span> <span class="ident">read_i128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i128</span> {
         <span class="self">Self</span>::<span class="ident">read_u128</span>(<span class="ident">buf</span>) <span class="kw">as</span> <span class="ident">i128</span>
     }
 
@@ -4012,7 +4052,7 @@ cases.
     <span class="doccomment">/// assert_eq!(-1_000, LittleEndian::read_int(&amp;buf, 3));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_int</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+    <span class="kw">fn</span> <span class="ident">read_int</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i64</span> {
         <span class="ident">extend_sign</span>(<span class="self">Self</span>::<span class="ident">read_uint</span>(<span class="ident">buf</span>, <span class="ident">nbytes</span>), <span class="ident">nbytes</span>)
     }
 
@@ -4036,7 +4076,7 @@ cases.
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_int128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">i128</span> {
+    <span class="kw">fn</span> <span class="ident">read_int128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i128</span> {
         <span class="ident">extend_sign128</span>(<span class="self">Self</span>::<span class="ident">read_uint128</span>(<span class="ident">buf</span>, <span class="ident">nbytes</span>), <span class="ident">nbytes</span>)
     }
 
@@ -4059,7 +4099,7 @@ cases.
     <span class="doccomment">/// assert_eq!(e, LittleEndian::read_f32(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_f32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="kw">fn</span> <span class="ident">read_f32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f32</span> {
         <span class="kw">unsafe</span> { <span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">read_u32</span>(<span class="ident">buf</span>) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u32</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">f32</span>) }
     }
 
@@ -4082,7 +4122,7 @@ cases.
     <span class="doccomment">/// assert_eq!(phi, LittleEndian::read_f64(&amp;buf));</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_f64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">f64</span> {
+    <span class="kw">fn</span> <span class="ident">read_f64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span> {
         <span class="kw">unsafe</span> { <span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">read_u64</span>(<span class="ident">buf</span>) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u64</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">f64</span>) }
     }
 
@@ -4740,6 +4780,40 @@ cases.
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="kw">fn</span> <span class="ident">write_u128_into</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span>[<span class="ident">u128</span>], <span class="ident">dst</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]);
 
+    <span class="doccomment">/// Writes signed 8 bit integers from `src` into `dst`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note that since each `i8` is a single byte, no byte order conversions</span>
+    <span class="doccomment">/// are used. This method is included because it provides a safe, simple</span>
+    <span class="doccomment">/// way for the caller to write from a `&amp;[i8]` buffer. (Without this</span>
+    <span class="doccomment">/// method, the caller would have to either use `unsafe` code or convert</span>
+    <span class="doccomment">/// each byte to `u8` individually.)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics when `buf.len() != src.len()`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Write and read `i8` numbers in little endian order:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// use byteorder::{ByteOrder, LittleEndian, ReadBytesExt};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let mut bytes = [0; 4];</span>
+    <span class="doccomment">/// let numbers_given = [1, 2, 0xf, 0xe];</span>
+    <span class="doccomment">/// LittleEndian::write_i8_into(&amp;numbers_given, &amp;mut bytes);</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let mut numbers_got = [0; 4];</span>
+    <span class="doccomment">/// bytes.as_ref().read_i8_into(&amp;mut numbers_got);</span>
+    <span class="doccomment">/// assert_eq!(numbers_given, numbers_got);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">fn</span> <span class="ident">write_i8_into</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span>[<span class="ident">i8</span>], <span class="ident">dst</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+        <span class="kw">let</span> <span class="ident">src</span> <span class="op">=</span> <span class="kw">unsafe</span> {
+            <span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(<span class="ident">src</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>, <span class="ident">src</span>.<span class="ident">len</span>())
+        };
+        <span class="ident">dst</span>.<span class="ident">copy_from_slice</span>(<span class="ident">src</span>);
+    }
+
     <span class="doccomment">/// Writes signed 16 bit integers from `src` into `dst`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
@@ -5128,7 +5202,7 @@ cases.
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BigEndian</span> {}
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">BigEndian</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">BigEndian</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BigEndian</span> {
         <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;BigEndian default&quot;</span>)
     }
 }
@@ -5158,7 +5232,7 @@ cases.
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LittleEndian</span> {}
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">LittleEndian</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">LittleEndian</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">LittleEndian</span> {
         <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;LittleEndian default&quot;</span>)
     }
 }
@@ -5217,9 +5291,9 @@ cases.
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">NativeEndian</span> <span class="op">=</span> <span class="ident">BigEndian</span>;
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">read_num_bytes</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">which</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> ({
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">==</span> ::<span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span>());
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">&lt;=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>.<span class="ident">len</span>());
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">which</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> ({
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">=</span><span class="op">=</span> ::<span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">&lt;</span><span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>.<span class="ident">len</span>());
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
             <span class="ident">copy_nonoverlapping</span>(
@@ -5232,8 +5306,8 @@ cases.
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">write_num_bytes</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">which</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> ({
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">&lt;=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>.<span class="ident">len</span>());
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">which</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> ({
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">&lt;</span><span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>.<span class="ident">len</span>());
         <span class="kw">unsafe</span> {
             <span class="comment">// N.B. https://github.com/rust-lang/rust/issues/22776</span>
             <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">which</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> [<span class="ident">u8</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>]);
@@ -5243,7 +5317,7 @@ cases.
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">read_slice</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">which</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">which</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>.<span class="ident">len</span>(), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>.<span class="ident">len</span>());
 
         <span class="kw">unsafe</span> {
@@ -5259,8 +5333,8 @@ cases.
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">write_slice_native</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">==</span> ::<span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span>());
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">=</span><span class="op">=</span> ::<span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span>());
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>.<span class="ident">len</span>(), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>.<span class="ident">len</span>());
 
         <span class="kw">unsafe</span> {
@@ -5273,8 +5347,8 @@ cases.
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">write_slice</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> ({
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">==</span> ::<span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span>());
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> ({
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">=</span><span class="op">=</span> ::<span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span>());
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span> <span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>.<span class="ident">len</span>(), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>.<span class="ident">len</span>());
 
         <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">n</span>, <span class="ident">chunk</span>) <span class="kw">in</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">src</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>.<span class="ident">chunks_mut</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">size</span>)) {
@@ -5285,49 +5359,49 @@ cases.
 
 <span class="kw">impl</span> <span class="ident">ByteOrder</span> <span class="kw">for</span> <span class="ident">BigEndian</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_u16</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u16</span> {
+    <span class="kw">fn</span> <span class="ident">read_u16</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> {
         <span class="macro">read_num_bytes</span><span class="macro">!</span>(<span class="ident">u16</span>, <span class="number">2</span>, <span class="ident">buf</span>, <span class="ident">to_be</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_u32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">fn</span> <span class="ident">read_u32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="macro">read_num_bytes</span><span class="macro">!</span>(<span class="ident">u32</span>, <span class="number">4</span>, <span class="ident">buf</span>, <span class="ident">to_be</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_u64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+    <span class="kw">fn</span> <span class="ident">read_u64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="macro">read_num_bytes</span><span class="macro">!</span>(<span class="ident">u64</span>, <span class="number">8</span>, <span class="ident">buf</span>, <span class="ident">to_be</span>)
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_u128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u128</span> {
+    <span class="kw">fn</span> <span class="ident">read_u128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u128</span> {
         <span class="macro">read_num_bytes</span><span class="macro">!</span>(<span class="ident">u128</span>, <span class="number">16</span>, <span class="ident">buf</span>, <span class="ident">to_be</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_uint</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="number">1</span> <span class="op">&lt;=</span> <span class="ident">nbytes</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="number">8</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">8</span>];
-        <span class="kw">let</span> <span class="ident">ptr_out</span> <span class="op">=</span> <span class="ident">out</span>.<span class="ident">as_mut_ptr</span>();
+    <span class="kw">fn</span> <span class="ident">read_uint</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">nbytes</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">8</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="number">0u64</span>;
+        <span class="kw">let</span> <span class="ident">ptr_out</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u64</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>;
         <span class="kw">unsafe</span> {
             <span class="ident">copy_nonoverlapping</span>(
                 <span class="ident">buf</span>.<span class="ident">as_ptr</span>(), <span class="ident">ptr_out</span>.<span class="ident">offset</span>((<span class="number">8</span> <span class="op">-</span> <span class="ident">nbytes</span>) <span class="kw">as</span> <span class="ident">isize</span>), <span class="ident">nbytes</span>);
-            (<span class="kw-2">*</span>(<span class="ident">ptr_out</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u64</span>)).<span class="ident">to_be</span>()
         }
+        <span class="ident">out</span>.<span class="ident">to_be</span>()
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_uint128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u128</span> {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="number">1</span> <span class="op">&lt;=</span> <span class="ident">nbytes</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="number">16</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">16</span>];
-        <span class="kw">let</span> <span class="ident">ptr_out</span> <span class="op">=</span> <span class="ident">out</span>.<span class="ident">as_mut_ptr</span>();
+    <span class="kw">fn</span> <span class="ident">read_uint128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u128</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">nbytes</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">16</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">u128</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">ptr_out</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u128</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>;
         <span class="kw">unsafe</span> {
             <span class="ident">copy_nonoverlapping</span>(
                 <span class="ident">buf</span>.<span class="ident">as_ptr</span>(), <span class="ident">ptr_out</span>.<span class="ident">offset</span>((<span class="number">16</span> <span class="op">-</span> <span class="ident">nbytes</span>) <span class="kw">as</span> <span class="ident">isize</span>), <span class="ident">nbytes</span>);
-            (<span class="kw-2">*</span>(<span class="ident">ptr_out</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u128</span>)).<span class="ident">to_be</span>()
         }
+        <span class="ident">out</span>.<span class="ident">to_be</span>()
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -5353,8 +5427,8 @@ cases.
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">write_uint</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">n</span>: <span class="ident">u64</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pack_size</span>(<span class="ident">n</span>) <span class="op">&lt;=</span> <span class="ident">nbytes</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="number">8</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pack_size</span>(<span class="ident">n</span>) <span class="op">&lt;</span><span class="op">=</span> <span class="ident">nbytes</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">8</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="ident">n</span>.<span class="ident">to_be</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u64</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> [<span class="ident">u8</span>; <span class="number">8</span>]);
             <span class="ident">copy_nonoverlapping</span>(
@@ -5367,8 +5441,8 @@ cases.
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">write_uint128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">n</span>: <span class="ident">u128</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pack_size128</span>(<span class="ident">n</span>) <span class="op">&lt;=</span> <span class="ident">nbytes</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="number">16</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pack_size128</span>(<span class="ident">n</span>) <span class="op">&lt;</span><span class="op">=</span> <span class="ident">nbytes</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">16</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="ident">n</span>.<span class="ident">to_be</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u128</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> [<span class="ident">u8</span>; <span class="number">16</span>]);
             <span class="ident">copy_nonoverlapping</span>(
@@ -5500,47 +5574,47 @@ cases.
 
 <span class="kw">impl</span> <span class="ident">ByteOrder</span> <span class="kw">for</span> <span class="ident">LittleEndian</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_u16</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u16</span> {
+    <span class="kw">fn</span> <span class="ident">read_u16</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> {
         <span class="macro">read_num_bytes</span><span class="macro">!</span>(<span class="ident">u16</span>, <span class="number">2</span>, <span class="ident">buf</span>, <span class="ident">to_le</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_u32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">fn</span> <span class="ident">read_u32</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="macro">read_num_bytes</span><span class="macro">!</span>(<span class="ident">u32</span>, <span class="number">4</span>, <span class="ident">buf</span>, <span class="ident">to_le</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_u64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+    <span class="kw">fn</span> <span class="ident">read_u64</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="macro">read_num_bytes</span><span class="macro">!</span>(<span class="ident">u64</span>, <span class="number">8</span>, <span class="ident">buf</span>, <span class="ident">to_le</span>)
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_u128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">u128</span> {
+    <span class="kw">fn</span> <span class="ident">read_u128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u128</span> {
         <span class="macro">read_num_bytes</span><span class="macro">!</span>(<span class="ident">u128</span>, <span class="number">16</span>, <span class="ident">buf</span>, <span class="ident">to_le</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_uint</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="number">1</span> <span class="op">&lt;=</span> <span class="ident">nbytes</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="number">8</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">8</span>];
-        <span class="kw">let</span> <span class="ident">ptr_out</span> <span class="op">=</span> <span class="ident">out</span>.<span class="ident">as_mut_ptr</span>();
+    <span class="kw">fn</span> <span class="ident">read_uint</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">nbytes</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">8</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="number">0u64</span>;
+        <span class="kw">let</span> <span class="ident">ptr_out</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u64</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>;
         <span class="kw">unsafe</span> {
             <span class="ident">copy_nonoverlapping</span>(<span class="ident">buf</span>.<span class="ident">as_ptr</span>(), <span class="ident">ptr_out</span>, <span class="ident">nbytes</span>);
-            (<span class="kw-2">*</span>(<span class="ident">ptr_out</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u64</span>)).<span class="ident">to_le</span>()
         }
+        <span class="ident">out</span>.<span class="ident">to_le</span>()
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_uint128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u128</span> {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="number">1</span> <span class="op">&lt;=</span> <span class="ident">nbytes</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="number">16</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">16</span>];
-        <span class="kw">let</span> <span class="ident">ptr_out</span> <span class="op">=</span> <span class="ident">out</span>.<span class="ident">as_mut_ptr</span>();
+    <span class="kw">fn</span> <span class="ident">read_uint128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">nbytes</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u128</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">nbytes</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">16</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">u128</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">ptr_out</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u128</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>;
         <span class="kw">unsafe</span> {
             <span class="ident">copy_nonoverlapping</span>(<span class="ident">buf</span>.<span class="ident">as_ptr</span>(), <span class="ident">ptr_out</span>, <span class="ident">nbytes</span>);
-            (<span class="kw-2">*</span>(<span class="ident">ptr_out</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u128</span>)).<span class="ident">to_le</span>()
         }
+        <span class="ident">out</span>.<span class="ident">to_le</span>()
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -5566,8 +5640,8 @@ cases.
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">write_uint</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">n</span>: <span class="ident">u64</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pack_size</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;=</span> <span class="ident">nbytes</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="number">8</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pack_size</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;</span><span class="op">=</span> <span class="ident">nbytes</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">8</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="ident">n</span>.<span class="ident">to_le</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u64</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> [<span class="ident">u8</span>; <span class="number">8</span>]);
             <span class="ident">copy_nonoverlapping</span>(<span class="ident">bytes</span>.<span class="ident">as_ptr</span>(), <span class="ident">buf</span>.<span class="ident">as_mut_ptr</span>(), <span class="ident">nbytes</span>);
@@ -5577,8 +5651,8 @@ cases.
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">write_uint128</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">n</span>: <span class="ident">u128</span>, <span class="ident">nbytes</span>: <span class="ident">usize</span>) {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pack_size128</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u128</span>) <span class="op">&lt;=</span> <span class="ident">nbytes</span> <span class="op">&amp;&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="number">16</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nbytes</span> <span class="op">&lt;=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pack_size128</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u128</span>) <span class="op">&lt;</span><span class="op">=</span> <span class="ident">nbytes</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">16</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nbytes</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>());
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="ident">n</span>.<span class="ident">to_le</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u128</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> [<span class="ident">u8</span>; <span class="number">16</span>]);
             <span class="ident">copy_nonoverlapping</span>(<span class="ident">bytes</span>.<span class="ident">as_ptr</span>(), <span class="ident">buf</span>.<span class="ident">as_mut_ptr</span>(), <span class="ident">nbytes</span>);
@@ -5726,9 +5800,9 @@ cases.
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">I64_MAX</span>: <span class="ident">u64</span> <span class="op">=</span> ::<span class="ident">core</span>::<span class="ident">i64</span>::<span class="ident">MAX</span> <span class="kw">as</span> <span class="ident">u64</span>;
 
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">calc_max</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> { <span class="macro">calc_max</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>, <span class="number">8</span>) };
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">maxbytes</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
-            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">&gt;&gt;</span> (<span class="number">8</span> <span class="op">*</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">maxbytes</span> <span class="op">-</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>))
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro">calc_max</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>, <span class="number">8</span>) };
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">maxbytes</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">&gt;</span><span class="op">&gt;</span> (<span class="number">8</span> <span class="op">*</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">maxbytes</span> <span class="op">-</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>))
         };
     }
 
@@ -5737,35 +5811,35 @@ cases.
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Clone</span><span class="op">&gt;</span> <span class="ident">Wi128</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
             <span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>()
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialEq</span><span class="op">&gt;</span> <span class="ident">PartialEq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Wi128</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
             <span class="self">self</span>.<span class="number">0</span>.<span class="ident">eq</span>(<span class="ident">other</span>)
         }
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="kw">impl</span> <span class="ident">Arbitrary</span> <span class="kw">for</span> <span class="ident">Wi128</span><span class="op">&lt;</span><span class="ident">u128</span><span class="op">&gt;</span> {
-        <span class="kw">fn</span> <span class="ident">arbitrary</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">Gen</span><span class="op">&gt;</span>(<span class="ident">gen</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">G</span>) <span class="op">-&gt;</span> <span class="ident">Wi128</span><span class="op">&lt;</span><span class="ident">u128</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">arbitrary</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">Gen</span><span class="op">&gt;</span>(<span class="ident">gen</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">G</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Wi128</span><span class="op">&lt;</span><span class="ident">u128</span><span class="op">&gt;</span> {
             <span class="kw">let</span> <span class="ident">max</span> <span class="op">=</span> <span class="macro">calc_max</span><span class="macro">!</span>(::<span class="ident">core</span>::<span class="ident">u128</span>::<span class="ident">MAX</span>, <span class="ident">gen</span>.<span class="ident">size</span>(), <span class="number">16</span>);
             <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span>
                 (<span class="ident">gen</span>.<span class="ident">gen</span>::<span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">u128</span>) <span class="op">|</span>
-                ((<span class="ident">gen</span>.<span class="ident">gen</span>::<span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">u128</span>) <span class="op">&lt;&lt;</span> <span class="number">64</span>);
+                ((<span class="ident">gen</span>.<span class="ident">gen</span>::<span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">u128</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">64</span>);
             <span class="ident">Wi128</span>(<span class="ident">output</span> <span class="op">&amp;</span> (<span class="ident">max</span> <span class="op">-</span> <span class="number">1</span>))
         }
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">byteorder_i128</span>)]</span>
     <span class="kw">impl</span> <span class="ident">Arbitrary</span> <span class="kw">for</span> <span class="ident">Wi128</span><span class="op">&lt;</span><span class="ident">i128</span><span class="op">&gt;</span> {
-        <span class="kw">fn</span> <span class="ident">arbitrary</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">Gen</span><span class="op">&gt;</span>(<span class="ident">gen</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">G</span>) <span class="op">-&gt;</span> <span class="ident">Wi128</span><span class="op">&lt;</span><span class="ident">i128</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">arbitrary</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">Gen</span><span class="op">&gt;</span>(<span class="ident">gen</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">G</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Wi128</span><span class="op">&lt;</span><span class="ident">i128</span><span class="op">&gt;</span> {
             <span class="kw">let</span> <span class="ident">max</span> <span class="op">=</span> <span class="macro">calc_max</span><span class="macro">!</span>(::<span class="ident">core</span>::<span class="ident">i128</span>::<span class="ident">MAX</span>, <span class="ident">gen</span>.<span class="ident">size</span>(), <span class="number">16</span>);
             <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span>
                 (<span class="ident">gen</span>.<span class="ident">gen</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">i128</span>) <span class="op">|</span>
-                ((<span class="ident">gen</span>.<span class="ident">gen</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">i128</span>) <span class="op">&lt;&lt;</span> <span class="number">64</span>);
+                ((<span class="ident">gen</span>.<span class="ident">gen</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">i128</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">64</span>);
             <span class="ident">Wi128</span>(<span class="ident">output</span> <span class="op">&amp;</span> (<span class="ident">max</span> <span class="op">-</span> <span class="number">1</span>))
         }
     }
@@ -5780,44 +5854,44 @@ cases.
 
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">qc_byte_order</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>,
-         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> (
+         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> (
             <span class="kw">mod</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
                 <span class="kw">use</span> {<span class="ident">BigEndian</span>, <span class="ident">ByteOrder</span>, <span class="ident">NativeEndian</span>, <span class="ident">LittleEndian</span>};
                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span> <span class="kw">use</span> <span class="kw">super</span>::{ <span class="ident">qc_sized</span>, <span class="ident">Wi128</span> };
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">big_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">16</span>];
                         <span class="ident">BigEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>, <span class="ident">n</span>.<span class="ident">clone</span>(), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>);
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">BigEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>], <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>)
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">BigEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>], <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>)
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">little_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">16</span>];
                         <span class="ident">LittleEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>, <span class="ident">n</span>.<span class="ident">clone</span>(), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>);
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">LittleEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>], <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>)
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">LittleEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>], <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>)
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">native_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">16</span>];
                         <span class="ident">NativeEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>, <span class="ident">n</span>.<span class="ident">clone</span>(), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>);
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">NativeEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>], <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>)
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">NativeEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>], <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>)
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
                 }
             }
         );
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>,
-         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> (
+         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> (
             <span class="kw">mod</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
                 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>;
                 <span class="kw">use</span> {<span class="ident">BigEndian</span>, <span class="ident">ByteOrder</span>, <span class="ident">NativeEndian</span>, <span class="ident">LittleEndian</span>};
@@ -5825,35 +5899,35 @@ cases.
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">big_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span><span class="op">&gt;</span>();
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">16</span>];
                         <span class="ident">BigEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="number">16</span> <span class="op">-</span> <span class="ident">bytes</span>..], <span class="ident">n</span>.<span class="ident">clone</span>());
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">BigEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="number">16</span> <span class="op">-</span> <span class="ident">bytes</span>..])
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">BigEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[<span class="number">16</span> <span class="op">-</span> <span class="ident">bytes</span>..])
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">little_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span><span class="op">&gt;</span>();
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">16</span>];
                         <span class="ident">LittleEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..<span class="ident">bytes</span>], <span class="ident">n</span>.<span class="ident">clone</span>());
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">LittleEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..<span class="ident">bytes</span>])
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">LittleEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="ident">bytes</span>])
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">native_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span><span class="op">&gt;</span>();
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">16</span>];
                         <span class="ident">NativeEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..<span class="ident">bytes</span>], <span class="ident">n</span>.<span class="ident">clone</span>());
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">NativeEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..<span class="ident">bytes</span>])
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">NativeEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="ident">bytes</span>])
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
                 }
             }
         );
@@ -6017,7 +6091,7 @@ cases.
     <span class="comment">// with a buffer overflow.</span>
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">too_small</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">maximally_small</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">zero</span>:<span class="ident">expr</span>,
-         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> (
+         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> (
             <span class="kw">mod</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
                 <span class="kw">use</span> {<span class="ident">BigEndian</span>, <span class="ident">ByteOrder</span>, <span class="ident">NativeEndian</span>, <span class="ident">LittleEndian</span>};
 
@@ -6064,7 +6138,7 @@ cases.
                 }
             }
         );
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">maximally_small</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">maximally_small</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> (
             <span class="kw">mod</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
                 <span class="kw">use</span> {<span class="ident">BigEndian</span>, <span class="ident">ByteOrder</span>, <span class="ident">NativeEndian</span>, <span class="ident">LittleEndian</span>};
 
@@ -6186,7 +6260,7 @@ cases.
     <span class="comment">// Test that reading/writing slices enforces the correct lengths.</span>
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">slice_lengths</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>,
-         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">num_bytes</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">numbers</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">num_bytes</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">numbers</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="kw">mod</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
                 <span class="kw">use</span> {<span class="ident">ByteOrder</span>, <span class="ident">BigEndian</span>, <span class="ident">NativeEndian</span>, <span class="ident">LittleEndian</span>};
 
@@ -6285,7 +6359,7 @@ cases.
     <span class="kw">fn</span> <span class="ident">uint_bigger_buffer</span>() {
         <span class="kw">use</span> {<span class="ident">ByteOrder</span>, <span class="ident">LittleEndian</span>};
         <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">LittleEndian</span>::<span class="ident">read_uint</span>(<span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>], <span class="number">5</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">n</span>, <span class="number">0x0504030201</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">n</span>, <span class="number">0x05_0403_0201</span>);
     }
 }
 
@@ -6308,12 +6382,12 @@ cases.
     }
 
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">calc_max</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> { (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">&gt;&gt;</span> (<span class="number">8</span> <span class="op">*</span> (<span class="number">8</span> <span class="op">-</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>)) };
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> { (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">&gt;</span><span class="op">&gt;</span> (<span class="number">8</span> <span class="op">*</span> (<span class="number">8</span> <span class="op">-</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>)) };
     }
 
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">qc_bytes_ext</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>,
-         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> (
+         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> (
             <span class="kw">mod</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
                 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Cursor</span>;
                 <span class="kw">use</span> {
@@ -6324,30 +6398,30 @@ cases.
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">big_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
                         <span class="ident">wtr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">n</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>();
                         <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">wtr</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>;
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">wtr</span>[<span class="ident">offset</span>..]);
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>).<span class="ident">unwrap</span>()
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>).<span class="ident">unwrap</span>()
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">little_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
                         <span class="ident">wtr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">n</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>();
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">wtr</span>);
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>).<span class="ident">unwrap</span>()
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>).<span class="ident">unwrap</span>()
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">native_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
                         <span class="ident">wtr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>::<span class="op">&lt;</span><span class="ident">NativeEndian</span><span class="op">&gt;</span>(<span class="ident">n</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>();
                         <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="kw">if</span> <span class="macro">cfg</span><span class="macro">!</span>(<span class="ident">target_endian</span> <span class="op">=</span> <span class="string">&quot;big&quot;</span>) {
@@ -6356,13 +6430,13 @@ cases.
                             <span class="number">0</span>
                         };
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">wtr</span>[<span class="ident">offset</span>..]);
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">NativeEndian</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>).<span class="ident">unwrap</span>()
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">NativeEndian</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bytes</span>).<span class="ident">unwrap</span>()
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>);
                 }
             }
         );
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> (
             <span class="kw">mod</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
                 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Cursor</span>;
                 <span class="kw">use</span> {
@@ -6373,35 +6447,35 @@ cases.
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">big_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
                         <span class="ident">wtr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">n</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>();
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">wtr</span>);
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">little_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
                         <span class="ident">wtr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">n</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>();
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">wtr</span>);
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">native_endian</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
                         <span class="ident">wtr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>::<span class="op">&lt;</span><span class="ident">NativeEndian</span><span class="op">&gt;</span>(<span class="ident">n</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>();
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">wtr</span>);
-                        <span class="ident">n</span> <span class="op">==</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">NativeEndian</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
+                        <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="ident">rdr</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>::<span class="op">&lt;</span><span class="ident">NativeEndian</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
                     }
-                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
+                    <span class="ident">qc_sized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> <span class="op">-</span> <span class="number">1</span>);
                 }
             }
         );
@@ -6563,7 +6637,7 @@ cases.
 
     <span class="comment">// Test slice serialization/deserialization.</span>
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">qc_slice</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">zero</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">write</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">zero</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="kw">mod</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
                 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>;
                 <span class="kw">use</span> {<span class="ident">ByteOrder</span>, <span class="ident">BigEndian</span>, <span class="ident">NativeEndian</span>, <span class="ident">LittleEndian</span>};
@@ -6574,7 +6648,7 @@ cases.
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">big_endian</span>() {
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_unsafe</span>)]</span>
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">numbers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">numbers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="ident">numbers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">numbers</span>
                             .<span class="ident">into_iter</span>()
                             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">clone</span>())
@@ -6587,15 +6661,15 @@ cases.
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">got</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">zero</span>; <span class="ident">numbers</span>.<span class="ident">len</span>()];
                         <span class="kw">unsafe</span> { <span class="ident">BigEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">got</span>); }
 
-                        <span class="ident">numbers</span> <span class="op">==</span> <span class="ident">got</span>
+                        <span class="ident">numbers</span> <span class="op">=</span><span class="op">=</span> <span class="ident">got</span>
                     }
-                    <span class="ident">qc_unsized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="kw">_</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>);
+                    <span class="ident">qc_unsized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="kw">_</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">little_endian</span>() {
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_unsafe</span>)]</span>
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">numbers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">numbers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="ident">numbers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">numbers</span>
                             .<span class="ident">into_iter</span>()
                             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">clone</span>())
@@ -6608,15 +6682,15 @@ cases.
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">got</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">zero</span>; <span class="ident">numbers</span>.<span class="ident">len</span>()];
                         <span class="kw">unsafe</span> { <span class="ident">LittleEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">got</span>); }
 
-                        <span class="ident">numbers</span> <span class="op">==</span> <span class="ident">got</span>
+                        <span class="ident">numbers</span> <span class="op">=</span><span class="op">=</span> <span class="ident">got</span>
                     }
-                    <span class="ident">qc_unsized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="kw">_</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>);
+                    <span class="ident">qc_unsized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="kw">_</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>);
                 }
 
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 <span class="kw">fn</span> <span class="ident">native_endian</span>() {
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_unsafe</span>)]</span>
-                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">numbers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>(<span class="ident">numbers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_int</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                         <span class="kw">let</span> <span class="ident">numbers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">numbers</span>
                             .<span class="ident">into_iter</span>()
                             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">clone</span>())
@@ -6629,9 +6703,9 @@ cases.
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">got</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">zero</span>; <span class="ident">numbers</span>.<span class="ident">len</span>()];
                         <span class="kw">unsafe</span> { <span class="ident">NativeEndian</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">read</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">got</span>); }
 
-                        <span class="ident">numbers</span> <span class="op">==</span> <span class="ident">got</span>
+                        <span class="ident">numbers</span> <span class="op">=</span><span class="op">=</span> <span class="ident">got</span>
                     }
-                    <span class="ident">qc_unsized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="kw">_</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>);
+                    <span class="ident">qc_unsized</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>(<span class="kw">_</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>);
                 }
             }
         }
@@ -6656,4 +6730,4 @@ cases.
         <span class="ident">prop_slice_f64</span>, <span class="ident">f64</span>, <span class="ident">read_f64_into</span>, <span class="ident">write_f64_into</span>, <span class="number">0.0</span>);
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "byteorder";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "byteorder";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

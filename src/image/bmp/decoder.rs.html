@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.3/./src/bmp/decoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>decoder.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.5/./src/bmp/decoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>decoder.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1462,7 +1462,7 @@
 
 <span class="kw">enum</span> <span class="ident">Chunker</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">FromTop</span>(<span class="ident">ChunksMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">u8</span><span class="op">&gt;</span>),
-    <span class="ident">FromBottom</span>(<span class="ident">Rev</span><span class="op">&lt;</span><span class="ident">ChunksMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">u8</span><span class="op">&gt;&gt;</span>),
+    <span class="ident">FromBottom</span>(<span class="ident">Rev</span><span class="op">&lt;</span><span class="ident">ChunksMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>),
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">RowIterator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -1473,20 +1473,20 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>];
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">chunks</span> {
-            <span class="ident">Chunker</span>::<span class="ident">FromTop</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">chunks</span>) <span class="op">=&gt;</span> <span class="ident">chunks</span>.<span class="ident">next</span>(),
-            <span class="ident">Chunker</span>::<span class="ident">FromBottom</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">chunks</span>) <span class="op">=&gt;</span> <span class="ident">chunks</span>.<span class="ident">next</span>(),
+            <span class="ident">Chunker</span>::<span class="ident">FromTop</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">chunks</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">chunks</span>.<span class="ident">next</span>(),
+            <span class="ident">Chunker</span>::<span class="ident">FromBottom</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">chunks</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">chunks</span>.<span class="ident">next</span>(),
         }
     }
 }
 
 <span class="doccomment">/// Convenience function to check if the combination of width, length and number of</span>
 <span class="doccomment">/// channels would result in a buffer that would overflow.</span>
-<span class="kw">fn</span> <span class="ident">check_for_overflow</span>(<span class="ident">width</span>: <span class="ident">i32</span>, <span class="ident">length</span>: <span class="ident">i32</span>, <span class="ident">channels</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">check_for_overflow</span>(<span class="ident">width</span>: <span class="ident">i32</span>, <span class="ident">length</span>: <span class="ident">i32</span>, <span class="ident">channels</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="ident">num_bytes</span>(<span class="ident">width</span>, <span class="ident">length</span>, <span class="ident">channels</span>)
         .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
-        .<span class="ident">ok_or_else</span>(<span class="op">||</span> {
+        .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
             <span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Image would require a buffer that is too large to be represented!&quot;</span>.<span class="ident">to_owned</span>(),
             )
@@ -1495,13 +1495,13 @@
 
 <span class="doccomment">/// Calculate how many many bytes a buffer holding a decoded image with these properties would</span>
 <span class="doccomment">/// require. Returns `None` if the buffer size would overflow or if one of the sizes are negative.</span>
-<span class="kw">fn</span> <span class="ident">num_bytes</span>(<span class="ident">width</span>: <span class="ident">i32</span>, <span class="ident">length</span>: <span class="ident">i32</span>, <span class="ident">channels</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-    <span class="kw">if</span> <span class="ident">width</span> <span class="op">&lt;=</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">length</span> <span class="op">&lt;=</span> <span class="number">0</span> {
+<span class="kw">fn</span> <span class="ident">num_bytes</span>(<span class="ident">width</span>: <span class="ident">i32</span>, <span class="ident">length</span>: <span class="ident">i32</span>, <span class="ident">channels</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="ident">width</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">length</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0</span> {
         <span class="prelude-val">None</span>
     } <span class="kw">else</span> {
         <span class="kw">match</span> <span class="ident">channels</span>.<span class="ident">checked_mul</span>(<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">n</span>) <span class="op">=&gt;</span> <span class="ident">n</span>.<span class="ident">checked_mul</span>(<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span>),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">n</span>.<span class="ident">checked_mul</span>(<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span>),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
@@ -1519,7 +1519,7 @@
 <span class="kw">const</span> <span class="ident">MAX_INITIAL_PIXELS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">8192</span> <span class="op">*</span> <span class="number">4096</span>;
 
 <span class="doccomment">/// Sets all bytes in an mutable iterator over slices of bytes to 0.</span>
-<span class="kw">fn</span> <span class="ident">blank_bytes</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;&gt;</span>(<span class="ident">iterator</span>: <span class="ident">T</span>) {
+<span class="kw">fn</span> <span class="ident">blank_bytes</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">iterator</span>: <span class="ident">T</span>) {
     <span class="kw">for</span> <span class="ident">chunk</span> <span class="kw">in</span> <span class="ident">iterator</span> {
         <span class="kw">for</span> <span class="ident">b</span> <span class="kw">in</span> <span class="ident">chunk</span> {
             <span class="kw-2">*</span><span class="ident">b</span> <span class="op">=</span> <span class="number">0</span>;
@@ -1539,14 +1539,14 @@
 <span class="doccomment">/// end of the buffer.</span>
 <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">never</span>)]</span>
 <span class="attribute">#[<span class="ident">cold</span>]</span>
-<span class="kw">fn</span> <span class="ident">extend_buffer</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">full_size</span>: <span class="ident">usize</span>, <span class="ident">blank</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>] {
+<span class="kw">fn</span> <span class="ident">extend_buffer</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">full_size</span>: <span class="ident">usize</span>, <span class="ident">blank</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>] {
     <span class="kw">let</span> <span class="ident">old_size</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">len</span>();
     <span class="kw">let</span> <span class="ident">extend</span> <span class="op">=</span> <span class="ident">full_size</span> <span class="op">-</span> <span class="ident">buffer</span>.<span class="ident">len</span>();
 
     <span class="ident">buffer</span>.<span class="ident">extend</span>(<span class="ident">repeat</span>(<span class="number">0xFF</span>).<span class="ident">take</span>(<span class="ident">extend</span>));
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>.<span class="ident">len</span>(), <span class="ident">full_size</span>);
 
-    <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">extend</span> <span class="op">&gt;=</span> <span class="ident">old_size</span> {
+    <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">extend</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">old_size</span> {
         <span class="comment">// If the full buffer length is more or equal to twice the initial one, we can simply</span>
         <span class="comment">// copy the data in the lower part of the buffer to the end of it and input from there.</span>
         <span class="kw">let</span> (<span class="ident">new</span>, <span class="ident">old</span>) <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">split_at_mut</span>(<span class="ident">extend</span>);
@@ -1583,9 +1583,9 @@
     <span class="ident">channels</span>: <span class="ident">usize</span>,
     <span class="ident">top_down</span>: <span class="ident">bool</span>,
     <span class="kw-2">mut</span> <span class="ident">func</span>: <span class="ident">F</span>,
-) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+    <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
 {
     <span class="comment">// An overflow should already have been checked for when this is called,</span>
     <span class="comment">// though we check anyhow, as it somehow seems to increase performance slightly.</span>
@@ -1622,12 +1622,12 @@
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">fn</span> <span class="ident">set_8bit_pixel_run</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">u8</span><span class="op">&gt;&gt;</span>(
+<span class="kw">fn</span> <span class="ident">set_8bit_pixel_run</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>(
     <span class="ident">pixel_iter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ChunksMut</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
     <span class="ident">palette</span>: <span class="kw-2">&amp;</span>[(<span class="ident">u8</span>, <span class="ident">u8</span>, <span class="ident">u8</span>)],
     <span class="ident">indices</span>: <span class="ident">T</span>,
     <span class="ident">n_pixels</span>: <span class="ident">usize</span>,
-) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
     <span class="kw">for</span> <span class="ident">idx</span> <span class="kw">in</span> <span class="ident">indices</span>.<span class="ident">take</span>(<span class="ident">n_pixels</span>) {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pixel</span>) <span class="op">=</span> <span class="ident">pixel_iter</span>.<span class="ident">next</span>() {
             <span class="kw">let</span> (<span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>) <span class="op">=</span> <span class="ident">palette</span>[<span class="kw-2">*</span><span class="ident">idx</span> <span class="kw">as</span> <span class="ident">usize</span>];
@@ -1641,16 +1641,16 @@
     <span class="bool-val">true</span>
 }
 
-<span class="kw">fn</span> <span class="ident">set_4bit_pixel_run</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">u8</span><span class="op">&gt;&gt;</span>(
+<span class="kw">fn</span> <span class="ident">set_4bit_pixel_run</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>(
     <span class="ident">pixel_iter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ChunksMut</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
     <span class="ident">palette</span>: <span class="kw-2">&amp;</span>[(<span class="ident">u8</span>, <span class="ident">u8</span>, <span class="ident">u8</span>)],
     <span class="ident">indices</span>: <span class="ident">T</span>,
     <span class="kw-2">mut</span> <span class="ident">n_pixels</span>: <span class="ident">usize</span>,
-) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
     <span class="kw">for</span> <span class="ident">idx</span> <span class="kw">in</span> <span class="ident">indices</span> {
         <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">set_pixel</span> {
-            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
-                <span class="kw">if</span> <span class="ident">n_pixels</span> <span class="op">==</span> <span class="number">0</span> {
+            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="ident">n_pixels</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
                     <span class="kw">break</span>;
                 }
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pixel</span>) <span class="op">=</span> <span class="ident">pixel_iter</span>.<span class="ident">next</span>() {
@@ -1661,26 +1661,26 @@
                 } <span class="kw">else</span> {
                     <span class="kw">return</span> <span class="bool-val">false</span>;
                 }
-                <span class="ident">n_pixels</span> <span class="op">-=</span> <span class="number">1</span>;
+                <span class="ident">n_pixels</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
             };
         }
-        <span class="macro">set_pixel</span><span class="macro">!</span>(<span class="ident">idx</span> <span class="op">&gt;&gt;</span> <span class="number">4</span>);
+        <span class="macro">set_pixel</span><span class="macro">!</span>(<span class="ident">idx</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">4</span>);
         <span class="macro">set_pixel</span><span class="macro">!</span>(<span class="ident">idx</span> <span class="op">&amp;</span> <span class="number">0xf</span>);
     }
     <span class="bool-val">true</span>
 }
 
 <span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
-<span class="kw">fn</span> <span class="ident">set_2bit_pixel_run</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">u8</span><span class="op">&gt;&gt;</span>(
+<span class="kw">fn</span> <span class="ident">set_2bit_pixel_run</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>(
     <span class="ident">pixel_iter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ChunksMut</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
     <span class="ident">palette</span>: <span class="kw-2">&amp;</span>[(<span class="ident">u8</span>, <span class="ident">u8</span>, <span class="ident">u8</span>)],
     <span class="ident">indices</span>: <span class="ident">T</span>,
     <span class="kw-2">mut</span> <span class="ident">n_pixels</span>: <span class="ident">usize</span>,
-) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
     <span class="kw">for</span> <span class="ident">idx</span> <span class="kw">in</span> <span class="ident">indices</span> {
         <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">set_pixel</span> {
-            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
-                <span class="kw">if</span> <span class="ident">n_pixels</span> <span class="op">==</span> <span class="number">0</span> {
+            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="ident">n_pixels</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
                     <span class="kw">break</span>;
                 }
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pixel</span>) <span class="op">=</span> <span class="ident">pixel_iter</span>.<span class="ident">next</span>() {
@@ -1691,18 +1691,18 @@
                 } <span class="kw">else</span> {
                     <span class="kw">return</span> <span class="bool-val">false</span>;
                 }
-                <span class="ident">n_pixels</span> <span class="op">-=</span> <span class="number">1</span>;
+                <span class="ident">n_pixels</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
             };
         }
-        <span class="macro">set_pixel</span><span class="macro">!</span>((<span class="ident">idx</span> <span class="op">&gt;&gt;</span> <span class="number">6</span>) <span class="op">&amp;</span> <span class="number">0x3u8</span>);
-        <span class="macro">set_pixel</span><span class="macro">!</span>((<span class="ident">idx</span> <span class="op">&gt;&gt;</span> <span class="number">4</span>) <span class="op">&amp;</span> <span class="number">0x3u8</span>);
-        <span class="macro">set_pixel</span><span class="macro">!</span>((<span class="ident">idx</span> <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="op">&amp;</span> <span class="number">0x3u8</span>);
+        <span class="macro">set_pixel</span><span class="macro">!</span>((<span class="ident">idx</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">6</span>) <span class="op">&amp;</span> <span class="number">0x3u8</span>);
+        <span class="macro">set_pixel</span><span class="macro">!</span>((<span class="ident">idx</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">4</span>) <span class="op">&amp;</span> <span class="number">0x3u8</span>);
+        <span class="macro">set_pixel</span><span class="macro">!</span>((<span class="ident">idx</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">2</span>) <span class="op">&amp;</span> <span class="number">0x3u8</span>);
         <span class="macro">set_pixel</span><span class="macro">!</span>( <span class="ident">idx</span>       <span class="op">&amp;</span> <span class="number">0x3u8</span>);
     }
     <span class="bool-val">true</span>
 }
 
-<span class="kw">fn</span> <span class="ident">set_1bit_pixel_run</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">u8</span><span class="op">&gt;&gt;</span>(
+<span class="kw">fn</span> <span class="ident">set_1bit_pixel_run</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>(
     <span class="ident">pixel_iter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ChunksMut</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
     <span class="ident">palette</span>: <span class="kw-2">&amp;</span>[(<span class="ident">u8</span>, <span class="ident">u8</span>, <span class="ident">u8</span>)],
     <span class="ident">indices</span>: <span class="ident">T</span>,
@@ -1711,7 +1711,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bit</span> <span class="op">=</span> <span class="number">0x80</span>;
         <span class="kw">loop</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pixel</span>) <span class="op">=</span> <span class="ident">pixel_iter</span>.<span class="ident">next</span>() {
-                <span class="kw">let</span> (<span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>) <span class="op">=</span> <span class="ident">palette</span>[((<span class="ident">idx</span> <span class="op">&amp;</span> <span class="ident">bit</span>) <span class="op">!=</span> <span class="number">0</span>) <span class="kw">as</span> <span class="ident">usize</span>];
+                <span class="kw">let</span> (<span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>) <span class="op">=</span> <span class="ident">palette</span>[((<span class="ident">idx</span> <span class="op">&amp;</span> <span class="ident">bit</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>) <span class="kw">as</span> <span class="ident">usize</span>];
                 <span class="ident">pixel</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">r</span>;
                 <span class="ident">pixel</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">g</span>;
                 <span class="ident">pixel</span>[<span class="number">2</span>] <span class="op">=</span> <span class="ident">b</span>;
@@ -1719,8 +1719,8 @@
                 <span class="kw">return</span>;
             }
 
-            <span class="ident">bit</span> <span class="op">&gt;&gt;=</span> <span class="number">1</span>;
-            <span class="kw">if</span> <span class="ident">bit</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="ident">bit</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="kw">if</span> <span class="ident">bit</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
                 <span class="kw">break</span>;
             }
         }
@@ -1734,13 +1734,13 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Bitfield</span> {
-    <span class="kw">fn</span> <span class="ident">from_mask</span>(<span class="ident">mask</span>: <span class="ident">u32</span>, <span class="ident">max_len</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Bitfield</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">mask</span> <span class="op">==</span> <span class="number">0</span> {
+    <span class="kw">fn</span> <span class="ident">from_mask</span>(<span class="ident">mask</span>: <span class="ident">u32</span>, <span class="ident">max_len</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Bitfield</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">mask</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Bitfield</span> { <span class="ident">shift</span>: <span class="number">0</span>, <span class="ident">len</span>: <span class="number">0</span> });
         }
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">shift</span> <span class="op">=</span> <span class="ident">mask</span>.<span class="ident">trailing_zeros</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> (<span class="op">!</span>(<span class="ident">mask</span> <span class="op">&gt;&gt;</span> <span class="ident">shift</span>)).<span class="ident">trailing_zeros</span>();
-        <span class="kw">if</span> <span class="ident">len</span> <span class="op">!=</span> <span class="ident">mask</span>.<span class="ident">count_ones</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> (<span class="op">!</span>(<span class="ident">mask</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">shift</span>)).<span class="ident">trailing_zeros</span>();
+        <span class="kw">if</span> <span class="ident">len</span> <span class="op">!</span><span class="op">=</span> <span class="ident">mask</span>.<span class="ident">count_ones</span>() {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Non-contiguous bitfield mask&quot;</span>.<span class="ident">to_string</span>(),
             ));
@@ -1749,24 +1749,24 @@
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Invalid bitfield mask&quot;</span>.<span class="ident">to_string</span>()));
         }
         <span class="kw">if</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="number">8</span> {
-            <span class="ident">shift</span> <span class="op">+=</span> <span class="ident">len</span> <span class="op">-</span> <span class="number">8</span>;
+            <span class="ident">shift</span> <span class="op">+</span><span class="op">=</span> <span class="ident">len</span> <span class="op">-</span> <span class="number">8</span>;
             <span class="ident">len</span> <span class="op">=</span> <span class="number">8</span>;
         }
         <span class="prelude-val">Ok</span>(<span class="ident">Bitfield</span> { <span class="ident">shift</span>, <span class="ident">len</span> })
     }
 
-    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">data</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">u8</span> {
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">data</span> <span class="op">&gt;&gt;</span> <span class="self">self</span>.<span class="ident">shift</span>;
+    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">data</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u8</span> {
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">data</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">shift</span>;
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">len</span> {
-            <span class="number">1</span> <span class="op">=&gt;</span> ((<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b1</span>) <span class="op">*</span> <span class="number">0xff</span>) <span class="kw">as</span> <span class="ident">u8</span>,
-            <span class="number">2</span> <span class="op">=&gt;</span> ((<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b11</span>) <span class="op">*</span> <span class="number">0x55</span>) <span class="kw">as</span> <span class="ident">u8</span>,
-            <span class="number">3</span> <span class="op">=&gt;</span> <span class="ident">LOOKUP_TABLE_3_BIT_TO_8_BIT</span>[(<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b00_0111</span>) <span class="kw">as</span> <span class="ident">usize</span>],
-            <span class="number">4</span> <span class="op">=&gt;</span> <span class="ident">LOOKUP_TABLE_4_BIT_TO_8_BIT</span>[(<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b00_1111</span>) <span class="kw">as</span> <span class="ident">usize</span>],
-            <span class="number">5</span> <span class="op">=&gt;</span> <span class="ident">LOOKUP_TABLE_5_BIT_TO_8_BIT</span>[(<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b01_1111</span>) <span class="kw">as</span> <span class="ident">usize</span>],
-            <span class="number">6</span> <span class="op">=&gt;</span> <span class="ident">LOOKUP_TABLE_6_BIT_TO_8_BIT</span>[(<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b11_1111</span>) <span class="kw">as</span> <span class="ident">usize</span>],
-            <span class="number">7</span> <span class="op">=&gt;</span> ((<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0x7f</span>) <span class="op">&lt;&lt;</span> <span class="number">1</span> <span class="op">|</span> (<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0x7f</span>) <span class="op">&gt;&gt;</span> <span class="number">6</span>) <span class="kw">as</span> <span class="ident">u8</span>,
-            <span class="number">8</span> <span class="op">=&gt;</span> (<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0xff</span>) <span class="kw">as</span> <span class="ident">u8</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
+            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> ((<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b1</span>) <span class="op">*</span> <span class="number">0xff</span>) <span class="kw">as</span> <span class="ident">u8</span>,
+            <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> ((<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b11</span>) <span class="op">*</span> <span class="number">0x55</span>) <span class="kw">as</span> <span class="ident">u8</span>,
+            <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">LOOKUP_TABLE_3_BIT_TO_8_BIT</span>[(<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b00_0111</span>) <span class="kw">as</span> <span class="ident">usize</span>],
+            <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">LOOKUP_TABLE_4_BIT_TO_8_BIT</span>[(<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b00_1111</span>) <span class="kw">as</span> <span class="ident">usize</span>],
+            <span class="number">5</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">LOOKUP_TABLE_5_BIT_TO_8_BIT</span>[(<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b01_1111</span>) <span class="kw">as</span> <span class="ident">usize</span>],
+            <span class="number">6</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">LOOKUP_TABLE_6_BIT_TO_8_BIT</span>[(<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0b11_1111</span>) <span class="kw">as</span> <span class="ident">usize</span>],
+            <span class="number">7</span> <span class="op">=</span><span class="op">&gt;</span> ((<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0x7f</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">1</span> <span class="op">|</span> (<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0x7f</span>) <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">6</span>) <span class="kw">as</span> <span class="ident">u8</span>,
+            <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">data</span> <span class="op">&amp;</span> <span class="number">0xff</span>) <span class="kw">as</span> <span class="ident">u8</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
         }
     }
 }
@@ -1786,14 +1786,14 @@
         <span class="ident">b_mask</span>: <span class="ident">u32</span>,
         <span class="ident">a_mask</span>: <span class="ident">u32</span>,
         <span class="ident">max_len</span>: <span class="ident">u32</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Bitfields</span><span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Bitfields</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">bitfields</span> <span class="op">=</span> <span class="ident">Bitfields</span> {
             <span class="ident">r</span>: <span class="ident">Bitfield</span>::<span class="ident">from_mask</span>(<span class="ident">r_mask</span>, <span class="ident">max_len</span>)<span class="question-mark">?</span>,
             <span class="ident">g</span>: <span class="ident">Bitfield</span>::<span class="ident">from_mask</span>(<span class="ident">g_mask</span>, <span class="ident">max_len</span>)<span class="question-mark">?</span>,
             <span class="ident">b</span>: <span class="ident">Bitfield</span>::<span class="ident">from_mask</span>(<span class="ident">b_mask</span>, <span class="ident">max_len</span>)<span class="question-mark">?</span>,
             <span class="ident">a</span>: <span class="ident">Bitfield</span>::<span class="ident">from_mask</span>(<span class="ident">a_mask</span>, <span class="ident">max_len</span>)<span class="question-mark">?</span>,
         };
-        <span class="kw">if</span> <span class="ident">bitfields</span>.<span class="ident">r</span>.<span class="ident">len</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">bitfields</span>.<span class="ident">g</span>.<span class="ident">len</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">bitfields</span>.<span class="ident">b</span>.<span class="ident">len</span> <span class="op">==</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">bitfields</span>.<span class="ident">r</span>.<span class="ident">len</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">bitfields</span>.<span class="ident">g</span>.<span class="ident">len</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">bitfields</span>.<span class="ident">b</span>.<span class="ident">len</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Missing bitfield mask&quot;</span>.<span class="ident">to_string</span>()));
         }
         <span class="prelude-val">Ok</span>(<span class="ident">bitfields</span>)
@@ -1817,7 +1817,7 @@
 
     <span class="ident">bit_count</span>: <span class="ident">u16</span>,
     <span class="ident">colors_used</span>: <span class="ident">u32</span>,
-    <span class="ident">palette</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u8</span>, <span class="ident">u8</span>)<span class="op">&gt;&gt;</span>,
+    <span class="ident">palette</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u8</span>, <span class="ident">u8</span>)<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">bitfields</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Bitfields</span><span class="op">&gt;</span>,
 }
 
@@ -1837,50 +1837,50 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">RLEInsnIterator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">R</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">RLEInsn</span>;
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RLEInsn</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RLEInsn</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">control_byte</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">read_u8</span>() {
-            <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">b</span>,
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
         };
 
         <span class="kw">match</span> <span class="ident">control_byte</span> {
-            <span class="ident">RLE_ESCAPE</span> <span class="op">=&gt;</span> {
+            <span class="ident">RLE_ESCAPE</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">op</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">read_u8</span>() {
-                    <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">b</span>,
-                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+                    <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
+                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
                 };
 
                 <span class="kw">match</span> <span class="ident">op</span> {
-                    <span class="ident">RLE_ESCAPE_EOL</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">RLEInsn</span>::<span class="ident">EndOfRow</span>),
-                    <span class="ident">RLE_ESCAPE_EOF</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">RLEInsn</span>::<span class="ident">EndOfFile</span>),
-                    <span class="ident">RLE_ESCAPE_DELTA</span> <span class="op">=&gt;</span> {
+                    <span class="ident">RLE_ESCAPE_EOL</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">RLEInsn</span>::<span class="ident">EndOfRow</span>),
+                    <span class="ident">RLE_ESCAPE_EOF</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">RLEInsn</span>::<span class="ident">EndOfFile</span>),
+                    <span class="ident">RLE_ESCAPE_DELTA</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="ident">xdelta</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">read_u8</span>() {
-                            <span class="prelude-val">Ok</span>(<span class="ident">n</span>) <span class="op">=&gt;</span> <span class="ident">n</span>,
-                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+                            <span class="prelude-val">Ok</span>(<span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">n</span>,
+                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
                         };
                         <span class="kw">let</span> <span class="ident">ydelta</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">read_u8</span>() {
-                            <span class="prelude-val">Ok</span>(<span class="ident">n</span>) <span class="op">=&gt;</span> <span class="ident">n</span>,
-                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+                            <span class="prelude-val">Ok</span>(<span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">n</span>,
+                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
                         };
                         <span class="prelude-val">Some</span>(<span class="ident">RLEInsn</span>::<span class="ident">Delta</span>(<span class="ident">xdelta</span>, <span class="ident">ydelta</span>))
                     }
-                    <span class="kw">_</span> <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">length</span> <span class="op">=</span> <span class="ident">op</span> <span class="kw">as</span> <span class="ident">usize</span>;
-                        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">image_type</span> <span class="op">==</span> <span class="ident">ImageType</span>::<span class="ident">RLE4</span> {
+                        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">image_type</span> <span class="op">=</span><span class="op">=</span> <span class="ident">ImageType</span>::<span class="ident">RLE4</span> {
                             <span class="ident">length</span> <span class="op">=</span> (<span class="ident">length</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">/</span> <span class="number">2</span>;
                         }
-                        <span class="ident">length</span> <span class="op">+=</span> <span class="ident">length</span> <span class="op">&amp;</span> <span class="number">1</span>;
+                        <span class="ident">length</span> <span class="op">+</span><span class="op">=</span> <span class="ident">length</span> <span class="op">&amp;</span> <span class="number">1</span>;
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">length</span>];
                         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>) {
-                            <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">RLEInsn</span>::<span class="ident">Absolute</span>(<span class="ident">op</span>, <span class="ident">buffer</span>)),
-                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+                            <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">RLEInsn</span>::<span class="ident">Absolute</span>(<span class="ident">op</span>, <span class="ident">buffer</span>)),
+                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
                         }
                     }
                 }
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">read_u8</span>() {
-                <span class="prelude-val">Ok</span>(<span class="ident">palette_index</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">RLEInsn</span>::<span class="ident">PixelRun</span>(<span class="ident">control_byte</span>, <span class="ident">palette_index</span>)),
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">read_u8</span>() {
+                <span class="prelude-val">Ok</span>(<span class="ident">palette_index</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">RLEInsn</span>::<span class="ident">PixelRun</span>(<span class="ident">control_byte</span>, <span class="ident">palette_index</span>)),
+                <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
             },
         }
     }
@@ -1888,7 +1888,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span><span class="op">&gt;</span> <span class="ident">BMPDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a new decoder that decodes from the stream ```r```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">BMPDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">BMPDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">BMPDecoder</span> {
             <span class="ident">reader</span>,
 
@@ -1914,7 +1914,7 @@
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_with_ico_format</span>(<span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">BMPDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_with_ico_format</span>(<span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">BMPDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">BMPDecoder</span> {
             <span class="ident">reader</span>,
 
@@ -1940,18 +1940,18 @@
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">reader</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">reader</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span> {
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">reader</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">read_file_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_file_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">no_file_header</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signature</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">2</span>];
         <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>)<span class="question-mark">?</span>;
 
-        <span class="kw">if</span> <span class="ident">signature</span> <span class="op">!=</span> <span class="string">b&quot;BM&quot;</span>[..] {
+        <span class="kw">if</span> <span class="ident">signature</span> <span class="op">!</span><span class="op">=</span> <span class="string">b&quot;BM&quot;</span>[..] {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;BMP signature not found&quot;</span>.<span class="ident">to_string</span>(),
             ));
@@ -1970,7 +1970,7 @@
     <span class="doccomment">/// Read BITMAPCOREHEADER https://msdn.microsoft.com/en-us/library/vs/alm/dd183372(v=vs.85).aspx</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// returns Err if any of the values are invalid.</span>
-    <span class="kw">fn</span> <span class="ident">read_bitmap_core_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_bitmap_core_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// As height/width values in BMP files with core headers are only 16 bits long,</span>
         <span class="comment">// they won&#39;t be larger than `MAX_WIDTH_HEIGHT`.</span>
         <span class="self">self</span>.<span class="ident">width</span> <span class="op">=</span> <span class="ident">i32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>);
@@ -1979,15 +1979,15 @@
         <span class="ident">check_for_overflow</span>(<span class="self">self</span>.<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">height</span>, <span class="self">self</span>.<span class="ident">num_channels</span>())<span class="question-mark">?</span>;
 
         <span class="comment">// Number of planes (format specifies that this should be 1).</span>
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span> <span class="op">!=</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span> <span class="op">!</span><span class="op">=</span> <span class="number">1</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;More than one plane&quot;</span>.<span class="ident">to_string</span>()));
         }
 
         <span class="self">self</span>.<span class="ident">bit_count</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">image_type</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
-            <span class="number">1</span> <span class="op">|</span> <span class="number">4</span> <span class="op">|</span> <span class="number">8</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">Palette</span>,
-            <span class="number">24</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGB24</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Invalid bit count&quot;</span>.<span class="ident">to_string</span>())),
+            <span class="number">1</span> <span class="op">|</span> <span class="number">4</span> <span class="op">|</span> <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">Palette</span>,
+            <span class="number">24</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGB24</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Invalid bit count&quot;</span>.<span class="ident">to_string</span>())),
         };
 
         <span class="prelude-val">Ok</span>(())
@@ -1997,33 +1997,33 @@
     <span class="doccomment">/// or BITMAPV{2|3|4|5}HEADER.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// returns Err if any of the values are invalid.</span>
-    <span class="kw">fn</span> <span class="ident">read_bitmap_info_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_bitmap_info_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">height</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_i32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
 
         <span class="comment">// Width can not be negative</span>
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">&lt;</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Negative width&quot;</span>.<span class="ident">to_string</span>()));
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">&gt;</span> <span class="ident">MAX_WIDTH_HEIGHT</span> <span class="op">||</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">&gt;</span> <span class="ident">MAX_WIDTH_HEIGHT</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">&gt;</span> <span class="ident">MAX_WIDTH_HEIGHT</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">&gt;</span> <span class="ident">MAX_WIDTH_HEIGHT</span> {
             <span class="comment">// Limit very large image sizes to avoid OOM issues. Images with these sizes are</span>
             <span class="comment">// unlikely to be valid anyhow.</span>
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Image too large&quot;</span>.<span class="ident">to_string</span>()));
         }
 
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">==</span> <span class="ident">i32</span>::<span class="ident">min_value</span>() {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">=</span><span class="op">=</span> <span class="ident">i32</span>::<span class="ident">min_value</span>() {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Invalid height&quot;</span>.<span class="ident">to_string</span>()));
         }
 
         <span class="comment">// A negative height indicates a top-down DIB.</span>
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">&lt;</span> <span class="number">0</span> {
-            <span class="self">self</span>.<span class="ident">height</span> <span class="op">*=</span> <span class="op">-</span><span class="number">1</span>;
+            <span class="self">self</span>.<span class="ident">height</span> <span class="kw-2">*</span><span class="op">=</span> <span class="op">-</span><span class="number">1</span>;
             <span class="self">self</span>.<span class="ident">top_down</span> <span class="op">=</span> <span class="bool-val">true</span>;
         }
 
         <span class="ident">check_for_overflow</span>(<span class="self">self</span>.<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">height</span>, <span class="self">self</span>.<span class="ident">num_channels</span>())<span class="question-mark">?</span>;
 
         <span class="comment">// Number of planes (format specifies that this should be 1).</span>
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span> <span class="op">!=</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span> <span class="op">!</span><span class="op">=</span> <span class="number">1</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;More than one plane&quot;</span>.<span class="ident">to_string</span>()));
         }
 
@@ -2031,52 +2031,52 @@
         <span class="kw">let</span> <span class="ident">image_type_u32</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
 
         <span class="comment">// Top-down dibs can not be compressed.</span>
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">top_down</span> <span class="op">&amp;&amp;</span> <span class="ident">image_type_u32</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">image_type_u32</span> <span class="op">!=</span> <span class="number">3</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">top_down</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">image_type_u32</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">image_type_u32</span> <span class="op">!</span><span class="op">=</span> <span class="number">3</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="string">&quot;Invalid image type for top-down image.&quot;</span>.<span class="ident">to_string</span>(),
             ));
         }
         <span class="self">self</span>.<span class="ident">image_type</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">image_type_u32</span> {
-            <span class="number">0</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
-                <span class="number">1</span> <span class="op">|</span> <span class="number">2</span> <span class="op">|</span> <span class="number">4</span> <span class="op">|</span> <span class="number">8</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">Palette</span>,
-                <span class="number">16</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGB16</span>,
-                <span class="number">24</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGB24</span>,
-                <span class="number">32</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">add_alpha_channel</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGBA32</span>,
-                <span class="number">32</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGB32</span>,
-                <span class="kw">_</span> <span class="op">=&gt;</span> {
+            <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
+                <span class="number">1</span> <span class="op">|</span> <span class="number">2</span> <span class="op">|</span> <span class="number">4</span> <span class="op">|</span> <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">Palette</span>,
+                <span class="number">16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGB16</span>,
+                <span class="number">24</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGB24</span>,
+                <span class="number">32</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">add_alpha_channel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGBA32</span>,
+                <span class="number">32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RGB32</span>,
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="macro">format</span><span class="macro">!</span>(
                         <span class="string">&quot;Invalid RGB bit count {}&quot;</span>,
                         <span class="self">self</span>.<span class="ident">bit_count</span>
                     )))
                 }
             },
-            <span class="number">1</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
-                <span class="number">8</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RLE8</span>,
-                <span class="kw">_</span> <span class="op">=&gt;</span> {
+            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
+                <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RLE8</span>,
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                         <span class="string">&quot;Invalid RLE8 bit count&quot;</span>.<span class="ident">to_string</span>(),
                     ))
                 }
             },
-            <span class="number">2</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
-                <span class="number">4</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RLE4</span>,
-                <span class="kw">_</span> <span class="op">=&gt;</span> {
+            <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
+                <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">RLE4</span>,
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                         <span class="string">&quot;Invalid RLE4 bit count&quot;</span>.<span class="ident">to_string</span>(),
                     ))
                 }
             },
-            <span class="number">3</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
-                <span class="number">16</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">Bitfields16</span>,
-                <span class="number">32</span> <span class="op">=&gt;</span> <span class="ident">ImageType</span>::<span class="ident">Bitfields32</span>,
-                <span class="kw">_</span> <span class="op">=&gt;</span> {
+            <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
+                <span class="number">16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">Bitfields16</span>,
+                <span class="number">32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageType</span>::<span class="ident">Bitfields32</span>,
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                         <span class="string">&quot;Invalid bitfields bit count&quot;</span>.<span class="ident">to_string</span>(),
                     ))
                 }
             },
             <span class="comment">// PNG and JPEG not implemented yet.</span>
-            <span class="kw">_</span> <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(
                     <span class="string">&quot;Unsupported image type&quot;</span>.<span class="ident">to_string</span>(),
                 ))
@@ -2100,36 +2100,36 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">read_bitmasks</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_bitmasks</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">r_mask</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">g_mask</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">b_mask</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">a_mask</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bmp_header_type</span> {
-            <span class="ident">BMPHeaderType</span>::<span class="ident">V3</span> <span class="op">|</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V4</span> <span class="op">|</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V5</span> <span class="op">=&gt;</span> {
+            <span class="ident">BMPHeaderType</span>::<span class="ident">V3</span> <span class="op">|</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V4</span> <span class="op">|</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V5</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
         };
 
         <span class="self">self</span>.<span class="ident">bitfields</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">image_type</span> {
-            <span class="ident">ImageType</span>::<span class="ident">Bitfields16</span> <span class="op">=&gt;</span> {
+            <span class="ident">ImageType</span>::<span class="ident">Bitfields16</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Some</span>(<span class="ident">Bitfields</span>::<span class="ident">from_mask</span>(<span class="ident">r_mask</span>, <span class="ident">g_mask</span>, <span class="ident">b_mask</span>, <span class="ident">a_mask</span>, <span class="number">16</span>)<span class="question-mark">?</span>)
             }
-            <span class="ident">ImageType</span>::<span class="ident">Bitfields32</span> <span class="op">=&gt;</span> {
+            <span class="ident">ImageType</span>::<span class="ident">Bitfields32</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Some</span>(<span class="ident">Bitfields</span>::<span class="ident">from_mask</span>(<span class="ident">r_mask</span>, <span class="ident">g_mask</span>, <span class="ident">b_mask</span>, <span class="ident">a_mask</span>, <span class="number">32</span>)<span class="question-mark">?</span>)
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         };
 
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">bitfields</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="ident">a_mask</span> <span class="op">!=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">bitfields</span>.<span class="ident">is_some</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">a_mask</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
             <span class="self">self</span>.<span class="ident">add_alpha_channel</span> <span class="op">=</span> <span class="bool-val">true</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">read_metadata</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_metadata</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">has_loaded_metadata</span> {
             <span class="self">self</span>.<span class="ident">read_file_header</span>()<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">bmp_header_offset</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))<span class="question-mark">?</span>;
@@ -2137,13 +2137,13 @@
             <span class="kw">let</span> <span class="ident">bmp_header_end</span> <span class="op">=</span> <span class="ident">bmp_header_offset</span> <span class="op">+</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">bmp_header_size</span>);
 
             <span class="self">self</span>.<span class="ident">bmp_header_type</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">bmp_header_size</span> {
-                <span class="ident">BITMAPCOREHEADER_SIZE</span> <span class="op">=&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">Core</span>,
-                <span class="ident">BITMAPINFOHEADER_SIZE</span> <span class="op">=&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">Info</span>,
-                <span class="ident">BITMAPV2HEADER_SIZE</span> <span class="op">=&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V2</span>,
-                <span class="ident">BITMAPV3HEADER_SIZE</span> <span class="op">=&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V3</span>,
-                <span class="ident">BITMAPV4HEADER_SIZE</span> <span class="op">=&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V4</span>,
-                <span class="ident">BITMAPV5HEADER_SIZE</span> <span class="op">=&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V5</span>,
-                <span class="kw">_</span> <span class="op">=&gt;</span> {
+                <span class="ident">BITMAPCOREHEADER_SIZE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">Core</span>,
+                <span class="ident">BITMAPINFOHEADER_SIZE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">Info</span>,
+                <span class="ident">BITMAPV2HEADER_SIZE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V2</span>,
+                <span class="ident">BITMAPV3HEADER_SIZE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V3</span>,
+                <span class="ident">BITMAPV4HEADER_SIZE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V4</span>,
+                <span class="ident">BITMAPV5HEADER_SIZE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V5</span>,
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(
                         <span class="string">&quot;Unsupported Bitmap Header&quot;</span>.<span class="ident">to_string</span>(),
                     ))
@@ -2151,28 +2151,28 @@
             };
 
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bmp_header_type</span> {
-                <span class="ident">BMPHeaderType</span>::<span class="ident">Core</span> <span class="op">=&gt;</span> {
+                <span class="ident">BMPHeaderType</span>::<span class="ident">Core</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="self">self</span>.<span class="ident">read_bitmap_core_header</span>()<span class="question-mark">?</span>;
                 }
                 <span class="ident">BMPHeaderType</span>::<span class="ident">Info</span>
                 <span class="op">|</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V2</span>
                 <span class="op">|</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V3</span>
                 <span class="op">|</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V4</span>
-                <span class="op">|</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V5</span> <span class="op">=&gt;</span> {
+                <span class="op">|</span> <span class="ident">BMPHeaderType</span>::<span class="ident">V5</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="self">self</span>.<span class="ident">read_bitmap_info_header</span>()<span class="question-mark">?</span>;
                 }
             };
 
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">image_type</span> {
-                <span class="ident">ImageType</span>::<span class="ident">Bitfields16</span> <span class="op">|</span> <span class="ident">ImageType</span>::<span class="ident">Bitfields32</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_bitmasks</span>()<span class="question-mark">?</span>,
-                <span class="kw">_</span> <span class="op">=&gt;</span> {}
+                <span class="ident">ImageType</span>::<span class="ident">Bitfields16</span> <span class="op">|</span> <span class="ident">ImageType</span>::<span class="ident">Bitfields32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_bitmasks</span>()<span class="question-mark">?</span>,
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
             };
 
             <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">bmp_header_end</span>))<span class="question-mark">?</span>;
 
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">image_type</span> {
-                <span class="ident">ImageType</span>::<span class="ident">Palette</span> <span class="op">|</span> <span class="ident">ImageType</span>::<span class="ident">RLE4</span> <span class="op">|</span> <span class="ident">ImageType</span>::<span class="ident">RLE8</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_palette</span>()<span class="question-mark">?</span>,
-                <span class="kw">_</span> <span class="op">=&gt;</span> {}
+                <span class="ident">ImageType</span>::<span class="ident">Palette</span> <span class="op">|</span> <span class="ident">ImageType</span>::<span class="ident">RLE4</span> <span class="op">|</span> <span class="ident">ImageType</span>::<span class="ident">RLE8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_palette</span>()<span class="question-mark">?</span>,
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
             };
 
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">no_file_header</span> {
@@ -2187,22 +2187,22 @@
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_metadata_in_ico_format</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_metadata_in_ico_format</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">no_file_header</span> <span class="op">=</span> <span class="bool-val">true</span>;
         <span class="self">self</span>.<span class="ident">add_alpha_channel</span> <span class="op">=</span> <span class="bool-val">true</span>;
         <span class="self">self</span>.<span class="ident">read_metadata</span>()<span class="question-mark">?</span>;
 
         <span class="comment">// The height field in an ICO file is doubled to account for the AND mask</span>
         <span class="comment">// (whether or not an AND mask is actually present).</span>
-        <span class="self">self</span>.<span class="ident">height</span> <span class="op">/=</span> <span class="number">2</span>;
+        <span class="self">self</span>.<span class="ident">height</span> <span class="op">/</span><span class="op">=</span> <span class="number">2</span>;
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">get_palette_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_palette_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">colors_used</span> {
-            <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="self">self</span>.<span class="ident">bit_count</span>),
-            <span class="kw">_</span> <span class="op">=&gt;</span> {
-                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">colors_used</span> <span class="op">&gt;</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
+            <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">bit_count</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">colors_used</span> <span class="op">&gt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">bit_count</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="macro">format</span><span class="macro">!</span>(
                         <span class="string">&quot;Palette size {} exceeds maximum size for BMP with bit count of {}&quot;</span>,
                         <span class="self">self</span>.<span class="ident">colors_used</span>, <span class="self">self</span>.<span class="ident">bit_count</span>
@@ -2213,14 +2213,14 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">bytes_per_color</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">bytes_per_color</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bmp_header_type</span> {
-            <span class="ident">BMPHeaderType</span>::<span class="ident">Core</span> <span class="op">=&gt;</span> <span class="number">3</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="number">4</span>,
+            <span class="ident">BMPHeaderType</span>::<span class="ident">Core</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">3</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">4</span>,
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">read_palette</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_palette</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">const</span> <span class="ident">MAX_PALETTE_SIZE</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">256</span>; <span class="comment">// Palette indices are u8.</span>
 
         <span class="kw">let</span> <span class="ident">bytes_per_color</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bytes_per_color</span>();
@@ -2239,12 +2239,12 @@
         <span class="comment">// Allocate 256 entries even if palette_size is smaller, to prevent corrupt files from</span>
         <span class="comment">// causing an out-of-bounds array access.</span>
         <span class="kw">match</span> <span class="ident">length</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">max_length</span>) {
-            <span class="ident">Ordering</span>::<span class="ident">Greater</span> <span class="op">=&gt;</span> {
+            <span class="ident">Ordering</span>::<span class="ident">Greater</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="self">self</span>.<span class="ident">reader</span>
                     .<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Current</span>((<span class="ident">length</span> <span class="op">-</span> <span class="ident">max_length</span>) <span class="kw">as</span> <span class="ident">i64</span>))<span class="question-mark">?</span>;
             }
-            <span class="ident">Ordering</span>::<span class="ident">Less</span> <span class="op">=&gt;</span> <span class="ident">buf</span>.<span class="ident">resize</span>(<span class="ident">max_length</span>, <span class="number">0</span>),
-            <span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=&gt;</span> (),
+            <span class="ident">Ordering</span>::<span class="ident">Less</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">buf</span>.<span class="ident">resize</span>(<span class="ident">max_length</span>, <span class="number">0</span>),
+            <span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=</span><span class="op">&gt;</span> (),
         }
 
         <span class="kw">let</span> <span class="ident">p</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u8</span>, <span class="ident">u8</span>)<span class="op">&gt;</span> <span class="op">=</span> (<span class="number">0</span>..<span class="ident">MAX_PALETTE_SIZE</span>)
@@ -2261,7 +2261,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">num_channels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">num_channels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">add_alpha_channel</span> {
             <span class="number">4</span>
         } <span class="kw">else</span> {
@@ -2274,7 +2274,7 @@
     <span class="doccomment">/// The buffer will be large enough to hold the whole image if it requires less than</span>
     <span class="doccomment">/// `MAX_INITIAL_PIXELS` times the number of channels bytes (adjusted to line up with the</span>
     <span class="doccomment">/// width of a row).</span>
-    <span class="kw">fn</span> <span class="ident">create_pixel_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">create_pixel_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">row_width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">num_channels</span>() <span class="op">*</span> <span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span>;
         <span class="kw">let</span> <span class="ident">max_pixels</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">num_channels</span>() <span class="op">*</span> <span class="ident">MAX_INITIAL_PIXELS</span>;
         <span class="comment">// Make sure the maximum size is whole number of rows.</span>
@@ -2283,7 +2283,7 @@
         <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0xFF</span>; <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">row_width</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">max_starting_size</span>)]
     }
 
-    <span class="kw">fn</span> <span class="ident">rows</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pixel_data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">RowIterator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">rows</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pixel_data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RowIterator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">stride</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">num_channels</span>();
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">top_down</span> {
             <span class="ident">RowIterator</span> {
@@ -2296,7 +2296,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">read_palettized_pixel_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_palettized_pixel_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pixel_data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">create_pixel_data</span>();
         <span class="kw">let</span> <span class="ident">num_channels</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">num_channels</span>();
         <span class="kw">let</span> <span class="ident">row_byte_length</span> <span class="op">=</span> ((<span class="ident">i32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">bit_count</span>) <span class="op">*</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">+</span> <span class="number">31</span>) <span class="op">/</span> <span class="number">32</span> <span class="op">*</span> <span class="number">4</span>) <span class="kw">as</span> <span class="ident">usize</span>;
@@ -2318,19 +2318,19 @@
                 <span class="ident">reader</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">indices</span>)<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pixel_iter</span> <span class="op">=</span> <span class="ident">row</span>.<span class="ident">chunks_mut</span>(<span class="ident">num_channels</span>);
                 <span class="kw">match</span> <span class="ident">bit_count</span> {
-                    <span class="number">1</span> <span class="op">=&gt;</span> {
+                    <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">set_1bit_pixel_run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_iter</span>, <span class="ident">palette</span>, <span class="ident">indices</span>.<span class="ident">iter</span>());
                     }
-                    <span class="number">2</span> <span class="op">=&gt;</span> {
+                    <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">set_2bit_pixel_run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_iter</span>, <span class="ident">palette</span>, <span class="ident">indices</span>.<span class="ident">iter</span>(), <span class="ident">width</span>);
                     }
-                    <span class="number">4</span> <span class="op">=&gt;</span> {
+                    <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">set_4bit_pixel_run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_iter</span>, <span class="ident">palette</span>, <span class="ident">indices</span>.<span class="ident">iter</span>(), <span class="ident">width</span>);
                     }
-                    <span class="number">8</span> <span class="op">=&gt;</span> {
+                    <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">set_8bit_pixel_run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_iter</span>, <span class="ident">palette</span>, <span class="ident">indices</span>.<span class="ident">iter</span>(), <span class="ident">width</span>);
                     }
-                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
+                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
                 };
                 <span class="prelude-val">Ok</span>(())
             },
@@ -2339,14 +2339,14 @@
         <span class="prelude-val">Ok</span>(<span class="ident">pixel_data</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">read_16_bit_pixel_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bitfields</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Bitfields</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_16_bit_pixel_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bitfields</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Bitfields</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pixel_data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">create_pixel_data</span>();
         <span class="kw">let</span> <span class="ident">num_channels</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">num_channels</span>();
         <span class="kw">let</span> <span class="ident">row_padding_len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">%</span> <span class="number">2</span> <span class="op">*</span> <span class="number">2</span>;
         <span class="kw">let</span> <span class="ident">row_padding</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0</span>; <span class="number">2</span>][..<span class="ident">row_padding_len</span>];
         <span class="kw">let</span> <span class="ident">bitfields</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">bitfields</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">b</span>,
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">bitfields</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">bitfields</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>(),
         };
         <span class="kw">let</span> <span class="ident">reader</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">reader</span>;
 
@@ -2365,7 +2365,7 @@
                     <span class="ident">pixel</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">bitfields</span>.<span class="ident">r</span>.<span class="ident">read</span>(<span class="ident">data</span>);
                     <span class="ident">pixel</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">bitfields</span>.<span class="ident">g</span>.<span class="ident">read</span>(<span class="ident">data</span>);
                     <span class="ident">pixel</span>[<span class="number">2</span>] <span class="op">=</span> <span class="ident">bitfields</span>.<span class="ident">b</span>.<span class="ident">read</span>(<span class="ident">data</span>);
-                    <span class="kw">if</span> <span class="ident">num_channels</span> <span class="op">==</span> <span class="number">4</span> {
+                    <span class="kw">if</span> <span class="ident">num_channels</span> <span class="op">=</span><span class="op">=</span> <span class="number">4</span> {
                         <span class="ident">pixel</span>[<span class="number">3</span>] <span class="op">=</span> <span class="ident">bitfields</span>.<span class="ident">a</span>.<span class="ident">read</span>(<span class="ident">data</span>);
                     }
                 }
@@ -2377,7 +2377,7 @@
     }
 
     <span class="doccomment">/// Read image data from a reader in 32-bit formats that use bitfields.</span>
-    <span class="kw">fn</span> <span class="ident">read_32_bit_pixel_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_32_bit_pixel_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pixel_data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">create_pixel_data</span>();
         <span class="kw">let</span> <span class="ident">num_channels</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">num_channels</span>();
 
@@ -2399,7 +2399,7 @@
                     <span class="ident">pixel</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">bitfields</span>.<span class="ident">r</span>.<span class="ident">read</span>(<span class="ident">data</span>);
                     <span class="ident">pixel</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">bitfields</span>.<span class="ident">g</span>.<span class="ident">read</span>(<span class="ident">data</span>);
                     <span class="ident">pixel</span>[<span class="number">2</span>] <span class="op">=</span> <span class="ident">bitfields</span>.<span class="ident">b</span>.<span class="ident">read</span>(<span class="ident">data</span>);
-                    <span class="kw">if</span> <span class="ident">num_channels</span> <span class="op">==</span> <span class="number">4</span> {
+                    <span class="kw">if</span> <span class="ident">num_channels</span> <span class="op">=</span><span class="op">=</span> <span class="number">4</span> {
                         <span class="ident">pixel</span>[<span class="number">3</span>] <span class="op">=</span> <span class="ident">bitfields</span>.<span class="ident">a</span>.<span class="ident">read</span>(<span class="ident">data</span>);
                     }
                 }
@@ -2411,12 +2411,12 @@
     }
 
     <span class="doccomment">/// Read image data from a reader where the colours are stored as 8-bit values (24 or 32-bit).</span>
-    <span class="kw">fn</span> <span class="ident">read_full_byte_pixel_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">format</span>: <span class="kw-2">&amp;</span><span class="ident">FormatFullBytes</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_full_byte_pixel_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">format</span>: <span class="kw-2">&amp;</span><span class="ident">FormatFullBytes</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pixel_data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">create_pixel_data</span>();
         <span class="kw">let</span> <span class="ident">num_channels</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">num_channels</span>();
         <span class="kw">let</span> <span class="ident">row_padding_len</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">format</span> {
-            <span class="ident">FormatFullBytes</span>::<span class="ident">RGB24</span> <span class="op">=&gt;</span> (<span class="number">4</span> <span class="op">-</span> (<span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">%</span> <span class="number">4</span>) <span class="op">%</span> <span class="number">4</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+            <span class="ident">FormatFullBytes</span>::<span class="ident">RGB24</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="number">4</span> <span class="op">-</span> (<span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">%</span> <span class="number">4</span>) <span class="op">%</span> <span class="number">4</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
         };
         <span class="kw">let</span> <span class="ident">row_padding</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0</span>; <span class="number">4</span>][..<span class="ident">row_padding_len</span>];
 
@@ -2432,7 +2432,7 @@
             <span class="self">self</span>.<span class="ident">top_down</span>,
             <span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
                 <span class="kw">for</span> <span class="ident">pixel</span> <span class="kw">in</span> <span class="ident">row</span>.<span class="ident">chunks_mut</span>(<span class="ident">num_channels</span>) {
-                    <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">format</span> <span class="op">==</span> <span class="ident">FormatFullBytes</span>::<span class="ident">Format888</span> {
+                    <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">format</span> <span class="op">=</span><span class="op">=</span> <span class="ident">FormatFullBytes</span>::<span class="ident">Format888</span> {
                         <span class="ident">reader</span>.<span class="ident">read_u8</span>()<span class="question-mark">?</span>;
                     }
 
@@ -2442,12 +2442,12 @@
                     <span class="ident">reader</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel</span>[<span class="number">0</span>..<span class="number">3</span>])<span class="question-mark">?</span>;
                     <span class="ident">pixel</span>[<span class="number">0</span>..<span class="number">3</span>].<span class="ident">reverse</span>();
 
-                    <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">format</span> <span class="op">==</span> <span class="ident">FormatFullBytes</span>::<span class="ident">RGB32</span> {
+                    <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">format</span> <span class="op">=</span><span class="op">=</span> <span class="ident">FormatFullBytes</span>::<span class="ident">RGB32</span> {
                         <span class="ident">reader</span>.<span class="ident">read_u8</span>()<span class="question-mark">?</span>;
                     }
 
                     <span class="comment">// Read the alpha channel if present</span>
-                    <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">format</span> <span class="op">==</span> <span class="ident">FormatFullBytes</span>::<span class="ident">RGBA32</span> {
+                    <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">format</span> <span class="op">=</span><span class="op">=</span> <span class="ident">FormatFullBytes</span>::<span class="ident">RGBA32</span> {
                         <span class="ident">reader</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel</span>[<span class="number">3</span>..<span class="number">4</span>])<span class="question-mark">?</span>;
                     }
                 }
@@ -2458,12 +2458,12 @@
         <span class="prelude-val">Ok</span>(<span class="ident">pixel_data</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">read_rle_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">image_type</span>: <span class="ident">ImageType</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_rle_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">image_type</span>: <span class="ident">ImageType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="comment">// Seek to the start of the actual image data.</span>
         <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="self">self</span>.<span class="ident">data_offset</span>))<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">full_image_size</span> <span class="op">=</span>
-            <span class="ident">num_bytes</span>(<span class="self">self</span>.<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">height</span>, <span class="self">self</span>.<span class="ident">num_channels</span>()).<span class="ident">ok_or_else</span>(<span class="op">||</span> {
+            <span class="ident">num_bytes</span>(<span class="self">self</span>.<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">height</span>, <span class="self">self</span>.<span class="ident">num_channels</span>()).<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
                 <span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="string">&quot;Image buffer would be too large!&quot;</span>.<span class="ident">to_owned</span>())
             })<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pixel_data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">create_pixel_data</span>();
@@ -2474,7 +2474,7 @@
         <span class="comment">// we won&#39;t extend the buffer further to avoid small files with a large specified size causing memory issues.</span>
         <span class="comment">// This is only a rudimentary check, a file could still create a large buffer, but the</span>
         <span class="comment">// file would now have to at least have some data in it.</span>
-        <span class="kw">if</span> <span class="ident">pixel_data</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">full_image_size</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">eof_hit</span> {
+        <span class="kw">if</span> <span class="ident">pixel_data</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">full_image_size</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">eof_hit</span> {
             <span class="kw">let</span> <span class="ident">new</span> <span class="op">=</span> <span class="ident">extend_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_data</span>, <span class="ident">full_image_size</span>, <span class="bool-val">true</span>);
             <span class="self">self</span>.<span class="ident">read_rle_data_step</span>(<span class="ident">new</span>, <span class="ident">image_type</span>, <span class="ident">skip_pixels</span>, <span class="ident">skip_rows</span>)<span class="question-mark">?</span>;
         }
@@ -2487,7 +2487,7 @@
         <span class="ident">image_type</span>: <span class="ident">ImageType</span>,
         <span class="ident">skip_pixels</span>: <span class="ident">u8</span>,
         <span class="ident">skip_rows</span>: <span class="ident">u8</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u8</span>, <span class="ident">bool</span>)<span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u8</span>, <span class="ident">bool</span>)<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">num_channels</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">num_channels</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">delta_rows_left</span> <span class="op">=</span> <span class="number">0</span>;
@@ -2519,17 +2519,17 @@
                 <span class="lifetime">&#39;rle_loop</span>: <span class="kw">loop</span> {
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">insn</span>) <span class="op">=</span> <span class="ident">insns_iter</span>.<span class="ident">next</span>() {
                         <span class="kw">match</span> <span class="ident">insn</span> {
-                            <span class="ident">RLEInsn</span>::<span class="ident">EndOfFile</span> <span class="op">=&gt;</span> {
+                            <span class="ident">RLEInsn</span>::<span class="ident">EndOfFile</span> <span class="op">=</span><span class="op">&gt;</span> {
                                 <span class="ident">blank_bytes</span>(<span class="ident">pixel_iter</span>);
                                 <span class="ident">blank_bytes</span>(<span class="ident">row_iter</span>);
                                 <span class="ident">eof_hit</span> <span class="op">=</span> <span class="bool-val">true</span>;
                                 <span class="kw">break</span> <span class="lifetime">&#39;row_loop</span>;
                             }
-                            <span class="ident">RLEInsn</span>::<span class="ident">EndOfRow</span> <span class="op">=&gt;</span> {
+                            <span class="ident">RLEInsn</span>::<span class="ident">EndOfRow</span> <span class="op">=</span><span class="op">&gt;</span> {
                                 <span class="ident">blank_bytes</span>(<span class="ident">pixel_iter</span>);
                                 <span class="kw">break</span> <span class="lifetime">&#39;rle_loop</span>;
                             }
-                            <span class="ident">RLEInsn</span>::<span class="ident">Delta</span>(<span class="ident">x_delta</span>, <span class="ident">y_delta</span>) <span class="op">=&gt;</span> {
+                            <span class="ident">RLEInsn</span>::<span class="ident">Delta</span>(<span class="ident">x_delta</span>, <span class="ident">y_delta</span>) <span class="op">=</span><span class="op">&gt;</span> {
                                 <span class="kw">if</span> <span class="ident">y_delta</span> <span class="op">&gt;</span> <span class="number">0</span> {
                                     <span class="kw">for</span> <span class="ident">n</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">y_delta</span> {
                                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">row</span>) <span class="op">=</span> <span class="ident">row_iter</span>.<span class="ident">next</span>() {
@@ -2561,12 +2561,12 @@
                                     }
                                 }
                             }
-                            <span class="ident">RLEInsn</span>::<span class="ident">Absolute</span>(<span class="ident">length</span>, <span class="ident">indices</span>) <span class="op">=&gt;</span> {
+                            <span class="ident">RLEInsn</span>::<span class="ident">Absolute</span>(<span class="ident">length</span>, <span class="ident">indices</span>) <span class="op">=</span><span class="op">&gt;</span> {
                                 <span class="comment">// Absolute mode cannot span rows, so if we run</span>
                                 <span class="comment">// out of pixels to process, we should stop</span>
                                 <span class="comment">// processing the image.</span>
                                 <span class="kw">match</span> <span class="ident">image_type</span> {
-                                    <span class="ident">ImageType</span>::<span class="ident">RLE8</span> <span class="op">=&gt;</span> {
+                                    <span class="ident">ImageType</span>::<span class="ident">RLE8</span> <span class="op">=</span><span class="op">&gt;</span> {
                                         <span class="kw">if</span> <span class="op">!</span><span class="ident">set_8bit_pixel_run</span>(
                                             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_iter</span>,
                                             <span class="ident">p</span>,
@@ -2576,7 +2576,7 @@
                                             <span class="kw">break</span> <span class="lifetime">&#39;row_loop</span>;
                                         }
                                     }
-                                    <span class="ident">ImageType</span>::<span class="ident">RLE4</span> <span class="op">=&gt;</span> {
+                                    <span class="ident">ImageType</span>::<span class="ident">RLE4</span> <span class="op">=</span><span class="op">&gt;</span> {
                                         <span class="kw">if</span> <span class="op">!</span><span class="ident">set_4bit_pixel_run</span>(
                                             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_iter</span>,
                                             <span class="ident">p</span>,
@@ -2586,15 +2586,15 @@
                                             <span class="kw">break</span> <span class="lifetime">&#39;row_loop</span>;
                                         }
                                     }
-                                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
+                                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
                                 }
                             }
-                            <span class="ident">RLEInsn</span>::<span class="ident">PixelRun</span>(<span class="ident">n_pixels</span>, <span class="ident">palette_index</span>) <span class="op">=&gt;</span> {
+                            <span class="ident">RLEInsn</span>::<span class="ident">PixelRun</span>(<span class="ident">n_pixels</span>, <span class="ident">palette_index</span>) <span class="op">=</span><span class="op">&gt;</span> {
                                 <span class="comment">// A pixel run isn&#39;t allowed to span rows, but we</span>
                                 <span class="comment">// simply continue on to the next row if we run</span>
                                 <span class="comment">// out of pixels to set.</span>
                                 <span class="kw">match</span> <span class="ident">image_type</span> {
-                                    <span class="ident">ImageType</span>::<span class="ident">RLE8</span> <span class="op">=&gt;</span> {
+                                    <span class="ident">ImageType</span>::<span class="ident">RLE8</span> <span class="op">=</span><span class="op">&gt;</span> {
                                         <span class="kw">if</span> <span class="op">!</span><span class="ident">set_8bit_pixel_run</span>(
                                             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_iter</span>,
                                             <span class="ident">p</span>,
@@ -2604,7 +2604,7 @@
                                             <span class="kw">break</span> <span class="lifetime">&#39;rle_loop</span>;
                                         }
                                     }
-                                    <span class="ident">ImageType</span>::<span class="ident">RLE4</span> <span class="op">=&gt;</span> {
+                                    <span class="ident">ImageType</span>::<span class="ident">RLE4</span> <span class="op">=</span><span class="op">&gt;</span> {
                                         <span class="kw">if</span> <span class="op">!</span><span class="ident">set_4bit_pixel_run</span>(
                                             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pixel_iter</span>,
                                             <span class="ident">p</span>,
@@ -2614,7 +2614,7 @@
                                             <span class="kw">break</span> <span class="lifetime">&#39;rle_loop</span>;
                                         }
                                     }
-                                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
+                                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
                                 }
                             }
                         }
@@ -2630,27 +2630,27 @@
 
     <span class="doccomment">/// Read the actual data of the image. This function is deliberately not public because it</span>
     <span class="doccomment">/// cannot be called multiple times without seeking back the underlying reader in between.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_image_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_image_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">image_type</span> {
-            <span class="ident">ImageType</span>::<span class="ident">Palette</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_palettized_pixel_data</span>(),
-            <span class="ident">ImageType</span>::<span class="ident">RGB16</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_16_bit_pixel_data</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">R5_G5_B5_COLOR_MASK</span>)),
-            <span class="ident">ImageType</span>::<span class="ident">RGB24</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_full_byte_pixel_data</span>(<span class="kw-2">&amp;</span><span class="ident">FormatFullBytes</span>::<span class="ident">RGB24</span>),
-            <span class="ident">ImageType</span>::<span class="ident">RGB32</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_full_byte_pixel_data</span>(<span class="kw-2">&amp;</span><span class="ident">FormatFullBytes</span>::<span class="ident">RGB32</span>),
-            <span class="ident">ImageType</span>::<span class="ident">RGBA32</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_full_byte_pixel_data</span>(<span class="kw-2">&amp;</span><span class="ident">FormatFullBytes</span>::<span class="ident">RGBA32</span>),
-            <span class="ident">ImageType</span>::<span class="ident">RLE8</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_rle_data</span>(<span class="ident">ImageType</span>::<span class="ident">RLE8</span>),
-            <span class="ident">ImageType</span>::<span class="ident">RLE4</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_rle_data</span>(<span class="ident">ImageType</span>::<span class="ident">RLE4</span>),
-            <span class="ident">ImageType</span>::<span class="ident">Bitfields16</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bitfields</span> {
-                <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_16_bit_pixel_data</span>(<span class="prelude-val">None</span>),
-                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+            <span class="ident">ImageType</span>::<span class="ident">Palette</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_palettized_pixel_data</span>(),
+            <span class="ident">ImageType</span>::<span class="ident">RGB16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_16_bit_pixel_data</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">R5_G5_B5_COLOR_MASK</span>)),
+            <span class="ident">ImageType</span>::<span class="ident">RGB24</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_full_byte_pixel_data</span>(<span class="kw-2">&amp;</span><span class="ident">FormatFullBytes</span>::<span class="ident">RGB24</span>),
+            <span class="ident">ImageType</span>::<span class="ident">RGB32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_full_byte_pixel_data</span>(<span class="kw-2">&amp;</span><span class="ident">FormatFullBytes</span>::<span class="ident">RGB32</span>),
+            <span class="ident">ImageType</span>::<span class="ident">RGBA32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_full_byte_pixel_data</span>(<span class="kw-2">&amp;</span><span class="ident">FormatFullBytes</span>::<span class="ident">RGBA32</span>),
+            <span class="ident">ImageType</span>::<span class="ident">RLE8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_rle_data</span>(<span class="ident">ImageType</span>::<span class="ident">RLE8</span>),
+            <span class="ident">ImageType</span>::<span class="ident">RLE4</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_rle_data</span>(<span class="ident">ImageType</span>::<span class="ident">RLE4</span>),
+            <span class="ident">ImageType</span>::<span class="ident">Bitfields16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bitfields</span> {
+                <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_16_bit_pixel_data</span>(<span class="prelude-val">None</span>),
+                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                     <span class="string">&quot;Missing 16-bit bitfield masks&quot;</span>.<span class="ident">to_string</span>(),
                 )),
             },
-            <span class="ident">ImageType</span>::<span class="ident">Bitfields32</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bitfields</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">R8_G8_B8_COLOR_MASK</span>) <span class="op">=&gt;</span> {
+            <span class="ident">ImageType</span>::<span class="ident">Bitfields32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bitfields</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">R8_G8_B8_COLOR_MASK</span>) <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="self">self</span>.<span class="ident">read_full_byte_pixel_data</span>(<span class="kw-2">&amp;</span><span class="ident">FormatFullBytes</span>::<span class="ident">Format888</span>)
                 }
-                <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_32_bit_pixel_data</span>(),
-                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+                <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">read_32_bit_pixel_data</span>(),
+                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                     <span class="string">&quot;Missing 32-bit bitfield masks&quot;</span>.<span class="ident">to_string</span>(),
                 )),
             },
@@ -2659,13 +2659,13 @@
 }
 
 <span class="doccomment">/// Wrapper struct around a `Cursor&lt;Vec&lt;u8&gt;&gt;`</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BmpReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>, <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BmpReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>);
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">Read</span> <span class="kw">for</span> <span class="ident">BmpReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">read</span>(<span class="ident">buf</span>)
     }
-    <span class="kw">fn</span> <span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">position</span>() <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">buf</span>.<span class="ident">is_empty</span>() {
+    <span class="kw">fn</span> <span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">position</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">buf</span>.<span class="ident">is_empty</span>() {
             <span class="ident">mem</span>::<span class="ident">swap</span>(<span class="ident">buf</span>, <span class="self">self</span>.<span class="number">0</span>.<span class="ident">get_mut</span>());
             <span class="prelude-val">Ok</span>(<span class="ident">buf</span>.<span class="ident">len</span>())
         } <span class="kw">else</span> {
@@ -2677,11 +2677,11 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">R</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span><span class="op">&gt;</span> <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BMPDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Reader</span> <span class="op">=</span> <span class="ident">BmpReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u64</span>, <span class="ident">u64</span>) {
+    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u64</span>, <span class="ident">u64</span>) {
         (<span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="self">self</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">u64</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">colortype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ColorType</span> {
+    <span class="kw">fn</span> <span class="ident">colortype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ColorType</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">add_alpha_channel</span> {
             <span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>)
         } <span class="kw">else</span> {
@@ -2689,11 +2689,11 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">into_reader</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Reader</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">into_reader</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Reader</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">BmpReader</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">read_image</span>()<span class="question-mark">?</span>), <span class="ident">PhantomData</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">read_image</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_image</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">read_image_data</span>()
     }
 }
@@ -2707,7 +2707,7 @@
         <span class="ident">height</span>: <span class="ident">u64</span>,
         <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>],
         <span class="ident">progress_callback</span>: <span class="ident">F</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_image_data</span>();
         <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">start</span>))<span class="question-mark">?</span>;
@@ -2738,10 +2738,10 @@
     <span class="kw">fn</span> <span class="ident">test_bitfield_len</span>() {
         <span class="kw">for</span> <span class="ident">len</span> <span class="kw">in</span> <span class="number">1</span>..<span class="number">9</span> {
             <span class="kw">let</span> <span class="ident">bitfield</span> <span class="op">=</span> <span class="ident">Bitfield</span> { <span class="ident">shift</span>: <span class="number">0</span>, <span class="ident">len</span> };
-            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">len</span>) {
+            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">len</span>) {
                 <span class="kw">let</span> <span class="ident">read</span> <span class="op">=</span> <span class="ident">bitfield</span>.<span class="ident">read</span>(<span class="ident">i</span>);
-                <span class="kw">let</span> <span class="ident">calc</span> <span class="op">=</span> (<span class="ident">i</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">/</span> ((<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">len</span>) <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="number">255f64</span>).<span class="ident">round</span>() <span class="kw">as</span> <span class="ident">u8</span>;
-                <span class="kw">if</span> <span class="ident">read</span> <span class="op">!=</span> <span class="ident">calc</span> {
+                <span class="kw">let</span> <span class="ident">calc</span> <span class="op">=</span> (<span class="ident">i</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">/</span> ((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">len</span>) <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="number">255f64</span>).<span class="ident">round</span>() <span class="kw">as</span> <span class="ident">u8</span>;
+                <span class="kw">if</span> <span class="ident">read</span> <span class="op">!</span><span class="op">=</span> <span class="ident">calc</span> {
                     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;len:{} i:{} read:{} calc:{}&quot;</span>, <span class="ident">len</span>, <span class="ident">i</span>, <span class="ident">read</span>, <span class="ident">calc</span>);
                 }
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">read</span>, <span class="ident">calc</span>);
@@ -2750,4 +2750,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "image";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "image";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

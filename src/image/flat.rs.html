@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.3/./src/flat.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>flat.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.5/./src/flat.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>flat.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1555,7 +1555,7 @@
 <span class="doccomment">//! Imagine you want to offer a very simple ffi interface: The caller provides an image buffer and</span>
 <span class="doccomment">//! your program creates a thumbnail from it and dumps that image as `png`. This module is designed</span>
 <span class="doccomment">//! to help you transition from raw memory data to Rust representation.</span>
-<span class="doccomment">//! </span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! ```no_run</span>
 <span class="doccomment">//! use std::ptr;</span>
 <span class="doccomment">//! use std::slice;</span>
@@ -1590,7 +1590,7 @@
 <span class="doccomment">//!         .unwrap_or_else(|_| false)</span>
 <span class="doccomment">//! }</span>
 <span class="doccomment">//! ```</span>
-<span class="doccomment">//! </span>
+<span class="doccomment">//!</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">Index</span>, <span class="ident">IndexMut</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
@@ -1672,7 +1672,7 @@
     <span class="doccomment">/// On platforms where `usize` has the same size as `u32` this panics when the resulting stride</span>
     <span class="doccomment">/// in the `height` direction would be larger than `usize::max_value()`. On other platforms</span>
     <span class="doccomment">/// where it can surely accomodate `u8::max_value() * u32::max_value(), this can never happen.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">row_major_packed</span>(<span class="ident">channels</span>: <span class="ident">u8</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">row_major_packed</span>(<span class="ident">channels</span>: <span class="ident">u8</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">height_stride</span> <span class="op">=</span> (<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">checked_mul</span>(<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Row major packed image can not be described because it does not fit into memory&quot;</span>);
         <span class="ident">SampleLayout</span> {
@@ -1701,7 +1701,7 @@
     <span class="doccomment">/// On platforms where `usize` has the same size as `u32` this panics when the resulting stride</span>
     <span class="doccomment">/// in the `width` direction would be larger than `usize::max_value()`. On other platforms</span>
     <span class="doccomment">/// where it can surely accomodate `u8::max_value() * u32::max_value(), this can never happen.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">column_major_packed</span>(<span class="ident">channels</span>: <span class="ident">u8</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">column_major_packed</span>(<span class="ident">channels</span>: <span class="ident">u8</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">width_stride</span> <span class="op">=</span> (<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">checked_mul</span>(<span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Column major packed image can not be described because it does not fit into memory&quot;</span>);
         <span class="ident">SampleLayout</span> {
@@ -1718,7 +1718,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// For a row-major layout with grouped samples, this tuple is strictly</span>
     <span class="doccomment">/// increasing.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">strides_cwh</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">strides_cwh</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
         (<span class="self">self</span>.<span class="ident">channel_stride</span>, <span class="self">self</span>.<span class="ident">width_stride</span>, <span class="self">self</span>.<span class="ident">height_stride</span>)
     }
 
@@ -1726,7 +1726,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The interface is optimized for use with `strides_cwh` instead. The channel extent will be</span>
     <span class="doccomment">/// before width and height.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extents</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extents</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
         (<span class="self">self</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="self">self</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>)
     }
 
@@ -1734,12 +1734,12 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function should be used whenever working with image coordinates opposed to buffer</span>
     <span class="doccomment">/// coordinates. The only difference compared to `extents` is the output type.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>) {
         (<span class="self">self</span>.<span class="ident">channels</span>, <span class="self">self</span>.<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">height</span>)
     }
 
     <span class="doccomment">/// Get the minimum length of a buffer such that all in-bounds samples have valid indices.</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// This method will allow zero strides, allowing compact representations of monochrome images.</span>
     <span class="doccomment">/// To check that no aliasing occurs, try `check_alias_invariants`. For compact images (no</span>
     <span class="doccomment">/// aliasing and no unindexed samples) this is `width*height*channels`. But for both of the</span>
@@ -1752,7 +1752,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Example with holes</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Let&#39;s look at an example of a grayscale image with </span>
+    <span class="doccomment">/// Let&#39;s look at an example of a grayscale image with</span>
     <span class="doccomment">/// * `width_stride = 1`</span>
     <span class="doccomment">/// * `width = 2`</span>
     <span class="doccomment">/// * `height_stride = 3`</span>
@@ -1789,8 +1789,8 @@
     <span class="doccomment">/// This time &#39;one-past-the-end&#39; is not even simply the largest stride times the extent of its</span>
     <span class="doccomment">/// dimension. That still points inside the image because `height*height_stride = 4` but also</span>
     <span class="doccomment">/// `index_of(1, 2) = 4`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min_length</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="self">self</span>.<span class="ident">channels</span> <span class="op">==</span> <span class="number">0</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min_length</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">height</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">channels</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="number">0</span>)
         }
 
@@ -1799,12 +1799,12 @@
     }
 
     <span class="doccomment">/// Check if a buffer of length `len` is large enough.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">len</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">min_length</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">min</span><span class="op">|</span> <span class="ident">len</span> <span class="op">&gt;=</span> <span class="ident">min</span>).<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">len</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">min_length</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">min</span><span class="op">|</span> <span class="ident">len</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">min</span>).<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>)
     }
 
     <span class="doccomment">/// The extents of this array, in order of increasing strides.</span>
-    <span class="kw">fn</span> <span class="ident">increasing_stride_dims</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> [<span class="ident">Dim</span>; <span class="number">3</span>] {
+    <span class="kw">fn</span> <span class="ident">increasing_stride_dims</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> [<span class="ident">Dim</span>; <span class="number">3</span>] {
         <span class="comment">// Order extents by strides, then check that each is less equal than the next stride.</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">grouped</span>: [<span class="ident">Dim</span>; <span class="number">3</span>] <span class="op">=</span> [
             <span class="ident">Dim</span>(<span class="self">self</span>.<span class="ident">channel_stride</span>, <span class="self">self</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span>),
@@ -1814,8 +1814,8 @@
         <span class="ident">grouped</span>.<span class="ident">sort</span>();
 
         <span class="kw">let</span> (<span class="ident">min_dim</span>, <span class="ident">mid_dim</span>, <span class="ident">max_dim</span>) <span class="op">=</span> (<span class="ident">grouped</span>[<span class="number">0</span>], <span class="ident">grouped</span>[<span class="number">1</span>], <span class="ident">grouped</span>[<span class="number">2</span>]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">min_dim</span>.<span class="ident">stride</span>() <span class="op">&lt;=</span> <span class="ident">mid_dim</span>.<span class="ident">stride</span>() <span class="op">&amp;&amp;</span> <span class="ident">mid_dim</span>.<span class="ident">stride</span>() <span class="op">&lt;=</span> <span class="ident">max_dim</span>.<span class="ident">stride</span>());
-        
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">min_dim</span>.<span class="ident">stride</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">mid_dim</span>.<span class="ident">stride</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">mid_dim</span>.<span class="ident">stride</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">max_dim</span>.<span class="ident">stride</span>());
+
         <span class="ident">grouped</span>
     }
 
@@ -1824,27 +1824,27 @@
     <span class="doccomment">/// If this is not the case, it would always be safe to allow mutable access to two different</span>
     <span class="doccomment">/// samples at the same time. Otherwise, this operation would need additional checks. When one</span>
     <span class="doccomment">/// dimension overflows `usize` with its stride we also consider this aliasing.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">has_aliased_samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">has_aliased_samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">grouped</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">increasing_stride_dims</span>();
         <span class="kw">let</span> (<span class="ident">min_dim</span>, <span class="ident">mid_dim</span>, <span class="ident">max_dim</span>) <span class="op">=</span> (<span class="ident">grouped</span>[<span class="number">0</span>], <span class="ident">grouped</span>[<span class="number">1</span>], <span class="ident">grouped</span>[<span class="number">2</span>]);
 
         <span class="kw">let</span> <span class="ident">min_size</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">min_dim</span>.<span class="ident">checked_len</span>() {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
-            <span class="prelude-val">Some</span>(<span class="ident">size</span>) <span class="op">=&gt;</span> <span class="ident">size</span>,
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">size</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">size</span>,
         };
 
         <span class="kw">let</span> <span class="ident">mid_size</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">mid_dim</span>.<span class="ident">checked_len</span>() {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
-            <span class="prelude-val">Some</span>(<span class="ident">size</span>) <span class="op">=&gt;</span> <span class="ident">size</span>,
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">size</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">size</span>,
         };
 
         <span class="kw">let</span> <span class="ident">_max_size</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">max_dim</span>.<span class="ident">checked_len</span>() {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (), <span class="comment">// Only want to know this didn&#39;t overflow.</span>
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (), <span class="comment">// Only want to know this didn&#39;t overflow.</span>
         };
 
         <span class="comment">// Each higher dimension must walk over all of one lower dimension.</span>
-        <span class="ident">min_size</span> <span class="op">&gt;</span> <span class="ident">mid_dim</span>.<span class="ident">stride</span>() <span class="op">||</span> <span class="ident">mid_size</span> <span class="op">&gt;</span> <span class="ident">max_dim</span>.<span class="ident">stride</span>()
+        <span class="ident">min_size</span> <span class="op">&gt;</span> <span class="ident">mid_dim</span>.<span class="ident">stride</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">mid_size</span> <span class="op">&gt;</span> <span class="ident">max_dim</span>.<span class="ident">stride</span>()
     }
 
     <span class="doccomment">/// Check if a buffer fulfills the requirements of a normal form.</span>
@@ -1854,49 +1854,49 @@
     <span class="doccomment">/// checks can all be done in constant time and will not inspect the buffer content. You can</span>
     <span class="doccomment">/// perform these checks yourself when the conversion is not required at this moment but maybe</span>
     <span class="doccomment">/// still performed later.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_normal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">form</span>: <span class="ident">NormalForm</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_normal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">form</span>: <span class="ident">NormalForm</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">has_aliased_samples</span>() {
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
 
-        <span class="kw">if</span> <span class="ident">form</span> <span class="op">&gt;=</span> <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">channel_stride</span> <span class="op">!=</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="ident">form</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">channel_stride</span> <span class="op">!</span><span class="op">=</span> <span class="number">1</span> {
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
 
-        <span class="kw">if</span> <span class="ident">form</span> <span class="op">&gt;=</span> <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span> {
+        <span class="kw">if</span> <span class="ident">form</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span> {
             <span class="comment">// has aliased already checked for overflows.</span>
             <span class="kw">let</span> <span class="ident">grouped</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">increasing_stride_dims</span>();
             <span class="kw">let</span> (<span class="ident">min_dim</span>, <span class="ident">mid_dim</span>, <span class="ident">max_dim</span>) <span class="op">=</span> (<span class="ident">grouped</span>[<span class="number">0</span>], <span class="ident">grouped</span>[<span class="number">1</span>], <span class="ident">grouped</span>[<span class="number">2</span>]);
 
-            <span class="kw">if</span> <span class="number">1</span> <span class="op">!=</span> <span class="ident">min_dim</span>.<span class="ident">stride</span>() {
+            <span class="kw">if</span> <span class="number">1</span> <span class="op">!</span><span class="op">=</span> <span class="ident">min_dim</span>.<span class="ident">stride</span>() {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
 
-            <span class="kw">if</span> <span class="ident">min_dim</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">mid_dim</span>.<span class="ident">stride</span>() {
+            <span class="kw">if</span> <span class="ident">min_dim</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">mid_dim</span>.<span class="ident">stride</span>() {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
 
-            <span class="kw">if</span>  <span class="ident">mid_dim</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">max_dim</span>.<span class="ident">stride</span>() {
+            <span class="kw">if</span>  <span class="ident">mid_dim</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">max_dim</span>.<span class="ident">stride</span>() {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }
 
-        <span class="kw">if</span> <span class="ident">form</span> <span class="op">&gt;=</span> <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span> {
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">width_stride</span> <span class="op">!=</span> <span class="self">self</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span> {
+        <span class="kw">if</span> <span class="ident">form</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span> {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">width_stride</span> <span class="op">!</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span> {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
 
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">width_stride</span> <span class="op">!=</span> <span class="self">self</span>.<span class="ident">height_stride</span> {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">width_stride</span> <span class="op">!</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">height_stride</span> {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }
 
-        <span class="kw">if</span> <span class="ident">form</span> <span class="op">&gt;=</span> <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span> {
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">height_stride</span> <span class="op">!=</span> <span class="self">self</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span> {
+        <span class="kw">if</span> <span class="ident">form</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span> {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">height_stride</span> <span class="op">!</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span> {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
-            
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">height_stride</span> <span class="op">!=</span> <span class="self">self</span>.<span class="ident">width_stride</span> {
+
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">height_stride</span> <span class="op">!</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">width_stride</span> {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }
@@ -1909,14 +1909,14 @@
     <span class="doccomment">/// An in-bound coordinate does not yet guarantee that the corresponding calculation of a</span>
     <span class="doccomment">/// buffer index does not overflow. However, if such a buffer large enough to hold all samples</span>
     <span class="doccomment">/// actually exists in memory, this porperty of course follows.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">in_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">channel</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">channels</span> <span class="op">&amp;&amp;</span> <span class="ident">x</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">&amp;&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">height</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">in_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="ident">channel</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">channels</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">x</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">width</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">height</span>
     }
 
     <span class="doccomment">/// Resolve the index of a particular sample.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// `None` if the index is outside the bounds or does not fit into a `usize`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">in_bounds</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>) {
             <span class="kw">return</span> <span class="prelude-val">None</span>
         }
@@ -1929,14 +1929,14 @@
     <span class="doccomment">/// The &#39;check&#39; is for overflow during index calculation, not that it is contained in the</span>
     <span class="doccomment">/// image. Two samples may return the same index, even when one of them is out of bounds. This</span>
     <span class="doccomment">/// happens when all strides are `0`, i.e. the image is an arbitrarily large monochrome image.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_ignoring_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">usize</span>, <span class="ident">x</span>: <span class="ident">usize</span>, <span class="ident">y</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_ignoring_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">usize</span>, <span class="ident">x</span>: <span class="ident">usize</span>, <span class="ident">y</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">idx_c</span> <span class="op">=</span> (<span class="ident">channel</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">checked_mul</span>(<span class="self">self</span>.<span class="ident">channel_stride</span>);
         <span class="kw">let</span> <span class="ident">idx_x</span> <span class="op">=</span> (<span class="ident">x</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">checked_mul</span>(<span class="self">self</span>.<span class="ident">width_stride</span>);
         <span class="kw">let</span> <span class="ident">idx_y</span> <span class="op">=</span> (<span class="ident">y</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">checked_mul</span>(<span class="self">self</span>.<span class="ident">height_stride</span>);
 
         <span class="kw">let</span> (<span class="ident">idx_c</span>, <span class="ident">idx_x</span>, <span class="ident">idx_y</span>) <span class="op">=</span> <span class="kw">match</span> (<span class="ident">idx_c</span>, <span class="ident">idx_x</span>, <span class="ident">idx_y</span>) {
-            (<span class="prelude-val">Some</span>(<span class="ident">idx_c</span>), <span class="prelude-val">Some</span>(<span class="ident">idx_x</span>), <span class="prelude-val">Some</span>(<span class="ident">idx_y</span>)) <span class="op">=&gt;</span> (<span class="ident">idx_c</span>, <span class="ident">idx_x</span>, <span class="ident">idx_y</span>),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+            (<span class="prelude-val">Some</span>(<span class="ident">idx_c</span>), <span class="prelude-val">Some</span>(<span class="ident">idx_x</span>), <span class="prelude-val">Some</span>(<span class="ident">idx_y</span>)) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">idx_c</span>, <span class="ident">idx_x</span>, <span class="ident">idx_y</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
         };
 
         <span class="prelude-val">Some</span>(<span class="number">0usize</span>)
@@ -1950,7 +1950,7 @@
     <span class="doccomment">/// Assumes that the image is backed by some sufficiently large buffer. Then computation can</span>
     <span class="doccomment">/// not overflow as we could represent the maximum coordinate. Since overflow is defined either</span>
     <span class="doccomment">/// way, this method can not be unsafe.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">in_bounds_index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">c</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">in_bounds_index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">c</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="kw">let</span> (<span class="ident">c_stride</span>, <span class="ident">x_stride</span>, <span class="ident">y_stride</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">strides_cwh</span>();
         (<span class="ident">y</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">y_stride</span>) <span class="op">+</span> (<span class="ident">x</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">x_stride</span>) <span class="op">+</span> (<span class="ident">c</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">c_stride</span>)
     }
@@ -1969,16 +1969,16 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Dim</span> {
-    <span class="kw">fn</span> <span class="ident">stride</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">stride</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="number">0</span>
     }
 
     <span class="doccomment">/// Length of this dimension in memory.</span>
-    <span class="kw">fn</span> <span class="ident">checked_len</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">checked_len</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">checked_mul</span>(<span class="self">self</span>.<span class="number">1</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">len</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="number">0</span><span class="kw-2">*</span><span class="self">self</span>.<span class="number">1</span>
     }
 }
@@ -1988,7 +1988,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// For a row-major layout with grouped samples, this tuple is strictly</span>
     <span class="doccomment">/// increasing.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">strides_cwh</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">strides_cwh</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">strides_cwh</span>()
     }
 
@@ -1996,7 +1996,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The interface is optimized for use with `strides_cwh` instead. The channel extent will be</span>
     <span class="doccomment">/// before width and height.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extents</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extents</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">extents</span>()
     }
 
@@ -2004,12 +2004,12 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function should be used whenever working with image coordinates opposed to buffer</span>
     <span class="doccomment">/// coordinates. The only difference compared to `extents` is the output type.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>) {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">bounds</span>()
     }
 
     <span class="doccomment">/// Get a reference based version.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_ref</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_ref</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
         <span class="ident">FlatSamples</span> {
             <span class="ident">samples</span>: <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_ref</span>(),
             <span class="ident">layout</span>: <span class="self">self</span>.<span class="ident">layout</span>,
@@ -2018,7 +2018,7 @@
     }
 
     <span class="doccomment">/// Get a mutable reference based version.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>]<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>]<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
         <span class="ident">FlatSamples</span> {
             <span class="ident">samples</span>: <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_mut</span>(),
             <span class="ident">layout</span>: <span class="self">self</span>.<span class="ident">layout</span>,
@@ -2027,8 +2027,8 @@
     }
 
     <span class="doccomment">/// Copy the data into an owned vector.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> 
-        <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Clone</span>, <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Clone</span>, <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span>
     {
         <span class="ident">FlatSamples</span> {
             <span class="ident">samples</span>: <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_ref</span>().<span class="ident">to_vec</span>(),
@@ -2044,7 +2044,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use image::{RgbImage};</span>
-    <span class="doccomment">/// let flat = RgbImage::new(480, 640).into_flat_samples(); </span>
+    <span class="doccomment">/// let flat = RgbImage::new(480, 640).into_flat_samples();</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// // Get the blue channel at (10, 10).</span>
     <span class="doccomment">/// assert!(flat.get_sample(1, 10, 10).is_some());</span>
@@ -2058,8 +2058,8 @@
     <span class="doccomment">/// `in_bounds_index` as a small speedup over the index calculation of this method which relies</span>
     <span class="doccomment">/// on `index_ignoring_bounds` since it can not have a-priori knowledge that the sample</span>
     <span class="doccomment">/// coordinate is in fact backed by any memory buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sample</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span>
-        <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span>, 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sample</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span>,
     {
         <span class="self">self</span>.<span class="ident">index</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">idx</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_ref</span>().<span class="ident">get</span>(<span class="ident">idx</span>))
     }
@@ -2077,7 +2077,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use image::{RgbImage};</span>
-    <span class="doccomment">/// let mut flat = RgbImage::new(480, 640).into_flat_samples(); </span>
+    <span class="doccomment">/// let mut flat = RgbImage::new(480, 640).into_flat_samples();</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// // Assign some new color to the blue channel at (10, 10).</span>
     <span class="doccomment">/// *flat.get_mut_sample(1, 10, 10).unwrap() = 255;</span>
@@ -2091,12 +2091,12 @@
     <span class="doccomment">/// `in_bounds_index` as a small speedup over the index calculation of this method which relies</span>
     <span class="doccomment">/// on `index_ignoring_bounds` since it can not have a-priori knowledge that the sample</span>
     <span class="doccomment">/// coordinate is in fact backed by any memory buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut_sample</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut_sample</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span>,
     {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">index</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>) {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_mut</span>().<span class="ident">get_mut</span>(<span class="ident">idx</span>),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_mut</span>().<span class="ident">get_mut</span>(<span class="ident">idx</span>),
         }
     }
 
@@ -2106,10 +2106,10 @@
     <span class="doccomment">/// buffer. It also checks that the specified pixel format expects the same number of channels</span>
     <span class="doccomment">/// that are present in this buffer. Neither are larger nor a smaller number will be accepted.</span>
     <span class="doccomment">/// There is no automatic conversion.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_view</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>], <span class="ident">P</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_view</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>], <span class="ident">P</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">Pixel</span>, <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>,
     {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">channels</span> <span class="op">!=</span> <span class="ident">P</span>::<span class="ident">CHANNEL_COUNT</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">channels</span> <span class="op">!</span><span class="op">=</span> <span class="ident">P</span>::<span class="ident">CHANNEL_COUNT</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">WrongColor</span>(<span class="ident">P</span>::<span class="ident">COLOR_TYPE</span>))
         }
 
@@ -2143,10 +2143,10 @@
     <span class="doccomment">/// **WARNING**: Note that of course samples may alias, so that the mutable reference returned</span>
     <span class="doccomment">/// for one sample can in fact modify other samples as well. Sometimes exactly this is</span>
     <span class="doccomment">/// intended.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_view_with_mut_samples</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>], <span class="ident">P</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_view_with_mut_samples</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>], <span class="ident">P</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">Pixel</span>, <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>,
     {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">channels</span> <span class="op">!=</span> <span class="ident">P</span>::<span class="ident">CHANNEL_COUNT</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">channels</span> <span class="op">!</span><span class="op">=</span> <span class="ident">P</span>::<span class="ident">CHANNEL_COUNT</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">WrongColor</span>(<span class="ident">P</span>::<span class="ident">COLOR_TYPE</span>))
         }
 
@@ -2176,14 +2176,14 @@
     <span class="doccomment">/// provides many more operations, is possibly faster (if not you may want to open an issue) is</span>
     <span class="doccomment">/// generally polished. You can also try to convert this buffer inline, see</span>
     <span class="doccomment">/// `ImageBuffer::from_raw`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_view_mut</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ViewMut</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>], <span class="ident">P</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_view_mut</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ViewMut</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>], <span class="ident">P</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">Pixel</span>, <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>,
     {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">is_normal</span>(<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">NormalFormRequired</span>(<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>))
         }
 
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">channels</span> <span class="op">!=</span> <span class="ident">P</span>::<span class="ident">CHANNEL_COUNT</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">channels</span> <span class="op">!</span><span class="op">=</span> <span class="ident">P</span>::<span class="ident">CHANNEL_COUNT</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">WrongColor</span>(<span class="ident">P</span>::<span class="ident">COLOR_TYPE</span>))
         }
 
@@ -2206,7 +2206,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The slice is not limited to the region of the image and not all sample indices are valid</span>
     <span class="doccomment">/// indices into this buffer. See `image_mut_slice` as an alternative.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">T</span>] <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">T</span>] <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_ref</span>()
     }
 
@@ -2214,7 +2214,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The slice is not limited to the region of the image and not all sample indices are valid</span>
     <span class="doccomment">/// indices into this buffer. See `image_mut_slice` as an alternative.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>] <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>] <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_mut</span>()
     }
 
@@ -2223,10 +2223,10 @@
     <span class="doccomment">/// This may fail when the coordinates in this image are either out-of-bounds of the underlying</span>
     <span class="doccomment">/// buffer or can not be represented. Note that the slice may have holes that do not correspond</span>
     <span class="doccomment">/// to any sample in the image represented by it.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">min_length</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">min_length</span>() {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(<span class="ident">index</span>) <span class="op">=&gt;</span> <span class="ident">index</span>,
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">index</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">index</span>,
         };
 
         <span class="kw">let</span> <span class="ident">slice</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_ref</span>();
@@ -2238,10 +2238,10 @@
     }
 
     <span class="doccomment">/// Mutable portion of the buffer that holds sample values.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_mut_slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>]<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_mut_slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>]<span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">min_length</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">min_length</span>() {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(<span class="ident">index</span>) <span class="op">=&gt;</span> <span class="ident">index</span>,
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">index</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">index</span>,
         };
 
         <span class="kw">let</span> <span class="ident">slice</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">as_mut</span>();
@@ -2257,8 +2257,8 @@
     <span class="doccomment">/// This does **not** convert the sample layout. The buffer needs to be in packed row-major form</span>
     <span class="doccomment">/// before calling this function. In case of an error, returns the buffer again so that it does</span>
     <span class="doccomment">/// not release any allocation.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_into_buffer</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Buffer</span><span class="op">&gt;</span>, (<span class="ident">Error</span>, <span class="self">Self</span>)<span class="op">&gt;</span> 
-    <span class="kw">where</span> 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_into_buffer</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Buffer</span><span class="op">&gt;</span>, (<span class="ident">Error</span>, <span class="self">Self</span>)<span class="op">&gt;</span>
+    <span class="kw">where</span>
         <span class="ident">P</span>: <span class="ident">Pixel</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
         <span class="ident">P</span>::<span class="ident">Subpixel</span>: <span class="lifetime">&#39;static</span>,
         <span class="ident">Buffer</span>: <span class="ident">Deref</span><span class="op">&lt;</span><span class="ident">Target</span><span class="op">=</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>,
@@ -2267,7 +2267,7 @@
             <span class="kw">return</span> <span class="prelude-val">Err</span>((<span class="ident">Error</span>::<span class="ident">NormalFormRequired</span>(<span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>), <span class="self">self</span>))
         }
 
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">channels</span> <span class="op">!=</span> <span class="ident">P</span>::<span class="ident">CHANNEL_COUNT</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">channels</span> <span class="op">!</span><span class="op">=</span> <span class="ident">P</span>::<span class="ident">CHANNEL_COUNT</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>((<span class="ident">Error</span>::<span class="ident">WrongColor</span>(<span class="ident">P</span>::<span class="ident">COLOR_TYPE</span>), <span class="self">self</span>))
         }
 
@@ -2277,11 +2277,11 @@
 
 
         <span class="prelude-val">Ok</span>(<span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">height</span>, <span class="self">self</span>.<span class="ident">samples</span>).<span class="ident">unwrap_or_else</span>(
-            <span class="op">||</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Preconditions should have been ensured before conversion&quot;</span>)))
+            <span class="op">|</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Preconditions should have been ensured before conversion&quot;</span>)))
     }
 
     <span class="doccomment">/// Get the minimum length of a buffer such that all in-bounds samples have valid indices.</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// This method will allow zero strides, allowing compact representations of monochrome images.</span>
     <span class="doccomment">/// To check that no aliasing occurs, try `check_alias_invariants`. For compact images (no</span>
     <span class="doccomment">/// aliasing and no unindexed samples) this is `width*height*channels`. But for both of the</span>
@@ -2294,7 +2294,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Example with holes</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Let&#39;s look at an example of a grayscale image with </span>
+    <span class="doccomment">/// Let&#39;s look at an example of a grayscale image with</span>
     <span class="doccomment">/// * `width_stride = 1`</span>
     <span class="doccomment">/// * `width = 2`</span>
     <span class="doccomment">/// * `height_stride = 3`</span>
@@ -2331,12 +2331,12 @@
     <span class="doccomment">/// This time &#39;one-past-the-end&#39; is not even simply the largest stride times the extent of its</span>
     <span class="doccomment">/// dimension. That still points inside the image because `height*height_stride = 4` but also</span>
     <span class="doccomment">/// `index_of(1, 2) = 4`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min_length</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min_length</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">min_length</span>()
     }
 
     <span class="doccomment">/// Check if a buffer of length `len` is large enough.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">len</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">len</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">fits</span>(<span class="ident">len</span>)
     }
 
@@ -2345,7 +2345,7 @@
     <span class="doccomment">/// If this is not the case, it would always be safe to allow mutable access to two different</span>
     <span class="doccomment">/// samples at the same time. Otherwise, this operation would need additional checks. When one</span>
     <span class="doccomment">/// dimension overflows `usize` with its stride we also consider this aliasing.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">has_aliased_samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">has_aliased_samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">has_aliased_samples</span>()
     }
 
@@ -2356,7 +2356,7 @@
     <span class="doccomment">/// checks can all be done in constant time and will not inspect the buffer content. You can</span>
     <span class="doccomment">/// perform these checks yourself when the conversion is not required at this moment but maybe</span>
     <span class="doccomment">/// still performed later.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_normal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">form</span>: <span class="ident">NormalForm</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_normal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">form</span>: <span class="ident">NormalForm</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">is_normal</span>(<span class="ident">form</span>)
     }
 
@@ -2365,14 +2365,14 @@
     <span class="doccomment">/// An in-bound coordinate does not yet guarantee that the corresponding calculation of a</span>
     <span class="doccomment">/// buffer index does not overflow. However, if such a buffer large enough to hold all samples</span>
     <span class="doccomment">/// actually exists in memory, this porperty of course follows.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">in_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">in_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">in_bounds</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>)
     }
 
     <span class="doccomment">/// Resolve the index of a particular sample.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// `None` if the index is outside the bounds or does not fit into a `usize`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">index</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>)
     }
 
@@ -2381,7 +2381,7 @@
     <span class="doccomment">/// The &#39;check&#39; is for overflow during index calculation, not that it is contained in the</span>
     <span class="doccomment">/// image. Two samples may return the same index, even when one of them is out of bounds. This</span>
     <span class="doccomment">/// happens when all strides are `0`, i.e. the image is an arbitrarily large monochrome image.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_ignoring_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">usize</span>, <span class="ident">x</span>: <span class="ident">usize</span>, <span class="ident">y</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_ignoring_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">usize</span>, <span class="ident">x</span>: <span class="ident">usize</span>, <span class="ident">y</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">index_ignoring_bounds</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>)
     }
 
@@ -2390,7 +2390,7 @@
     <span class="doccomment">/// Assumes that the image is backed by some sufficiently large buffer. Then computation can</span>
     <span class="doccomment">/// not overflow as we could represent the maximum coordinate. Since overflow is defined either</span>
     <span class="doccomment">/// way, this method can not be unsafe.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">in_bounds_index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">in_bounds_index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">layout</span>.<span class="ident">in_bounds_index</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>)
     }
 
@@ -2419,9 +2419,9 @@
 <span class="doccomment">/// * `P::channel_count()` agrees with `self.inner.layout.channels`</span>
 <span class="doccomment">///</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">View</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> 
-<span class="kw">where</span> 
-    <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span> 
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">View</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>
 {
     <span class="ident">inner</span>: <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span>,
     <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>,
@@ -2442,9 +2442,9 @@
 <span class="doccomment">/// * `P::channel_count()` agrees with `self.inner.layout.channels`</span>
 <span class="doccomment">///</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ViewMut</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> 
-<span class="kw">where</span> 
-    <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span> 
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ViewMut</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>
 {
     <span class="ident">inner</span>: <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span>,
     <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>,
@@ -2483,7 +2483,7 @@
 <span class="doccomment">/// Different normal forms of buffers.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A normal form is an unaliased buffer with some additional constraints.  The `ÌmageBuffer` uses</span>
-<span class="doccomment">/// row major form with packed samples. </span>
+<span class="doccomment">/// row major form with packed samples.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">NormalForm</span> {
     <span class="doccomment">/// No pixel aliases another.</span>
@@ -2508,24 +2508,24 @@
     <span class="doccomment">/// The samples are in row-major form and all samples are packed.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// In addition to `PixelPacked` and `ImagePacked` this also asserts that the pixel matrix is</span>
-    <span class="doccomment">/// in row-major form. </span>
+    <span class="doccomment">/// in row-major form.</span>
     <span class="ident">RowMajorPacked</span>,
 
     <span class="doccomment">/// The samples are in column-major form and all samples are packed.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// In addition to `PixelPacked` and `ImagePacked` this also asserts that the pixel matrix is</span>
-    <span class="doccomment">/// in column-major form. </span>
+    <span class="doccomment">/// in column-major form.</span>
     <span class="ident">ColumnMajorPacked</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span>
-<span class="kw">where</span> 
-    <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span> 
+<span class="kw">where</span>
+    <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>
 {
     <span class="doccomment">/// Take out the sample buffer.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Gives up the normalization invariants on the buffer format.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">inner</span>
     }
 
@@ -2535,7 +2535,7 @@
     <span class="doccomment">/// lengths, could invalidate the accessibility invariants of the `View`. It is not specified</span>
     <span class="doccomment">/// if the inner buffer is the same as the buffer of the image from which this view was</span>
     <span class="doccomment">/// created. It might have been truncated as an optimization.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flat</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flat</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>
     }
 
@@ -2543,7 +2543,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// There is no mutable counter part since it is not intended to allow you to reassign the</span>
     <span class="doccomment">/// buffer or otherwise change its size or properties.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Buffer</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Buffer</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">samples</span>
     }
 
@@ -2551,7 +2551,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method will return `None` when the sample is out-of-bounds. All errors that could</span>
     <span class="doccomment">/// occur due to overflow have been eliminated while construction the `View`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sample</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">P</span>::<span class="ident">Subpixel</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sample</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">P</span>::<span class="ident">Subpixel</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">in_bounds</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>) {
             <span class="kw">return</span> <span class="prelude-val">None</span>
         }
@@ -2569,7 +2569,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// **WARNING**: Note that of course samples may alias, so that the mutable reference returned</span>
     <span class="doccomment">/// here can in fact modify more than the coordinate in the argument.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut_sample</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P</span>::<span class="ident">Subpixel</span><span class="op">&gt;</span> 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut_sample</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P</span>::<span class="ident">Subpixel</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>
     {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">in_bounds</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>) {
@@ -2584,7 +2584,7 @@
     <span class="doccomment">/// Get the minimum length of a buffer such that all in-bounds samples have valid indices.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See `FlatSamples::min_length`. This method will always succeed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min_length</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min_length</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">min_length</span>().<span class="ident">unwrap</span>()
     }
 
@@ -2592,7 +2592,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// While this can not fail–the validity of all coordinates has been validated during the</span>
     <span class="doccomment">/// conversion from `FlatSamples`–the resulting slice may still contain holes.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">samples</span>().<span class="ident">as_ref</span>()[..<span class="self">self</span>.<span class="ident">min_length</span>()]
     }
 
@@ -2601,7 +2601,7 @@
     <span class="doccomment">/// This is relevant only when constructed with `FlatSamples::as_view_with_mut_samples`. While</span>
     <span class="doccomment">/// this can not fail–the validity of all coordinates has been validated during the conversion</span>
     <span class="doccomment">/// from `FlatSamples`–the resulting slice may still contain holes.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>] 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>]
         <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>
     {
         <span class="kw">let</span> <span class="ident">min_length</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">min_length</span>();
@@ -2635,7 +2635,7 @@
     <span class="doccomment">/// // Doesn&#39;t fail because it was originally an `RgbImage`.</span>
     <span class="doccomment">/// let view_mut = view.try_upgrade().unwrap();</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_upgrade</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ViewMut</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span>, (<span class="ident">Error</span>, <span class="self">Self</span>)<span class="op">&gt;</span> 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_upgrade</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ViewMut</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span>, (<span class="ident">Error</span>, <span class="self">Self</span>)<span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>
     {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">is_normal</span>(<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) {
@@ -2651,13 +2651,13 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> <span class="ident">ViewMut</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span>
-<span class="kw">where</span> 
+<span class="kw">where</span>
     <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>
 {
     <span class="doccomment">/// Take out the sample buffer.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Gives up the normalization invariants on the buffer format.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">inner</span>
     }
 
@@ -2667,7 +2667,7 @@
     <span class="doccomment">/// lengths, could invalidate the accessibility invariants of the `View`. It is not specified</span>
     <span class="doccomment">/// if the inner buffer is the same as the buffer of the image from which this view was</span>
     <span class="doccomment">/// created. It might have been truncated as an optimization.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flat</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flat</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>
     }
 
@@ -2676,14 +2676,14 @@
     <span class="doccomment">/// There is no mutable counter part since it is not intended to allow you to reassign the</span>
     <span class="doccomment">/// buffer or otherwise change its size or properties. However, its contents can be accessed</span>
     <span class="doccomment">/// mutable through a slice with `image_mut_slice`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Buffer</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Buffer</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">samples</span>
     }
 
     <span class="doccomment">/// Get the minimum length of a buffer such that all in-bounds samples have valid indices.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See `FlatSamples::min_length`. This method will always succeed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min_length</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min_length</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">min_length</span>().<span class="ident">unwrap</span>()
     }
 
@@ -2691,7 +2691,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method will return `None` when the sample is out-of-bounds. All errors that could</span>
     <span class="doccomment">/// occur due to overflow have been eliminated while construction the `View`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sample</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">P</span>::<span class="ident">Subpixel</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sample</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">P</span>::<span class="ident">Subpixel</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>
     {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">in_bounds</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>) {
@@ -2707,7 +2707,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method will return `None` when the sample is out-of-bounds. All errors that could</span>
     <span class="doccomment">/// occur due to overflow have been eliminated while construction the `View`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut_sample</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P</span>::<span class="ident">Subpixel</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut_sample</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">u8</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P</span>::<span class="ident">Subpixel</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">in_bounds</span>(<span class="ident">channel</span>, <span class="ident">x</span>, <span class="ident">y</span>) {
             <span class="kw">return</span> <span class="prelude-val">None</span>
         }
@@ -2721,12 +2721,12 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// While this can not fail–the validity of all coordinates has been validated during the</span>
     <span class="doccomment">/// conversion from `FlatSamples`–the resulting slice may still contain holes.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>] <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>] <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">samples</span>.<span class="ident">as_ref</span>()[..<span class="self">self</span>.<span class="ident">min_length</span>()]
     }
 
     <span class="doccomment">/// Return the mutable buffer that holds sample values.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>] {
         <span class="kw">let</span> <span class="ident">length</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">min_length</span>();
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">samples</span>.<span class="ident">as_mut</span>()[..<span class="ident">length</span>]
     }
@@ -2749,7 +2749,7 @@
 <span class="kw">fn</span> <span class="ident">panic_cwh_out_of_bounds</span>(
     (<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>): (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>),
     <span class="ident">bounds</span>: (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>),
-    <span class="ident">strides</span>: (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>)) <span class="op">-&gt;</span> <span class="op">!</span>
+    <span class="ident">strides</span>: (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="op">!</span>
 {
     <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Sample coordinates {:?} out of sample matrix bounds {:?} with strides {:?}&quot;</span>, (<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>), <span class="ident">bounds</span>, <span class="ident">strides</span>)
 }
@@ -2759,7 +2759,7 @@
 <span class="attribute">#[<span class="ident">cold</span>]</span>
 <span class="kw">fn</span> <span class="ident">panic_pixel_out_of_bounds</span>(
     (<span class="ident">x</span>, <span class="ident">y</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>),
-    <span class="ident">bounds</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-&gt;</span> <span class="op">!</span>
+    <span class="ident">bounds</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="op">!</span>
 {
     <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Image index {:?} out of bounds {:?}&quot;</span>, (<span class="ident">x</span>, <span class="ident">y</span>), <span class="ident">bounds</span>)
 }
@@ -2774,10 +2774,10 @@
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// When the coordinates are out of bounds or the index calculation fails.</span>
-    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, (<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>): (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Output</span> {
+    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, (<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>): (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Output</span> {
         <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bounds</span>();
         <span class="kw">let</span> <span class="ident">strides</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">strides_cwh</span>();
-        <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">index</span>(<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">unwrap_or_else</span>(<span class="op">||</span>
+        <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">index</span>(<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span>
             <span class="ident">panic_cwh_out_of_bounds</span>((<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>), <span class="ident">bounds</span>, <span class="ident">strides</span>));
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">samples</span>[<span class="ident">index</span>]
     }
@@ -2792,16 +2792,16 @@
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// When the coordinates are out of bounds or the index calculation fails.</span>
-    <span class="kw">fn</span> <span class="ident">index_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, (<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>): (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>::<span class="ident">Output</span> {
+    <span class="kw">fn</span> <span class="ident">index_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, (<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>): (<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>::<span class="ident">Output</span> {
         <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bounds</span>();
         <span class="kw">let</span> <span class="ident">strides</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">strides_cwh</span>();
-        <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">index</span>(<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">unwrap_or_else</span>(<span class="op">||</span>
+        <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">index</span>(<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span>
             <span class="ident">panic_cwh_out_of_bounds</span>((<span class="ident">c</span>, <span class="ident">x</span>, <span class="ident">y</span>), <span class="ident">bounds</span>, <span class="ident">strides</span>));
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">samples</span>[<span class="ident">index</span>]
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> <span class="ident">GenericImageView</span> <span class="kw">for</span> <span class="ident">View</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span> 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> <span class="ident">GenericImageView</span> <span class="kw">for</span> <span class="ident">View</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>
 {
     <span class="kw">type</span> <span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span>;
@@ -2809,21 +2809,21 @@
     <span class="comment">// We don&#39;t proxy an inner image.</span>
     <span class="kw">type</span> <span class="ident">InnerImageView</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
+    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
         (<span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">layout</span>.<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">layout</span>.<span class="ident">height</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>) {
+    <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>) {
         <span class="kw">let</span> (<span class="ident">w</span>, <span class="ident">h</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dimensions</span>();
         (<span class="number">0</span>, <span class="ident">w</span>, <span class="number">0</span>, <span class="ident">h</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">in_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">in_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> (<span class="ident">w</span>, <span class="ident">h</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dimensions</span>();
-        <span class="ident">x</span> <span class="op">&lt;</span> <span class="ident">w</span> <span class="op">&amp;&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">h</span>
+        <span class="ident">x</span> <span class="op">&lt;</span> <span class="ident">w</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">h</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">get_pixel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Pixel</span> {
+    <span class="kw">fn</span> <span class="ident">get_pixel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Pixel</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">in_bounds</span>(<span class="number">0</span>, <span class="ident">x</span>, <span class="ident">y</span>) {
             <span class="ident">panic_pixel_out_of_bounds</span>((<span class="ident">x</span>, <span class="ident">y</span>), <span class="self">self</span>.<span class="ident">dimensions</span>())
         }
@@ -2841,12 +2841,12 @@
         <span class="kw-2">*</span><span class="ident">P</span>::<span class="ident">from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>[..<span class="ident">channels</span>])
     }
 
-    <span class="kw">fn</span> <span class="ident">inner</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">inner</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span> {
         <span class="self">self</span> <span class="comment">// There is no other inner image.</span>
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> <span class="ident">GenericImageView</span> <span class="kw">for</span> <span class="ident">ViewMut</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span> 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> <span class="ident">GenericImageView</span> <span class="kw">for</span> <span class="ident">ViewMut</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>,
 {
     <span class="kw">type</span> <span class="ident">Pixel</span> <span class="op">=</span> <span class="ident">P</span>;
@@ -2854,21 +2854,21 @@
     <span class="comment">// We don&#39;t proxy an inner image.</span>
     <span class="kw">type</span> <span class="ident">InnerImageView</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
+    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
         (<span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">layout</span>.<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">layout</span>.<span class="ident">height</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>) {
+    <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>) {
         <span class="kw">let</span> (<span class="ident">w</span>, <span class="ident">h</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dimensions</span>();
         (<span class="number">0</span>, <span class="ident">w</span>, <span class="number">0</span>, <span class="ident">h</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">in_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">in_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> (<span class="ident">w</span>, <span class="ident">h</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dimensions</span>();
-        <span class="ident">x</span> <span class="op">&lt;</span> <span class="ident">w</span> <span class="op">&amp;&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">h</span>
+        <span class="ident">x</span> <span class="op">&lt;</span> <span class="ident">w</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">h</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">get_pixel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Pixel</span> {
+    <span class="kw">fn</span> <span class="ident">get_pixel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Pixel</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">in_bounds</span>(<span class="number">0</span>, <span class="ident">x</span>, <span class="ident">y</span>) {
             <span class="ident">panic_pixel_out_of_bounds</span>((<span class="ident">x</span>, <span class="ident">y</span>), <span class="self">self</span>.<span class="ident">dimensions</span>())
         }
@@ -2886,17 +2886,17 @@
         <span class="kw-2">*</span><span class="ident">P</span>::<span class="ident">from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>[..<span class="ident">channels</span>])
     }
 
-    <span class="kw">fn</span> <span class="ident">inner</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">inner</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span> {
         <span class="self">self</span> <span class="comment">// There is no other inner image.</span>
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> <span class="ident">GenericImage</span> <span class="kw">for</span> <span class="ident">ViewMut</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span> 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&gt;</span> <span class="ident">GenericImage</span> <span class="kw">for</span> <span class="ident">ViewMut</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">P</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">Buffer</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>,
 {
     <span class="kw">type</span> <span class="ident">InnerImage</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">get_pixel_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>::<span class="ident">Pixel</span> {
+    <span class="kw">fn</span> <span class="ident">get_pixel_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>::<span class="ident">Pixel</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">in_bounds</span>(<span class="number">0</span>, <span class="ident">x</span>, <span class="ident">y</span>) {
             <span class="ident">panic_pixel_out_of_bounds</span>((<span class="ident">x</span>, <span class="ident">y</span>), <span class="self">self</span>.<span class="ident">dimensions</span>())
         }
@@ -2915,17 +2915,17 @@
         <span class="self">self</span>.<span class="ident">get_pixel_mut</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">blend</span>(<span class="kw-2">&amp;</span><span class="ident">pixel</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">inner_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">inner_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
         <span class="self">self</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ImageError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">ImageError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageError</span> {
         <span class="kw">match</span> <span class="ident">error</span> {
-            <span class="ident">Error</span>::<span class="ident">TooLarge</span> <span class="op">=&gt;</span> <span class="ident">ImageError</span>::<span class="ident">DimensionError</span>,
-            <span class="ident">Error</span>::<span class="ident">WrongColor</span>(<span class="ident">color</span>) <span class="op">=&gt;</span> <span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">color</span>),
-            <span class="ident">Error</span>::<span class="ident">NormalFormRequired</span>(<span class="ident">form</span>) <span class="op">=&gt;</span> <span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
+            <span class="ident">Error</span>::<span class="ident">TooLarge</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageError</span>::<span class="ident">DimensionError</span>,
+            <span class="ident">Error</span>::<span class="ident">WrongColor</span>(<span class="ident">color</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">color</span>),
+            <span class="ident">Error</span>::<span class="ident">NormalFormRequired</span>(<span class="ident">form</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageError</span>::<span class="ident">FormatError</span>(
                 <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Required sample buffer in normal form {:?}&quot;</span>, <span class="ident">form</span>)),
         }
     }
@@ -2935,31 +2935,31 @@
     <span class="doccomment">/// Compares the logical preconditions.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// `a &lt; b` if the normal form `a` has less preconditions than `b`.</span>
-    <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">cmp</span>::<span class="ident">Ordering</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">cmp</span>::<span class="ident">Ordering</span><span class="op">&gt;</span> {
         <span class="kw">match</span> (<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">*</span><span class="ident">other</span>) {
-            (<span class="ident">NormalForm</span>::<span class="ident">Unaliased</span>, <span class="ident">NormalForm</span>::<span class="ident">Unaliased</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">Unaliased</span>, <span class="ident">NormalForm</span>::<span class="ident">Unaliased</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span>),
 
-            (<span class="ident">NormalForm</span>::<span class="ident">Unaliased</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
-            (<span class="kw">_</span>, <span class="ident">NormalForm</span>::<span class="ident">Unaliased</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">Unaliased</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
+            (<span class="kw">_</span>, <span class="ident">NormalForm</span>::<span class="ident">Unaliased</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
 
-            (<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
 
-            (<span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>, <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
-            (<span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>, <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Less</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
+            (<span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Greater</span>),
 
-            (<span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>, <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-            (<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-            (<span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-            (<span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            (<span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>, <span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            (<span class="ident">NormalForm</span>::<span class="ident">PixelPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ImagePacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            (<span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            (<span class="ident">NormalForm</span>::<span class="ident">ColumnMajorPacked</span>, <span class="ident">NormalForm</span>::<span class="ident">RowMajorPacked</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
@@ -2985,10 +2985,10 @@
            <span class="ident">color_hint</span>: <span class="prelude-val">None</span>,
        };
 
-       <span class="kw">let</span> <span class="ident">view</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">as_view</span>::<span class="op">&lt;</span><span class="ident">Rgb</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;&gt;</span>()
+       <span class="kw">let</span> <span class="ident">view</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">as_view</span>::<span class="op">&lt;</span><span class="ident">Rgb</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>()
            .<span class="ident">expect</span>(<span class="string">&quot;This is a valid view&quot;</span>);
        <span class="kw">let</span> <span class="ident">pixel_count</span> <span class="op">=</span> <span class="ident">view</span>.<span class="ident">pixels</span>()
-           .<span class="ident">inspect</span>(<span class="op">|</span><span class="ident">pixel</span><span class="op">|</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pixel</span>.<span class="number">2</span> <span class="op">==</span> <span class="ident">Rgb</span>([<span class="number">42</span>, <span class="number">42</span>, <span class="number">42</span>])))
+           .<span class="ident">inspect</span>(<span class="op">|</span><span class="ident">pixel</span><span class="op">|</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pixel</span>.<span class="number">2</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Rgb</span>([<span class="number">42</span>, <span class="number">42</span>, <span class="number">42</span>])))
            .<span class="ident">count</span>();
        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pixel_count</span>, <span class="number">100</span><span class="kw-2">*</span><span class="number">100</span>);
     }
@@ -3009,7 +3009,7 @@
         };
 
         {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">view</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">as_view_mut</span>::<span class="op">&lt;</span><span class="ident">LumaA</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;&gt;</span>()
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">view</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">as_view_mut</span>::<span class="op">&lt;</span><span class="ident">LumaA</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>()
                 .<span class="ident">expect</span>(<span class="string">&quot;This should be a valid mutable buffer&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">view</span>.<span class="ident">dimensions</span>(), (<span class="number">3</span>, <span class="number">3</span>));
             <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">9</span> {
@@ -3098,4 +3098,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "image";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "image";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/lzw-0.10.0/src/lzw.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lzw.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../lzw/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/lzw-0.10.0/src/lzw.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lzw.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../lzw/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -492,7 +492,7 @@
 <span class="kw">use</span> <span class="ident">bitstream</span>::{<span class="ident">Bits</span>, <span class="ident">BitReader</span>, <span class="ident">BitWriter</span>};
 
 <span class="kw">const</span> <span class="ident">MAX_CODESIZE</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">12</span>;
-<span class="kw">const</span> <span class="ident">MAX_ENTRIES</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">MAX_CODESIZE</span> <span class="kw">as</span> <span class="ident">usize</span>;
+<span class="kw">const</span> <span class="ident">MAX_ENTRIES</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">MAX_CODESIZE</span> <span class="kw">as</span> <span class="ident">usize</span>;
 
 <span class="doccomment">/// Alias for a LZW code point</span>
 <span class="kw">type</span> <span class="ident">Code</span> <span class="op">=</span> <span class="ident">u16</span>;
@@ -510,18 +510,18 @@
 
 <span class="kw">impl</span> <span class="ident">DecodingDict</span> {
     <span class="doccomment">/// Creates a new dict</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">min_size</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">DecodingDict</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">min_size</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DecodingDict</span> {
         <span class="ident">DecodingDict</span> {
             <span class="ident">min_size</span>: <span class="ident">min_size</span>,
             <span class="ident">table</span>: <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="number">512</span>),
-            <span class="ident">buffer</span>: <span class="ident">Vec</span>::<span class="ident">with_capacity</span>((<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">MAX_CODESIZE</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> <span class="number">1</span>)
+            <span class="ident">buffer</span>: <span class="ident">Vec</span>::<span class="ident">with_capacity</span>((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">MAX_CODESIZE</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> <span class="number">1</span>)
         }
     }
 
     <span class="doccomment">/// Resets the dictionary</span>
     <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">clear</span>();
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="self">self</span>.<span class="ident">min_size</span> <span class="kw">as</span> <span class="ident">usize</span>) {
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="number">1u16</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">min_size</span> <span class="kw">as</span> <span class="ident">usize</span>) {
             <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">push</span>((<span class="prelude-val">None</span>, <span class="ident">i</span> <span class="kw">as</span> <span class="ident">u8</span>));
         }
     }
@@ -533,7 +533,7 @@
     }
 
     <span class="doccomment">/// Reconstructs the data for the corresponding code</span>
-    <span class="kw">fn</span> <span class="ident">reconstruct</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">code</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Code</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">reconstruct</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">code</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Code</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">clear</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">code</span> <span class="op">=</span> <span class="ident">code</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cha</span>;
@@ -541,11 +541,11 @@
         <span class="comment">// could occur if the data is malformed</span>
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">k</span>) <span class="op">=</span> <span class="ident">code</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">get</span>(<span class="ident">k</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>(<span class="ident">code_</span>, <span class="ident">cha_</span>)) <span class="op">=&gt;</span> {
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>(<span class="ident">code_</span>, <span class="ident">cha_</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="ident">code</span> <span class="op">=</span> <span class="ident">code_</span>;
                     <span class="ident">cha</span> <span class="op">=</span> <span class="ident">cha_</span>;
                 }
-                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
+                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                     <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                     <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Invalid code {:X}, expected code &lt;= {:X}&quot;</span>, <span class="ident">k</span>, <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">len</span>())
                 ))
@@ -553,7 +553,7 @@
             <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">push</span>(<span class="ident">cha</span>);
         }
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">k</span>) <span class="op">=</span> <span class="ident">code</span> {
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="ident">MAX_ENTRIES</span> { 
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">MAX_ENTRIES</span> { 
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                     <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
                     <span class="string">&quot;Invalid code sequence. Cycle in decoding table.&quot;</span>
@@ -572,13 +572,13 @@
 
     <span class="doccomment">/// Returns the buffer constructed by the last reconstruction</span>
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
+    <span class="kw">fn</span> <span class="ident">buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">buffer</span>
     }
 
     <span class="doccomment">/// Number of entries in the dictionary</span>
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">next_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u16</span> {
+    <span class="kw">fn</span> <span class="ident">next_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> {
         <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>
     }
 }
@@ -586,7 +586,7 @@
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">define_decoder_struct</span> {
     {$(
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">offset</span>:<span class="ident">expr</span>, <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc</span>:<span class="ident">meta</span>]</span>;
-    )<span class="kw-2">*</span>} <span class="op">=&gt;</span> {
+    )<span class="kw-2">*</span>} <span class="op">=</span><span class="op">&gt;</span> {
 
 $( <span class="comment">// START struct definition</span>
 
@@ -614,7 +614,7 @@ $( <span class="comment">// START struct definition</span>
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">BitReader</span> {
     <span class="doccomment">/// Creates a new LZW decoder. </span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">reader</span>: <span class="ident">R</span>, <span class="ident">min_code_size</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">reader</span>: <span class="ident">R</span>, <span class="ident">min_code_size</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
             <span class="ident">r</span>: <span class="ident">reader</span>,
             <span class="ident">prev</span>: <span class="prelude-val">None</span>,
@@ -622,8 +622,8 @@ $( <span class="comment">// START struct definition</span>
             <span class="ident">buf</span>: [<span class="number">0</span>; <span class="number">1</span>],
             <span class="ident">code_size</span>: <span class="ident">min_code_size</span> <span class="op">+</span> <span class="number">1</span>,
             <span class="ident">min_code_size</span>: <span class="ident">min_code_size</span>,
-            <span class="ident">clear_code</span>: <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">min_code_size</span>,
-            <span class="ident">end_code</span>: (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">min_code_size</span>) <span class="op">+</span> <span class="number">1</span>,
+            <span class="ident">clear_code</span>: <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">min_code_size</span>,
+            <span class="ident">end_code</span>: (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">min_code_size</span>) <span class="op">+</span> <span class="number">1</span>,
         }
     }
     
@@ -631,17 +631,17 @@ $( <span class="comment">// START struct definition</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns the number of bytes that have been consumed from `bytes`. An empty</span>
     <span class="doccomment">/// slice does not indicate `EOF`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="kw-2">&amp;</span>[<span class="ident">u8</span>])<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="kw-2">&amp;</span>[<span class="ident">u8</span>])<span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">read_bits</span>(<span class="ident">bytes</span>, <span class="self">self</span>.<span class="ident">code_size</span>) {
-            <span class="ident">Bits</span>::<span class="prelude-val">Some</span>(<span class="ident">consumed</span>, <span class="ident">code</span>) <span class="op">=&gt;</span> {
-                (<span class="ident">consumed</span>, <span class="kw">if</span> <span class="ident">code</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">clear_code</span> {
+            <span class="ident">Bits</span>::<span class="prelude-val">Some</span>(<span class="ident">consumed</span>, <span class="ident">code</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                (<span class="ident">consumed</span>, <span class="kw">if</span> <span class="ident">code</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">clear_code</span> {
                     <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">reset</span>();
                     <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">push</span>(<span class="prelude-val">None</span>, <span class="number">0</span>); <span class="comment">// clear code</span>
                     <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">push</span>(<span class="prelude-val">None</span>, <span class="number">0</span>); <span class="comment">// end code</span>
                     <span class="self">self</span>.<span class="ident">code_size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">min_code_size</span> <span class="op">+</span> <span class="number">1</span>;
                     <span class="self">self</span>.<span class="ident">prev</span> <span class="op">=</span> <span class="prelude-val">None</span>;
                     <span class="kw-2">&amp;</span>[]
-                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">code</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">end_code</span> {
+                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">code</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">end_code</span> {
                     <span class="kw-2">&amp;</span>[]
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">next_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">next_code</span>();
@@ -659,7 +659,7 @@ $( <span class="comment">// START struct definition</span>
                         <span class="self">self</span>.<span class="ident">buf</span> <span class="op">=</span> [<span class="ident">code</span> <span class="kw">as</span> <span class="ident">u8</span>];
                         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">buf</span>[..]
                     } <span class="kw">else</span> {
-                        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">code</span> <span class="op">==</span> <span class="ident">next_code</span> {
+                        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">code</span> <span class="op">=</span><span class="op">=</span> <span class="ident">next_code</span> {
                             <span class="kw">let</span> <span class="ident">cha</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">table</span>.<span class="ident">reconstruct</span>(<span class="ident">prev</span>))[<span class="number">0</span>];
                             <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">push</span>(<span class="ident">prev</span>, <span class="ident">cha</span>);
                             <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">table</span>.<span class="ident">reconstruct</span>(<span class="prelude-val">Some</span>(<span class="ident">code</span>)))
@@ -673,15 +673,15 @@ $( <span class="comment">// START struct definition</span>
                         };
                         <span class="ident">data</span>
                     };
-                    <span class="kw">if</span> <span class="ident">next_code</span> <span class="op">==</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="self">self</span>.<span class="ident">code_size</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> <span class="number">1</span> <span class="op">-</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">offset</span>
-                       <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">code_size</span> <span class="op">&lt;</span> <span class="ident">MAX_CODESIZE</span> {
-                        <span class="self">self</span>.<span class="ident">code_size</span> <span class="op">+=</span> <span class="number">1</span>;
+                    <span class="kw">if</span> <span class="ident">next_code</span> <span class="op">=</span><span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">code_size</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> <span class="number">1</span> <span class="op">-</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">offset</span>
+                       <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">code_size</span> <span class="op">&lt;</span> <span class="ident">MAX_CODESIZE</span> {
+                        <span class="self">self</span>.<span class="ident">code_size</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
                     }
                     <span class="self">self</span>.<span class="ident">prev</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">code</span>);
                     <span class="ident">result</span>
                 })
             },
-            <span class="ident">Bits</span>::<span class="prelude-val">None</span>(<span class="ident">consumed</span>) <span class="op">=&gt;</span> {
+            <span class="ident">Bits</span>::<span class="prelude-val">None</span>(<span class="ident">consumed</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 (<span class="ident">consumed</span>, <span class="kw-2">&amp;</span>[])
             }
         })
@@ -707,7 +707,7 @@ $( <span class="comment">// START struct definition</span>
 
 <span class="kw">impl</span> <span class="ident">Node</span> {
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">Node</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Node</span> {
         <span class="ident">Node</span> {
             <span class="ident">prefix</span>: <span class="prelude-val">None</span>,
             <span class="ident">c</span>: <span class="ident">c</span>,
@@ -725,7 +725,7 @@ $( <span class="comment">// START struct definition</span>
 
 <span class="doccomment">/// Encoding dictionary based on a binary tree</span>
 <span class="kw">impl</span> <span class="ident">EncodingDict</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">min_size</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">EncodingDict</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">min_size</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">EncodingDict</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">this</span> <span class="op">=</span> <span class="ident">EncodingDict</span> {
             <span class="ident">table</span>: <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">MAX_ENTRIES</span>),
             <span class="ident">min_size</span>: <span class="ident">min_size</span>
@@ -736,7 +736,7 @@ $( <span class="comment">// START struct definition</span>
 
     <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">clear</span>();
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. (<span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="self">self</span>.<span class="ident">min_size</span> <span class="kw">as</span> <span class="ident">usize</span>) {
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. (<span class="number">1u16</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">min_size</span> <span class="kw">as</span> <span class="ident">usize</span>) {
             <span class="self">self</span>.<span class="ident">push_node</span>(<span class="ident">Node</span>::<span class="ident">new</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">u8</span>));
         }
     }
@@ -747,17 +747,17 @@ $( <span class="comment">// START struct definition</span>
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">clear_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Code</span> {
-        <span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="self">self</span>.<span class="ident">min_size</span>
+    <span class="kw">fn</span> <span class="ident">clear_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Code</span> {
+        <span class="number">1u16</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">min_size</span>
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">end_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Code</span> {
+    <span class="kw">fn</span> <span class="ident">end_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Code</span> {
         <span class="self">self</span>.<span class="ident">clear_code</span>() <span class="op">+</span> <span class="number">1</span>
     }
 
     <span class="comment">// Searches for a new prefix</span>
-    <span class="kw">fn</span> <span class="ident">search_and_insert</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Code</span><span class="op">&gt;</span>, <span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Code</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">search_and_insert</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Code</span><span class="op">&gt;</span>, <span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Code</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=</span> <span class="ident">i</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span> <span class="kw">as</span> <span class="ident">usize</span>) {
             <span class="kw">let</span> <span class="ident">table_size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">Code</span>;
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">j</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">table</span>[<span class="ident">i</span>].<span class="ident">prefix</span> {
@@ -791,17 +791,17 @@ $( <span class="comment">// START struct definition</span>
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">next_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">next_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">table</span>.<span class="ident">len</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">search_initials</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Code</span>) <span class="op">-&gt;</span> <span class="ident">Code</span> {
+    <span class="kw">fn</span> <span class="ident">search_initials</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Code</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Code</span> {
         <span class="self">self</span>.<span class="ident">table</span>[<span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">c</span> <span class="kw">as</span> <span class="ident">Code</span>
     }
 }
 
 <span class="doccomment">/// Convenience function that reads and compresses all bytes from `R`.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">W</span><span class="op">&gt;</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="kw-2">mut</span> <span class="ident">w</span>: <span class="ident">W</span>, <span class="ident">min_code_size</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">W</span><span class="op">&gt;</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="kw-2">mut</span> <span class="ident">w</span>: <span class="ident">W</span>, <span class="ident">min_code_size</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
 <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">Read</span>, <span class="ident">W</span>: <span class="ident">BitWriter</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dict</span> <span class="op">=</span> <span class="ident">EncodingDict</span>::<span class="ident">new</span>(<span class="ident">min_code_size</span>);
     <span class="ident">dict</span>.<span class="ident">push_node</span>(<span class="ident">Node</span>::<span class="ident">new</span>(<span class="number">0</span>)); <span class="comment">// clear code</span>
@@ -822,9 +822,9 @@ $( <span class="comment">// START struct definition</span>
         }
         <span class="comment">// There is a hit: do not write out code but continue</span>
         <span class="kw">let</span> <span class="ident">next_code</span> <span class="op">=</span> <span class="ident">dict</span>.<span class="ident">next_code</span>();
-        <span class="kw">if</span> <span class="ident">next_code</span> <span class="op">&gt;</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">code_size</span> <span class="kw">as</span> <span class="ident">usize</span>)
-           <span class="op">&amp;&amp;</span> <span class="ident">code_size</span> <span class="op">&lt;</span> <span class="ident">MAX_CODESIZE</span> {
-            <span class="ident">code_size</span> <span class="op">+=</span> <span class="number">1</span>;
+        <span class="kw">if</span> <span class="ident">next_code</span> <span class="op">&gt;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">code_size</span> <span class="kw">as</span> <span class="ident">usize</span>)
+           <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">code_size</span> <span class="op">&lt;</span> <span class="ident">MAX_CODESIZE</span> {
+            <span class="ident">code_size</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         }
         <span class="kw">if</span> <span class="ident">next_code</span> <span class="op">&gt;</span> <span class="ident">MAX_ENTRIES</span> {
             <span class="ident">dict</span>.<span class="ident">reset</span>();
@@ -857,7 +857,7 @@ $( <span class="comment">// START struct definition</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// **Note**: If `min_code_size &lt; 8` then `Self::encode_bytes` might panic when</span>
     <span class="doccomment">/// the supplied data containts values that exceed `1 &lt;&lt; min_code_size`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="kw-2">mut</span> <span class="ident">w</span>: <span class="ident">W</span>, <span class="ident">min_code_size</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="kw-2">mut</span> <span class="ident">w</span>: <span class="ident">W</span>, <span class="ident">min_code_size</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dict</span> <span class="op">=</span> <span class="ident">EncodingDict</span>::<span class="ident">new</span>(<span class="ident">min_code_size</span>);
         <span class="ident">dict</span>.<span class="ident">push_node</span>(<span class="ident">Node</span>::<span class="ident">new</span>(<span class="number">0</span>)); <span class="comment">// clear code</span>
         <span class="ident">dict</span>.<span class="ident">push_node</span>(<span class="ident">Node</span>::<span class="ident">new</span>(<span class="number">0</span>)); <span class="comment">// end code</span>
@@ -878,7 +878,7 @@ $( <span class="comment">// START struct definition</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function might panic if any of the input bytes exceeds `1 &lt;&lt; min_code_size`.</span>
     <span class="doccomment">/// This cannot happen if `min_code_size &gt;= 8`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">w</span>;
         <span class="kw">let</span> <span class="ident">dict</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">dict</span>;
         <span class="kw">let</span> <span class="ident">code_size</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">code_size</span>;
@@ -894,9 +894,9 @@ $( <span class="comment">// START struct definition</span>
             }
             <span class="comment">// There is a hit: do not write out code but continue</span>
             <span class="kw">let</span> <span class="ident">next_code</span> <span class="op">=</span> <span class="ident">dict</span>.<span class="ident">next_code</span>();
-            <span class="kw">if</span> <span class="ident">next_code</span> <span class="op">&gt;</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="kw-2">*</span><span class="ident">code_size</span> <span class="kw">as</span> <span class="ident">usize</span>)
-               <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">code_size</span> <span class="op">&lt;</span> <span class="ident">MAX_CODESIZE</span> {
-                <span class="kw-2">*</span><span class="ident">code_size</span> <span class="op">+=</span> <span class="number">1</span>;
+            <span class="kw">if</span> <span class="ident">next_code</span> <span class="op">&gt;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="kw-2">*</span><span class="ident">code_size</span> <span class="kw">as</span> <span class="ident">usize</span>)
+               <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">code_size</span> <span class="op">&lt;</span> <span class="ident">MAX_CODESIZE</span> {
+                <span class="kw-2">*</span><span class="ident">code_size</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
             }
             <span class="kw">if</span> <span class="ident">next_code</span> <span class="op">&gt;</span> <span class="ident">MAX_ENTRIES</span> {
                 <span class="ident">dict</span>.<span class="ident">reset</span>();
@@ -925,7 +925,7 @@ $( <span class="comment">// START struct definition</span>
     }
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;raii_no_panic&quot;</span>))]</span>
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        (<span class="op">||</span> {
+        (<span class="op">|</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">w</span>;
             <span class="kw">let</span> <span class="ident">code_size</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">code_size</span>;
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">code</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">i</span> {
@@ -961,4 +961,4 @@ $( <span class="comment">// START struct definition</span>
     }
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">data2</span>, <span class="ident">data</span>)
 }</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "lzw";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "lzw";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

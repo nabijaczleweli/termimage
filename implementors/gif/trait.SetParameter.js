@@ -6,5 +6,4 @@ implementors["gif"] = [];
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

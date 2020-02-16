@@ -6,5 +6,4 @@ implementors["crossbeam_epoch"] = [];
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()
