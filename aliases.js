@@ -22,6 +22,7 @@ ALIASES["jpeg_decoder"] = {};
 ALIASES["lazy_static"] = {};
 ALIASES["libc"] = {};
 ALIASES["lzw"] = {};
+ALIASES["maybe_uninit"] = {};
 ALIASES["memchr"] = {};
 ALIASES["memoffset"] = {};
 ALIASES["num_cpus"] = {};

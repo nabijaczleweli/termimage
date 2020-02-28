@@ -22,6 +22,7 @@ sourcesIndex["jpeg_decoder"] = {"name":"","dirs":[{"name":"worker","files":["imm
 sourcesIndex["lazy_static"] = {"name":"","files":["inline_lazy.rs","lib.rs"]};
 sourcesIndex["libc"] = {"name":"","dirs":[{"name":"unix","dirs":[{"name":"linux_like","dirs":[{"name":"linux","dirs":[{"name":"gnu","dirs":[{"name":"b64","dirs":[{"name":"x86_64","files":["align.rs","mod.rs","not_x32.rs"]}],"files":["mod.rs"]}],"files":["align.rs","mod.rs"]}],"files":["align.rs","mod.rs"]}],"files":["mod.rs"]}],"files":["align.rs","mod.rs"]}],"files":["fixed_width_ints.rs","lib.rs","macros.rs"]};
 sourcesIndex["lzw"] = {"name":"","files":["bitstream.rs","lib.rs","lzw.rs"]};
+sourcesIndex["maybe_uninit"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["memchr"] = {"name":"","dirs":[{"name":"x86","files":["avx.rs","mod.rs","sse2.rs"]}],"files":["fallback.rs","iter.rs","lib.rs","naive.rs"]};
 sourcesIndex["memoffset"] = {"name":"","files":["lib.rs","offset_of.rs","span_of.rs"]};
 sourcesIndex["num_cpus"] = {"name":"","files":["lib.rs"]};
