@@ -23,12 +23,12 @@ If, however, you've encountered a problem during the installation, do not hesita
 
 The following line in `/etc/apt/sources.list`:
 ```apt
-deb https://foreign.nabijaczleweli.xyz/debian stable main
+deb https://debian.nabijaczleweli.xyz stable main
 ```
 
 With [my PGP key](https://keybase.io/nabijaczleweli) (the two URLs are interchangeable):
 ```sh
-wget -O- https://foreign.nabijaczleweli.xyz/debian/nabijaczleweli.gpg.key | sudo apt-key add
+wget -O- https://debian.nabijaczleweli.xyz/nabijaczleweli.gpg.key | sudo apt-key add
 # or
 sudo wget -O/etc/apt/trusted.gpg.d/nabijaczleweli.asc https://keybase.io/nabijaczleweli/pgp_keys.asc
 ```
@@ -40,7 +40,7 @@ sudo apt install termimage
 ```
 will work on x86_64 and i686.
 
-See the [repository README](https://foreign.nabijaczleweli.xyz/debian/README) for more information.
+See the [repository README](https://debian.nabijaczleweli.xyz/README) for more information.
 
 #### From pre-built executables
 
