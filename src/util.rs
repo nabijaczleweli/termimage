@@ -37,15 +37,36 @@ pub static JPEG_MAGIC: &'static [u8] = &[0xFF, 0xD8, 0xFF, 0xE0];
 ///
 /// ![Terminal screenshot](https://cloud.githubusercontent.com/assets/6709544/18532811/e7e87a6e-7ade-11e6-868f-f6d2f9faec27.png)
 ///
-/// Might not be representative due to white bg though...
-pub static ANSI_BG_COLOURS: &'static [Rgb<u8>] = &[Rgb([0xEE, 0xE8, 0xD5]),
-                                                   Rgb([0xDC, 0x32, 0x2F]),
-                                                   Rgb([0x85, 0x99, 0x00]),
-                                                   Rgb([0xB5, 0x89, 0x00]),
-                                                   Rgb([0x26, 0x8B, 0xD2]),
-                                                   Rgb([0xD3, 0x36, 0x82]),
-                                                   Rgb([0x2A, 0xA1, 0x98]),
-                                                   Rgb([0x07, 0x36, 0x42])];
+/// Which matches the [`colorname` table in st](https://git.suckless.org/st/file/config.def.h.html#l86),
+/// as decoded according to the [X11 colour names Wikipedia article](https://en.wikipedia.org/wiki/X11_color_names):
+///
+/// ```c
+/// static const char *colorname[] = {
+///     /* 8 normal colors */
+///     "black",
+///     "red3",
+///     "green3",
+///     "yellow3",
+///     "blue2",
+///     "magenta3",
+///     "cyan3",
+///     "gray90",
+///
+///     /* 8 bright colors */
+///     "gray50",
+///     "red",
+///     "green",
+///     "yellow",
+///     "#5c5cff",
+///     "magenta",
+///     "cyan",
+///     "white",
+///
+///     // …
+/// }
+/// ```
+pub static ANSI_BG_COLOURS: &'static [Rgb<u8>] =
+    &[ANSI_COLOURS[0], ANSI_COLOURS[1], ANSI_COLOURS[2], ANSI_COLOURS[3], ANSI_COLOURS[4], ANSI_COLOURS[5], ANSI_COLOURS[6], ANSI_COLOURS[7]];
 
 /// "Standard" ANSI colours, in the same order as `ANSI_COLOUR_ESCAPES`.
 ///
@@ -53,7 +74,34 @@ pub static ANSI_BG_COLOURS: &'static [Rgb<u8>] = &[Rgb([0xEE, 0xE8, 0xD5]),
 ///
 /// ![Terminal screenshot](https://cloud.githubusercontent.com/assets/6709544/18532811/e7e87a6e-7ade-11e6-868f-f6d2f9faec27.png)
 ///
-/// Might not be representative due to white bg though...
+/// Which matches the [`colorname` table in st](https://git.suckless.org/st/file/config.def.h.html#l86),
+/// as decoded according to the [X11 colour names Wikipedia article](https://en.wikipedia.org/wiki/X11_color_names):
+///
+/// ```c
+/// static const char *colorname[] = {
+///     /* 8 normal colors */
+///     "black",
+///     "red3",
+///     "green3",
+///     "yellow3",
+///     "blue2",
+///     "magenta3",
+///     "cyan3",
+///     "gray90",
+///
+///     /* 8 bright colors */
+///     "gray50",
+///     "red",
+///     "green",
+///     "yellow",
+///     "#5c5cff",
+///     "magenta",
+///     "cyan",
+///     "white",
+///
+///     // …
+/// }
+/// ```
 pub static ANSI_COLOURS: &'static [Rgb<u8>] = &[Rgb([0xEE, 0xE8, 0xD5]),
                                                 Rgb([0xDC, 0x32, 0x2F]),
                                                 Rgb([0x85, 0x99, 0x00]),
