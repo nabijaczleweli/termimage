@@ -9,27 +9,28 @@ use std::ops::Index;
 /// Magic number used for determining whether an image is a BMP.
 ///
 /// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
-pub static BMP_MAGIC: &'static [u8] = &[0x42, 0x4D];
+pub static BMP_MAGIC: &[u8] = &[0x42, 0x4D];
 
 /// Magic number used for determining whether an image is an ICO.
 ///
 /// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
-pub static ICO_MAGIC: &'static [u8] = &[0x00, 0x00, 0x01, 0x00];
+pub static ICO_MAGIC: &[u8] = &[0x00, 0x00, 0x01, 0x00];
 
 /// Magic number used for determining whether an image is a GIF.
 ///
 /// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
-pub static GIF_MAGIC: &'static [u8] = &[0x47, 0x49, 0x46, 0x38];
+pub static GIF_MAGIC: &[u8] = &[0x47, 0x49, 0x46, 0x38];
 
 /// Magic number used for determining whether an image is a PNG.
 ///
 /// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
-pub static PNG_MAGIC: &'static [u8] = &[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
+pub static PNG_MAGIC: &[u8] = &[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
 
 /// Magic number used for determining whether an image is a JPEG.
 ///
 /// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
-pub static JPEG_MAGIC: &'static [u8] = &[0xFF, 0xD8, 0xFF, 0xE0];
+pub static JPEG_MAGIC: &[u8] = &[0xFF, 0xD8, 0xFF, 0xE0];
+
 
 /// ANSI colours for a white-background terminal, in the same order as `ANSI_COLOUR_ESCAPES`.
 ///
@@ -103,25 +104,25 @@ pub static ANSI_COLOURS_BLACK_BG: [Rgb<u8>; 16] = [Rgb([0x00, 0x00, 0x00]),
                                                    Rgb([0xFF, 0xFF, 0xFF])];
 
 /// ANSI background colour escapes.
-pub static ANSI_COLOUR_ESCAPES: &'static [&'static str] = &["\x1B[0;30m",
-                                                            "\x1B[0;31m",
-                                                            "\x1B[0;32m",
-                                                            "\x1B[0;33m",
-                                                            "\x1B[0;34m",
-                                                            "\x1B[0;35m",
-                                                            "\x1B[0;36m",
-                                                            "\x1B[0;37m",
-                                                            "\x1B[1;30m",
-                                                            "\x1B[1;31m",
-                                                            "\x1B[1;32m",
-                                                            "\x1B[1;33m",
-                                                            "\x1B[1;34m",
-                                                            "\x1B[1;35m",
-                                                            "\x1B[1;36m",
-                                                            "\x1B[1;37m"];
+pub static ANSI_COLOUR_ESCAPES: [&str; 16] = ["\x1B[0;30m",
+                                              "\x1B[0;31m",
+                                              "\x1B[0;32m",
+                                              "\x1B[0;33m",
+                                              "\x1B[0;34m",
+                                              "\x1B[0;35m",
+                                              "\x1B[0;36m",
+                                              "\x1B[0;37m",
+                                              "\x1B[1;30m",
+                                              "\x1B[1;31m",
+                                              "\x1B[1;32m",
+                                              "\x1B[1;33m",
+                                              "\x1B[1;34m",
+                                              "\x1B[1;35m",
+                                              "\x1B[1;36m",
+                                              "\x1B[1;37m"];
 
 /// ANSI background colour escapes.
-pub static ANSI_BG_COLOUR_ESCAPES: &'static [&'static str] = &["\x1B[40m", "\x1B[41m", "\x1B[42m", "\x1B[43m", "\x1B[44m", "\x1B[45m", "\x1B[46m", "\x1B[47m"];
+pub static ANSI_BG_COLOUR_ESCAPES: [&str; 8] = ["\x1B[40m", "\x1B[41m", "\x1B[42m", "\x1B[43m", "\x1B[44m", "\x1B[45m", "\x1B[46m", "\x1B[47m"];
 
 /// Reset ANSI attributes
 pub static ANSI_RESET_ATTRIBUTES: &str = "\x1B[0m";
