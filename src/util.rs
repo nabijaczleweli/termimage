@@ -31,50 +31,32 @@ pub static PNG_MAGIC: &'static [u8] = &[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A
 /// Source: [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures).
 pub static JPEG_MAGIC: &'static [u8] = &[0xFF, 0xD8, 0xFF, 0xE0];
 
-/// "Standard" ANSI background colours, in the same order as `ANSI_BG_COLOUR_ESCAPES`.
+/// ANSI colours for a white-background terminal, in the same order as `ANSI_COLOUR_ESCAPES`.
 ///
 /// Acquired from screenshot provided by [@Ell](https://github.com/elliotpotts):
 ///
 /// ![Terminal screenshot](https://cloud.githubusercontent.com/assets/6709544/18532811/e7e87a6e-7ade-11e6-868f-f6d2f9faec27.png)
-///
-/// Which matches the [`colorname` table in st](https://git.suckless.org/st/file/config.def.h.html#l86),
-/// as decoded according to the [X11 colour names Wikipedia article](https://en.wikipedia.org/wiki/X11_color_names):
-///
-/// ```c
-/// static const char *colorname[] = {
-///     /* 8 normal colors */
-///     "black",
-///     "red3",
-///     "green3",
-///     "yellow3",
-///     "blue2",
-///     "magenta3",
-///     "cyan3",
-///     "gray90",
-///
-///     /* 8 bright colors */
-///     "gray50",
-///     "red",
-///     "green",
-///     "yellow",
-///     "#5c5cff",
-///     "magenta",
-///     "cyan",
-///     "white",
-///
-///     // …
-/// }
-/// ```
-pub static ANSI_BG_COLOURS: &'static [Rgb<u8>] =
-    &[ANSI_COLOURS[0], ANSI_COLOURS[1], ANSI_COLOURS[2], ANSI_COLOURS[3], ANSI_COLOURS[4], ANSI_COLOURS[5], ANSI_COLOURS[6], ANSI_COLOURS[7]];
+pub static ANSI_COLOURS_WHITE_BG: [Rgb<u8>; 16] = [Rgb([0xEE, 0xE8, 0xD5]),
+                                                   Rgb([0xDC, 0x32, 0x2F]),
+                                                   Rgb([0x85, 0x99, 0x00]),
+                                                   Rgb([0xB5, 0x89, 0x00]),
+                                                   Rgb([0x26, 0x8B, 0xD2]),
+                                                   Rgb([0xD3, 0x36, 0x82]),
+                                                   Rgb([0x2A, 0xA1, 0x98]),
+                                                   Rgb([0x07, 0x36, 0x42]),
 
-/// "Standard" ANSI colours, in the same order as `ANSI_COLOUR_ESCAPES`.
+                                                   Rgb([0xFD, 0xF6, 0xE3]),
+                                                   Rgb([0xCB, 0x4B, 0x16]),
+                                                   Rgb([0x93, 0xA1, 0xA1]),
+                                                   Rgb([0x83, 0x94, 0x96]),
+                                                   Rgb([0x65, 0x7B, 0x83]),
+                                                   Rgb([0x6C, 0x71, 0xC4]),
+                                                   Rgb([0x58, 0x6E, 0x75]),
+                                                   Rgb([0x00, 0x2B, 0x36])];
+
+/// Linux-theme ANSI colours, in the same order as `ANSI_COLOUR_ESCAPES`.
 ///
-/// Acquired from screenshot provided by [@Ell](https://github.com/elliotpotts):
-///
-/// ![Terminal screenshot](https://cloud.githubusercontent.com/assets/6709544/18532811/e7e87a6e-7ade-11e6-868f-f6d2f9faec27.png)
-///
-/// Which matches the [`colorname` table in st](https://git.suckless.org/st/file/config.def.h.html#l86),
+/// Acquired from the [`colorname` table in st](https://git.suckless.org/st/file/config.def.h.html#l86),
 /// as decoded according to the [X11 colour names Wikipedia article](https://en.wikipedia.org/wiki/X11_color_names):
 ///
 /// ```c
@@ -102,22 +84,23 @@ pub static ANSI_BG_COLOURS: &'static [Rgb<u8>] =
 ///     // …
 /// }
 /// ```
-pub static ANSI_COLOURS: &'static [Rgb<u8>] = &[Rgb([0xEE, 0xE8, 0xD5]),
-                                                Rgb([0xDC, 0x32, 0x2F]),
-                                                Rgb([0x85, 0x99, 0x00]),
-                                                Rgb([0xB5, 0x89, 0x00]),
-                                                Rgb([0x26, 0x8B, 0xD2]),
-                                                Rgb([0xD3, 0x36, 0x82]),
-                                                Rgb([0x2A, 0xA1, 0x98]),
-                                                Rgb([0x07, 0x36, 0x42]),
-                                                Rgb([0xFD, 0xF6, 0xE3]),
-                                                Rgb([0xCB, 0x4B, 0x16]),
-                                                Rgb([0x93, 0xA1, 0xA1]),
-                                                Rgb([0x83, 0x94, 0x96]),
-                                                Rgb([0x65, 0x7B, 0x83]),
-                                                Rgb([0x6C, 0x71, 0xC4]),
-                                                Rgb([0x58, 0x6E, 0x75]),
-                                                Rgb([0x00, 0x2B, 0x36])];
+pub static ANSI_COLOURS_BLACK_BG: [Rgb<u8>; 16] = [Rgb([0x00, 0x00, 0x00]),
+                                                   Rgb([0xCD, 0x00, 0x00]),
+                                                   Rgb([0x00, 0xCD, 0x00]),
+                                                   Rgb([0xCD, 0xCD, 0x00]),
+                                                   Rgb([0x00, 0x00, 0xEE]),
+                                                   Rgb([0xCD, 0x00, 0xCD]),
+                                                   Rgb([0x00, 0xCD, 0xCD]),
+                                                   Rgb([0xE6, 0xE6, 0xE6]),
+
+                                                   Rgb([0x80, 0x80, 0x80]),
+                                                   Rgb([0xFF, 0x00, 0x00]),
+                                                   Rgb([0x00, 0xFF, 0x00]),
+                                                   Rgb([0xFF, 0xFF, 0x00]),
+                                                   Rgb([0x5C, 0x5C, 0xFF]),
+                                                   Rgb([0xFF, 0x00, 0xFF]),
+                                                   Rgb([0x00, 0xFF, 0xFF]),
+                                                   Rgb([0xFF, 0xFF, 0xFF])];
 
 /// ANSI background colour escapes.
 pub static ANSI_COLOUR_ESCAPES: &'static [&'static str] = &["\x1B[0;30m",
@@ -172,4 +155,17 @@ pub fn closest_colour<P: Index<usize, Output = u8>>(to: Rgb<u8>, out_of: &[P]) -
         .collect::<Vec<_>>();
     diffs.sort_by(|&(lhs_diff, _), &(rhs_diff, _)| lhs_diff.partial_cmp(&rhs_diff).unwrap());
     diffs[0].1
+}
+
+/// Get the background colour set for the specified foregournd colour set
+#[inline(always)]
+pub fn bg_colours_for(foreground_colours: &[Rgb<u8>; 16]) -> [Rgb<u8>; 8] {
+    [foreground_colours[0],
+     foreground_colours[1],
+     foreground_colours[2],
+     foreground_colours[3],
+     foreground_colours[4],
+     foreground_colours[5],
+     foreground_colours[6],
+     foreground_colours[7]]
 }
