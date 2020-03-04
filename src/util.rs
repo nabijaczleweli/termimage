@@ -158,14 +158,15 @@ pub fn mul_str(what: &str, n: usize) -> String {
 
 /// Get the closest colour to the provided one out of the specified list of colours and retirn its index.
 ///
-/// The formula was taken from [this](http://stackoverflow.com/a/1847112/2851815) SO answer
-/// and might not be the best, but we only ever have a VERY limited colourset, so it shouldn't really matter that much.
+/// The formula is the last one from the
+/// [Euclidean section in the Color difference article on Wikipedia](https://en.wikipedia.org/wiki/Color_difference#Euclidean)
 pub fn closest_colour<P: Index<usize, Output = u8>>(to: Rgb<u8>, out_of: &[P]) -> usize {
     let mut diffs = out_of.iter()
         .enumerate()
         .map(|(i, rgb)| {
-            (((rgb[0] as f32 - to[0] as f32) * 0.30).powi(2) + ((rgb[1] as f32 - to[1] as f32) * 0.59).powi(2) +
-             ((rgb[1] as f32 - to[2] as f32) * 0.11).powi(2),
+            let r = (rgb[0] as f32 + to[0] as f32) / 2.0;
+            ((2.0 + (r / 256.0)) * (rgb[0] as f32 - to[0] as f32).powi(2) + 4.0 * (rgb[1] as f32 - to[1] as f32).powi(2) +
+             (2.0 + ((255.0 - r) / 256.0)) * (rgb[2] as f32 - to[2] as f32).powi(2),
              i)
         })
         .collect::<Vec<_>>();
