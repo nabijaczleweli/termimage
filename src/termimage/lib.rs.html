@@ -179,6 +179,7 @@
 <span id="179">179</span>
 <span id="180">180</span>
 <span id="181">181</span>
+<span id="182">182</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Display images in your terminal, kind of</span>
 <span class="doccomment">//!</span>
@@ -241,15 +242,16 @@
 <span class="doccomment">//! # fn not_main() -&gt; Result&lt;(), Error&gt; {</span>
 <span class="doccomment">//! let opts = Options::parse();</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! let format = try!(ops::guess_format(&amp;opts.image));</span>
-<span class="doccomment">//! let img = try!(ops::load_image(&amp;opts.image, format));</span>
+<span class="doccomment">//! let format = ops::guess_format(&amp;opts.image)?;</span>
+<span class="doccomment">//! let img = ops::load_image(&amp;opts.image, format)?;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! let img_s = ops::image_resized_size(img.dimensions(), opts.size, opts.preserve_aspect);</span>
 <span class="doccomment">//! let resized = ops::resize_image(&amp;img, img_s);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! match opts.ansi_out {</span>
-<span class="doccomment">//!     Some(true) =&gt; ops::write_ansi_truecolor(&amp;mut stdout(), &amp;resized),</span>
-<span class="doccomment">//!     Some(false) =&gt; ops::write_ansi(&amp;mut stdout(), &amp;resized),</span>
+<span class="doccomment">//!     Some(AnsiOutputFormat::Truecolor) =&gt; ops::write_ansi_truecolor(&amp;mut stdout(), &amp;resized),</span>
+<span class="doccomment">//!     Some(AnsiOutputFormat::SimpleWhite) =&gt; ops::write_ansi(&amp;mut stdout(), &amp;resized, &amp;util::ANSI_COLOURS_WHITE_BG),</span>
+<span class="doccomment">//!     Some(AnsiOutputFormat::SimpleBlack) =&gt; ops::write_ansi(&amp;mut stdout(), &amp;resized, &amp;util::ANSI_COLOURS_BLACK_BG),</span>
 <span class="doccomment">//!     None =&gt; ops::write_no_ansi(&amp;resized),</span>
 <span class="doccomment">//! }</span>
 <span class="doccomment">//! # Ok(())</span>
@@ -305,11 +307,11 @@
 <span class="doccomment">//! ```text</span>
 <span class="doccomment">//! Force ANSI output of the specified kind,</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! The accepted values are &quot;simple&quot; and &quot;truecolor&quot;, truecolor is the default</span>
-<span class="doccomment">//! on non-Windows.</span>
+<span class="doccomment">//! The accepted values are &quot;truecolor&quot;, &quot;simple-black&quot;, and &quot;simple-white&quot;,</span>
+<span class="doccomment">//! truecolor is the default on non-Windows.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! Simple ANSI output uses 3-bit background colours, while truecolor supports</span>
-<span class="doccomment">//! the whole 24-bit pallette.</span>
+<span class="doccomment">//! Simple ANSI output uses 3-bit background colours for the specified background,</span>
+<span class="doccomment">//! while truecolor supports the whole 24-bit pallette.</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! -f --force</span>
@@ -360,6 +362,6 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">util</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">Error</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">options</span>::<span class="ident">Options</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">options</span>::{<span class="ident">Options</span>, <span class="ident">AnsiOutputFormat</span>};
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "termimage";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

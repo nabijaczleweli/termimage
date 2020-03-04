@@ -98,6 +98,15 @@
 <span id="98"> 98</span>
 <span id="99"> 99</span>
 <span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module contains the configuration of the application.</span>
 <span class="doccomment">//!</span>
@@ -125,6 +134,18 @@
 }
 
 
+<span class="doccomment">/// Supported ANSI output formats</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AnsiOutputFormat</span> {
+    <span class="doccomment">/// Truecolor ANSI 24-bit colour</span>
+    <span class="ident">Truecolor</span>,
+    <span class="doccomment">/// Dumb ANSI 3-bit colour, for black backgrounds</span>
+    <span class="ident">SimpleBlack</span>,
+    <span class="doccomment">/// Dumb ANSI 3-bit colour, for white backgrounds</span>
+    <span class="ident">SimpleWhite</span>,
+}
+
+
 <span class="doccomment">/// Representation of the application&#39;s all configurable values.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Options</span> {
@@ -136,12 +157,8 @@
     <span class="kw">pub</span> <span class="ident">size</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>),
     <span class="doccomment">/// Whether to preserve the image&#39;s aspect ratio when resizing. Default: `true`.</span>
     <span class="kw">pub</span> <span class="ident">preserve_aspect</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Whether to output ANSI escapes. Default: `None` on Windooze when not writing to a file.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `None` -- WinAPI</span>
-    <span class="doccomment">/// `Some(true)` -- truecolor ANSI 24-bit colour</span>
-    <span class="doccomment">/// `Some(false)` -- dumb ANSI 3-bit colour</span>
-    <span class="kw">pub</span> <span class="ident">ansi_out</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether to output ANSI escapes and in which format. Default: `None` on Windooze when not writing to a file.</span>
+    <span class="kw">pub</span> <span class="ident">ansi_out</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AnsiOutputFormat</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Options</span> {
@@ -163,7 +180,7 @@
             .<span class="ident">arg</span>(<span class="ident">Arg</span>::<span class="ident">from_usage</span>(<span class="string">&quot;&lt;IMAGE&gt; &#39;Image file to display&#39;&quot;</span>).<span class="ident">validator</span>(<span class="ident">Options</span>::<span class="ident">image_file_validator</span>))
             .<span class="ident">arg</span>(<span class="ident">szarg</span>)
             .<span class="ident">arg</span>(<span class="ident">Arg</span>::<span class="ident">from_usage</span>(<span class="string">&quot;-f --force &#39;Don\\&#39;t preserve the image\\&#39;s aspect ratio&#39;&quot;</span>))
-            .<span class="ident">arg</span>(<span class="ident">Arg</span>::<span class="ident">from_usage</span>(<span class="string">&quot;-a --ansi [ANSI] &#39;Force output ANSI escapes&#39;&quot;</span>).<span class="ident">possible_values</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;simple&quot;</span>, <span class="string">&quot;truecolor&quot;</span>]))
+            .<span class="ident">arg</span>(<span class="ident">Arg</span>::<span class="ident">from_usage</span>(<span class="string">&quot;-a --ansi [ANSI] &#39;Force output ANSI escapes&#39;&quot;</span>).<span class="ident">possible_values</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;truecolor&quot;</span>, <span class="string">&quot;simple-black&quot;</span>, <span class="string">&quot;simple-white&quot;</span>]))
             .<span class="ident">get_matches</span>();
 
         <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;IMAGE&quot;</span>).<span class="ident">unwrap</span>();
@@ -173,8 +190,9 @@
             <span class="ident">preserve_aspect</span>: <span class="op">!</span><span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;force&quot;</span>),
             <span class="ident">ansi_out</span>: <span class="kw">if</span> <span class="macro">cfg</span><span class="macro">!</span>(<span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;windows&quot;</span>)) <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">have_dimms</span> <span class="op">|</span><span class="op">|</span> <span class="ident">matches</span>.<span class="ident">is_present</span>(<span class="string">&quot;ansi&quot;</span>) {
                 <span class="kw">match</span> <span class="ident">matches</span>.<span class="ident">value_of</span>(<span class="string">&quot;ansi&quot;</span>).<span class="ident">unwrap_or</span>(<span class="string">&quot;truecolor&quot;</span>) {
-                    <span class="string">&quot;simple&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="bool-val">false</span>),
-                    <span class="string">&quot;truecolor&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>),
+                    <span class="string">&quot;truecolor&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">AnsiOutputFormat</span>::<span class="ident">Truecolor</span>),
+                    <span class="string">&quot;simple-black&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">AnsiOutputFormat</span>::<span class="ident">SimpleBlack</span>),
+                    <span class="string">&quot;simple-white&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">AnsiOutputFormat</span>::<span class="ident">SimpleWhite</span>),
                     <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
                 }
             } <span class="kw">else</span> {
