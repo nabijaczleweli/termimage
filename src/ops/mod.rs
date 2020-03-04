@@ -165,7 +165,7 @@ pub fn create_colourtable<C: Index<usize, Output = u8>>(img: &DynamicImage, uppe
         .collect()
 }
 
-/// Display the specified image in the default console using ANSI escape codes.
+/// Display the specified image approximating it to the specified colours in the default console using ANSI escape codes.
 pub fn write_ansi<W: Write, C: Index<usize, Output = u8>>(out: &mut W, img: &DynamicImage, foreground_colours: &[C]) {
     for line in create_colourtable(img, foreground_colours, &bg_colours_for(foreground_colours)) {
         for (upper_clr, lower_clr) in line {

@@ -67,8 +67,10 @@
 //!
 //! match opts.ansi_out {
 //!     Some(AnsiOutputFormat::Truecolor) => ops::write_ansi_truecolor(&mut stdout(), &resized),
-//!     Some(AnsiOutputFormat::SimpleWhite) => ops::write_ansi(&mut stdout(), &resized, &util::ANSI_COLOURS_WHITE_BG),
-//!     Some(AnsiOutputFormat::SimpleBlack) => ops::write_ansi(&mut stdout(), &resized, &util::ANSI_COLOURS_BLACK_BG),
+//!     Some(AnsiOutputFormat::SimpleWhite) =>
+//!         ops::write_ansi(&mut stdout(), &resized, &util::ANSI_COLOURS_WHITE_BG),
+//!     Some(AnsiOutputFormat::SimpleBlack) =>
+//!         ops::write_ansi(&mut stdout(), &resized, &util::ANSI_COLOURS_BLACK_BG),
 //!     None => ops::write_no_ansi(&resized),
 //! }
 //! # Ok(())
@@ -177,6 +179,7 @@ mod options;
 
 pub mod ops;
 pub mod util;
+pub mod migration;
 
 pub use error::Error;
 pub use options::{Options, AnsiOutputFormat};
