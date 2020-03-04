@@ -7,8 +7,8 @@
 //! or display it yourself with approximations from `create_colourtable()`.
 
 
-use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_RESET_ATTRIBUTES, ANSI_COLOURS_WHITE_BG, ANSI_COLOUR_ESCAPES, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC, GIF_MAGIC,
-                        PNG_MAGIC, closest_colour, bg_colours_for};
+use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_RESET_ATTRIBUTES, ANSI_COLOUR_ESCAPES, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC, GIF_MAGIC, PNG_MAGIC,
+                        closest_colour, bg_colours_for};
 use image::{self, GenericImageView, DynamicImage, ImageFormat, FilterType, Pixel};
 use std::io::{BufReader, Write, Read};
 use self::super::Error;
@@ -166,8 +166,8 @@ pub fn create_colourtable<C: Index<usize, Output = u8>>(img: &DynamicImage, uppe
 }
 
 /// Display the specified image in the default console using ANSI escape codes.
-pub fn write_ansi<W: Write>(out: &mut W, img: &DynamicImage) {
-    for line in create_colourtable(img, &ANSI_COLOURS_WHITE_BG, &bg_colours_for(&ANSI_COLOURS_WHITE_BG)) {
+pub fn write_ansi<W: Write, C: Index<usize, Output = u8>>(out: &mut W, img: &DynamicImage, foreground_colours: &[C]) {
+    for line in create_colourtable(img, foreground_colours, &bg_colours_for(foreground_colours)) {
         for (upper_clr, lower_clr) in line {
             write!(out,
                    "{}{}\u{2580}", // ▀

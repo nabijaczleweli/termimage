@@ -59,15 +59,15 @@
 //! # fn not_main() -> Result<(), Error> {
 //! let opts = Options::parse();
 //!
-//! let format = try!(ops::guess_format(&opts.image));
-//! let img = try!(ops::load_image(&opts.image, format));
+//! let format = ops::guess_format(&opts.image)?;
+//! let img = ops::load_image(&opts.image, format)?;
 //!
 //! let img_s = ops::image_resized_size(img.dimensions(), opts.size, opts.preserve_aspect);
 //! let resized = ops::resize_image(&img, img_s);
 //!
 //! match opts.ansi_out {
 //!     Some(true) => ops::write_ansi_truecolor(&mut stdout(), &resized),
-//!     Some(false) => ops::write_ansi(&mut stdout(), &resized),
+//!     Some(false) => ops::write_ansi(&mut stdout(), &resized, &util::ANSI_COLOURS_WHITE_BG),
 //!     None => ops::write_no_ansi(&resized),
 //! }
 //! # Ok(())

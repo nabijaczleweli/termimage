@@ -160,13 +160,6 @@ pub fn closest_colour<P: Index<usize, Output = u8>>(to: Rgb<u8>, out_of: &[P]) -
 
 /// Get the background colour set for the specified foregournd colour set
 #[inline(always)]
-pub fn bg_colours_for(foreground_colours: &[Rgb<u8>; 16]) -> [Rgb<u8>; 8] {
-    [foreground_colours[0],
-     foreground_colours[1],
-     foreground_colours[2],
-     foreground_colours[3],
-     foreground_colours[4],
-     foreground_colours[5],
-     foreground_colours[6],
-     foreground_colours[7]]
+pub fn bg_colours_for<C: Index<usize, Output = u8>>(foreground_colours: &[C]) -> &[C] {
+    &foreground_colours[0..8]
 }

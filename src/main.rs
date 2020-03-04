@@ -31,7 +31,7 @@ fn result_main() -> Result<(), termimage::Error> {
 
     match opts.ansi_out {
         Some(true) => termimage::ops::write_ansi_truecolor(&mut stdout(), &resized),
-        Some(false) => termimage::ops::write_ansi(&mut stdout(), &resized),
+        Some(false) => termimage::ops::write_ansi(&mut stdout(), &resized, &termimage::util::ANSI_COLOURS_WHITE_BG),
         None => termimage::ops::write_no_ansi(&resized),
     }
 
