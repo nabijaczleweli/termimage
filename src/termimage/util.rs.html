@@ -173,6 +173,7 @@
 <span id="173">173</span>
 <span id="174">174</span>
 <span id="175">175</span>
+<span id="176">176</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Module containing various utility functions.</span>
 
@@ -335,14 +336,15 @@
 
 <span class="doccomment">/// Get the closest colour to the provided one out of the specified list of colours and retirn its index.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// The formula was taken from [this](http://stackoverflow.com/a/1847112/2851815) SO answer</span>
-<span class="doccomment">/// and might not be the best, but we only ever have a VERY limited colourset, so it shouldn&#39;t really matter that much.</span>
+<span class="doccomment">/// The formula is the last one from the</span>
+<span class="doccomment">/// [Euclidean section in the Color difference article on Wikipedia](https://en.wikipedia.org/wiki/Color_difference#Euclidean)</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">closest_colour</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">Index</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">to</span>: <span class="ident">Rgb</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">out_of</span>: <span class="kw-2">&amp;</span>[<span class="ident">P</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">diffs</span> <span class="op">=</span> <span class="ident">out_of</span>.<span class="ident">iter</span>()
         .<span class="ident">enumerate</span>()
         .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">i</span>, <span class="ident">rgb</span>)<span class="op">|</span> {
-            (((<span class="ident">rgb</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">f32</span> <span class="op">-</span> <span class="ident">to</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">f32</span>) <span class="op">*</span> <span class="number">0.30</span>).<span class="ident">powi</span>(<span class="number">2</span>) <span class="op">+</span> ((<span class="ident">rgb</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">f32</span> <span class="op">-</span> <span class="ident">to</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">f32</span>) <span class="op">*</span> <span class="number">0.59</span>).<span class="ident">powi</span>(<span class="number">2</span>) <span class="op">+</span>
-             ((<span class="ident">rgb</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">f32</span> <span class="op">-</span> <span class="ident">to</span>[<span class="number">2</span>] <span class="kw">as</span> <span class="ident">f32</span>) <span class="op">*</span> <span class="number">0.11</span>).<span class="ident">powi</span>(<span class="number">2</span>),
+            <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> (<span class="ident">rgb</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">f32</span> <span class="op">+</span> <span class="ident">to</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">f32</span>) <span class="op">/</span> <span class="number">2.0</span>;
+            ((<span class="number">2.0</span> <span class="op">+</span> (<span class="ident">r</span> <span class="op">/</span> <span class="number">256.0</span>)) <span class="op">*</span> (<span class="ident">rgb</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">f32</span> <span class="op">-</span> <span class="ident">to</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">f32</span>).<span class="ident">powi</span>(<span class="number">2</span>) <span class="op">+</span> <span class="number">4.0</span> <span class="op">*</span> (<span class="ident">rgb</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">f32</span> <span class="op">-</span> <span class="ident">to</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">f32</span>).<span class="ident">powi</span>(<span class="number">2</span>) <span class="op">+</span>
+             (<span class="number">2.0</span> <span class="op">+</span> ((<span class="number">255.0</span> <span class="op">-</span> <span class="ident">r</span>) <span class="op">/</span> <span class="number">256.0</span>)) <span class="op">*</span> (<span class="ident">rgb</span>[<span class="number">2</span>] <span class="kw">as</span> <span class="ident">f32</span> <span class="op">-</span> <span class="ident">to</span>[<span class="number">2</span>] <span class="kw">as</span> <span class="ident">f32</span>).<span class="ident">powi</span>(<span class="number">2</span>),
              <span class="ident">i</span>)
         })
         .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
