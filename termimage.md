@@ -38,11 +38,11 @@ with ANSI output a sane default is assumed.
 
     Force ANSI output of the specified kind,
 
-    The accepted values are "simple" and "truecolor", truecolor is the default
-    on non-Windows.
+    The accepted values are "truecolor", "simple-black", and "simple-white",
+    truecolor is the default on non-Windows.
 
-    Simple ANSI output uses 3-bit background colours, while truecolor supports
-    the whole 24-bit pallette.
+    Simple ANSI output uses 3-bit background colours for the specified background,
+    while truecolor supports the whole 24-bit pallette.
 
   -f --force
 

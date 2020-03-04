@@ -30,8 +30,9 @@ fn result_main() -> Result<(), termimage::Error> {
     let resized = termimage::ops::resize_image(&img, img_s);
 
     match opts.ansi_out {
-        Some(true) => termimage::ops::write_ansi_truecolor(&mut stdout(), &resized),
-        Some(false) => termimage::ops::write_ansi(&mut stdout(), &resized, &termimage::util::ANSI_COLOURS_WHITE_BG),
+        Some(termimage::AnsiOutputFormat::Truecolor) => termimage::ops::write_ansi_truecolor(&mut stdout(), &resized),
+        Some(termimage::AnsiOutputFormat::SimpleWhite) => termimage::ops::write_ansi(&mut stdout(), &resized, &termimage::util::ANSI_COLOURS_WHITE_BG),
+        Some(termimage::AnsiOutputFormat::SimpleBlack) => termimage::ops::write_ansi(&mut stdout(), &resized, &termimage::util::ANSI_COLOURS_BLACK_BG),
         None => termimage::ops::write_no_ansi(&resized),
     }
 
