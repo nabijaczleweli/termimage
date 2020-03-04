@@ -207,6 +207,7 @@
 <span id="207">207</span>
 <span id="208">208</span>
 <span id="209">209</span>
+<span id="210">210</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Main functions doing actual work.</span>
 <span class="doccomment">//!</span>
@@ -216,8 +217,9 @@
 <span class="doccomment">//! and display it with `write_[no_]ansi[_truecolor]()`,</span>
 <span class="doccomment">//! or display it yourself with approximations from `create_colourtable()`.</span>
 
-<span class="kw">use</span> <span class="self">self</span>::<span class="kw">super</span>::<span class="ident">util</span>::{<span class="ident">ANSI_BG_COLOUR_ESCAPES</span>, <span class="ident">ANSI_RESET_ATTRIBUTES</span>, <span class="ident">ANSI_COLOUR_ESCAPES</span>, <span class="ident">ANSI_BG_COLOURS</span>, <span class="ident">ANSI_COLOURS</span>, <span class="ident">JPEG_MAGIC</span>, <span class="ident">BMP_MAGIC</span>, <span class="ident">ICO_MAGIC</span>,
-                        <span class="ident">GIF_MAGIC</span>, <span class="ident">PNG_MAGIC</span>, <span class="ident">closest_colour</span>};
+
+<span class="kw">use</span> <span class="self">self</span>::<span class="kw">super</span>::<span class="ident">util</span>::{<span class="ident">ANSI_BG_COLOUR_ESCAPES</span>, <span class="ident">ANSI_RESET_ATTRIBUTES</span>, <span class="ident">ANSI_COLOURS_WHITE_BG</span>, <span class="ident">ANSI_COLOUR_ESCAPES</span>, <span class="ident">JPEG_MAGIC</span>, <span class="ident">BMP_MAGIC</span>, <span class="ident">ICO_MAGIC</span>, <span class="ident">GIF_MAGIC</span>,
+                        <span class="ident">PNG_MAGIC</span>, <span class="ident">closest_colour</span>, <span class="ident">bg_colours_for</span>};
 <span class="kw">use</span> <span class="ident">image</span>::{<span class="self">self</span>, <span class="ident">GenericImageView</span>, <span class="ident">DynamicImage</span>, <span class="ident">ImageFormat</span>, <span class="ident">FilterType</span>, <span class="ident">Pixel</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">BufReader</span>, <span class="ident">Write</span>, <span class="ident">Read</span>};
 <span class="kw">use</span> <span class="self">self</span>::<span class="kw">super</span>::<span class="ident">Error</span>;
@@ -344,11 +346,11 @@
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// # extern crate termimage;</span>
 <span class="doccomment">/// # extern crate image;</span>
-<span class="doccomment">/// # use termimage::util::{ANSI_COLOURS, ANSI_BG_COLOURS, ANSI_COLOUR_ESCAPES, ANSI_BG_COLOUR_ESCAPES};</span>
+<span class="doccomment">/// # use termimage::util::{ANSI_COLOURS_WHITE_BG, ANSI_COLOUR_ESCAPES, ANSI_BG_COLOUR_ESCAPES, bg_colours_for};</span>
 <span class="doccomment">/// # use termimage::ops::create_colourtable;</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">/// # let img = image::DynamicImage::new_rgb8(16, 16);</span>
-<span class="doccomment">/// for line in create_colourtable(&amp;img, ANSI_COLOURS, ANSI_BG_COLOURS) {</span>
+<span class="doccomment">/// for line in create_colourtable(&amp;img, &amp;ANSI_COLOURS_WHITE_BG, &amp;bg_colours_for(&amp;ANSI_COLOURS_WHITE_BG)) {</span>
 <span class="doccomment">///     for (upper_clr, lower_clr) in line {</span>
 <span class="doccomment">///         print!(&quot;{}{}\u{2580}&quot;, // ▀</span>
 <span class="doccomment">///                ANSI_COLOUR_ESCAPES[upper_clr],</span>
@@ -376,7 +378,7 @@
 
 <span class="doccomment">/// Display the specified image in the default console using ANSI escape codes.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_ansi</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">W</span>, <span class="ident">img</span>: <span class="kw-2">&amp;</span><span class="ident">DynamicImage</span>) {
-    <span class="kw">for</span> <span class="ident">line</span> <span class="kw">in</span> <span class="ident">create_colourtable</span>(<span class="ident">img</span>, <span class="ident">ANSI_COLOURS</span>, <span class="ident">ANSI_BG_COLOURS</span>) {
+    <span class="kw">for</span> <span class="ident">line</span> <span class="kw">in</span> <span class="ident">create_colourtable</span>(<span class="ident">img</span>, <span class="kw-2">&amp;</span><span class="ident">ANSI_COLOURS_WHITE_BG</span>, <span class="kw-2">&amp;</span><span class="ident">bg_colours_for</span>(<span class="kw-2">&amp;</span><span class="ident">ANSI_COLOURS_WHITE_BG</span>)) {
         <span class="kw">for</span> (<span class="ident">upper_clr</span>, <span class="ident">lower_clr</span>) <span class="kw">in</span> <span class="ident">line</span> {
             <span class="macro">write</span><span class="macro">!</span>(<span class="ident">out</span>,
                    <span class="string">&quot;{}{}\u{2580}&quot;</span>, <span class="comment">// ▀</span>
