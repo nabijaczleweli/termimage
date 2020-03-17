@@ -9,59 +9,59 @@ use self::termimage::ops::guess_format;
 
 #[test]
 fn png() {
-    test_correct("png", ImageFormat::PNG);
+    test_correct("png", ImageFormat::Png);
 }
 
 #[test]
 fn jpeg() {
-    test_correct("jpg", ImageFormat::JPEG);
-    test_correct("jpeg", ImageFormat::JPEG);
-    test_correct("jpe", ImageFormat::JPEG);
-    test_correct("jif", ImageFormat::JPEG);
-    test_correct("jfif", ImageFormat::JPEG);
-    test_correct("jfi", ImageFormat::JPEG);
+    test_correct("jpg", ImageFormat::Jpeg);
+    test_correct("jpeg", ImageFormat::Jpeg);
+    test_correct("jpe", ImageFormat::Jpeg);
+    test_correct("jif", ImageFormat::Jpeg);
+    test_correct("jfif", ImageFormat::Jpeg);
+    test_correct("jfi", ImageFormat::Jpeg);
 }
 
 #[test]
 fn gif() {
-    test_correct("gif", ImageFormat::GIF);
+    test_correct("gif", ImageFormat::Gif);
 }
 
 #[test]
 fn webp() {
-    test_correct("webp", ImageFormat::WEBP);
+    test_correct("webp", ImageFormat::WebP);
 }
 
 #[test]
 fn ppm() {
-    test_correct("ppm", ImageFormat::PNM);
+    test_correct("ppm", ImageFormat::Pnm);
 }
 
 #[test]
 fn tiff() {
-    test_correct("tiff", ImageFormat::TIFF);
-    test_correct("tif", ImageFormat::TIFF);
+    test_correct("tiff", ImageFormat::Tiff);
+    test_correct("tif", ImageFormat::Tiff);
 }
 
 #[test]
 fn tga() {
-    test_correct("tga", ImageFormat::TGA);
+    test_correct("tga", ImageFormat::Tga);
 }
 
 #[test]
 fn bmp() {
-    test_correct("bmp", ImageFormat::BMP);
-    test_correct("dib", ImageFormat::BMP);
+    test_correct("bmp", ImageFormat::Bmp);
+    test_correct("dib", ImageFormat::Bmp);
 }
 
 #[test]
 fn ico() {
-    test_correct("ico", ImageFormat::ICO);
+    test_correct("ico", ImageFormat::Ico);
 }
 
 #[test]
 fn hdr() {
-    test_correct("hdr", ImageFormat::HDR);
+    test_correct("hdr", ImageFormat::Hdr);
 }
 
 #[test]

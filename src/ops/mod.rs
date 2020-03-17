@@ -9,7 +9,7 @@
 
 use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_RESET_ATTRIBUTES, ANSI_COLOUR_ESCAPES, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC, GIF_MAGIC, PNG_MAGIC,
                         closest_colour, bg_colours_for};
-use image::{self, GenericImageView, DynamicImage, ImageFormat, FilterType, Pixel};
+use image::{self, GenericImageView, DynamicImage, ImageFormat, imageops::FilterType, Pixel};
 use std::io::{BufReader, Write, Read};
 use self::super::Error;
 use std::path::PathBuf;
@@ -34,11 +34,11 @@ pub use self::no_ansi::write_no_ansi;
 /// # use std::path::PathBuf;
 /// # use termimage::ops::guess_format;
 /// # fn main() {
-/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.png"))), Ok(ImageFormat::PNG));
-/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.jpg"))), Ok(ImageFormat::JPEG));
-/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.gif"))), Ok(ImageFormat::GIF));
-/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.bmp"))), Ok(ImageFormat::BMP));
-/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.ico"))), Ok(ImageFormat::ICO));
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.png"))), Ok(ImageFormat::Png));
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.jpg"))), Ok(ImageFormat::Jpeg));
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.gif"))), Ok(ImageFormat::Gif));
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.bmp"))), Ok(ImageFormat::Bmp));
+/// assert_eq!(guess_format(&(String::new(), PathBuf::from("img.ico"))), Ok(ImageFormat::Ico));
 /// # }
 /// ```
 ///
@@ -55,16 +55,16 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Error> {
     file.1
         .extension()
         .and_then(|ext| match &ext.to_str().unwrap().to_lowercase()[..] {
-            "png" => Some(Ok(ImageFormat::PNG)),
-            "jpg" | "jpeg" | "jpe" | "jif" | "jfif" | "jfi" => Some(Ok(ImageFormat::JPEG)),
-            "gif" => Some(Ok(ImageFormat::GIF)),
-            "webp" => Some(Ok(ImageFormat::WEBP)),
-            "ppm" => Some(Ok(ImageFormat::PNM)),
-            "tiff" | "tif" => Some(Ok(ImageFormat::TIFF)),
-            "tga" => Some(Ok(ImageFormat::TGA)),
-            "bmp" | "dib" => Some(Ok(ImageFormat::BMP)),
-            "ico" => Some(Ok(ImageFormat::ICO)),
-            "hdr" => Some(Ok(ImageFormat::HDR)),
+            "png" => Some(Ok(ImageFormat::Png)),
+            "jpg" | "jpeg" | "jpe" | "jif" | "jfif" | "jfi" => Some(Ok(ImageFormat::Jpeg)),
+            "gif" => Some(Ok(ImageFormat::Gif)),
+            "webp" => Some(Ok(ImageFormat::WebP)),
+            "ppm" => Some(Ok(ImageFormat::Pnm)),
+            "tiff" | "tif" => Some(Ok(ImageFormat::Tiff)),
+            "tga" => Some(Ok(ImageFormat::Tga)),
+            "bmp" | "dib" => Some(Ok(ImageFormat::Bmp)),
+            "ico" => Some(Ok(ImageFormat::Ico)),
+            "hdr" => Some(Ok(ImageFormat::Hdr)),
             _ => None,
         })
         .unwrap_or_else(|| {
@@ -73,15 +73,15 @@ pub fn guess_format(file: &(String, PathBuf)) -> Result<ImageFormat, Error> {
             let buf = &buf[..read];
 
             if buf.len() >= PNG_MAGIC.len() && &buf[..PNG_MAGIC.len()] == PNG_MAGIC {
-                Ok(ImageFormat::PNG)
+                Ok(ImageFormat::Png)
             } else if buf.len() >= JPEG_MAGIC.len() && &buf[..JPEG_MAGIC.len()] == JPEG_MAGIC {
-                Ok(ImageFormat::JPEG)
+                Ok(ImageFormat::Jpeg)
             } else if buf.len() >= GIF_MAGIC.len() && &buf[..GIF_MAGIC.len()] == GIF_MAGIC {
-                Ok(ImageFormat::GIF)
+                Ok(ImageFormat::Gif)
             } else if buf.len() >= BMP_MAGIC.len() && &buf[..BMP_MAGIC.len()] == BMP_MAGIC {
-                Ok(ImageFormat::BMP)
+                Ok(ImageFormat::Bmp)
             } else if buf.len() >= ICO_MAGIC.len() && &buf[..ICO_MAGIC.len()] == ICO_MAGIC {
-                Ok(ImageFormat::ICO)
+                Ok(ImageFormat::Ico)
             } else {
                 Err(Error::GuessingFormatFailed(file.0.clone()))
             }
