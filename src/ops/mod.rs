@@ -9,8 +9,9 @@
 
 use self::super::util::{ANSI_BG_COLOUR_ESCAPES, ANSI_RESET_ATTRIBUTES, ANSI_COLOUR_ESCAPES, JPEG_MAGIC, BMP_MAGIC, ICO_MAGIC, GIF_MAGIC, PNG_MAGIC,
                         closest_colour, bg_colours_for};
-use image::{self, GenericImageView, DynamicImage, ImageFormat, imageops::FilterType, Pixel};
+use image::{self, GenericImageView, DynamicImage, ImageFormat, Pixel};
 use std::io::{BufReader, Write, Read};
+use image::imageops::FilterType;
 use self::super::Error;
 use std::path::PathBuf;
 use std::ops::Index;
