@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.7.20/src/compress.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compress.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.8.3/src/compress.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compress.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -351,30 +351,17 @@
 <span id="351">351</span>
 <span id="352">352</span>
 <span id="353">353</span>
-<span id="354">354</span>
-<span id="355">355</span>
-<span id="356">356</span>
-<span id="357">357</span>
-<span id="358">358</span>
-<span id="359">359</span>
-<span id="360">360</span>
-<span id="361">361</span>
-<span id="362">362</span>
-<span id="363">363</span>
-<span id="364">364</span>
-<span id="365">365</span>
-<span id="366">366</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
 
-<span class="kw">use</span> <span class="ident">deflate_state</span>::<span class="ident">DeflateState</span>;
-<span class="kw">use</span> <span class="ident">encoder_state</span>::<span class="ident">EncoderState</span>;
-<span class="kw">use</span> <span class="ident">lzvalue</span>::<span class="ident">LZValue</span>;
-<span class="kw">use</span> <span class="ident">lz77</span>::{<span class="ident">lz77_compress_block</span>, <span class="ident">LZ77Status</span>};
-<span class="kw">use</span> <span class="ident">huffman_lengths</span>::{<span class="ident">gen_huffman_lengths</span>, <span class="ident">write_huffman_lengths</span>, <span class="ident">BlockType</span>};
-<span class="kw">use</span> <span class="ident">bitstream</span>::<span class="ident">LsbWriter</span>;
-<span class="kw">use</span> <span class="ident">stored_block</span>::{<span class="ident">compress_block_stored</span>, <span class="ident">write_stored_header</span>, <span class="ident">MAX_STORED_BLOCK_LENGTH</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">bitstream</span>::<span class="ident">LsbWriter</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">deflate_state</span>::<span class="ident">DeflateState</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">encoder_state</span>::<span class="ident">EncoderState</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">huffman_lengths</span>::{<span class="ident">gen_huffman_lengths</span>, <span class="ident">write_huffman_lengths</span>, <span class="ident">BlockType</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">lz77</span>::{<span class="ident">lz77_compress_block</span>, <span class="ident">LZ77Status</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">lzvalue</span>::<span class="ident">LZValue</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">stored_block</span>::{<span class="ident">compress_block_stored</span>, <span class="ident">write_stored_header</span>, <span class="ident">MAX_STORED_BLOCK_LENGTH</span>};
 
 <span class="kw">const</span> <span class="ident">LARGEST_OUTPUT_BUF_SIZE</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1024</span> <span class="op">*</span> <span class="number">32</span>;
 
@@ -410,7 +397,7 @@
 <span class="doccomment">/// Currently only used in tests.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compress_data_fixed</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-    <span class="kw">use</span> <span class="ident">lz77</span>::<span class="ident">lz77_compress</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">lz77</span>::<span class="ident">lz77_compress</span>;
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">EncoderState</span>::<span class="ident">fixed</span>(<span class="ident">Vec</span>::<span class="ident">new</span>());
     <span class="kw">let</span> <span class="ident">compressed</span> <span class="op">=</span> <span class="ident">lz77_compress</span>(<span class="ident">input</span>).<span class="ident">unwrap</span>();
@@ -424,7 +411,6 @@
 }
 
 <span class="kw">fn</span> <span class="ident">write_stored_block</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="kw-2">mut</span> <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">LsbWriter</span>, <span class="ident">final_block</span>: <span class="ident">bool</span>) {
-
     <span class="comment">// If the input is not zero, we write stored blocks for the input data.</span>
     <span class="kw">if</span> <span class="op">!</span><span class="ident">input</span>.<span class="ident">is_empty</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">chunks</span>(<span class="ident">MAX_STORED_BLOCK_LENGTH</span>).<span class="ident">peekable</span>();
@@ -436,7 +422,6 @@
 
             <span class="comment">// Write the actual data.</span>
             <span class="ident">compress_block_stored</span>(<span class="ident">chunk</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">writer</span>).<span class="ident">expect</span>(<span class="string">&quot;Write error&quot;</span>);
-
         }
     } <span class="kw">else</span> {
         <span class="comment">// If the input length is zero, we output an empty block. This is used for syncing.</span>
@@ -561,7 +546,7 @@
                 <span class="ident">write_huffman_lengths</span>(
                     <span class="kw-2">&amp;</span><span class="ident">header</span>,
                     <span class="kw-2">&amp;</span><span class="ident">deflate_state</span>.<span class="ident">encoder_state</span>.<span class="ident">huffman_table</span>,
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">deflate_state</span>.<span class="ident">length_buffers</span>.<span class="ident">length_buf</span>,
+                    <span class="kw-2">&amp;</span><span class="ident">deflate_state</span>.<span class="ident">length_buffers</span>.<span class="ident">length_buf</span>,
                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">deflate_state</span>.<span class="ident">encoder_state</span>.<span class="ident">writer</span>,
                 );
 
@@ -571,7 +556,6 @@
                     .<span class="ident">encoder_state</span>
                     .<span class="ident">huffman_table</span>
                     .<span class="ident">update_from_lengths</span>();
-
 
                 <span class="comment">// Write the huffman compressed data and the end of block marker.</span>
                 <span class="ident">flush_to_bitstream</span>(
@@ -648,8 +632,8 @@
         .<span class="ident">as_mut</span>()
         .<span class="ident">expect</span>(<span class="string">&quot;Missing writer!&quot;</span>)
         .<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="ident">deflate_state</span>.<span class="ident">encoder_state</span>.<span class="ident">inner_vec</span>()[<span class="ident">output_buf_pos</span>..])<span class="question-mark">?</span>;
-    <span class="kw">if</span> <span class="ident">written_to_writer</span> <span class="op">&lt;</span>
-        <span class="ident">deflate_state</span>
+    <span class="kw">if</span> <span class="ident">written_to_writer</span>
+        <span class="op">&lt;</span> <span class="ident">deflate_state</span>
             .<span class="ident">output_buf</span>()
             .<span class="ident">len</span>()
             .<span class="ident">checked_sub</span>(<span class="ident">output_buf_pos</span>)
@@ -667,7 +651,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">test</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">test_utils</span>::{<span class="ident">get_test_data</span>, <span class="ident">decompress_to_end</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">test_utils</span>::{<span class="ident">decompress_to_end</span>, <span class="ident">get_test_data</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="doccomment">/// Test compressing a short string using fixed encoding.</span>
@@ -699,17 +683,7 @@
         <span class="comment">// let check =</span>
         <span class="comment">// [0x73, 0x49, 0x4d, 0xcb, 0x49, 0x2c, 0x49, 0x55, 0xc8, 0x49, 0x2c, 0x49, 0x5, 0x0];</span>
         <span class="kw">let</span> <span class="ident">check</span> <span class="op">=</span> [
-            <span class="number">0x73</span>,
-            <span class="number">0x49</span>,
-            <span class="number">0x4d</span>,
-            <span class="number">0xcb</span>,
-            <span class="number">0x49</span>,
-            <span class="number">0x2c</span>,
-            <span class="number">0x49</span>,
-            <span class="number">0x55</span>,
-            <span class="number">0x00</span>,
-            <span class="number">0x11</span>,
-            <span class="number">0x00</span>,
+            <span class="number">0x73</span>, <span class="number">0x49</span>, <span class="number">0x4d</span>, <span class="number">0xcb</span>, <span class="number">0x49</span>, <span class="number">0x2c</span>, <span class="number">0x49</span>, <span class="number">0x55</span>, <span class="number">0x00</span>, <span class="number">0x11</span>, <span class="number">0x00</span>,
         ];
         <span class="kw">let</span> <span class="ident">compressed</span> <span class="op">=</span> <span class="ident">compress_data_fixed</span>(<span class="ident">test_data</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">compressed</span>, <span class="kw-2">&amp;</span><span class="ident">check</span>);

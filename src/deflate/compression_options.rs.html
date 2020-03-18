@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.7.20/src/compression_options.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compression_options.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.8.3/src/compression_options.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compression_options.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -205,7 +205,7 @@
 <span class="doccomment">//! compressor, which uses a specialised (but slow) algorithm to figure out the maximum</span>
 <span class="doccomment">//! of compression for the provided data.</span>
 <span class="doccomment">//!</span>
-<span class="kw">use</span> <span class="ident">lz77</span>::<span class="ident">MatchingType</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">lz77</span>::<span class="ident">MatchingType</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">From</span>;
 
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">HIGH_MAX_HASH_CHECKS</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">1768</span>;
@@ -249,7 +249,7 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SpecialOptions</span> {
     <span class="doccomment">/// Compress normally.</span>
     <span class="ident">Normal</span>,
-    <span class="doccomment">/// Force fixed huffman tables. (Unimplemented!).</span>
+    <span class="doccomment">/// Force fixed Huffman tables. (Unimplemented!).</span>
     <span class="ident">_ForceFixed</span>,
     <span class="doccomment">/// Force stored (uncompressed) blocks only. (Unimplemented!).</span>
     <span class="ident">_ForceStored</span>,
@@ -287,7 +287,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Higher values degrade compression slightly, but improve compression speed.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * `0`: Never lazy match. (Same effect as setting MatchingType to greedy, but may be slower).</span>
+    <span class="doccomment">/// * `0`: Never lazy match. (Same effect as setting `MatchingType` to greedy, but may be slower).</span>
     <span class="doccomment">/// * `1...257`: Only check for a better match if the first match was shorter than this value.</span>
     <span class="doccomment">/// * `258`: Always lazy match.</span>
     <span class="doccomment">///</span>
@@ -319,7 +319,7 @@
 <span class="comment">// Some standard profiles for the compression options.</span>
 <span class="comment">// Ord should be implemented at some point, but won&#39;t yet until the struct is stabilised.</span>
 <span class="kw">impl</span> <span class="ident">CompressionOptions</span> {
-    <span class="doccomment">/// Returns compression settings rouhgly corresponding to the `HIGH(9)` setting in miniz.</span>
+    <span class="doccomment">/// Returns compression settings roughly corresponding to the `HIGH(9)` setting in miniz.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">high</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CompressionOptions</span> {
         <span class="ident">CompressionOptions</span> {
             <span class="ident">max_hash_checks</span>: <span class="ident">HIGH_MAX_HASH_CHECKS</span>,
@@ -332,7 +332,7 @@
     <span class="doccomment">/// Returns  a fast set of compression settings</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Ideally this should roughly correspond to the `FAST(1)` setting in miniz.</span>
-    <span class="doccomment">/// However, that setting makes miniz use a somewhat different algorhithm,</span>
+    <span class="doccomment">/// However, that setting makes miniz use a somewhat different algorithm,</span>
     <span class="doccomment">/// so currently hte fast level in this library is slower and better compressing</span>
     <span class="doccomment">/// than the corresponding level in miniz.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fast</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CompressionOptions</span> {
@@ -345,7 +345,7 @@
     }
 
     <span class="doccomment">/// Returns a set of compression settings that makes the compressor only compress using</span>
-    <span class="doccomment">/// huffman coding. (Ignoring any length/distance matching)</span>
+    <span class="doccomment">/// Huffman coding. (Ignoring any length/distance matching)</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This will normally have the worst compression ratio (besides only using uncompressed data),</span>
     <span class="doccomment">/// but may be the fastest method in some cases.</span>
@@ -363,7 +363,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is very fast, but tends to compress worse than looking for more matches using hash</span>
     <span class="doccomment">/// chains that the slower settings do.</span>
-    <span class="doccomment">/// Works best on data that has runs of equivialent bytes, like binary or simple images,</span>
+    <span class="doccomment">/// Works best on data that has runs of equivalent bytes, like binary or simple images,</span>
     <span class="doccomment">/// less good for text.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rle</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CompressionOptions</span> {
         <span class="ident">CompressionOptions</span> {

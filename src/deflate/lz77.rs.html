@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.7.20/src/lz77.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lz77.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.8.3/src/lz77.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lz77.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1240,91 +1240,28 @@
 <span id="1240">1240</span>
 <span id="1241">1241</span>
 <span id="1242">1242</span>
-<span id="1243">1243</span>
-<span id="1244">1244</span>
-<span id="1245">1245</span>
-<span id="1246">1246</span>
-<span id="1247">1247</span>
-<span id="1248">1248</span>
-<span id="1249">1249</span>
-<span id="1250">1250</span>
-<span id="1251">1251</span>
-<span id="1252">1252</span>
-<span id="1253">1253</span>
-<span id="1254">1254</span>
-<span id="1255">1255</span>
-<span id="1256">1256</span>
-<span id="1257">1257</span>
-<span id="1258">1258</span>
-<span id="1259">1259</span>
-<span id="1260">1260</span>
-<span id="1261">1261</span>
-<span id="1262">1262</span>
-<span id="1263">1263</span>
-<span id="1264">1264</span>
-<span id="1265">1265</span>
-<span id="1266">1266</span>
-<span id="1267">1267</span>
-<span id="1268">1268</span>
-<span id="1269">1269</span>
-<span id="1270">1270</span>
-<span id="1271">1271</span>
-<span id="1272">1272</span>
-<span id="1273">1273</span>
-<span id="1274">1274</span>
-<span id="1275">1275</span>
-<span id="1276">1276</span>
-<span id="1277">1277</span>
-<span id="1278">1278</span>
-<span id="1279">1279</span>
-<span id="1280">1280</span>
-<span id="1281">1281</span>
-<span id="1282">1282</span>
-<span id="1283">1283</span>
-<span id="1284">1284</span>
-<span id="1285">1285</span>
-<span id="1286">1286</span>
-<span id="1287">1287</span>
-<span id="1288">1288</span>
-<span id="1289">1289</span>
-<span id="1290">1290</span>
-<span id="1291">1291</span>
-<span id="1292">1292</span>
-<span id="1293">1293</span>
-<span id="1294">1294</span>
-<span id="1295">1295</span>
-<span id="1296">1296</span>
-<span id="1297">1297</span>
-<span id="1298">1298</span>
-<span id="1299">1299</span>
-<span id="1300">1300</span>
-<span id="1301">1301</span>
-<span id="1302">1302</span>
-<span id="1303">1303</span>
-<span id="1304">1304</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module contains functionality for doing lz77 compression of data.</span>
 <span class="attribute">#![<span class="ident">macro_use</span>]</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Range</span>, <span class="ident">RangeFrom</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>::{<span class="self">self</span>, <span class="ident">Iterator</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">slice</span>::<span class="ident">Iter</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>::{<span class="self">self</span>, <span class="ident">Iterator</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Range</span>, <span class="ident">RangeFrom</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">slice</span>::<span class="ident">Iter</span>;
 
-<span class="kw">use</span> <span class="ident">input_buffer</span>::<span class="ident">InputBuffer</span>;
-<span class="kw">use</span> <span class="ident">matching</span>::<span class="ident">longest_match</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">chained_hash_table</span>::{<span class="ident">update_hash</span>, <span class="ident">ChainedHashTable</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">compress</span>::<span class="ident">Flush</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">use</span> <span class="ident">lzvalue</span>::{<span class="ident">LZValue</span>, <span class="ident">LZType</span>};
-<span class="kw">use</span> <span class="ident">huffman_table</span>;
-<span class="kw">use</span> <span class="ident">chained_hash_table</span>::{<span class="ident">ChainedHashTable</span>, <span class="ident">update_hash</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">compression_options</span>::{<span class="ident">HIGH_LAZY_IF_LESS_THAN</span>, <span class="ident">HIGH_MAX_HASH_CHECKS</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">input_buffer</span>::<span class="ident">InputBuffer</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">use</span> <span class="ident">compression_options</span>::{<span class="ident">HIGH_MAX_HASH_CHECKS</span>, <span class="ident">HIGH_LAZY_IF_LESS_THAN</span>};
-<span class="kw">use</span> <span class="ident">output_writer</span>::{<span class="ident">BufferStatus</span>, <span class="ident">DynamicWriter</span>};
-<span class="kw">use</span> <span class="ident">compress</span>::<span class="ident">Flush</span>;
-<span class="kw">use</span> <span class="ident">rle</span>::<span class="ident">process_chunk_greedy_rle</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">lzvalue</span>::{<span class="ident">LZType</span>, <span class="ident">LZValue</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">matching</span>::<span class="ident">longest_match</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">output_writer</span>::{<span class="ident">BufferStatus</span>, <span class="ident">DynamicWriter</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">rle</span>::<span class="ident">process_chunk_greedy_rle</span>;
 
-<span class="kw">const</span> <span class="ident">MAX_MATCH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">huffman_table</span>::<span class="ident">MAX_MATCH</span> <span class="kw">as</span> <span class="ident">usize</span>;
-<span class="kw">const</span> <span class="ident">MIN_MATCH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">huffman_table</span>::<span class="ident">MIN_MATCH</span> <span class="kw">as</span> <span class="ident">usize</span>;
+<span class="kw">const</span> <span class="ident">MAX_MATCH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">huffman_table</span>::<span class="ident">MAX_MATCH</span> <span class="kw">as</span> <span class="ident">usize</span>;
+<span class="kw">const</span> <span class="ident">MIN_MATCH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">huffman_table</span>::<span class="ident">MIN_MATCH</span> <span class="kw">as</span> <span class="ident">usize</span>;
 
 <span class="kw">const</span> <span class="ident">NO_RLE</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">43212</span>;
 
@@ -1392,9 +1329,9 @@
             <span class="ident">is_last_block</span>: <span class="bool-val">false</span>,
             <span class="ident">overlap</span>: <span class="number">0</span>,
             <span class="ident">current_block_input_bytes</span>: <span class="number">0</span>,
-            <span class="ident">max_hash_checks</span>: <span class="ident">max_hash_checks</span>,
-            <span class="ident">lazy_if_less_than</span>: <span class="ident">lazy_if_less_than</span>,
-            <span class="ident">matching_type</span>: <span class="ident">matching_type</span>,
+            <span class="ident">max_hash_checks</span>,
+            <span class="ident">lazy_if_less_than</span>,
+            <span class="ident">matching_type</span>,
             <span class="ident">match_state</span>: <span class="ident">ChunkState</span>::<span class="ident">new</span>(),
             <span class="ident">bytes_to_hash</span>: <span class="number">0</span>,
             <span class="ident">was_synced</span>: <span class="bool-val">false</span>,
@@ -1494,6 +1431,7 @@
     <span class="ident">ProcessStatus</span>::<span class="ident">BufferFull</span>(<span class="ident">position</span>)
 }
 
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">too_many_arguments</span>)]</span>
 <span class="kw">fn</span> <span class="ident">process_chunk</span>(
     <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
     <span class="ident">iterated_data</span>: <span class="kw-2">&amp;</span><span class="ident">Range</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
@@ -1564,8 +1502,7 @@
 <span class="doccomment">/// `ProcessStatus::BufferFull($pos)` if the buffer is full after writing.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// `pos` should indicate the byte to start at in the next call to `process_chunk`,</span>
-<span class="doccomment">/// `is_hashed` should be set to true of the byte at pos has been added to the hash chain.</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">write_literal</span>{
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">write_literal</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">w</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">byte</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">pos</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">b_status</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">w</span>.<span class="ident">write_literal</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">byte</span>);
 
@@ -1617,7 +1554,6 @@
     <span class="ident">max_hash_checks</span>: <span class="ident">u16</span>,
     <span class="ident">lazy_if_less_than</span>: <span class="ident">usize</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">ProcessStatus</span>) {
-
     <span class="kw">let</span> (<span class="ident">end</span>, <span class="kw-2">mut</span> <span class="ident">insert_it</span>, <span class="kw-2">mut</span> <span class="ident">hash_it</span>) <span class="op">=</span> <span class="ident">create_iterators</span>(<span class="ident">data</span>, <span class="ident">iterated_data</span>);
 
     <span class="kw">const</span> <span class="ident">NO_LENGTH</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0</span>;
@@ -1633,7 +1569,6 @@
     <span class="comment">// The number of bytes past end that was added due to finding a match that extends into</span>
     <span class="comment">// the lookahead window.</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">overlap</span> <span class="op">=</span> <span class="number">0</span>;
-
 
     <span class="comment">// Set to true if we found a match that is equal to or longer than `lazy_if_less_than`,</span>
     <span class="comment">// indicating that we won&#39;t lazy match (check for a better match at the next byte).</span>
@@ -1735,7 +1670,6 @@
                 }
 
                 <span class="ident">ignore_next</span> <span class="op">=</span> <span class="bool-val">false</span>;
-
             } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">add</span> {
                 <span class="comment">// We found a better match (or there was no previous match)</span>
                 <span class="comment">// so output the previous byte.</span>
@@ -1758,16 +1692,21 @@
                 <span class="ident">state</span>.<span class="ident">current_distance</span> <span class="op">=</span> <span class="number">0</span>;
                 <span class="ident">state</span>.<span class="ident">add</span> <span class="op">=</span> <span class="bool-val">false</span>;
 
-                <span class="comment">// As this will be a 3-length match at the end of the input data, there can&#39;t be any</span>
-                <span class="comment">// overlap.</span>
+                <span class="macro">debug_assert</span><span class="macro">!</span>((<span class="ident">position</span> <span class="op">+</span> <span class="ident">prev_length</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">end</span> <span class="op">-</span> <span class="number">1</span>);
+                <span class="comment">// Needed to note overlap as we can end up with the last window containing the rest</span>
+                <span class="comment">// of the match.</span>
+                <span class="ident">overlap</span> <span class="op">=</span> (<span class="ident">position</span> <span class="op">+</span> <span class="ident">prev_length</span> <span class="kw">as</span> <span class="ident">usize</span>)
+                    .<span class="ident">saturating_sub</span>(<span class="ident">end</span>)
+                    .<span class="ident">saturating_sub</span>(<span class="number">1</span>);
+
                 <span class="comment">// TODO: Not sure if we need to signal that the buffer is full here.</span>
                 <span class="comment">// It&#39;s only needed in the case of syncing.</span>
                 <span class="kw">if</span> <span class="kw">let</span> <span class="ident">BufferStatus</span>::<span class="ident">Full</span> <span class="op">=</span> <span class="ident">b_status</span> {
                     <span class="comment">// TODO: These bytes should be hashed when doing a sync flush.</span>
                     <span class="comment">// This can&#39;t be done here as the new input data does not exist yet.</span>
-                    <span class="kw">return</span> (<span class="number">0</span>, <span class="ident">buffer_full</span>(<span class="ident">end</span>));
+                    <span class="kw">return</span> (<span class="ident">overlap</span>, <span class="ident">buffer_full</span>(<span class="ident">end</span>));
                 } <span class="kw">else</span> {
-                    <span class="kw">return</span> (<span class="number">0</span>, <span class="ident">ProcessStatus</span>::<span class="prelude-val">Ok</span>);
+                    <span class="kw">return</span> (<span class="ident">overlap</span>, <span class="ident">ProcessStatus</span>::<span class="prelude-val">Ok</span>);
                 }
             };
 
@@ -1776,8 +1715,7 @@
                 <span class="ident">state</span>.<span class="ident">add</span> <span class="op">=</span> <span class="bool-val">false</span>;
 
                 <span class="comment">// ADD</span>
-                <span class="macro">write_literal</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="ident">state</span>.<span class="ident">prev_byte</span>, <span class="ident">position</span> <span class="op">+</span> <span class="number">1</span>);
-
+                <span class="macro">write_literal</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="ident">state</span>.<span class="ident">prev_byte</span>, <span class="ident">position</span>);
             };
 
             <span class="comment">// We are at the last two bytes we want to add, so there is no point</span>
@@ -1797,7 +1735,6 @@
     <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DynamicWriter</span>,
     <span class="ident">max_hash_checks</span>: <span class="ident">u16</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">ProcessStatus</span>) {
-
     <span class="kw">let</span> (<span class="ident">end</span>, <span class="kw-2">mut</span> <span class="ident">insert_it</span>, <span class="kw-2">mut</span> <span class="ident">hash_it</span>) <span class="op">=</span> <span class="ident">create_iterators</span>(<span class="ident">data</span>, <span class="ident">iterated_data</span>);
 
     <span class="kw">const</span> <span class="ident">NO_LENGTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
@@ -1824,12 +1761,7 @@
                 <span class="comment">// Since we&#39;ve already added one of them, we need to add one less than</span>
                 <span class="comment">// the length.</span>
                 <span class="kw">let</span> <span class="ident">bytes_to_add</span> <span class="op">=</span> <span class="ident">match_len</span> <span class="op">-</span> <span class="number">1</span>;
-                <span class="ident">add_to_hash_table</span>(
-                    <span class="ident">bytes_to_add</span>,
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">insert_it</span>,
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hash_it</span>,
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hash_table</span>,
-                );
+                <span class="ident">add_to_hash_table</span>(<span class="ident">bytes_to_add</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">insert_it</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hash_it</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hash_table</span>);
 
                 <span class="comment">// If the match is longer than the current window, we have note how many</span>
                 <span class="comment">// bytes we overlap, since we don&#39;t need to do any matching on these bytes</span>
@@ -1843,7 +1775,6 @@
                     <span class="comment">// MATCH</span>
                     <span class="kw">return</span> (<span class="ident">overlap</span>, <span class="ident">buffer_full</span>(<span class="ident">position</span> <span class="op">+</span> <span class="ident">match_len</span>));
                 }
-
             } <span class="kw">else</span> {
                 <span class="comment">// NO MATCH</span>
                 <span class="macro">write_literal</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="ident">b</span>, <span class="ident">position</span> <span class="op">+</span> <span class="number">1</span>);
@@ -1857,7 +1788,6 @@
     }
     (<span class="ident">overlap</span>, <span class="ident">ProcessStatus</span>::<span class="prelude-val">Ok</span>)
 }
-
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LZ77Status</span> {
@@ -1935,16 +1865,13 @@
         <span class="kw">let</span> <span class="ident">pending_previous</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">pending_byte_as_num</span>();
 
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">buffer_length</span>() <span class="op">&lt;</span><span class="op">=</span> (<span class="ident">window_size</span> <span class="op">*</span> <span class="number">2</span>));
-        <span class="comment">// The process is a bit different for the first 32k bytes.</span>
-        <span class="comment">// TODO: There is a lot of duplicate code between the two branches here, we should be able</span>
-        <span class="comment">// to simplify this.</span>
-        <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_first_window</span> {
-            <span class="comment">// Don&#39;t do anything until we are either flushing, or we have at least one window of</span>
-            <span class="comment">// data.</span>
-            <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>() <span class="op">&gt;</span><span class="op">=</span> (<span class="ident">window_size</span> <span class="op">*</span> <span class="number">2</span>) <span class="op">+</span> <span class="ident">MAX_MATCH</span> <span class="op">|</span><span class="op">|</span> <span class="ident">finish</span> {
-
-                <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">get_buffer</span>().<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">2</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">add_initial</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span>
-                    <span class="ident">state</span>.<span class="ident">current_block_input_bytes</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+        <span class="comment">// Don&#39;t do anything until we are either flushing, or we have at least one window of</span>
+        <span class="comment">// data.</span>
+        <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>() <span class="op">&gt;</span><span class="op">=</span> (<span class="ident">window_size</span> <span class="op">*</span> <span class="number">2</span>) <span class="op">+</span> <span class="ident">MAX_MATCH</span> <span class="op">|</span><span class="op">|</span> <span class="ident">finish</span> {
+            <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_first_window</span> {
+                <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">get_buffer</span>().<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">2</span>
+                    <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">add_initial</span>
+                    <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">state</span>.<span class="ident">current_block_input_bytes</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
                 {
                     <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">get_buffer</span>();
                     <span class="comment">// Warm up the hash with the two first values, so we can find  matches at</span>
@@ -1952,85 +1879,26 @@
                     <span class="ident">state</span>.<span class="ident">hash_table</span>.<span class="ident">add_initial_hash_values</span>(<span class="ident">b</span>[<span class="number">0</span>], <span class="ident">b</span>[<span class="number">1</span>]);
                     <span class="ident">add_initial</span> <span class="op">=</span> <span class="bool-val">false</span>;
                 }
-
-                <span class="kw">let</span> <span class="ident">first_chunk_end</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">window_size</span>, <span class="ident">buffer</span>.<span class="ident">current_end</span>());
-
-                <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">overlap</span>;
-
-                <span class="kw">let</span> (<span class="ident">overlap</span>, <span class="ident">p_status</span>) <span class="op">=</span> <span class="ident">process_chunk</span>(
-                    <span class="ident">buffer</span>.<span class="ident">get_buffer</span>(),
-                    <span class="kw-2">&amp;</span>(<span class="ident">start</span>..<span class="ident">first_chunk_end</span>),
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">state</span>.<span class="ident">match_state</span>,
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">state</span>.<span class="ident">hash_table</span>,
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">writer</span>,
-                    <span class="ident">state</span>.<span class="ident">max_hash_checks</span>,
-                    <span class="ident">state</span>.<span class="ident">lazy_if_less_than</span> <span class="kw">as</span> <span class="ident">usize</span>,
-                    <span class="ident">state</span>.<span class="ident">matching_type</span>,
-                );
-
-                <span class="ident">state</span>.<span class="ident">overlap</span> <span class="op">=</span> <span class="ident">overlap</span>;
-                <span class="ident">state</span>.<span class="ident">bytes_to_hash</span> <span class="op">=</span> <span class="ident">overlap</span>;
-
-                <span class="comment">// If the buffer is full, we want to end the block.</span>
-                <span class="kw">if</span> <span class="kw">let</span> <span class="ident">ProcessStatus</span>::<span class="ident">BufferFull</span>(<span class="ident">written</span>) <span class="op">=</span> <span class="ident">p_status</span> {
-                    <span class="ident">state</span>.<span class="ident">overlap</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">overlap</span> <span class="op">&gt;</span> <span class="number">0</span> { <span class="ident">overlap</span> } <span class="kw">else</span> { <span class="ident">written</span> };
-                    <span class="ident">status</span> <span class="op">=</span> <span class="ident">LZ77Status</span>::<span class="ident">EndBlock</span>;
-                    <span class="ident">current_position</span> <span class="op">=</span> <span class="ident">written</span> <span class="op">-</span> <span class="ident">state</span>.<span class="ident">pending_byte_as_num</span>();
-                    <span class="ident">state</span>.<span class="ident">current_block_input_bytes</span> <span class="op">+</span><span class="op">=</span>
-                        (<span class="ident">written</span> <span class="op">-</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">overlap</span> <span class="op">+</span> <span class="ident">pending_previous</span> <span class="op">-</span>
-                             <span class="ident">state</span>.<span class="ident">pending_byte_as_num</span>()) <span class="kw">as</span> <span class="ident">u64</span>;
-                    <span class="kw">break</span>;
-                }
-
-
-                <span class="comment">// Update the length of how many input bytes the current block is representing,</span>
-                <span class="comment">// taking into account pending bytes.</span>
-                <span class="ident">state</span>.<span class="ident">current_block_input_bytes</span> <span class="op">+</span><span class="op">=</span>
-                    (<span class="ident">first_chunk_end</span> <span class="op">-</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">overlap</span> <span class="op">+</span> <span class="ident">pending_previous</span> <span class="op">-</span>
-                         <span class="ident">state</span>.<span class="ident">pending_byte_as_num</span>()) <span class="kw">as</span> <span class="ident">u64</span>;
-
-                <span class="comment">// We are at the first window so we don&#39;t need to slide the hash table yet.</span>
-                <span class="comment">// If finishing or syncing, we stop here.</span>
-                <span class="kw">if</span> <span class="ident">first_chunk_end</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">finish</span> {
-                    <span class="ident">current_position</span> <span class="op">=</span> <span class="ident">first_chunk_end</span> <span class="op">-</span> <span class="ident">state</span>.<span class="ident">pending_byte_as_num</span>();
-                    <span class="kw">if</span> <span class="op">!</span><span class="ident">sync</span> {
-                        <span class="ident">state</span>.<span class="ident">set_last</span>();
-                        <span class="ident">state</span>.<span class="ident">is_first_window</span> <span class="op">=</span> <span class="bool-val">false</span>;
-                    } <span class="kw">else</span> {
-                        <span class="ident">state</span>.<span class="ident">overlap</span> <span class="op">=</span> <span class="ident">first_chunk_end</span>;
-                        <span class="ident">state</span>.<span class="ident">was_synced</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                    }
-                    <span class="macro">debug_assert</span><span class="macro">!</span>(
-                        <span class="op">!</span><span class="ident">state</span>.<span class="ident">pending_byte</span>(),
-                        <span class="string">&quot;Bug! Ended compression wit a pending byte!&quot;</span>
-                    );
-                    <span class="ident">status</span> <span class="op">=</span> <span class="ident">LZ77Status</span>::<span class="ident">Finished</span>;
-                    <span class="kw">break</span>;
-                }
-                <span class="comment">// Otherwise, continue.</span>
-                <span class="ident">state</span>.<span class="ident">is_first_window</span> <span class="op">=</span> <span class="bool-val">false</span>;
             } <span class="kw">else</span> {
-                <span class="ident">status</span> <span class="op">=</span> <span class="ident">LZ77Status</span>::<span class="ident">NeedInput</span>;
-                <span class="kw">break</span>;
-            }
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>() <span class="op">&gt;</span><span class="op">=</span> (<span class="ident">window_size</span> <span class="op">*</span> <span class="number">2</span>) <span class="op">+</span> <span class="ident">MAX_MATCH</span> <span class="op">|</span><span class="op">|</span> <span class="ident">finish</span> {
-            <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">window_size</span> <span class="op">+</span> <span class="number">2</span> {
-                <span class="kw">for</span> (<span class="ident">n</span>, <span class="kw-2">&amp;</span><span class="ident">h</span>) <span class="kw">in</span> <span class="ident">buffer</span>.<span class="ident">get_buffer</span>()[<span class="ident">window_size</span> <span class="op">+</span> <span class="number">2</span>..]
-                    .<span class="ident">iter</span>()
-                    .<span class="ident">enumerate</span>()
-                    .<span class="ident">take</span>(<span class="ident">state</span>.<span class="ident">bytes_to_hash</span>)
-                {
-                    <span class="ident">state</span>.<span class="ident">hash_table</span>.<span class="ident">add_hash_value</span>(<span class="ident">window_size</span> <span class="op">+</span> <span class="ident">n</span>, <span class="ident">h</span>);
+                <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">window_size</span> <span class="op">+</span> <span class="number">2</span> {
+                    <span class="kw">for</span> (<span class="ident">n</span>, <span class="kw-2">&amp;</span><span class="ident">h</span>) <span class="kw">in</span> <span class="ident">buffer</span>.<span class="ident">get_buffer</span>()[<span class="ident">window_size</span> <span class="op">+</span> <span class="number">2</span>..]
+                        .<span class="ident">iter</span>()
+                        .<span class="ident">enumerate</span>()
+                        .<span class="ident">take</span>(<span class="ident">state</span>.<span class="ident">bytes_to_hash</span>)
+                    {
+                        <span class="ident">state</span>.<span class="ident">hash_table</span>.<span class="ident">add_hash_value</span>(<span class="ident">window_size</span> <span class="op">+</span> <span class="ident">n</span>, <span class="ident">h</span>);
+                    }
+                    <span class="ident">state</span>.<span class="ident">bytes_to_hash</span> <span class="op">=</span> <span class="number">0</span>;
                 }
-                <span class="ident">state</span>.<span class="ident">bytes_to_hash</span> <span class="op">=</span> <span class="number">0</span>;
             }
-            <span class="comment">// This isn&#39;t the first chunk, so we start reading at one window in in the</span>
-            <span class="comment">// buffer plus any additional overlap from earlier.</span>
-            <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">window_size</span> <span class="op">+</span> <span class="ident">state</span>.<span class="ident">overlap</span>;
 
-            <span class="comment">// Determine where we have to stop iterating to slide the buffer and hash,</span>
-            <span class="comment">// or stop because we are at the end of the input data.</span>
-            <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">window_size</span> <span class="op">*</span> <span class="number">2</span>, <span class="ident">buffer</span>.<span class="ident">current_end</span>());
+            <span class="kw">let</span> <span class="ident">window_start</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_first_window</span> {
+                <span class="number">0</span>
+            } <span class="kw">else</span> {
+                <span class="ident">window_size</span>
+            };
+            <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">overlap</span> <span class="op">+</span> <span class="ident">window_start</span>;
+            <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">window_size</span> <span class="op">+</span> <span class="ident">window_start</span>, <span class="ident">buffer</span>.<span class="ident">current_end</span>());
 
             <span class="kw">let</span> (<span class="ident">overlap</span>, <span class="ident">p_status</span>) <span class="op">=</span> <span class="ident">process_chunk</span>(
                 <span class="ident">buffer</span>.<span class="ident">get_buffer</span>(),
@@ -2045,29 +1913,33 @@
 
             <span class="ident">state</span>.<span class="ident">bytes_to_hash</span> <span class="op">=</span> <span class="ident">overlap</span>;
 
-
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">ProcessStatus</span>::<span class="ident">BufferFull</span>(<span class="ident">written</span>) <span class="op">=</span> <span class="ident">p_status</span> {
-                <span class="ident">state</span>.<span class="ident">current_block_input_bytes</span> <span class="op">+</span><span class="op">=</span>
-                    (<span class="ident">written</span> <span class="op">-</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">pending_previous</span> <span class="op">-</span> <span class="ident">state</span>.<span class="ident">pending_byte_as_num</span>()) <span class="kw">as</span> <span class="ident">u64</span>;
+                <span class="kw">let</span> <span class="ident">nudge</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_first_window</span> { <span class="number">0</span> } <span class="kw">else</span> { <span class="ident">overlap</span> };
+                <span class="ident">state</span>.<span class="ident">current_block_input_bytes</span> <span class="op">+</span><span class="op">=</span> (<span class="ident">written</span> <span class="op">-</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">nudge</span> <span class="op">+</span> <span class="ident">pending_previous</span>
+                    <span class="op">-</span> <span class="ident">state</span>.<span class="ident">pending_byte_as_num</span>())
+                    <span class="kw">as</span> <span class="ident">u64</span>;
 
                 <span class="comment">// If the buffer is full, return and end the block.</span>
                 <span class="comment">// If overlap is non-zero, the buffer was full after outputting the last byte,</span>
                 <span class="comment">// otherwise we have to skip to the point in the buffer where we stopped in the</span>
                 <span class="comment">// next call.</span>
                 <span class="ident">state</span>.<span class="ident">overlap</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">overlap</span> <span class="op">&gt;</span> <span class="number">0</span> {
-                    <span class="comment">// If we are at the end of the window, make sure we slide the buffer and the</span>
-                    <span class="comment">// hash table.</span>
-                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">max_hash_checks</span> <span class="op">&gt;</span> <span class="number">0</span> {
-                        <span class="ident">state</span>.<span class="ident">hash_table</span>.<span class="ident">slide</span>(<span class="ident">window_size</span>);
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">state</span>.<span class="ident">is_first_window</span> {
+                        <span class="comment">// If we are at the end of the window, make sure we slide the buffer and the</span>
+                        <span class="comment">// hash table.</span>
+                        <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">max_hash_checks</span> <span class="op">&gt;</span> <span class="number">0</span> {
+                            <span class="ident">state</span>.<span class="ident">hash_table</span>.<span class="ident">slide</span>(<span class="ident">window_size</span>);
+                        }
+                        <span class="ident">remaining_data</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">slide</span>(<span class="ident">remaining_data</span>.<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span>[]));
+                    } <span class="kw">else</span> {
+                        <span class="ident">state</span>.<span class="ident">is_first_window</span> <span class="op">=</span> <span class="bool-val">false</span>;
                     }
-                    <span class="ident">remaining_data</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">slide</span>(<span class="ident">remaining_data</span>.<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span>[]));
                     <span class="ident">overlap</span>
                 } <span class="kw">else</span> {
-                    <span class="ident">written</span> <span class="op">-</span> <span class="ident">window_size</span>
+                    <span class="ident">written</span> <span class="op">-</span> <span class="ident">window_start</span>
                 };
 
                 <span class="ident">current_position</span> <span class="op">=</span> <span class="ident">written</span> <span class="op">-</span> <span class="ident">state</span>.<span class="ident">pending_byte_as_num</span>();
-
 
                 <span class="comment">// Status is already EndBlock at this point.</span>
                 <span class="comment">// status = LZ77Status::EndBlock;</span>
@@ -2081,39 +1953,55 @@
             <span class="comment">// next window.</span>
             <span class="ident">state</span>.<span class="ident">overlap</span> <span class="op">=</span> <span class="ident">overlap</span>;
 
-            <span class="kw">if</span> <span class="ident">remaining_data</span>.<span class="ident">is_none</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">finish</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">end</span> <span class="op">=</span><span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>() {
-                <span class="ident">current_position</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>();
-                <span class="macro">debug_assert</span><span class="macro">!</span>(
-                    <span class="op">!</span><span class="ident">state</span>.<span class="ident">pending_byte</span>(),
-                    <span class="string">&quot;Bug! Ended compression wit a pending byte!&quot;</span>
-                );
+            <span class="kw">if</span> (<span class="ident">state</span>.<span class="ident">is_first_window</span> <span class="op">|</span><span class="op">|</span> <span class="ident">remaining_data</span>.<span class="ident">is_none</span>())
+                <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">finish</span>
+                <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">end</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>()
+            {
+                <span class="ident">current_position</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_first_window</span> {
+                    <span class="ident">end</span> <span class="op">-</span> <span class="ident">state</span>.<span class="ident">pending_byte_as_num</span>()
+                } <span class="kw">else</span> {
+                    <span class="macro">debug_assert</span><span class="macro">!</span>(
+                        <span class="op">!</span><span class="ident">state</span>.<span class="ident">pending_byte</span>(),
+                        <span class="string">&quot;Bug! Ended compression with a pending byte!&quot;</span>
+                    );
+                    <span class="ident">buffer</span>.<span class="ident">current_end</span>()
+                };
 
                 <span class="comment">// We stopped before or at the window size, so we are at the end.</span>
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">sync</span> {
                     <span class="comment">// If we are finishing and not syncing, we simply indicate that we are done.</span>
                     <span class="ident">state</span>.<span class="ident">set_last</span>();
+                    <span class="ident">state</span>.<span class="ident">is_first_window</span> <span class="op">=</span> <span class="bool-val">false</span>;
                 } <span class="kw">else</span> {
                     <span class="comment">// For sync flushing we need to slide the buffer and the hash chains so that the</span>
                     <span class="comment">// next call to this function starts at the right place.</span>
 
-                    <span class="comment">// There won&#39;t be any overlap, since when syncing, we process to the end of the.</span>
+                    <span class="comment">// There won&#39;t be any overlap, since when syncing, we process to the end of the</span>
                     <span class="comment">// pending data.</span>
-                    <span class="ident">state</span>.<span class="ident">overlap</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">current_end</span>() <span class="op">-</span> <span class="ident">window_size</span>;
+                    <span class="ident">state</span>.<span class="ident">overlap</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_first_window</span> {
+                        <span class="ident">end</span>
+                    } <span class="kw">else</span> {
+                        <span class="ident">buffer</span>.<span class="ident">current_end</span>() <span class="op">-</span> <span class="ident">window_size</span>
+                    };
                     <span class="ident">state</span>.<span class="ident">was_synced</span> <span class="op">=</span> <span class="bool-val">true</span>;
                 }
                 <span class="ident">status</span> <span class="op">=</span> <span class="ident">LZ77Status</span>::<span class="ident">Finished</span>;
                 <span class="kw">break</span>;
             } <span class="kw">else</span> {
-                <span class="comment">// We are not at the end, so slide and continue.</span>
-                <span class="comment">// We slide the hash table back to make space for new hash values</span>
-                <span class="comment">// We only need to remember 2^15 bytes back (the maximum distance allowed by the</span>
-                <span class="comment">// deflate spec).</span>
-                <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">max_hash_checks</span> <span class="op">&gt;</span> <span class="number">0</span> {
-                    <span class="ident">state</span>.<span class="ident">hash_table</span>.<span class="ident">slide</span>(<span class="ident">window_size</span>);
-                }
+                <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_first_window</span> {
+                    <span class="ident">state</span>.<span class="ident">is_first_window</span> <span class="op">=</span> <span class="bool-val">false</span>;
+                } <span class="kw">else</span> {
+                    <span class="comment">// We are not at the end, so slide and continue.</span>
+                    <span class="comment">// We slide the hash table back to make space for new hash values</span>
+                    <span class="comment">// We only need to remember 2^15 bytes back (the maximum distance allowed by the</span>
+                    <span class="comment">// deflate spec).</span>
+                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">max_hash_checks</span> <span class="op">&gt;</span> <span class="number">0</span> {
+                        <span class="ident">state</span>.<span class="ident">hash_table</span>.<span class="ident">slide</span>(<span class="ident">window_size</span>);
+                    }
 
-                <span class="comment">// Also slide the buffer, discarding data we no longer need and adding new data.</span>
-                <span class="ident">remaining_data</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">slide</span>(<span class="ident">remaining_data</span>.<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span>[]));
+                    <span class="comment">// Also slide the buffer, discarding data we no longer need and adding new data.</span>
+                    <span class="ident">remaining_data</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">slide</span>(<span class="ident">remaining_data</span>.<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span>[]));
+                }
             }
         } <span class="kw">else</span> {
             <span class="comment">// The caller has not indicated that they want to finish or flush, and there is less</span>
@@ -2121,7 +2009,6 @@
             <span class="ident">status</span> <span class="op">=</span> <span class="ident">LZ77Status</span>::<span class="ident">NeedInput</span>;
             <span class="kw">break</span>;
         }
-
     }
 
     (
@@ -2259,12 +2146,12 @@
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test</span>.<span class="ident">state</span>,
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test</span>.<span class="ident">buffer</span>,
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test</span>.<span class="ident">writer</span>,
-            ).<span class="number">0</span>;
+            )
+            .<span class="number">0</span>;
             <span class="ident">slice</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">slice</span>[<span class="ident">bytes_written</span>..];
             <span class="ident">out</span>.<span class="ident">extend</span>(<span class="ident">test</span>.<span class="ident">writer</span>.<span class="ident">get_buffer</span>());
             <span class="ident">test</span>.<span class="ident">writer</span>.<span class="ident">clear</span>();
         }
-
     }
 
     <span class="prelude-val">Some</span>(<span class="ident">out</span>)
@@ -2274,11 +2161,11 @@
 <span class="kw">mod</span> <span class="ident">test</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class="kw">use</span> <span class="ident">lzvalue</span>::{<span class="ident">LZValue</span>, <span class="ident">LZType</span>, <span class="ident">lit</span>, <span class="ident">ld</span>};
-    <span class="kw">use</span> <span class="ident">chained_hash_table</span>::<span class="ident">WINDOW_SIZE</span>;
-    <span class="kw">use</span> <span class="ident">compression_options</span>::<span class="ident">DEFAULT_LAZY_IF_LESS_THAN</span>;
-    <span class="kw">use</span> <span class="ident">test_utils</span>::<span class="ident">get_test_data</span>;
-    <span class="kw">use</span> <span class="ident">output_writer</span>::<span class="ident">MAX_BUFFER_LENGTH</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">chained_hash_table</span>::<span class="ident">WINDOW_SIZE</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">compression_options</span>::<span class="ident">DEFAULT_LAZY_IF_LESS_THAN</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">lzvalue</span>::{<span class="ident">ld</span>, <span class="ident">lit</span>, <span class="ident">LZType</span>, <span class="ident">LZValue</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">output_writer</span>::<span class="ident">MAX_BUFFER_LENGTH</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">test_utils</span>::<span class="ident">get_test_data</span>;
 
     <span class="doccomment">/// Helper function to print the output from the lz77 compression function</span>
     <span class="kw">fn</span> <span class="ident">print_output</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">LZValue</span>]) {
@@ -2371,7 +2258,7 @@
     <span class="doccomment">/// Test that matches at the window border are working correctly</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">border</span>() {
-        <span class="kw">use</span> <span class="ident">chained_hash_table</span>::<span class="ident">WINDOW_SIZE</span>;
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">chained_hash_table</span>::<span class="ident">WINDOW_SIZE</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">35</span>; <span class="ident">WINDOW_SIZE</span>];
         <span class="ident">data</span>.<span class="ident">extend</span>(<span class="string">b&quot;Test&quot;</span>);
         <span class="kw">let</span> <span class="ident">compressed</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">lz77_compress</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>).<span class="ident">unwrap</span>();
@@ -2384,7 +2271,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">border_multiple_blocks</span>() {
-        <span class="kw">use</span> <span class="ident">chained_hash_table</span>::<span class="ident">WINDOW_SIZE</span>;
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">chained_hash_table</span>::<span class="ident">WINDOW_SIZE</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; (<span class="ident">WINDOW_SIZE</span> <span class="op">*</span> <span class="number">2</span>) <span class="op">+</span> <span class="number">50</span>];
         <span class="ident">data</span>.<span class="ident">push</span>(<span class="number">1</span>);
         <span class="kw">let</span> <span class="ident">compressed</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">lz77_compress</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>).<span class="ident">unwrap</span>();
@@ -2396,7 +2283,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">compress_block_status</span>() {
-        <span class="kw">use</span> <span class="ident">input_buffer</span>::<span class="ident">InputBuffer</span>;
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">input_buffer</span>::<span class="ident">InputBuffer</span>;
 
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="string">b&quot;Test data data&quot;</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">DynamicWriter</span>::<span class="ident">new</span>();
@@ -2411,8 +2298,8 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">compress_block_multiple_windows</span>() {
-        <span class="kw">use</span> <span class="ident">input_buffer</span>::<span class="ident">InputBuffer</span>;
-        <span class="kw">use</span> <span class="ident">output_writer</span>::<span class="ident">DynamicWriter</span>;
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">input_buffer</span>::<span class="ident">InputBuffer</span>;
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">output_writer</span>::<span class="ident">DynamicWriter</span>;
 
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">get_test_data</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">len</span>() <span class="op">&gt;</span> (<span class="ident">WINDOW_SIZE</span> <span class="op">*</span> <span class="number">2</span>) <span class="op">+</span> <span class="kw">super</span>::<span class="ident">MAX_MATCH</span>);
@@ -2438,7 +2325,6 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">writer</span>,
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">status</span>, <span class="ident">LZ77Status</span>::<span class="ident">EndBlock</span>);
-
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2460,7 +2346,6 @@
         };
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">comp1</span> <span class="op">=</span><span class="op">=</span> <span class="ident">comp2</span>);
     }
-
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="doccomment">/// Test that the exit from process_chunk when buffer is full is working correctly.</span>
@@ -2530,24 +2415,17 @@
     <span class="kw">fn</span> <span class="ident">buffer_test_last_bytes</span>(<span class="ident">matching_type</span>: <span class="ident">MatchingType</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) {
         <span class="kw">const</span> <span class="ident">BYTES_USED</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">MAX_BUFFER_LENGTH</span>;
         <span class="macro">assert</span><span class="macro">!</span>(
-            <span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">BYTES_USED</span>] <span class="op">=</span><span class="op">=</span>
-                <span class="kw-2">&amp;</span><span class="ident">decompress_lz77</span>(<span class="kw-2">&amp;</span><span class="ident">lz77_compress_conf</span>(
-                    <span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">BYTES_USED</span>],
-                    <span class="number">0</span>,
-                    <span class="ident">NO_RLE</span>,
-                    <span class="ident">matching_type</span>,
-                ).<span class="ident">unwrap</span>())
-                    [..]
+            <span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">BYTES_USED</span>]
+                <span class="op">=</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">decompress_lz77</span>(
+                    <span class="kw-2">&amp;</span><span class="ident">lz77_compress_conf</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">BYTES_USED</span>], <span class="number">0</span>, <span class="ident">NO_RLE</span>, <span class="ident">matching_type</span>,).<span class="ident">unwrap</span>()
+                )[..]
         );
         <span class="macro">assert</span><span class="macro">!</span>(
-            <span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">BYTES_USED</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span><span class="op">=</span>
-                <span class="kw-2">&amp;</span><span class="ident">decompress_lz77</span>(<span class="kw-2">&amp;</span><span class="ident">lz77_compress_conf</span>(
-                    <span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">BYTES_USED</span> <span class="op">+</span> <span class="number">1</span>],
-                    <span class="number">0</span>,
-                    <span class="ident">NO_RLE</span>,
-                    <span class="ident">matching_type</span>,
-                ).<span class="ident">unwrap</span>())
-                    [..]
+            <span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">BYTES_USED</span> <span class="op">+</span> <span class="number">1</span>]
+                <span class="op">=</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">decompress_lz77</span>(
+                    <span class="kw-2">&amp;</span><span class="ident">lz77_compress_conf</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">BYTES_USED</span> <span class="op">+</span> <span class="number">1</span>], <span class="number">0</span>, <span class="ident">NO_RLE</span>, <span class="ident">matching_type</span>,)
+                        .<span class="ident">unwrap</span>()
+                )[..]
         );
     }
 
@@ -2561,7 +2439,6 @@
         }
         <span class="ident">state</span>.<span class="ident">compress_block</span>(<span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="bool-val">true</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">state</span>.<span class="ident">writer</span>.<span class="ident">get_buffer</span>().<span class="ident">last</span>().<span class="ident">unwrap</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">LZValue</span>::<span class="ident">length_distance</span>(<span class="number">3</span>, <span class="number">3</span>));
-
     }
 
     <span class="doccomment">/// Test buffer fill for the lazy match algorithm when adding a pending byte at the end.</span>
@@ -2593,14 +2470,13 @@
         <span class="comment">// ------------l2 l4  &lt;-ld4,20-&gt; l1 l1  &lt;---ld5,10--&gt;</span>
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">dec</span> <span class="op">=</span><span class="op">=</span> [<span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>]);
     }
-
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;benchmarks&quot;</span>))]</span>
 <span class="kw">mod</span> <span class="ident">bench</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">lz77_compress</span>;
     <span class="kw">use</span> <span class="ident">test_std</span>::<span class="ident">Bencher</span>;
     <span class="kw">use</span> <span class="ident">test_utils</span>::<span class="ident">get_test_data</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">lz77_compress</span>;
     <span class="attribute">#[<span class="ident">bench</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_file_zlib_lz77_only</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Bencher</span>) {
         <span class="kw">let</span> <span class="ident">test_data</span> <span class="op">=</span> <span class="ident">get_test_data</span>();

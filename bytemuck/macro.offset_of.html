@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `offset_of` macro in crate `bytemuck`."><meta name="keywords" content="rust, rustlang, rust-lang, offset_of"><title>bytemuck::offset_of - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc macro"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../bytemuck/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>bytemuck</a></p><script>window.sidebarCurrent = {name: 'offset_of', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/bytemuck/offset_of.rs.html#89-103' title='goto source code'>[src]</a></span><span class='in-band'>Macro <a href='index.html'>bytemuck</a>::<wbr><a class="macro" href=''>offset_of</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><div class="example-wrap"><pre class="rust macro">
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">offset_of</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">instance</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Type</span>:<span class="ident">path</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">tt</span>) <span class="op">=</span><span class="op">&gt;</span> { ... };
+}</pre></div>
+</div><div class='docblock'><p>Find the offset in bytes of the given <code>$field</code> of <code>$Type</code>, using <code>$instance</code>
+as an already-initialized value to work with.</p>
+<p>This is similar to the macro from <code>memoffset</code>, however it's fully well
+defined even in current versions of Rust (and uses no unsafe code).</p>
+<p>It does by using the <code>$instance</code> argument to have an already-initialized
+instance of <code>$Type</code> rather than trying to find a way access the fields of an
+uninitialized one without hitting soundness problems. The value passed to
+the macro is referenced but not moved.</p>
+<p>This means the API is more limited, but it's also sound even in rather
+extreme cases, like some of the examples.</p>
+<h2 id="caveats" class="section-header"><a href="#caveats">Caveats</a></h2>
+<ol>
+<li>
+<p>The offset is in bytes, and so you will likely have to cast your base
+pointers to <code>*const u8</code>/<code>*mut u8</code> before getting field addresses.</p>
+</li>
+<li>
+<p>The offset values of repr(Rust) types are not stable, and may change
+wildly between releases of the compiler. Use repr(C) if you can.</p>
+</li>
+<li>
+<p>The value of the <code>$instance</code> parameter has no bearing on the output of
+this macro. It is just used to avoid soundness problems. The only
+requirement is that it be initialized. In particular, the value returned
+is not a field pointer, or anything like that.</p>
+</li>
+</ol>
+<h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2><h3 id="use-with-zeroable-types" class="section-header"><a href="#use-with-zeroable-types">Use with zeroable types</a></h3>
+<p>A common requirement in GPU apis is to specify the layout of vertices. These
+will generally be [<code>Zeroable</code>] (if not [<code>Pod</code>]), and are a good fit for
+<code>offset_of!</code>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="kw">struct</span> <span class="ident">Vertex</span> {
+  <span class="ident">pos</span>: [<span class="ident">f32</span>; <span class="number">2</span>],
+  <span class="ident">uv</span>: [<span class="ident">u16</span>; <span class="number">2</span>],
+  <span class="ident">color</span>: [<span class="ident">u8</span>; <span class="number">4</span>],
+}
+<span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Zeroable</span> <span class="kw">for</span> <span class="ident">Vertex</span> {}
+
+<span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">Zeroable</span>::<span class="ident">zeroed</span>(), <span class="ident">Vertex</span>, <span class="ident">pos</span>);
+<span class="kw">let</span> <span class="ident">uv</span> <span class="op">=</span> <span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">Zeroable</span>::<span class="ident">zeroed</span>(), <span class="ident">Vertex</span>, <span class="ident">uv</span>);
+<span class="kw">let</span> <span class="ident">color</span> <span class="op">=</span> <span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">Zeroable</span>::<span class="ident">zeroed</span>(), <span class="ident">Vertex</span>, <span class="ident">color</span>);
+
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pos</span>, <span class="number">0</span>);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">uv</span>, <span class="number">8</span>);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">color</span>, <span class="number">12</span>);</pre></div>
+<h3 id="use-with-other-types" class="section-header"><a href="#use-with-other-types">Use with other types</a></h3>
+<p>More esoteric uses are possible too, including with types generally not safe
+to otherwise use with bytemuck. <code>Strings</code>, <code>Vec</code>s, etc.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
+<span class="kw">struct</span> <span class="ident">Foo</span> {
+  <span class="ident">a</span>: <span class="ident">u8</span>,
+  <span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
+  <span class="ident">c</span>: <span class="ident">i32</span>,
+}
+
+<span class="kw">let</span> <span class="ident">a_offset</span> <span class="op">=</span> <span class="ident">bytemuck</span>::<span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">Default</span>::<span class="ident">default</span>(), <span class="ident">Foo</span>, <span class="ident">a</span>);
+<span class="kw">let</span> <span class="ident">b_offset</span> <span class="op">=</span> <span class="ident">bytemuck</span>::<span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">Default</span>::<span class="ident">default</span>(), <span class="ident">Foo</span>, <span class="ident">b</span>);
+<span class="kw">let</span> <span class="ident">c_offset</span> <span class="op">=</span> <span class="ident">bytemuck</span>::<span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">Default</span>::<span class="ident">default</span>(), <span class="ident">Foo</span>, <span class="ident">c</span>);
+
+<span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">a_offset</span>, <span class="ident">b_offset</span>);
+<span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">b_offset</span>, <span class="ident">c_offset</span>);
+<span class="comment">// We can&#39;t check against hardcoded values for a repr(Rust) type,</span>
+<span class="comment">// but prove to ourself this way.</span>
+
+<span class="kw">let</span> <span class="ident">foo</span> <span class="op">=</span> <span class="ident">Foo</span>::<span class="ident">default</span>();
+<span class="comment">// Note: offsets are in bytes.</span>
+<span class="kw">let</span> <span class="ident">as_bytes</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">foo</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>;
+
+<span class="comment">// we&#39;re using wrapping_offset here becasue it&#39;s not worth</span>
+<span class="comment">// the unsafe block, but it would be valid to use `add` instead,</span>
+<span class="comment">// as it cannot overflow.</span>
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">foo</span>.<span class="ident">a</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">as_bytes</span>.<span class="ident">wrapping_add</span>(<span class="ident">a_offset</span>) <span class="kw">as</span> <span class="ident">usize</span>);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">foo</span>.<span class="ident">b</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">as_bytes</span>.<span class="ident">wrapping_add</span>(<span class="ident">b_offset</span>) <span class="kw">as</span> <span class="ident">usize</span>);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">foo</span>.<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">as_bytes</span>.<span class="ident">wrapping_add</span>(<span class="ident">c_offset</span>) <span class="kw">as</span> <span class="ident">usize</span>);</pre></div>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "bytemuck";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

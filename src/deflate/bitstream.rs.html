@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.7.20/src/bitstream.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>bitstream.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.8.3/src/bitstream.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>bitstream.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -227,28 +227,6 @@
 <span id="227">227</span>
 <span id="228">228</span>
 <span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
-<span id="233">233</span>
-<span id="234">234</span>
-<span id="235">235</span>
-<span id="236">236</span>
-<span id="237">237</span>
-<span id="238">238</span>
-<span id="239">239</span>
-<span id="240">240</span>
-<span id="241">241</span>
-<span id="242">242</span>
-<span id="243">243</span>
-<span id="244">244</span>
-<span id="245">245</span>
-<span id="246">246</span>
-<span id="247">247</span>
-<span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// This was originally based on code from: https://github.com/nwin/lzw</span>
 <span class="comment">// Copyright (c) 2015 nwin</span>
@@ -270,15 +248,18 @@
     <span class="doccomment">/// Using a macro here since an inline function.</span>
     <span class="doccomment">/// didn&#39;t optimise properly.</span>
     <span class="doccomment">/// TODO June 2019: See if it&#39;s still needed.</span>
-    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">push</span>{
+    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">push</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">w</span>.<span class="ident">extend_from_slice</span>(<span class="kw-2">&amp;</span>[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="kw">as</span> <span class="ident">u8</span>,
-                                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">8</span>) <span class="kw">as</span> <span class="ident">u8</span>,
-                                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">16</span>) <span class="kw">as</span> <span class="ident">u8</span>,
-                                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">24</span>) <span class="kw">as</span> <span class="ident">u8</span>,
-                                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">32</span>) <span class="kw">as</span> <span class="ident">u8</span>,
-                                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">40</span>) <span class="kw">as</span> <span class="ident">u8</span>
-            ][..])
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">w</span>.<span class="ident">extend_from_slice</span>(
+                <span class="kw-2">&amp;</span>[
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="kw">as</span> <span class="ident">u8</span>,
+                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">8</span>) <span class="kw">as</span> <span class="ident">u8</span>,
+                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">16</span>) <span class="kw">as</span> <span class="ident">u8</span>,
+                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">24</span>) <span class="kw">as</span> <span class="ident">u8</span>,
+                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">32</span>) <span class="kw">as</span> <span class="ident">u8</span>,
+                    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>.<span class="ident">acc</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">40</span>) <span class="kw">as</span> <span class="ident">u8</span>,
+                ][..],
+            )
         };
     }
 }
@@ -287,7 +268,7 @@
 <span class="kw">mod</span> <span class="ident">arch_dep</span> {
     <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">AccType</span> <span class="op">=</span> <span class="ident">u32</span>;
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FLUSH_AT</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">16</span>;
-    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">push</span>{
+    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">push</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">s</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="comment">// Unlike the 64-bit case, using copy_from_slice seemed to worsen performance here.</span>
             <span class="comment">// TODO: Needs benching on a 32-bit system to see what works best.</span>
@@ -324,7 +305,7 @@
     <span class="doccomment">/// Buffer n number of bits, and write them to the vec if there are enough pending bits.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_bits</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">v</span>: <span class="ident">u16</span>, <span class="ident">n</span>: <span class="ident">u8</span>) {
         <span class="comment">// NOTE: This outputs garbage data if n is 0, but v is not 0</span>
-        <span class="self">self</span>.<span class="ident">acc</span> <span class="op">|</span><span class="op">=</span> (<span class="ident">v</span> <span class="kw">as</span> <span class="ident">AccType</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">bits</span>;
+        <span class="self">self</span>.<span class="ident">acc</span> <span class="op">|</span><span class="op">=</span> (<span class="ident">AccType</span>::<span class="ident">from</span>(<span class="ident">v</span>)) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">bits</span>;
         <span class="self">self</span>.<span class="ident">bits</span> <span class="op">+</span><span class="op">=</span> <span class="ident">n</span>;
         <span class="comment">// Waiting until we have FLUSH_AT bits and pushing them all in one batch.</span>
         <span class="kw">while</span> <span class="self">self</span>.<span class="ident">bits</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">FLUSH_AT</span> {
@@ -336,7 +317,7 @@
 
     <span class="kw">fn</span> <span class="ident">write_bits_finish</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">v</span>: <span class="ident">u16</span>, <span class="ident">n</span>: <span class="ident">u8</span>) {
         <span class="comment">// NOTE: This outputs garbage data if n is 0, but v is not 0</span>
-        <span class="self">self</span>.<span class="ident">acc</span> <span class="op">|</span><span class="op">=</span> (<span class="ident">v</span> <span class="kw">as</span> <span class="ident">AccType</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">bits</span>;
+        <span class="self">self</span>.<span class="ident">acc</span> <span class="op">|</span><span class="op">=</span> (<span class="ident">AccType</span>::<span class="ident">from</span>(<span class="ident">v</span>)) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">bits</span>;
         <span class="self">self</span>.<span class="ident">bits</span> <span class="op">+</span><span class="op">=</span> <span class="ident">n</span> <span class="op">%</span> <span class="number">8</span>;
         <span class="kw">while</span> <span class="self">self</span>.<span class="ident">bits</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">8</span> {
             <span class="self">self</span>.<span class="ident">w</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">acc</span> <span class="kw">as</span> <span class="ident">u8</span>);
@@ -361,7 +342,7 @@
             <span class="self">self</span>.<span class="ident">w</span>.<span class="ident">extend_from_slice</span>(<span class="ident">buf</span>)
         } <span class="kw">else</span> {
             <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">byte</span> <span class="kw">in</span> <span class="ident">buf</span>.<span class="ident">iter</span>() {
-                <span class="self">self</span>.<span class="ident">write_bits</span>(<span class="ident">byte</span> <span class="kw">as</span> <span class="ident">u16</span>, <span class="number">8</span>)
+                <span class="self">self</span>.<span class="ident">write_bits</span>(<span class="ident">u16</span>::<span class="ident">from</span>(<span class="ident">byte</span>), <span class="number">8</span>)
             }
         }
         <span class="prelude-val">Ok</span>(<span class="ident">buf</span>.<span class="ident">len</span>())
@@ -415,34 +396,8 @@
             (<span class="number">174</span>, <span class="number">8</span>),
         ];
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> [
-            <span class="number">83</span>,
-            <span class="number">192</span>,
-            <span class="number">2</span>,
-            <span class="number">220</span>,
-            <span class="number">253</span>,
-            <span class="number">66</span>,
-            <span class="number">21</span>,
-            <span class="number">220</span>,
-            <span class="number">93</span>,
-            <span class="number">253</span>,
-            <span class="number">92</span>,
-            <span class="number">131</span>,
-            <span class="number">28</span>,
-            <span class="number">125</span>,
-            <span class="number">20</span>,
-            <span class="number">2</span>,
-            <span class="number">66</span>,
-            <span class="number">157</span>,
-            <span class="number">124</span>,
-            <span class="number">60</span>,
-            <span class="number">157</span>,
-            <span class="number">21</span>,
-            <span class="number">128</span>,
-            <span class="number">216</span>,
-            <span class="number">213</span>,
-            <span class="number">47</span>,
-            <span class="number">216</span>,
-            <span class="number">21</span>,
+            <span class="number">83</span>, <span class="number">192</span>, <span class="number">2</span>, <span class="number">220</span>, <span class="number">253</span>, <span class="number">66</span>, <span class="number">21</span>, <span class="number">220</span>, <span class="number">93</span>, <span class="number">253</span>, <span class="number">92</span>, <span class="number">131</span>, <span class="number">28</span>, <span class="number">125</span>, <span class="number">20</span>, <span class="number">2</span>, <span class="number">66</span>, <span class="number">157</span>, <span class="number">124</span>, <span class="number">60</span>,
+            <span class="number">157</span>, <span class="number">21</span>, <span class="number">128</span>, <span class="number">216</span>, <span class="number">213</span>, <span class="number">47</span>, <span class="number">216</span>, <span class="number">21</span>,
         ];
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">LsbWriter</span>::<span class="ident">new</span>(<span class="ident">Vec</span>::<span class="ident">new</span>());
         <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">input</span>.<span class="ident">iter</span>() {
@@ -453,11 +408,10 @@
     }
 }
 
-
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;benchmarks&quot;</span>))]</span>
 <span class="kw">mod</span> <span class="ident">bench</span> {
-    <span class="kw">use</span> <span class="ident">test_std</span>::<span class="ident">Bencher</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">LsbWriter</span>;
+    <span class="kw">use</span> <span class="ident">test_std</span>::<span class="ident">Bencher</span>;
     <span class="attribute">#[<span class="ident">bench</span>]</span>
     <span class="kw">fn</span> <span class="ident">bit_writer</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Bencher</span>) {
         <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> [
@@ -496,8 +450,10 @@
             (<span class="number">174</span>, <span class="number">8</span>),
         ];
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">LsbWriter</span>::<span class="ident">new</span>(<span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="number">100</span>));
-        <span class="ident">b</span>.<span class="ident">iter</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">input</span>.<span class="ident">iter</span>() {
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">writer</span>.<span class="ident">write_bits</span>(<span class="ident">v</span>.<span class="number">0</span>, <span class="ident">v</span>.<span class="number">1</span>);
+        <span class="ident">b</span>.<span class="ident">iter</span>(<span class="op">|</span><span class="op">|</span> {
+            <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">input</span>.<span class="ident">iter</span>() {
+                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">writer</span>.<span class="ident">write_bits</span>(<span class="ident">v</span>.<span class="number">0</span>, <span class="ident">v</span>.<span class="number">1</span>);
+            }
         });
     }
 }

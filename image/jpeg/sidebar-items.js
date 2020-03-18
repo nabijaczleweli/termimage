@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["JPEGDecoder","JPEG decoder"],["JPEGEncoder","The representation of a JPEG encoder"]]});
+initSidebarItems({"enum":[["PixelDensityUnit","Represents a unit in which the density of an image is measured"]],"struct":[["JPEGEncoder","The representation of a JPEG encoder"],["JpegDecoder","JPEG decoder"],["PixelDensity","Represents the pixel density of an image"]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["BMPDecoder","A bmp decoder"],["BMPEncoder","The representation of a BMP encoder."]]});
+initSidebarItems({"struct":[["BMPEncoder","The representation of a BMP encoder."],["BmpDecoder","A bmp decoder"]]});

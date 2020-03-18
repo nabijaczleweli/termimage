@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/tiff-0.3.1/src/decoder/ifd.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>ifd.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../tiff/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/tiff-0.4.0/src/decoder/ifd.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>ifd.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../tiff/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -233,6 +233,147 @@
 <span id="233">233</span>
 <span id="234">234</span>
 <span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Function for reading TIFF tags</span>
 
@@ -243,30 +384,45 @@
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">stream</span>::{<span class="ident">ByteOrder</span>, <span class="ident">EndianReader</span>, <span class="ident">SmartReader</span>};
 <span class="kw">use</span> {<span class="ident">TiffError</span>, <span class="ident">TiffFormatError</span>, <span class="ident">TiffResult</span>, <span class="ident">TiffUnsupportedError</span>};
 
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">Value</span>::{<span class="ident">Ascii</span>, <span class="ident">List</span>, <span class="ident">Rational</span>, <span class="ident">Unsigned</span>};
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">Value</span>::{<span class="ident">Ascii</span>, <span class="ident">List</span>, <span class="ident">Rational</span>, <span class="ident">Unsigned</span>, <span class="ident">Signed</span>, <span class="ident">SRational</span>};
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">tags</span> {
-    {$(
-        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>:<span class="ident">ident</span>
-        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>;
-    )<span class="kw-2">*</span>} <span class="op">=</span><span class="op">&gt;</span> {
-
-        <span class="doccomment">/// TIFF tag</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Tag</span> {
-            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>,)<span class="op">*</span>
-            <span class="ident">Unknown</span>(<span class="ident">u16</span>)
+    {
+        <span class="comment">// Permit arbitrary meta items, which include documentation.</span>
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span> )<span class="op">*</span>
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vis</span>:<span class="ident">vis</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>) $(<span class="ident">unknown</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">unknown_doc</span>:<span class="ident">literal</span>))<span class="op">*</span> {
+            <span class="comment">// Each of the `Name = Val,` permitting documentation.</span>
+            $($(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ident_attr</span>:<span class="ident">meta</span>]</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>:<span class="ident">ident</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>,)<span class="op">*</span>
         }
-        <span class="kw">impl</span> <span class="ident">Tag</span> {
-            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_u16</span>(<span class="ident">n</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Tag</span> {
-                $(<span class="kw">if</span> <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span> { <span class="ident">Tag</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span> } <span class="kw">else</span>)<span class="op">*</span> {
-                    <span class="ident">Tag</span>::<span class="ident">Unknown</span>(<span class="ident">n</span>)
+    } <span class="op">=</span><span class="op">&gt;</span> {
+        $( <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span> )<span class="op">*</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            $($(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ident_attr</span>]</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>,)<span class="op">*</span>
+            <span class="comment">// FIXME: switch to non_exhaustive once stabilized and compiler requirement new enough</span>
+            <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+            <span class="ident">__NonExhaustive</span>,
+            $( 
+                <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">unknown_doc</span>]</span>
+                <span class="ident">Unknown</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>),
+            )<span class="op">*</span>
+        }
+
+        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+            <span class="kw">fn</span> <span class="ident">__from_inner_type</span>(<span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span> {
+                <span class="kw">match</span> <span class="ident">n</span> {
+                    $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>), )<span class="op">*</span>
+                    <span class="ident">n</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">n</span>),
                 }
             }
-            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_u16</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> {
+
+            <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+            <span class="kw">fn</span> <span class="ident">__to_inner_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span> {
                 <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-                    $( <span class="ident">Tag</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, )<span class="op">*</span>
-                    <span class="ident">Tag</span>::<span class="ident">Unknown</span>(<span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">n</span>,
+                    $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, )<span class="op">*</span>
+                    $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="ident">Unknown</span>(<span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">unknown_doc</span>; <span class="ident">n</span> }, )<span class="op">*</span>
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="ident">__NonExhaustive</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
                 }
             }
         }
@@ -275,66 +431,99 @@
 
 <span class="comment">// Note: These tags appear in the order they are mentioned in the TIFF reference</span>
 <span class="macro">tags</span><span class="macro">!</span> {
+<span class="doccomment">/// TIFF tags</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Tag</span>(<span class="ident">u16</span>) <span class="ident">unknown</span>(<span class="string">&quot;A private or extension tag&quot;</span>) {
     <span class="comment">// Baseline tags:</span>
-    <span class="ident">Artist</span> <span class="number">315</span>;
+    <span class="ident">Artist</span> <span class="op">=</span> <span class="number">315</span>,
     <span class="comment">// grayscale images PhotometricInterpretation 1 or 3</span>
-    <span class="ident">BitsPerSample</span> <span class="number">258</span>;
-    <span class="ident">CellLength</span> <span class="number">265</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">CellWidth</span> <span class="number">264</span>; <span class="comment">// TODO add support</span>
+    <span class="ident">BitsPerSample</span> <span class="op">=</span> <span class="number">258</span>,
+    <span class="ident">CellLength</span> <span class="op">=</span> <span class="number">265</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">CellWidth</span> <span class="op">=</span> <span class="number">264</span>, <span class="comment">// TODO add support</span>
     <span class="comment">// palette-color images (PhotometricInterpretation 3)</span>
-    <span class="ident">ColorMap</span> <span class="number">320</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">Compression</span> <span class="number">259</span>; <span class="comment">// TODO add support for 2 and 32773</span>
-    <span class="ident">Copyright</span> <span class="number">33_432</span>;
-    <span class="ident">DateTime</span> <span class="number">306</span>;
-    <span class="ident">ExtraSamples</span> <span class="number">338</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">FillOrder</span> <span class="number">266</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">FreeByteCounts</span> <span class="number">289</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">FreeOffsets</span> <span class="number">288</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">GrayResponseCurve</span> <span class="number">291</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">GrayResponseUnit</span> <span class="number">290</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">HostComputer</span> <span class="number">316</span>;
-    <span class="ident">ImageDescription</span> <span class="number">270</span>;
-    <span class="ident">ImageLength</span> <span class="number">257</span>;
-    <span class="ident">ImageWidth</span> <span class="number">256</span>;
-    <span class="ident">Make</span> <span class="number">271</span>;
-    <span class="ident">MaxSampleValue</span> <span class="number">281</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">MinSampleValue</span> <span class="number">280</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">Model</span> <span class="number">272</span>;
-    <span class="ident">NewSubfileType</span> <span class="number">254</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">Orientation</span> <span class="number">274</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">PhotometricInterpretation</span> <span class="number">262</span>;
-    <span class="ident">PlanarConfiguration</span> <span class="number">284</span>;
-    <span class="ident">ResolutionUnit</span> <span class="number">296</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">RowsPerStrip</span> <span class="number">278</span>;
-    <span class="ident">SamplesPerPixel</span> <span class="number">277</span>;
-    <span class="ident">Software</span> <span class="number">305</span>;
-    <span class="ident">StripByteCounts</span> <span class="number">279</span>;
-    <span class="ident">StripOffsets</span> <span class="number">273</span>;
-    <span class="ident">SubfileType</span> <span class="number">255</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">Threshholding</span> <span class="number">263</span>; <span class="comment">// TODO add support</span>
-    <span class="ident">XResolution</span> <span class="number">282</span>;
-    <span class="ident">YResolution</span> <span class="number">283</span>;
+    <span class="ident">ColorMap</span> <span class="op">=</span> <span class="number">320</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">Compression</span> <span class="op">=</span> <span class="number">259</span>, <span class="comment">// TODO add support for 2 and 32773</span>
+    <span class="ident">Copyright</span> <span class="op">=</span> <span class="number">33_432</span>,
+    <span class="ident">DateTime</span> <span class="op">=</span> <span class="number">306</span>,
+    <span class="ident">ExtraSamples</span> <span class="op">=</span> <span class="number">338</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">FillOrder</span> <span class="op">=</span> <span class="number">266</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">FreeByteCounts</span> <span class="op">=</span> <span class="number">289</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">FreeOffsets</span> <span class="op">=</span> <span class="number">288</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">GrayResponseCurve</span> <span class="op">=</span> <span class="number">291</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">GrayResponseUnit</span> <span class="op">=</span> <span class="number">290</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">HostComputer</span> <span class="op">=</span> <span class="number">316</span>,
+    <span class="ident">ImageDescription</span> <span class="op">=</span> <span class="number">270</span>,
+    <span class="ident">ImageLength</span> <span class="op">=</span> <span class="number">257</span>,
+    <span class="ident">ImageWidth</span> <span class="op">=</span> <span class="number">256</span>,
+    <span class="ident">Make</span> <span class="op">=</span> <span class="number">271</span>,
+    <span class="ident">MaxSampleValue</span> <span class="op">=</span> <span class="number">281</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">MinSampleValue</span> <span class="op">=</span> <span class="number">280</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">Model</span> <span class="op">=</span> <span class="number">272</span>,
+    <span class="ident">NewSubfileType</span> <span class="op">=</span> <span class="number">254</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">Orientation</span> <span class="op">=</span> <span class="number">274</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">PhotometricInterpretation</span> <span class="op">=</span> <span class="number">262</span>,
+    <span class="ident">PlanarConfiguration</span> <span class="op">=</span> <span class="number">284</span>,
+    <span class="ident">ResolutionUnit</span> <span class="op">=</span> <span class="number">296</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">RowsPerStrip</span> <span class="op">=</span> <span class="number">278</span>,
+    <span class="ident">SamplesPerPixel</span> <span class="op">=</span> <span class="number">277</span>,
+    <span class="ident">Software</span> <span class="op">=</span> <span class="number">305</span>,
+    <span class="ident">StripByteCounts</span> <span class="op">=</span> <span class="number">279</span>,
+    <span class="ident">StripOffsets</span> <span class="op">=</span> <span class="number">273</span>,
+    <span class="ident">SubfileType</span> <span class="op">=</span> <span class="number">255</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">Threshholding</span> <span class="op">=</span> <span class="number">263</span>, <span class="comment">// TODO add support</span>
+    <span class="ident">XResolution</span> <span class="op">=</span> <span class="number">282</span>,
+    <span class="ident">YResolution</span> <span class="op">=</span> <span class="number">283</span>,
     <span class="comment">// Advanced tags</span>
-    <span class="ident">Predictor</span> <span class="number">317</span>;
+    <span class="ident">Predictor</span> <span class="op">=</span> <span class="number">317</span>,
+}
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">FromPrimitive</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+<span class="kw">impl</span> <span class="ident">Tag</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_u16</span>(<span class="ident">val</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">__from_inner_type</span>(<span class="ident">val</span>).<span class="ident">unwrap_or_else</span>(<span class="ident">Tag</span>::<span class="ident">Unknown</span>)
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_u16</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> {
+        <span class="self">Self</span>::<span class="ident">__to_inner_type</span>(<span class="self">self</span>)
+    }
+}
+
+<span class="macro">tags</span><span class="macro">!</span> {
+<span class="doccomment">/// The type of an IFD entry (a 2 byte field).</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span>(<span class="ident">u16</span>) {
     <span class="ident">BYTE</span> <span class="op">=</span> <span class="number">1</span>,
     <span class="ident">ASCII</span> <span class="op">=</span> <span class="number">2</span>,
     <span class="ident">SHORT</span> <span class="op">=</span> <span class="number">3</span>,
     <span class="ident">LONG</span> <span class="op">=</span> <span class="number">4</span>,
     <span class="ident">RATIONAL</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="ident">SBYTE</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="ident">SSHORT</span> <span class="op">=</span> <span class="number">8</span>,
+    <span class="ident">SLONG</span> <span class="op">=</span> <span class="number">9</span>,
+    <span class="ident">SRATIONAL</span> <span class="op">=</span> <span class="number">10</span>,
 }
+}
+
+<span class="kw">impl</span> <span class="ident">Type</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_u16</span>(<span class="ident">val</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="self">Self</span>::<span class="ident">__from_inner_type</span>(<span class="ident">val</span>).<span class="ident">ok</span>()
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_u16</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> {
+        <span class="self">Self</span>::<span class="ident">__to_inner_type</span>(<span class="self">self</span>)
+    }
+}
+
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_qualifications</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Value</span> {
-    <span class="comment">//Signed(i32),</span>
+    <span class="ident">Signed</span>(<span class="ident">i32</span>),
     <span class="ident">Unsigned</span>(<span class="ident">u32</span>),
     <span class="ident">List</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>),
     <span class="ident">Rational</span>(<span class="ident">u32</span>, <span class="ident">u32</span>),
+    <span class="ident">SRational</span>(<span class="ident">i32</span>, <span class="ident">i32</span>),
     <span class="ident">Ascii</span>(<span class="ident">String</span>),
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="comment">// Do not match against this.</span>
+    <span class="ident">__NonExhaustive</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Value</span> {
@@ -346,6 +535,16 @@
             )),
         }
     }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_i32</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TiffResult</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">Signed</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">val</span>),
+            <span class="ident">val</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">TiffError</span>::<span class="ident">FormatError</span>(
+                <span class="ident">TiffFormatError</span>::<span class="ident">SignedIntegerExpected</span>(<span class="ident">val</span>),
+            )),
+        }
+    }
+
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_u32_vec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TiffResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">List</span>(<span class="ident">vec</span>) <span class="op">=</span><span class="op">&gt;</span> {
@@ -358,6 +557,32 @@
             <span class="ident">Unsigned</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">val</span>]),
             <span class="ident">Rational</span>(<span class="ident">numerator</span>, <span class="ident">denominator</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">numerator</span>, <span class="ident">denominator</span>]),
             <span class="ident">Ascii</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">val</span>.<span class="ident">chars</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">u32</span>).<span class="ident">collect</span>()),
+            <span class="ident">val</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">TiffError</span>::<span class="ident">FormatError</span>(
+                <span class="ident">TiffFormatError</span>::<span class="ident">UnsignedIntegerExpected</span>(<span class="ident">val</span>),
+            )),
+        }
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_i32_vec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TiffResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">List</span>(<span class="ident">vec</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">vec</span>.<span class="ident">len</span>());
+                <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">vec</span> {
+                    <span class="kw">match</span> <span class="ident">v</span> {
+                        <span class="ident">SRational</span>(<span class="ident">numerator</span>, <span class="ident">denominator</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="ident">new_vec</span>.<span class="ident">push</span>(<span class="ident">numerator</span>);
+                            <span class="ident">new_vec</span>.<span class="ident">push</span>(<span class="ident">denominator</span>);
+                        }
+                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">new_vec</span>.<span class="ident">push</span>(<span class="ident">v</span>.<span class="ident">into_i32</span>()<span class="question-mark">?</span>)
+                    }
+                }
+                <span class="prelude-val">Ok</span>(<span class="ident">new_vec</span>)
+            }
+            <span class="ident">Signed</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">val</span>]),
+            <span class="ident">SRational</span>(<span class="ident">numerator</span>, <span class="ident">denominator</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">numerator</span>, <span class="ident">denominator</span>]),
+            <span class="ident">val</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">TiffError</span>::<span class="ident">FormatError</span>(
+                <span class="ident">TiffFormatError</span>::<span class="ident">SignedIntegerExpected</span>(<span class="ident">val</span>),
+            )),
         }
     }
 }
@@ -402,7 +627,21 @@
             <span class="comment">// TODO check if this could give wrong results</span>
             <span class="comment">// at a different endianess of file/computer.</span>
             (<span class="ident">Type</span>::<span class="ident">BYTE</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">offset</span>[<span class="number">0</span>]))),
+            (<span class="ident">Type</span>::<span class="ident">BYTE</span>, <span class="number">2</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset_to_bytes</span>(<span class="number">2</span>, <span class="self">self</span>),
+            (<span class="ident">Type</span>::<span class="ident">BYTE</span>, <span class="number">3</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset_to_bytes</span>(<span class="number">3</span>, <span class="self">self</span>),
+            (<span class="ident">Type</span>::<span class="ident">BYTE</span>, <span class="number">4</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset_to_bytes</span>(<span class="number">4</span>, <span class="self">self</span>),
+            (<span class="ident">Type</span>::<span class="ident">BYTE</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">decode_offset</span>(<span class="ident">n</span>, <span class="ident">bo</span>, <span class="ident">limits</span>, <span class="ident">decoder</span>, <span class="op">|</span><span class="ident">decoder</span><span class="op">|</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">decoder</span>.<span class="ident">read_byte</span>()<span class="question-mark">?</span>)))
+            }),
+            (<span class="ident">Type</span>::<span class="ident">SBYTE</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Signed</span>(<span class="ident">i32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">offset</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">i8</span>))),
+            (<span class="ident">Type</span>::<span class="ident">SBYTE</span>, <span class="number">2</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset_to_sbytes</span>(<span class="number">2</span>, <span class="self">self</span>),
+            (<span class="ident">Type</span>::<span class="ident">SBYTE</span>, <span class="number">3</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset_to_sbytes</span>(<span class="number">3</span>, <span class="self">self</span>),
+            (<span class="ident">Type</span>::<span class="ident">SBYTE</span>, <span class="number">4</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset_to_sbytes</span>(<span class="number">4</span>, <span class="self">self</span>),
+            (<span class="ident">Type</span>::<span class="ident">SBYTE</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">decode_offset</span>(<span class="ident">n</span>, <span class="ident">bo</span>, <span class="ident">limits</span>, <span class="ident">decoder</span>, <span class="op">|</span><span class="ident">decoder</span><span class="op">|</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">Signed</span>(<span class="ident">i32</span>::<span class="ident">from</span>(<span class="ident">decoder</span>.<span class="ident">read_byte</span>()<span class="question-mark">?</span> <span class="kw">as</span> <span class="ident">i8</span>)))
+            }),
             (<span class="ident">Type</span>::<span class="ident">SHORT</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u16</span>()<span class="question-mark">?</span>))),
+            (<span class="ident">Type</span>::<span class="ident">SSHORT</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Signed</span>(<span class="ident">i32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_i16</span>()<span class="question-mark">?</span>))),
             (<span class="ident">Type</span>::<span class="ident">SHORT</span>, <span class="number">2</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>);
                 <span class="prelude-val">Ok</span>(<span class="ident">List</span>(<span class="macro">vec</span><span class="macro">!</span>[
@@ -410,54 +649,57 @@
                     <span class="ident">Unsigned</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">r</span>.<span class="ident">read_u16</span>()<span class="question-mark">?</span>)),
                 ]))
             }
-            (<span class="ident">Type</span>::<span class="ident">SHORT</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">&gt;</span> <span class="ident">limits</span>.<span class="ident">decoding_buffer_size</span> <span class="op">/</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>() {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TiffError</span>::<span class="ident">LimitsExceeded</span>);
-                }
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>())));
-                <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n</span> {
-                    <span class="ident">v</span>.<span class="ident">push</span>(<span class="ident">Unsigned</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">decoder</span>.<span class="ident">read_short</span>()<span class="question-mark">?</span>)))
-                }
-                <span class="prelude-val">Ok</span>(<span class="ident">List</span>(<span class="ident">v</span>))
+            (<span class="ident">Type</span>::<span class="ident">SSHORT</span>, <span class="number">2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>);
+                <span class="prelude-val">Ok</span>(<span class="ident">List</span>(<span class="macro">vec</span><span class="macro">!</span>[
+                    <span class="ident">Signed</span>(<span class="ident">i32</span>::<span class="ident">from</span>(<span class="ident">r</span>.<span class="ident">read_i16</span>()<span class="question-mark">?</span>)),
+                    <span class="ident">Signed</span>(<span class="ident">i32</span>::<span class="ident">from</span>(<span class="ident">r</span>.<span class="ident">read_i16</span>()<span class="question-mark">?</span>)),
+                ]))
             }
-            (<span class="ident">Type</span>::<span class="ident">LONG</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>()))),
-            (<span class="ident">Type</span>::<span class="ident">LONG</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">&gt;</span> <span class="ident">limits</span>.<span class="ident">decoding_buffer_size</span> <span class="op">/</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>() {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TiffError</span>::<span class="ident">LimitsExceeded</span>);
-                }
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>())));
-                <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n</span> {
-                    <span class="ident">v</span>.<span class="ident">push</span>(<span class="ident">Unsigned</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_long</span>())))
-                }
-                <span class="prelude-val">Ok</span>(<span class="ident">List</span>(<span class="ident">v</span>))
-            }
+            (<span class="ident">Type</span>::<span class="ident">SHORT</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">decode_offset</span>(<span class="ident">n</span>, <span class="ident">bo</span>, <span class="ident">limits</span>, <span class="ident">decoder</span>, <span class="op">|</span><span class="ident">decoder</span><span class="op">|</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">decoder</span>.<span class="ident">read_short</span>()<span class="question-mark">?</span>)))
+            }),
+            (<span class="ident">Type</span>::<span class="ident">SSHORT</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">decode_offset</span>(<span class="ident">n</span>, <span class="ident">bo</span>, <span class="ident">limits</span>, <span class="ident">decoder</span>, <span class="op">|</span><span class="ident">decoder</span><span class="op">|</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">Signed</span>(<span class="ident">i32</span>::<span class="ident">from</span>(<span class="ident">decoder</span>.<span class="ident">read_sshort</span>()<span class="question-mark">?</span>)))
+            }),
+            (<span class="ident">Type</span>::<span class="ident">LONG</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>()<span class="question-mark">?</span>)),
+            (<span class="ident">Type</span>::<span class="ident">SLONG</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Signed</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_i32</span>()<span class="question-mark">?</span>)),
+            (<span class="ident">Type</span>::<span class="ident">LONG</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">decode_offset</span>(<span class="ident">n</span>, <span class="ident">bo</span>, <span class="ident">limits</span>, <span class="ident">decoder</span>, <span class="op">|</span><span class="ident">decoder</span><span class="op">|</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">Unsigned</span>(<span class="ident">decoder</span>.<span class="ident">read_long</span>()<span class="question-mark">?</span>))
+            }),
+            (<span class="ident">Type</span>::<span class="ident">SLONG</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">decode_offset</span>(<span class="ident">n</span>, <span class="ident">bo</span>, <span class="ident">limits</span>, <span class="ident">decoder</span>, <span class="op">|</span><span class="ident">decoder</span><span class="op">|</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">Signed</span>(<span class="ident">decoder</span>.<span class="ident">read_slong</span>()<span class="question-mark">?</span>))
+            }),
             (<span class="ident">Type</span>::<span class="ident">RATIONAL</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>())));
-                <span class="kw">let</span> <span class="ident">numerator</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_long</span>());
-                <span class="kw">let</span> <span class="ident">denominator</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_long</span>());
+                <span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>()<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">numerator</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">read_long</span>()<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">denominator</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">read_long</span>()<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(<span class="ident">Rational</span>(<span class="ident">numerator</span>, <span class="ident">denominator</span>))
             }
-            (<span class="ident">Type</span>::<span class="ident">RATIONAL</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">&gt;</span> <span class="ident">limits</span>.<span class="ident">decoding_buffer_size</span> <span class="op">/</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>() {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TiffError</span>::<span class="ident">LimitsExceeded</span>);
-                }
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>())));
-                <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n</span> {
-                    <span class="kw">let</span> <span class="ident">numerator</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_long</span>());
-                    <span class="kw">let</span> <span class="ident">denominator</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_long</span>());
-                    <span class="ident">v</span>.<span class="ident">push</span>(<span class="ident">Rational</span>(<span class="ident">numerator</span>, <span class="ident">denominator</span>))
-                }
-                <span class="prelude-val">Ok</span>(<span class="ident">List</span>(<span class="ident">v</span>))
+            (<span class="ident">Type</span>::<span class="ident">SRATIONAL</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>()<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">numerator</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">read_slong</span>()<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">denominator</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">read_slong</span>()<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(<span class="ident">SRational</span>(<span class="ident">numerator</span>, <span class="ident">denominator</span>))
             }
+            (<span class="ident">Type</span>::<span class="ident">RATIONAL</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">decode_offset</span>(<span class="ident">n</span>, <span class="ident">bo</span>, <span class="ident">limits</span>, <span class="ident">decoder</span>, <span class="op">|</span><span class="ident">decoder</span><span class="op">|</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">Rational</span>(
+                    <span class="ident">decoder</span>.<span class="ident">read_long</span>()<span class="question-mark">?</span>,
+                    <span class="ident">decoder</span>.<span class="ident">read_long</span>()<span class="question-mark">?</span>,
+                ))
+            }),
+            (<span class="ident">Type</span>::<span class="ident">SRATIONAL</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">decode_offset</span>(<span class="ident">n</span>, <span class="ident">bo</span>, <span class="ident">limits</span>, <span class="ident">decoder</span>, <span class="op">|</span><span class="ident">decoder</span><span class="op">|</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">SRational</span>(
+                    <span class="ident">decoder</span>.<span class="ident">read_slong</span>()<span class="question-mark">?</span>,
+                    <span class="ident">decoder</span>.<span class="ident">read_slong</span>()<span class="question-mark">?</span>,
+                ))
+            }),
             (<span class="ident">Type</span>::<span class="ident">ASCII</span>, <span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">&gt;</span> <span class="ident">limits</span>.<span class="ident">decoding_buffer_size</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TiffError</span>::<span class="ident">LimitsExceeded</span>);
                 }
-                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>())));
-                <span class="kw">let</span> <span class="ident">string</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decoder</span>.<span class="ident">read_string</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>));
+                <span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>()<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">string</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">read_string</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(<span class="ident">Ascii</span>(<span class="ident">string</span>))
             }
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">TiffError</span>::<span class="ident">UnsupportedError</span>(
@@ -465,6 +707,46 @@
             )),
         }
     }
+
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">decode_offset</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value_count</span>: <span class="ident">u32</span>, <span class="ident">bo</span>: <span class="ident">ByteOrder</span>, <span class="ident">limits</span>: <span class="kw-2">&amp;</span><span class="kw">super</span>::<span class="ident">Limits</span>, <span class="ident">decoder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">super</span>::<span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">decode_fn</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TiffResult</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span>,
+            <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">super</span>::<span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TiffResult</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
+    {
+        <span class="kw">if</span> <span class="ident">value_count</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">&gt;</span> <span class="ident">limits</span>.<span class="ident">decoding_buffer_size</span> <span class="op">/</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TiffError</span>::<span class="ident">LimitsExceeded</span>);
+        }
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">value_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
+        <span class="ident">decoder</span>.<span class="ident">goto_offset</span>(<span class="self">self</span>.<span class="ident">r</span>(<span class="ident">bo</span>).<span class="ident">read_u32</span>()<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">value_count</span> {
+            <span class="ident">v</span>.<span class="ident">push</span>(<span class="ident">decode_fn</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>)
+        }
+        <span class="prelude-val">Ok</span>(<span class="ident">List</span>(<span class="ident">v</span>))
+    }
+}
+
+<span class="doccomment">/// Extracts a list of BYTE tags stored in an offset</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">fn</span> <span class="ident">offset_to_bytes</span>(<span class="ident">n</span>: <span class="ident">usize</span>, <span class="ident">entry</span>: <span class="kw-2">&amp;</span><span class="ident">Entry</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TiffResult</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> {
+    <span class="prelude-val">Ok</span>(<span class="ident">List</span>(
+        <span class="ident">entry</span>.<span class="ident">offset</span>[<span class="number">0</span>..<span class="ident">n</span>]
+            .<span class="ident">iter</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Unsigned</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">e</span>)))
+            .<span class="ident">collect</span>()
+    ))
+}
+
+<span class="doccomment">/// Extracts a list of SBYTE tags stored in an offset</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">fn</span> <span class="ident">offset_to_sbytes</span>(<span class="ident">n</span>: <span class="ident">usize</span>, <span class="ident">entry</span>: <span class="kw-2">&amp;</span><span class="ident">Entry</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TiffResult</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> {
+    <span class="prelude-val">Ok</span>(<span class="ident">List</span>(
+        <span class="ident">entry</span>.<span class="ident">offset</span>[<span class="number">0</span>..<span class="ident">n</span>]
+            .<span class="ident">iter</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Signed</span>(<span class="ident">i32</span>::<span class="ident">from</span>(<span class="ident">e</span> <span class="kw">as</span> <span class="ident">i8</span>)))
+            .<span class="ident">collect</span>()
+    ))
 }
 
 <span class="doccomment">/// Type representing an Image File Directory</span>

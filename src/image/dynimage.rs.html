@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.5/./src/dynimage.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dynimage.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.23.2/./src/dynimage.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dynimage.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1037,38 +1037,155 @@
 <span id="1037">1037</span>
 <span id="1038">1038</span>
 <span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">num_iter</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">u32</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bmp&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">bmp</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;gif_codec&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">gif</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">bmp</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;gif&quot;</span>)]</span>
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">gif</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">ico</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ico</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;jpeg&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">jpeg</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png_codec&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">png</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">jpeg</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png&quot;</span>)]</span>
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">png</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;pnm&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">pnm</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">pnm</span>;
 
-<span class="kw">use</span> <span class="ident">buffer</span>::{
-    <span class="ident">BgrImage</span>, <span class="ident">BgraImage</span>, <span class="ident">ConvertBuffer</span>, <span class="ident">GrayAlphaImage</span>, <span class="ident">GrayImage</span>, <span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>, <span class="ident">RgbImage</span>,
-    <span class="ident">RgbaImage</span>,
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">buffer</span>::{
+    <span class="ident">BgrImage</span>, <span class="ident">BgraImage</span>, <span class="ident">ConvertBuffer</span>, <span class="ident">GrayAlphaImage</span>, <span class="ident">GrayAlpha16Image</span>,
+    <span class="ident">GrayImage</span>, <span class="ident">Gray16Image</span>, <span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>, <span class="ident">RgbImage</span>, <span class="ident">Rgb16Image</span>,
+    <span class="ident">RgbaImage</span>, <span class="ident">Rgba16Image</span>,
 };
-<span class="kw">use</span> <span class="ident">color</span>;
-<span class="kw">use</span> <span class="ident">flat</span>::<span class="ident">FlatSamples</span>;
-<span class="kw">use</span> <span class="ident">image</span>;
-<span class="kw">use</span> <span class="ident">image</span>::{
-    <span class="ident">GenericImage</span>, <span class="ident">GenericImageView</span>, <span class="ident">ImageDecoder</span>, <span class="ident">ImageFormat</span>, <span class="ident">ImageOutputFormat</span>, <span class="ident">ImageResult</span>,
-};
-<span class="kw">use</span> <span class="ident">io</span>::<span class="ident">free_functions</span>;
-<span class="kw">use</span> <span class="ident">imageops</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">color</span>::{<span class="self">self</span>, <span class="ident">IntoColor</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">ImageError</span>, <span class="ident">ImageResult</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">flat</span>::<span class="ident">FlatSamples</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">image</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">image</span>::{<span class="ident">GenericImage</span>, <span class="ident">GenericImageView</span>, <span class="ident">ImageDecoder</span>, <span class="ident">ImageFormat</span>, <span class="ident">ImageOutputFormat</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">io</span>::<span class="ident">free_functions</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">imageops</span>;
 
 <span class="doccomment">/// A Dynamic Image</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
@@ -1090,6 +1207,18 @@
 
     <span class="doccomment">/// Each pixel in this image is 8-bit Bgr with alpha</span>
     <span class="ident">ImageBgra8</span>(<span class="ident">BgraImage</span>),
+
+    <span class="doccomment">/// Each pixel in this image is 16-bit Luma</span>
+    <span class="ident">ImageLuma16</span>(<span class="ident">Gray16Image</span>),
+
+    <span class="doccomment">/// Each pixel in this image is 16-bit Luma with alpha</span>
+    <span class="ident">ImageLumaA16</span>(<span class="ident">GrayAlpha16Image</span>),
+
+    <span class="doccomment">/// Each pixel in this image is 16-bit Rgb</span>
+    <span class="ident">ImageRgb16</span>(<span class="ident">Rgb16Image</span>),
+
+    <span class="doccomment">/// Each pixel in this image is 16-bit Rgb with alpha</span>
+    <span class="ident">ImageRgba16</span>(<span class="ident">Rgba16Image</span>),
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">dynamic_map</span>(
@@ -1101,6 +1230,10 @@
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
                 }
         );
 
@@ -1112,6 +1245,10 @@
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>),
                 }
         );
 
@@ -1123,6 +1260,10 @@
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
                 }
         );
 
@@ -1134,6 +1275,10 @@
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
                         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
+                        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>,
                 }
         );
 );
@@ -1168,6 +1313,27 @@
     <span class="doccomment">/// Creates a dynamic image backed by a buffer of BGR pixels.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_bgr8</span>(<span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">w</span>, <span class="ident">h</span>))
+    }
+
+    <span class="doccomment">/// Creates a dynamic image backed by a buffer of grey pixels.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_luma16</span>(<span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">w</span>, <span class="ident">h</span>))
+    }
+
+    <span class="doccomment">/// Creates a dynamic image backed by a buffer of grey</span>
+    <span class="doccomment">/// pixels with transparency.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_luma_a16</span>(<span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">w</span>, <span class="ident">h</span>))
+    }
+
+    <span class="doccomment">/// Creates a dynamic image backed by a buffer of RGB pixels.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_rgb16</span>(<span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">w</span>, <span class="ident">h</span>))
+    }
+
+    <span class="doccomment">/// Creates a dynamic image backed by a buffer of RGBA pixels.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_rgba16</span>(<span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span> {
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="ident">w</span>, <span class="ident">h</span>))
     }
 
     <span class="doccomment">/// Decodes an encoded image into a dynamic image.</span>
@@ -1386,25 +1552,112 @@
         }
     }
 
-    <span class="doccomment">/// Return this image&#39;s pixels as a byte vector.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">raw_pixels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-        <span class="ident">image_to_bytes</span>(<span class="self">self</span>)
+    <span class="doccomment">/// Return a reference to an 16bit RGB image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_rgb16</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Rgb16Image</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
     }
 
-    <span class="doccomment">/// Return a view on the raw sample buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_flat_samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> {
-        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">as_flat_samples</span>())
+    <span class="doccomment">/// Return a mutable reference to an 16bit RGB image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_rgb16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Rgb16Image</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Return a reference to an 16bit RGBA image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_rgba16</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Rgba16Image</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Return a mutable reference to an 16bit RGBA image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_rgba16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Rgba16Image</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Return a reference to an 16bit Grayscale image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_luma16</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Gray16Image</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Return a mutable reference to an 16bit Grayscale image</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_luma16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Gray16Image</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Return a reference to an 16bit Grayscale image with an alpha channel</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_luma_alpha16</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">GrayAlpha16Image</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Return a mutable reference to an 16bit Grayscale image with an alpha channel</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_luma_alpha16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">GrayAlpha16Image</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Return a view on the raw sample buffer for 8 bit per channel images.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_flat_samples_u8</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Return a view on the raw sample buffer for 16 bit per channel images.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_flat_samples_u16</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">FlatSamples</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u16</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">as_flat_samples</span>()),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Return this image&#39;s pixels as a byte vector.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+        <span class="ident">image_to_bytes</span>(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Return this image&#39;s color type.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">color</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>),
-            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">8</span>),
-            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>),
-            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>),
-            <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">BGRA</span>(<span class="number">8</span>),
-            <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">BGR</span>(<span class="number">8</span>),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">L8</span>,
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">La8</span>,
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgb8</span>,
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgba8</span>,
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Bgra8</span>,
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Bgr8</span>,
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">L16</span>,
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">La16</span>,
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgb16</span>,
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgba16</span>,
         }
     }
 
@@ -1417,6 +1670,10 @@
             <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">imageops</span>::<span class="ident">grayscale</span>(<span class="ident">p</span>)),
             <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">imageops</span>::<span class="ident">grayscale</span>(<span class="ident">p</span>)),
             <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="ident">imageops</span>::<span class="ident">grayscale</span>(<span class="ident">p</span>)),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="ident">p</span>.<span class="ident">clone</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="ident">imageops</span>::<span class="ident">grayscale</span>(<span class="ident">p</span>)),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="ident">imageops</span>::<span class="ident">grayscale</span>(<span class="ident">p</span>)),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="ident">imageops</span>::<span class="ident">grayscale</span>(<span class="ident">p</span>)),
         }
     }
 
@@ -1577,24 +1834,24 @@
         <span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">W</span>,
         <span class="ident">format</span>: <span class="ident">F</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">raw_pixels</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">to_bytes</span>();
         <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dimensions</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">color</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">color</span>();
         <span class="kw">let</span> <span class="ident">format</span> <span class="op">=</span> <span class="ident">format</span>.<span class="ident">into</span>();
 
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
         <span class="kw">match</span> <span class="ident">format</span> {
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png_codec&quot;</span>)]</span>
-            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">PNG</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png&quot;</span>)]</span>
+            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">Png</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">png</span>::<span class="ident">PNGEncoder</span>::<span class="ident">new</span>(<span class="ident">w</span>);
                 <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
                     <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">to_rgba</span>().<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();
-                        <span class="ident">color</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>);
+                        <span class="ident">color</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgba8</span>;
                     }
                     <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">to_rgb</span>().<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();
-                        <span class="ident">color</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>);
+                        <span class="ident">color</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgb8</span>;
                     }
                     <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
                 }
@@ -1602,16 +1859,16 @@
                 <span class="prelude-val">Ok</span>(())
             }
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;pnm&quot;</span>)]</span>
-            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">PNM</span>(<span class="ident">subtype</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">Pnm</span>(<span class="ident">subtype</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">pnm</span>::<span class="ident">PNMEncoder</span>::<span class="ident">new</span>(<span class="ident">w</span>).<span class="ident">with_subtype</span>(<span class="ident">subtype</span>);
                 <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
                     <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">to_rgba</span>().<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();
-                        <span class="ident">color</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>);
+                        <span class="ident">color</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgba8</span>;
                     }
                     <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">to_rgb</span>().<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();
-                        <span class="ident">color</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>);
+                        <span class="ident">color</span> <span class="op">=</span> <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgb8</span>;
                     }
                     <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
                 }
@@ -1619,27 +1876,22 @@
                 <span class="prelude-val">Ok</span>(())
             }
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;jpeg&quot;</span>)]</span>
-            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">JPEG</span>(<span class="ident">quality</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">Jpeg</span>(<span class="ident">quality</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">j</span> <span class="op">=</span> <span class="ident">jpeg</span>::<span class="ident">JPEGEncoder</span>::<span class="ident">new_with_quality</span>(<span class="ident">w</span>, <span class="ident">quality</span>);
 
                 <span class="ident">j</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }
 
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;gif_codec&quot;</span>)]</span>
-            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">GIF</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;gif&quot;</span>)]</span>
+            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">Gif</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">g</span> <span class="op">=</span> <span class="ident">gif</span>::<span class="ident">Encoder</span>::<span class="ident">new</span>(<span class="ident">w</span>);
-
-                <span class="ident">g</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">gif</span>::<span class="ident">Frame</span>::<span class="ident">from_rgba</span>(
-                    <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>,
-                    <span class="ident">height</span> <span class="kw">as</span> <span class="ident">u16</span>,
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">to_rgba</span>().<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>(),
-                ))<span class="question-mark">?</span>;
+                <span class="ident">g</span>.<span class="ident">encode_frame</span>(<span class="kw">crate</span>::<span class="ident">animation</span>::<span class="ident">Frame</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">to_rgba</span>()))<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }
 
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ico&quot;</span>)]</span>
-            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">ICO</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">Ico</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">ico</span>::<span class="ident">ICOEncoder</span>::<span class="ident">new</span>(<span class="ident">w</span>);
 
                 <span class="ident">i</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>)<span class="question-mark">?</span>;
@@ -1647,22 +1899,24 @@
             }
 
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bmp&quot;</span>)]</span>
-            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">BMP</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">Bmp</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">bmp</span>::<span class="ident">BMPEncoder</span>::<span class="ident">new</span>(<span class="ident">w</span>);
                 <span class="ident">b</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">color</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }
 
             <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">Unsupported</span>(<span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="ident">msg</span>))
-            }
+                <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="ident">msg</span>))
+            },
+
+            <span class="ident">image</span>::<span class="ident">ImageOutputFormat</span>::<span class="ident">__NonExhaustive</span>(<span class="ident">marker</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">marker</span>.<span class="ident">_private</span> {},
         }
     }
 
     <span class="doccomment">/// Saves the buffer to a file at the path specified.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The image format is derived from the file extension.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save</span><span class="op">&lt;</span><span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">Q</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save</span><span class="op">&lt;</span><span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">Q</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Q</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
     {
@@ -1676,7 +1930,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [`save_buffer_with_format`](fn.save_buffer_with_format.html) for</span>
     <span class="doccomment">/// supported types.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_with_format</span><span class="op">&lt;</span><span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">Q</span>, <span class="ident">format</span>: <span class="ident">ImageFormat</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_with_format</span><span class="op">&lt;</span><span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">Q</span>, <span class="ident">format</span>: <span class="ident">ImageFormat</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Q</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
     {
@@ -1700,7 +1954,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">get_pixel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u32</span>, <span class="ident">y</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">Rgba</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">to_rgba</span>())
+        <span class="macro">dynamic_map</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">ref</span> <span class="ident">p</span> <span class="op">-</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">to_rgba</span>().<span class="ident">into_color</span>())
     }
 
     <span class="kw">fn</span> <span class="ident">inner</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">InnerImageView</span> {
@@ -1720,6 +1974,10 @@
             <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>),
             <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_bgr</span>()),
             <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_bgra</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_luma</span>().<span class="ident">into_color</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_luma_alpha</span>().<span class="ident">into_color</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_rgb</span>().<span class="ident">into_color</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">put_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">into_color</span>()),
         }
     }
     <span class="doccomment">/// DEPRECATED: Use iterator `pixels_mut` to blend the pixels directly.</span>
@@ -1729,9 +1987,12 @@
             <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_luma_alpha</span>()),
             <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_rgb</span>()),
             <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>),
-
             <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_bgr</span>()),
             <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_bgra</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_luma</span>().<span class="ident">into_color</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_luma_alpha</span>().<span class="ident">into_color</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">to_rgb</span>().<span class="ident">into_color</span>()),
+            <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">p</span>.<span class="ident">blend_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">pixel</span>.<span class="ident">into_color</span>()),
         }
     }
 
@@ -1745,71 +2006,72 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">decoder_to_image</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>: <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">codec</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">DynamicImage</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">color</span> <span class="op">=</span> <span class="ident">codec</span>.<span class="ident">colortype</span>();
-    <span class="kw">let</span> (<span class="ident">w</span>, <span class="ident">h</span>) <span class="op">=</span> <span class="ident">codec</span>.<span class="ident">dimensions</span>();
-    <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">codec</span>.<span class="ident">read_image</span>()<span class="question-mark">?</span>;
+<span class="doccomment">/// Decodes an image and stores it into a dynamic image</span>
+<span class="kw">fn</span> <span class="ident">decoder_to_image</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>: <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">decoder</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">DynamicImage</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> (<span class="ident">w</span>, <span class="ident">h</span>) <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">dimensions</span>();
+    <span class="kw">let</span> <span class="ident">color_type</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">color_type</span>();
 
-    <span class="comment">// TODO: Avoid this cast by having ImageBuffer use u64&#39;s</span>
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">w</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">u32</span>::<span class="ident">max_value</span>()));
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">h</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">u32</span>::<span class="ident">max_value</span>()));
-    <span class="kw">let</span> (<span class="ident">w</span>, <span class="ident">h</span>) <span class="op">=</span> (<span class="ident">w</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">h</span> <span class="kw">as</span> <span class="ident">u32</span>);
+    <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">color_type</span> {
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgb8</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>)
+        }
 
-    <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">color</span> {
-        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>),
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgba8</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>)
+        }
 
-        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageRgba8</span>),
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Bgr8</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>)
+        }
 
-        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">BGR</span>(<span class="number">8</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>),
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Bgra8</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>)
+        }
 
-        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">BGRA</span>(<span class="number">8</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>),
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">L8</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>)
+        }
 
-        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">8</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>),
-
-        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">GrayA</span>(<span class="number">8</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">La8</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
             <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA8</span>)
         }
-        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="ident">bit_depth</span>) <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="op">|</span><span class="op">|</span> <span class="ident">bit_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span> <span class="op">|</span><span class="op">|</span> <span class="ident">bit_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="ident">gray_to_luma8</span>(<span class="ident">bit_depth</span>, <span class="ident">w</span>, <span class="ident">h</span>, <span class="kw-2">&amp;</span><span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>)
+
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgb16</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>)
         }
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">color</span>)),
+
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgba16</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>)
+        }
+
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">L16</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>)
+        }
+        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">La16</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
+            <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">buf</span>).<span class="ident">map</span>(<span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>)
+        }
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">color_type</span>.<span class="ident">into</span>())),
     };
     <span class="kw">match</span> <span class="ident">image</span> {
         <span class="prelude-val">Some</span>(<span class="ident">image</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">image</span>),
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">image</span>::<span class="ident">ImageError</span>::<span class="ident">DimensionError</span>),
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">DimensionError</span>),
     }
-}
-
-<span class="kw">fn</span> <span class="ident">gray_to_luma8</span>(<span class="ident">bit_depth</span>: <span class="ident">u8</span>, <span class="ident">w</span>: <span class="ident">u32</span>, <span class="ident">h</span>: <span class="ident">u32</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">GrayImage</span><span class="op">&gt;</span> {
-    <span class="comment">// Note: this conversion assumes that the scanlines begin on byte boundaries</span>
-    <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1u8</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> <span class="number">1</span>;
-    <span class="kw">let</span> <span class="ident">scaling_factor</span> <span class="op">=</span> <span class="number">255</span> <span class="op">/</span> ((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> <span class="number">1</span>);
-    <span class="kw">let</span> <span class="ident">bit_width</span> <span class="op">=</span> <span class="ident">w</span> <span class="op">*</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">bit_depth</span>);
-    <span class="kw">let</span> <span class="ident">skip</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">bit_width</span> <span class="op">%</span> <span class="number">8</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
-        <span class="number">0</span>
-    } <span class="kw">else</span> {
-        (<span class="number">8</span> <span class="op">-</span> <span class="ident">bit_width</span> <span class="op">%</span> <span class="number">8</span>) <span class="op">/</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">bit_depth</span>)
-    };
-    <span class="kw">let</span> <span class="ident">row_len</span> <span class="op">=</span> <span class="ident">w</span> <span class="op">+</span> <span class="ident">skip</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">buf</span> {
-        <span class="kw">for</span> <span class="ident">shift</span> <span class="kw">in</span> <span class="ident">num_iter</span>::<span class="ident">range_step_inclusive</span>(<span class="number">8i8</span> <span class="op">-</span> (<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">i8</span>), <span class="number">0</span>, <span class="op">-</span>(<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">i8</span>))
-        {
-            <span class="comment">// skip the pixels that can be neglected because scanlines should</span>
-            <span class="comment">// start at byte boundaries</span>
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> (<span class="ident">row_len</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&lt;</span> (<span class="ident">w</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-                <span class="kw">let</span> <span class="ident">pixel</span> <span class="op">=</span> (<span class="ident">v</span> <span class="op">&amp;</span> <span class="ident">mask</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">shift</span> <span class="kw">as</span> <span class="ident">usize</span>;
-                <span class="ident">p</span>.<span class="ident">push</span>(<span class="ident">pixel</span> <span class="op">*</span> <span class="ident">scaling_factor</span>);
-            }
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-        }
-    }
-    <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">p</span>)
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
 <span class="kw">fn</span> <span class="ident">image_to_bytes</span>(<span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">DynamicImage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">traits</span>::<span class="ident">EncodableLayout</span>;
+
     <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">image</span> {
         <span class="comment">// TODO: consider transmuting</span>
         <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma8</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>(),
@@ -1823,6 +2085,14 @@
         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgr8</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>(),
 
         <span class="ident">DynamicImage</span>::<span class="ident">ImageBgra8</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>(),
+
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageLuma16</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>(),
+
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageLumaA16</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>(),
+
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgb16</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>(),
+
+        <span class="ident">DynamicImage</span>::<span class="ident">ImageRgba16</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>(),
     }
 }
 
@@ -1869,7 +2139,7 @@
     <span class="ident">width</span>: <span class="ident">u32</span>,
     <span class="ident">height</span>: <span class="ident">u32</span>,
     <span class="ident">color</span>: <span class="ident">color</span>::<span class="ident">ColorType</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
 {
@@ -1892,7 +2162,7 @@
     <span class="ident">height</span>: <span class="ident">u32</span>,
     <span class="ident">color</span>: <span class="ident">color</span>::<span class="ident">ColorType</span>,
     <span class="ident">format</span>: <span class="ident">ImageFormat</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
 {
@@ -1976,7 +2246,7 @@
     <span class="attribute">#[<span class="ident">bench</span>]</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;benchmarks&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">bench_conversion</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test</span>::<span class="ident">Bencher</span>) {
-        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(::<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="number">1000</span>, <span class="number">1000</span>));
+        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">DynamicImage</span>::<span class="ident">ImageRgb8</span>(<span class="kw">crate</span>::<span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="number">1000</span>, <span class="number">1000</span>));
         <span class="ident">b</span>.<span class="ident">iter</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">to_luma</span>());
         <span class="ident">b</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="number">1000</span> <span class="op">*</span> <span class="number">1000</span> <span class="op">*</span> <span class="number">3</span>
     }
@@ -2027,54 +2297,20 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="number">100</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
-    <span class="kw">fn</span> <span class="ident">gray_to_luma8_skip</span>() {
-        <span class="kw">let</span> <span class="ident">check</span> <span class="op">=</span> <span class="op">|</span><span class="ident">bit_depth</span>, <span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">from</span>, <span class="ident">to</span><span class="op">|</span> {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(
-                <span class="kw">super</span>::<span class="ident">gray_to_luma8</span>(<span class="ident">bit_depth</span>, <span class="ident">w</span>, <span class="ident">h</span>, <span class="ident">from</span>).<span class="ident">map</span>(<span class="kw">super</span>::<span class="ident">GrayImage</span>::<span class="ident">into_raw</span>),
-                <span class="prelude-val">Some</span>(<span class="ident">to</span>)
-            );
-        };
-        <span class="comment">// Bit depth 1, skip is more than half a byte</span>
-        <span class="ident">check</span>(
-            <span class="number">1</span>,
-            <span class="number">10</span>,
-            <span class="number">2</span>,
-            <span class="kw-2">&amp;</span>[<span class="number">0b11110000</span>, <span class="number">0b11000000</span>, <span class="number">0b00001111</span>, <span class="number">0b11000000</span>],
-            <span class="macro">vec</span><span class="macro">!</span>[
-                <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>,   <span class="number">0</span>,
-                  <span class="number">0</span>,   <span class="number">0</span>,   <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>,
-                  <span class="number">0</span>,   <span class="number">0</span>,   <span class="number">0</span>,   <span class="number">0</span>, <span class="number">255</span>,
-                <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>,
-            ],
-        );
-        <span class="comment">// Bit depth 2, skip is more than half a byte</span>
-        <span class="ident">check</span>(
-            <span class="number">2</span>,
-            <span class="number">5</span>,
-            <span class="number">2</span>,
-            <span class="kw-2">&amp;</span>[<span class="number">0b11110000</span>, <span class="number">0b11000000</span>, <span class="number">0b00001111</span>, <span class="number">0b11000000</span>],
-            <span class="macro">vec</span><span class="macro">!</span>[<span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>],
-        );
-        <span class="comment">// Bit depth 2, skip is 0</span>
-        <span class="ident">check</span>(
-            <span class="number">2</span>,
-            <span class="number">4</span>,
-            <span class="number">2</span>,
-            <span class="kw-2">&amp;</span>[<span class="number">0b11110000</span>, <span class="number">0b00001111</span>],
-            <span class="macro">vec</span><span class="macro">!</span>[<span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>],
-        );
-        <span class="comment">// Bit depth 4, skip is half a byte</span>
-        <span class="ident">check</span>(<span class="number">4</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="kw-2">&amp;</span>[<span class="number">0b11110011</span>, <span class="number">0b00001100</span>], <span class="macro">vec</span><span class="macro">!</span>[<span class="number">255</span>, <span class="number">0</span>]);
-    }
-
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;jpeg&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">image_dimensions</span>() {
         <span class="kw">let</span> <span class="ident">im_path</span> <span class="op">=</span> <span class="string">&quot;./tests/images/jpg/progressive/cat.jpg&quot;</span>;
         <span class="kw">let</span> <span class="ident">dims</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">image_dimensions</span>(<span class="ident">im_path</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dims</span>, (<span class="number">320</span>, <span class="number">240</span>));
+    }
+
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;png&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">open_16bpc_png</span>() {
+        <span class="kw">let</span> <span class="ident">im_path</span> <span class="op">=</span> <span class="string">&quot;./tests/images/png/16bpc/basn6a16.png&quot;</span>;
+        <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">open</span>(<span class="ident">im_path</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">image</span>.<span class="ident">color</span>(), <span class="kw">super</span>::<span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">Rgba16</span>);
     }
 }
 </pre></div>

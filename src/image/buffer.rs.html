@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.5/./src/buffer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>buffer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.23.2/./src/buffer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>buffer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1336,21 +1336,31 @@
 <span id="1336">1336</span>
 <span id="1337">1337</span>
 <span id="1338">1338</span>
+<span id="1339">1339</span>
+<span id="1340">1340</span>
+<span id="1341">1341</span>
+<span id="1342">1342</span>
+<span id="1343">1343</span>
+<span id="1344">1344</span>
+<span id="1345">1345</span>
+<span id="1346">1346</span>
+<span id="1347">1347</span>
+<span id="1348">1348</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">num_traits</span>::<span class="ident">Zero</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>, <span class="ident">Index</span>, <span class="ident">IndexMut</span>, <span class="ident">Range</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">slice</span>::{<span class="ident">Chunks</span>, <span class="ident">ChunksMut</span>};
 
-<span class="kw">use</span> <span class="ident">color</span>::{<span class="ident">ColorType</span>, <span class="ident">FromColor</span>, <span class="ident">Luma</span>, <span class="ident">LumaA</span>, <span class="ident">Rgb</span>, <span class="ident">Rgba</span>, <span class="ident">Bgr</span>, <span class="ident">Bgra</span>};
-<span class="kw">use</span> <span class="ident">flat</span>::{<span class="ident">FlatSamples</span>, <span class="ident">SampleLayout</span>};
-<span class="kw">use</span> <span class="ident">dynimage</span>::{<span class="ident">save_buffer</span>, <span class="ident">save_buffer_with_format</span>};
-<span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">GenericImage</span>, <span class="ident">GenericImageView</span>, <span class="ident">ImageFormat</span>};
-<span class="kw">use</span> <span class="ident">math</span>::<span class="ident">Rect</span>;
-<span class="kw">use</span> <span class="ident">traits</span>::<span class="ident">Primitive</span>;
-<span class="kw">use</span> <span class="ident">utils</span>::<span class="ident">expand_packed</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">color</span>::{<span class="ident">ColorType</span>, <span class="ident">FromColor</span>, <span class="ident">Luma</span>, <span class="ident">LumaA</span>, <span class="ident">Rgb</span>, <span class="ident">Rgba</span>, <span class="ident">Bgr</span>, <span class="ident">Bgra</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">flat</span>::{<span class="ident">FlatSamples</span>, <span class="ident">SampleLayout</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">dynimage</span>::{<span class="ident">save_buffer</span>, <span class="ident">save_buffer_with_format</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">ImageResult</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">image</span>::{<span class="ident">GenericImage</span>, <span class="ident">GenericImageView</span>, <span class="ident">ImageFormat</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">math</span>::<span class="ident">Rect</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">traits</span>::{<span class="ident">EncodableLayout</span>, <span class="ident">Primitive</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">utils</span>::<span class="ident">expand_packed</span>;
 
 <span class="doccomment">/// A generalized pixel.</span>
 <span class="doccomment">///</span>
@@ -2086,21 +2096,22 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Container</span><span class="op">&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Container</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">u8</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">Container</span>: <span class="ident">Deref</span><span class="op">&lt;</span><span class="ident">Target</span> <span class="op">=</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
+    <span class="ident">P</span>: <span class="ident">Pixel</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    [<span class="ident">P</span>::<span class="ident">Subpixel</span>]: <span class="ident">EncodableLayout</span>,
+    <span class="ident">Container</span>: <span class="ident">Deref</span><span class="op">&lt;</span><span class="ident">Target</span> <span class="op">=</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>,
 {
     <span class="doccomment">/// Saves the buffer to a file at the path specified.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The image format is derived from the file extension.</span>
     <span class="doccomment">/// Currently only jpeg and png files are supported.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save</span><span class="op">&lt;</span><span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">Q</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save</span><span class="op">&lt;</span><span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">Q</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Q</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
     {
         <span class="comment">// This is valid as the subpixel is u8.</span>
         <span class="ident">save_buffer</span>(
             <span class="ident">path</span>,
-            <span class="self">self</span>,
+            <span class="self">self</span>.<span class="ident">as_bytes</span>(),
             <span class="self">self</span>.<span class="ident">width</span>(),
             <span class="self">self</span>.<span class="ident">height</span>(),
             <span class="op">&lt;</span><span class="ident">P</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">COLOR_TYPE</span>,
@@ -2110,22 +2121,23 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Container</span><span class="op">&gt;</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Container</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">P</span>: <span class="ident">Pixel</span><span class="op">&lt;</span><span class="ident">Subpixel</span> <span class="op">=</span> <span class="ident">u8</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">Container</span>: <span class="ident">Deref</span><span class="op">&lt;</span><span class="ident">Target</span> <span class="op">=</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
+    <span class="ident">P</span>: <span class="ident">Pixel</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    [<span class="ident">P</span>::<span class="ident">Subpixel</span>]: <span class="ident">EncodableLayout</span>,
+    <span class="ident">Container</span>: <span class="ident">Deref</span><span class="op">&lt;</span><span class="ident">Target</span> <span class="op">=</span> [<span class="ident">P</span>::<span class="ident">Subpixel</span>]<span class="op">&gt;</span>,
 {
     <span class="doccomment">/// Saves the buffer to a file at the specified path in</span>
     <span class="doccomment">/// the specified format.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [`save_buffer_with_format`](fn.save_buffer_with_format.html) for</span>
     <span class="doccomment">/// supported types.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_with_format</span><span class="op">&lt;</span><span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">Q</span>, <span class="ident">format</span>: <span class="ident">ImageFormat</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_with_format</span><span class="op">&lt;</span><span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">Q</span>, <span class="ident">format</span>: <span class="ident">ImageFormat</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Q</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
     {
         <span class="comment">// This is valid as the subpixel is u8.</span>
         <span class="ident">save_buffer_with_format</span>(
             <span class="ident">path</span>,
-            <span class="self">self</span>,
+            <span class="self">self</span>.<span class="ident">as_bytes</span>(),
             <span class="self">self</span>.<span class="ident">width</span>(),
             <span class="self">self</span>.<span class="ident">height</span>(),
             <span class="op">&lt;</span><span class="ident">P</span> <span class="kw">as</span> <span class="ident">Pixel</span><span class="op">&gt;</span>::<span class="ident">COLOR_TYPE</span>,
@@ -2467,14 +2479,22 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type</span> <span class="ident">BgrImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Bgr</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 <span class="doccomment">/// Sendable Bgr + alpha channel image buffer</span>
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type</span> <span class="ident">BgraImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Bgra</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="doccomment">/// Sendable 16-bit Rgb image buffer</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type</span> <span class="ident">Rgb16Image</span> <span class="op">=</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Rgb</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="doccomment">/// Sendable 16-bit Rgb + alpha channel image buffer</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type</span> <span class="ident">Rgba16Image</span> <span class="op">=</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Rgba</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="doccomment">/// Sendable 16-bit grayscale image buffer</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type</span> <span class="ident">Gray16Image</span> <span class="op">=</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">Luma</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="doccomment">/// Sendable 16-bit grayscale + alpha channel image buffer</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type</span> <span class="ident">GrayAlpha16Image</span> <span class="op">=</span> <span class="ident">ImageBuffer</span><span class="op">&lt;</span><span class="ident">LumaA</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">test</span> {
 
-    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">RgbImage</span>, <span class="ident">GrayImage</span>};
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">GenericImage</span>;
-    <span class="kw">use</span> <span class="ident">color</span>;
-    <span class="kw">use</span> <span class="ident">math</span>::<span class="ident">Rect</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">GrayImage</span>, <span class="ident">ImageBuffer</span>, <span class="ident">RgbImage</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">image</span>::<span class="ident">GenericImage</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">color</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">math</span>::<span class="ident">Rect</span>;
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;benchmarks&quot;</span>)]</span>
     <span class="kw">use</span> <span class="ident">test</span>;
 
@@ -2509,9 +2529,9 @@
     <span class="attribute">#[<span class="ident">bench</span>]</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;benchmarks&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">bench_conversion</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test</span>::<span class="ident">Bencher</span>) {
-        <span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ConvertBuffer</span>, <span class="ident">GrayImage</span>, <span class="ident">Pixel</span>};
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">buffer</span>::{<span class="ident">ConvertBuffer</span>, <span class="ident">GrayImage</span>, <span class="ident">Pixel</span>};
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span>: <span class="ident">RgbImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="number">1000</span>, <span class="number">1000</span>);
-        <span class="kw">for</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="kw">in</span> <span class="ident">a</span>.<span class="ident">pixels_mut</span>() {
+        <span class="kw">for</span> <span class="ident">p</span> <span class="kw">in</span> <span class="ident">a</span>.<span class="ident">pixels_mut</span>() {
             <span class="kw">let</span> <span class="ident">rgb</span> <span class="op">=</span> <span class="ident">p</span>.<span class="ident">channels_mut</span>();
             <span class="ident">rgb</span>[<span class="number">0</span>] <span class="op">=</span> <span class="number">255</span>;
             <span class="ident">rgb</span>[<span class="number">1</span>] <span class="op">=</span> <span class="number">23</span>;
@@ -2530,10 +2550,10 @@
     <span class="attribute">#[<span class="ident">bench</span>]</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;benchmarks&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">bench_image_access_row_by_row</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test</span>::<span class="ident">Bencher</span>) {
-        <span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span>: <span class="ident">RgbImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="number">1000</span>, <span class="number">1000</span>);
-        <span class="kw">for</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="kw">in</span> <span class="ident">a</span>.<span class="ident">pixels_mut</span>() {
+        <span class="kw">for</span> <span class="ident">p</span> <span class="kw">in</span> <span class="ident">a</span>.<span class="ident">pixels_mut</span>() {
             <span class="kw">let</span> <span class="ident">rgb</span> <span class="op">=</span> <span class="ident">p</span>.<span class="ident">channels_mut</span>();
             <span class="ident">rgb</span>[<span class="number">0</span>] <span class="op">=</span> <span class="number">255</span>;
             <span class="ident">rgb</span>[<span class="number">1</span>] <span class="op">=</span> <span class="number">23</span>;
@@ -2560,10 +2580,10 @@
     <span class="attribute">#[<span class="ident">bench</span>]</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;benchmarks&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">bench_image_access_col_by_col</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test</span>::<span class="ident">Bencher</span>) {
-        <span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span>: <span class="ident">RgbImage</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">new</span>(<span class="number">1000</span>, <span class="number">1000</span>);
-        <span class="kw">for</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="kw">in</span> <span class="ident">a</span>.<span class="ident">pixels_mut</span>() {
+        <span class="kw">for</span> <span class="ident">p</span> <span class="kw">in</span> <span class="ident">a</span>.<span class="ident">pixels_mut</span>() {
             <span class="kw">let</span> <span class="ident">rgb</span> <span class="op">=</span> <span class="ident">p</span>.<span class="ident">channels_mut</span>();
             <span class="ident">rgb</span>[<span class="number">0</span>] <span class="op">=</span> <span class="number">255</span>;
             <span class="ident">rgb</span>[<span class="number">1</span>] <span class="op">=</span> <span class="number">23</span>;

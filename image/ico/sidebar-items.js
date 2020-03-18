@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ICODecoder","An ico decoder"],["ICOEncoder","ICO encoder"]]});
+initSidebarItems({"struct":[["ICOEncoder","ICO encoder"],["IcoDecoder","An ico decoder"]]});

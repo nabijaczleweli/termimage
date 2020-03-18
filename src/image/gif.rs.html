@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.5/./src/gif.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>gif.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.23.2/./src/gif.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>gif.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -365,6 +365,66 @@
 <span id="365">365</span>
 <span id="366">366</span>
 <span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//!  Decoding of GIF Images</span>
 <span class="doccomment">//!</span>
@@ -375,13 +435,13 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Examples</span>
 <span class="doccomment">//! ```rust,no_run</span>
-<span class="doccomment">//! use image::gif::{Decoder, Encoder};</span>
+<span class="doccomment">//! use image::gif::{GifDecoder, Encoder};</span>
 <span class="doccomment">//! use image::{ImageDecoder, AnimationDecoder};</span>
 <span class="doccomment">//! use std::fs::File;</span>
 <span class="doccomment">//! # fn main() -&gt; std::io::Result&lt;()&gt; {</span>
 <span class="doccomment">//! // Decode a gif into frames</span>
 <span class="doccomment">//! let file_in = File::open(&quot;foo.gif&quot;)?;</span>
-<span class="doccomment">//! let mut decoder = Decoder::new(file_in).unwrap();</span>
+<span class="doccomment">//! let mut decoder = GifDecoder::new(file_in).unwrap();</span>
 <span class="doccomment">//! let frames = decoder.into_frames();</span>
 <span class="doccomment">//! let frames = frames.collect_frames().expect(&quot;error decoding gif&quot;);</span>
 <span class="doccomment">//!</span>
@@ -394,38 +454,37 @@
 <span class="doccomment">//! ```</span>
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">while_let_loop</span>)]</span>
 
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">gif</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_rational</span>;
-
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">clone</span>::<span class="ident">Clone</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryInto</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">min</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Cursor</span>, <span class="ident">Read</span>, <span class="ident">Write</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">gif</span>::{<span class="ident">ColorOutput</span>, <span class="ident">SetParameter</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">gif</span>::{<span class="ident">DisposalMethod</span>, <span class="ident">Frame</span>};
-
-<span class="kw">use</span> <span class="ident">animation</span>;
-<span class="kw">use</span> <span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
-<span class="kw">use</span> <span class="ident">color</span>;
-<span class="kw">use</span> <span class="ident">color</span>::<span class="ident">Rgba</span>;
-<span class="kw">use</span> <span class="ident">image</span>::{<span class="ident">AnimationDecoder</span>, <span class="ident">ImageDecoder</span>, <span class="ident">ImageError</span>, <span class="ident">ImageResult</span>};
+<span class="kw">use</span> <span class="ident">gif</span>::{<span class="ident">ColorOutput</span>, <span class="ident">SetParameter</span>};
+<span class="kw">use</span> <span class="ident">gif</span>::{<span class="ident">DisposalMethod</span>, <span class="ident">Frame</span>};
 <span class="kw">use</span> <span class="ident">num_rational</span>::<span class="ident">Ratio</span>;
 
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">animation</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">buffer</span>::{<span class="ident">ImageBuffer</span>, <span class="ident">Pixel</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">color</span>::{<span class="ident">ColorType</span>, <span class="ident">Rgba</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">ImageError</span>, <span class="ident">ImageResult</span>, <span class="ident">ParameterError</span>, <span class="ident">ParameterErrorKind</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">image</span>::{<span class="self">self</span>, <span class="ident">AnimationDecoder</span>, <span class="ident">ImageDecoder</span>};
+
 <span class="doccomment">/// GIF decoder</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GifDecoder</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> {
     <span class="ident">reader</span>: <span class="ident">gif</span>::<span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">GifDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a new decoder that decodes the input steam ```r```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">GifDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">gif</span>::<span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">r</span>);
         <span class="ident">decoder</span>.<span class="ident">set</span>(<span class="ident">ColorOutput</span>::<span class="ident">RGBA</span>);
 
-        <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span> {
-            <span class="ident">reader</span>: <span class="ident">decoder</span>.<span class="ident">read_info</span>()<span class="question-mark">?</span>,
+        <span class="prelude-val">Ok</span>(<span class="ident">GifDecoder</span> {
+            <span class="ident">reader</span>: <span class="ident">decoder</span>.<span class="ident">read_info</span>().<span class="ident">map_err</span>(<span class="ident">ImageError</span>::<span class="ident">from_gif</span>)<span class="question-mark">?</span>,
         })
     }
 }
@@ -446,47 +505,69 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">R</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">R</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">ImageDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">GifDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Reader</span> <span class="op">=</span> <span class="ident">GifReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u64</span>, <span class="ident">u64</span>) {
-        (<span class="ident">u64</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">width</span>()), <span class="ident">u64</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">height</span>()))
+    <span class="kw">fn</span> <span class="ident">dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
+        (<span class="ident">u32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">width</span>()), <span class="ident">u32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">height</span>()))
     }
 
-    <span class="kw">fn</span> <span class="ident">colortype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">color</span>::<span class="ident">ColorType</span> {
-        <span class="ident">color</span>::<span class="ident">ColorType</span>::<span class="ident">RGBA</span>(<span class="number">8</span>)
+    <span class="kw">fn</span> <span class="ident">color_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ColorType</span> {
+        <span class="ident">ColorType</span>::<span class="ident">Rgba8</span>
     }
 
     <span class="kw">fn</span> <span class="ident">into_reader</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Reader</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">GifReader</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">read_image</span>()<span class="question-mark">?</span>), <span class="ident">PhantomData</span>))
+        <span class="prelude-val">Ok</span>(<span class="ident">GifReader</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">image</span>::<span class="ident">decoder_to_vec</span>(<span class="self">self</span>)<span class="question-mark">?</span>), <span class="ident">PhantomData</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">read_image</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_image</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">u64</span>::<span class="ident">try_from</span>(<span class="ident">buf</span>.<span class="ident">len</span>()), <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">total_bytes</span>()));
+
         <span class="kw">let</span> (<span class="ident">f_width</span>, <span class="ident">f_height</span>, <span class="ident">left</span>, <span class="ident">top</span>);
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">frame</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">next_frame_info</span>()<span class="question-mark">?</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">frame</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">next_frame_info</span>().<span class="ident">map_err</span>(<span class="ident">ImageError</span>::<span class="ident">from_gif</span>)<span class="question-mark">?</span> {
             <span class="ident">left</span> <span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">frame</span>.<span class="ident">left</span>);
             <span class="ident">top</span> <span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">frame</span>.<span class="ident">top</span>);
             <span class="ident">f_width</span> <span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">frame</span>.<span class="ident">width</span>);
             <span class="ident">f_height</span> <span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">frame</span>.<span class="ident">height</span>);
         } <span class="kw">else</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">ImageEnd</span>);
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">Parameter</span>(
+                <span class="ident">ParameterError</span>::<span class="ident">from_kind</span>(<span class="ident">ParameterErrorKind</span>::<span class="ident">NoMoreData</span>)
+            ));
         }
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">buffer_size</span>()];
-        <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_into_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_into_buffer</span>(<span class="ident">buf</span>).<span class="ident">map_err</span>(<span class="ident">ImageError</span>::<span class="ident">from_gif</span>)<span class="question-mark">?</span>;
 
-        <span class="comment">// See the comments inside `&lt;GifFrameIterator as Iterator&gt;::next` about</span>
-        <span class="comment">// the error handling of `from_raw`.</span>
-        <span class="kw">let</span> <span class="ident">image_buffer_raw</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">f_width</span>, <span class="ident">f_height</span>, <span class="ident">buf</span>).<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span>
-            <span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="string">&quot;Image dimensions are too large&quot;</span>.<span class="ident">into</span>())
-        )<span class="question-mark">?</span>;
-
-        <span class="comment">// Recover the full image</span>
         <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> (<span class="ident">u32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">width</span>()), <span class="ident">u32</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">height</span>()));
-        <span class="kw">let</span> <span class="ident">image_buffer</span> <span class="op">=</span> <span class="ident">full_image_from_frame</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">image_buffer_raw</span>, <span class="ident">left</span>, <span class="ident">top</span>);
+        <span class="kw">if</span> (<span class="ident">left</span>, <span class="ident">top</span>) <span class="op">!</span><span class="op">=</span> (<span class="number">0</span>, <span class="number">0</span>) <span class="op">|</span><span class="op">|</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">!</span><span class="op">=</span> (<span class="ident">f_width</span>, <span class="ident">f_height</span>) {
+            <span class="comment">// This is somewhat of an annoying case. The image we read into `buf` doesn&#39;t take up</span>
+            <span class="comment">// the whole buffer and now we need to properly insert borders. For simplicity this code</span>
+            <span class="comment">// currently takes advantage of the `ImageBuffer::from_fn` function to make a second</span>
+            <span class="comment">// ImageBuffer that is properly positioned, and then copies it back into `buf`.</span>
+            <span class="comment">//</span>
+            <span class="comment">// TODO: Implement this without any allocation.</span>
 
-        <span class="prelude-val">Ok</span>(<span class="ident">image_buffer</span>.<span class="ident">into_raw</span>())
+            <span class="comment">// Recover the full image</span>
+            <span class="kw">let</span> <span class="ident">image_buffer</span> <span class="op">=</span> {
+                <span class="comment">// See the comments inside `&lt;GifFrameIterator as Iterator&gt;::next` about</span>
+                <span class="comment">// the error handling of `from_raw`.</span>
+                <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">ImageBuffer</span>::<span class="ident">from_raw</span>(<span class="ident">f_width</span>, <span class="ident">f_height</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">buf</span>).<span class="ident">ok_or_else</span>(
+                    <span class="op">|</span><span class="op">|</span> <span class="ident">ImageError</span>::<span class="ident">UnsupportedError</span>(<span class="string">&quot;Image dimensions are too large&quot;</span>.<span class="ident">into</span>())
+                )<span class="question-mark">?</span>;
+
+                <span class="ident">ImageBuffer</span>::<span class="ident">from_fn</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="op">|</span><span class="ident">x</span>, <span class="ident">y</span><span class="op">|</span> {
+                    <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">x</span>.<span class="ident">wrapping_sub</span>(<span class="ident">left</span>);
+                    <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> <span class="ident">y</span>.<span class="ident">wrapping_sub</span>(<span class="ident">top</span>);
+                    <span class="kw">if</span> <span class="ident">x</span> <span class="op">&lt;</span> <span class="ident">image</span>.<span class="ident">width</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">image</span>.<span class="ident">height</span>() {
+                        <span class="kw-2">*</span><span class="ident">image</span>.<span class="ident">get_pixel</span>(<span class="ident">x</span>, <span class="ident">y</span>)
+                    } <span class="kw">else</span> {
+                        <span class="ident">Rgba</span>([<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>])
+                    }
+                })
+            };
+            <span class="ident">buf</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">image_buffer</span>.<span class="ident">into_raw</span>());
+        }
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
@@ -501,7 +582,7 @@
 
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">GifFrameIterator</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">decoder</span>: <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GifFrameIterator</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">decoder</span>: <span class="ident">GifDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GifFrameIterator</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">dimensions</span>();
 
         <span class="comment">// TODO: Avoid this cast</span>
@@ -538,19 +619,19 @@
                     <span class="ident">f_height</span> <span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">frame</span>.<span class="ident">height</span>);
 
                     <span class="comment">// frame.delay is in units of 10ms so frame.delay*10 is in ms</span>
-                    <span class="ident">delay</span> <span class="op">=</span> <span class="ident">Ratio</span>::<span class="ident">new</span>(<span class="ident">frame</span>.<span class="ident">delay</span> <span class="op">*</span> <span class="number">10</span>, <span class="number">1</span>);
+                    <span class="ident">delay</span> <span class="op">=</span> <span class="ident">Ratio</span>::<span class="ident">new</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">frame</span>.<span class="ident">delay</span>) <span class="op">*</span> <span class="number">10</span>, <span class="number">1</span>);
                     <span class="ident">dispose</span> <span class="op">=</span> <span class="ident">frame</span>.<span class="ident">dispose</span>;
                 } <span class="kw">else</span> {
                     <span class="comment">// no more frames</span>
                     <span class="kw">return</span> <span class="prelude-val">None</span>;
                 }
             },
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>.<span class="ident">into</span>())),
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">from_gif</span>(<span class="ident">err</span>))),
         }
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vec</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">buffer_size</span>()];
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">read_into_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">vec</span>) {
-            <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>.<span class="ident">into</span>()));
+            <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">from_gif</span>(<span class="ident">err</span>)));
         }
 
         <span class="comment">// create the image buffer from the raw frame.</span>
@@ -593,7 +674,7 @@
         }
 
         <span class="kw">let</span> <span class="ident">frame</span> <span class="op">=</span> <span class="ident">animation</span>::<span class="ident">Frame</span>::<span class="ident">from_parts</span>(
-            <span class="ident">image_buffer</span>.<span class="ident">clone</span>(), <span class="number">0</span>, <span class="number">0</span>, <span class="ident">delay</span>
+            <span class="ident">image_buffer</span>.<span class="ident">clone</span>(), <span class="number">0</span>, <span class="number">0</span>, <span class="ident">animation</span>::<span class="ident">Delay</span>::<span class="ident">from_ratio</span>(<span class="ident">delay</span>),
         );
 
         <span class="kw">match</span> <span class="ident">dispose</span> {
@@ -650,7 +731,7 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">AnimationDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">AnimationDecoder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">GifDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">into_frames</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">animation</span>::<span class="ident">Frames</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="ident">animation</span>::<span class="ident">Frames</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">GifFrameIterator</span>::<span class="ident">new</span>(<span class="self">self</span>)))
     }
@@ -670,18 +751,29 @@
             <span class="ident">gif_encoder</span>: <span class="prelude-val">None</span>,
         }
     }
-    <span class="doccomment">/// Encodes a frame.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">frame</span>: <span class="kw-2">&amp;</span><span class="ident">Frame</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">result</span>;
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">encoder</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">gif_encoder</span> {
-            <span class="ident">result</span> <span class="op">=</span> <span class="ident">encoder</span>.<span class="ident">write_frame</span>(<span class="ident">frame</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">err</span>.<span class="ident">into</span>());
-        } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">writer</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">w</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>();
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">encoder</span> <span class="op">=</span> <span class="ident">gif</span>::<span class="ident">Encoder</span>::<span class="ident">new</span>(<span class="ident">writer</span>, <span class="ident">frame</span>.<span class="ident">width</span>, <span class="ident">frame</span>.<span class="ident">height</span>, <span class="kw-2">&amp;</span>[])<span class="question-mark">?</span>;
-            <span class="ident">result</span> <span class="op">=</span> <span class="ident">encoder</span>.<span class="ident">write_frame</span>(<span class="kw-2">&amp;</span><span class="ident">frame</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">err</span>.<span class="ident">into</span>());
-            <span class="self">self</span>.<span class="ident">gif_encoder</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">encoder</span>);
+
+    <span class="doccomment">/// Encode a single image.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
+        <span class="ident">width</span>: <span class="ident">u32</span>,
+        <span class="ident">height</span>: <span class="ident">u32</span>,
+        <span class="ident">color</span>: <span class="ident">ColorType</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">gif_dimensions</span>(<span class="ident">width</span>, <span class="ident">height</span>)<span class="question-mark">?</span>;
+        <span class="kw">match</span> <span class="ident">color</span> {
+            <span class="ident">ColorType</span>::<span class="ident">Rgb8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">encode_gif</span>(<span class="ident">Frame</span>::<span class="ident">from_rgb</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">data</span>)),
+            <span class="ident">ColorType</span>::<span class="ident">Rgba8</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="self">self</span>.<span class="ident">encode_gif</span>(<span class="ident">Frame</span>::<span class="ident">from_rgb</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data</span>.<span class="ident">to_owned</span>()))
+            },
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ImageError</span>::<span class="ident">UnsupportedColor</span>(<span class="ident">color</span>.<span class="ident">into</span>())),
         }
-        <span class="ident">result</span>
+    }
+
+    <span class="doccomment">/// Encode one frame of animation.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">img_frame</span>: <span class="ident">animation</span>::<span class="ident">Frame</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">frame</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">convert_frame</span>(<span class="ident">img_frame</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">encode_gif</span>(<span class="ident">frame</span>)
     }
 
     <span class="doccomment">/// Encodes Frames.</span>
@@ -691,7 +783,7 @@
         <span class="ident">F</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">animation</span>::<span class="ident">Frame</span><span class="op">&gt;</span>
     {
         <span class="kw">for</span> <span class="ident">img_frame</span> <span class="kw">in</span> <span class="ident">frames</span> {
-            <span class="self">self</span>.<span class="ident">encode_single_frame</span>(<span class="ident">img_frame</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">encode_frame</span>(<span class="ident">img_frame</span>)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(())
     }
@@ -704,29 +796,57 @@
         <span class="ident">F</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">animation</span>::<span class="ident">Frame</span><span class="op">&gt;</span><span class="op">&gt;</span>
     {
         <span class="kw">for</span> <span class="ident">img_frame</span> <span class="kw">in</span> <span class="ident">frames</span> {
-            <span class="self">self</span>.<span class="ident">encode_single_frame</span>(<span class="ident">img_frame</span><span class="question-mark">?</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">encode_frame</span>(<span class="ident">img_frame</span><span class="question-mark">?</span>)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">encode_single_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">img_frame</span>: <span class="ident">animation</span>::<span class="ident">Frame</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">convert_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">img_frame</span>: <span class="ident">animation</span>::<span class="ident">Frame</span>)
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    {
         <span class="comment">// get the delay before converting img_frame</span>
-        <span class="kw">let</span> <span class="ident">frame_delay</span> <span class="op">=</span> <span class="ident">img_frame</span>.<span class="ident">delay</span>().<span class="ident">to_integer</span>();
+        <span class="kw">let</span> <span class="ident">frame_delay</span> <span class="op">=</span> <span class="ident">img_frame</span>.<span class="ident">delay</span>().<span class="ident">into_ratio</span>().<span class="ident">to_integer</span>();
         <span class="comment">// convert img_frame into RgbaImage</span>
-        <span class="kw">let</span> <span class="ident">rbga_frame</span> <span class="op">=</span> <span class="ident">img_frame</span>.<span class="ident">into_buffer</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rbga_frame</span> <span class="op">=</span> <span class="ident">img_frame</span>.<span class="ident">into_buffer</span>();
+        <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">gif_dimensions</span>(
+            <span class="ident">rbga_frame</span>.<span class="ident">width</span>(),
+            <span class="ident">rbga_frame</span>.<span class="ident">height</span>())<span class="question-mark">?</span>;
 
         <span class="comment">// Create the gif::Frame from the animation::Frame</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">frame</span> <span class="op">=</span> <span class="ident">Frame</span>::<span class="ident">from_rgba</span>(<span class="ident">rbga_frame</span>.<span class="ident">width</span>() <span class="kw">as</span> <span class="ident">u16</span>, <span class="ident">rbga_frame</span>.<span class="ident">height</span>() <span class="kw">as</span> <span class="ident">u16</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">rbga_frame</span>.<span class="ident">into_raw</span>());
-        <span class="ident">frame</span>.<span class="ident">delay</span> <span class="op">=</span> <span class="ident">frame_delay</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">frame</span> <span class="op">=</span> <span class="ident">Frame</span>::<span class="ident">from_rgba</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">rbga_frame</span>);
+        <span class="ident">frame</span>.<span class="ident">delay</span> <span class="op">=</span> (<span class="ident">frame_delay</span> <span class="op">/</span> <span class="number">10</span>).<span class="ident">try_into</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span><span class="ident">ImageError</span>::<span class="ident">DimensionError</span>)<span class="question-mark">?</span>;
 
-        <span class="comment">// encode the gif::Frame</span>
-        <span class="self">self</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">frame</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">frame</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">gif_dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>(<span class="ident">u16</span>, <span class="ident">u16</span>)<span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">inner_dimensions</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u16</span>, <span class="ident">u16</span>)<span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">u16</span>::<span class="ident">try_from</span>(<span class="ident">width</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="ident">u16</span>::<span class="ident">try_from</span>(<span class="ident">height</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+            <span class="prelude-val">Some</span>((<span class="ident">width</span>, <span class="ident">height</span>))
+        }
+
+        <span class="ident">inner_dimensions</span>(<span class="ident">width</span>, <span class="ident">height</span>).<span class="ident">ok_or</span>(<span class="ident">ImageError</span>::<span class="ident">DimensionError</span>)
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">encode_gif</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">frame</span>: <span class="ident">Frame</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">gif_encoder</span>;
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">encoder</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">gif_encoder</span> {
+            <span class="ident">gif_encoder</span> <span class="op">=</span> <span class="ident">encoder</span>;
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="ident">writer</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">w</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">encoder</span> <span class="op">=</span> <span class="ident">gif</span>::<span class="ident">Encoder</span>::<span class="ident">new</span>(<span class="ident">writer</span>, <span class="ident">frame</span>.<span class="ident">width</span>, <span class="ident">frame</span>.<span class="ident">height</span>, <span class="kw-2">&amp;</span>[])<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">gif_encoder</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">encoder</span>);
+            <span class="ident">gif_encoder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">gif_encoder</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>()
+        }
+
+        <span class="ident">gif_encoder</span>.<span class="ident">write_frame</span>(<span class="kw-2">&amp;</span><span class="ident">frame</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">err</span>.<span class="ident">into</span>())
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">gif</span>::<span class="ident">DecodingError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ImageError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">gif</span>::<span class="ident">DecodingError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageError</span> {
-        <span class="kw">use</span> <span class="self">self</span>::<span class="ident">gif</span>::<span class="ident">DecodingError</span>::<span class="kw-2">*</span>;
+<span class="kw">impl</span> <span class="ident">ImageError</span> {
+    <span class="kw">fn</span> <span class="ident">from_gif</span>(<span class="ident">err</span>: <span class="ident">gif</span>::<span class="ident">DecodingError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageError</span> {
+        <span class="kw">use</span> <span class="ident">gif</span>::<span class="ident">DecodingError</span>::<span class="kw-2">*</span>;
         <span class="kw">match</span> <span class="ident">err</span> {
             <span class="ident">Format</span>(<span class="ident">desc</span>) <span class="op">|</span> <span class="ident">Internal</span>(<span class="ident">desc</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageError</span>::<span class="ident">FormatError</span>(<span class="ident">desc</span>.<span class="ident">into</span>()),
             <span class="ident">Io</span>(<span class="ident">io_err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ImageError</span>::<span class="ident">IoError</span>(<span class="ident">io_err</span>),

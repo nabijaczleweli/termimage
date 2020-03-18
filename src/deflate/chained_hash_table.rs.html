@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.7.20/src/chained_hash_table.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>chained_hash_table.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.8.3/src/chained_hash_table.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>chained_hash_table.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -349,8 +349,6 @@
 <span id="349">349</span>
 <span id="350">350</span>
 <span id="351">351</span>
-<span id="352">352</span>
-<span id="353">353</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">WINDOW_SIZE</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">32768</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">WINDOW_MASK</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">WINDOW_SIZE</span> <span class="op">-</span> <span class="number">1</span>;
@@ -371,8 +369,8 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Tables</span> {
         <span class="ident">Tables</span> {
-            <span class="ident">head</span>: [<span class="number">0</span>;<span class="ident">WINDOW_SIZE</span>],
-            <span class="ident">prev</span>: [<span class="number">0</span>;<span class="ident">WINDOW_SIZE</span>],
+            <span class="ident">head</span>: [<span class="number">0</span>; <span class="ident">WINDOW_SIZE</span>],
+            <span class="ident">prev</span>: [<span class="number">0</span>; <span class="ident">WINDOW_SIZE</span>],
         }
     }
 }
@@ -412,7 +410,7 @@
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">fn</span> <span class="ident">update_hash_conf</span>(<span class="ident">current_hash</span>: <span class="ident">u16</span>, <span class="ident">to_insert</span>: <span class="ident">u8</span>, <span class="ident">shift</span>: <span class="ident">u16</span>, <span class="ident">mask</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> {
-    ((<span class="ident">current_hash</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>) <span class="op">^</span> (<span class="ident">to_insert</span> <span class="kw">as</span> <span class="ident">u16</span>)) <span class="op">&amp;</span> <span class="ident">mask</span>
+    ((<span class="ident">current_hash</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>) <span class="op">^</span> (<span class="ident">u16</span>::<span class="ident">from</span>(<span class="ident">to_insert</span>))) <span class="op">&amp;</span> <span class="ident">mask</span>
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -534,12 +532,10 @@
         <span class="kw">let</span> <span class="ident">to_check</span> <span class="op">=</span> <span class="ident">match_len</span>.<span class="ident">saturating_sub</span>(<span class="number">2</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">smallest_prev</span> <span class="op">=</span>
-            <span class="self">self</span>.<span class="ident">get_prev</span>(<span class="ident">match_pos</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">smallest_prev</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_prev</span>(<span class="ident">match_pos</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">smallest_pos</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">while</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="ident">to_check</span> {
-            <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span>
-                <span class="self">self</span>.<span class="ident">get_prev</span>(<span class="ident">match_pos</span> <span class="op">+</span> <span class="ident">n</span>);
+            <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_prev</span>(<span class="ident">match_pos</span> <span class="op">+</span> <span class="ident">n</span>);
             <span class="kw">if</span> <span class="ident">prev</span> <span class="op">&lt;</span> <span class="ident">smallest_prev</span> {
                 <span class="ident">smallest_prev</span> <span class="op">=</span> <span class="ident">prev</span>;
                 <span class="ident">smallest_pos</span> <span class="op">=</span> <span class="ident">n</span>;

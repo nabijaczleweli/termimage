@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.22.5/./src/pnm/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.23.2/./src/pnm/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../image/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -144,6 +144,9 @@
 <span id="144">144</span>
 <span id="145">145</span>
 <span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Decoding of netpbm image formats (pbm, pgm, ppm and pam).</span>
 <span class="doccomment">//!</span>
@@ -151,7 +154,7 @@
 <span class="doccomment">//! `BLACKANDWHITE`, `GRAYSCALE` and `RGB` and explicitely recognizes but rejects their `_ALPHA`</span>
 <span class="doccomment">//! variants for now as alpha color types are unsupported.</span>
 <span class="kw">use</span> <span class="self">self</span>::<span class="ident">autobreak</span>::<span class="ident">AutoBreak</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">decoder</span>::<span class="ident">PNMDecoder</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">decoder</span>::<span class="ident">PnmDecoder</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">encoder</span>::<span class="ident">PNMEncoder</span>;
 <span class="kw">use</span> <span class="self">self</span>::<span class="ident">header</span>::<span class="ident">HeaderRecord</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">header</span>::{<span class="ident">ArbitraryHeader</span>, <span class="ident">ArbitraryTuplType</span>, <span class="ident">BitmapHeader</span>, <span class="ident">GraymapHeader</span>,
@@ -167,8 +170,8 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">ByteOrder</span>, <span class="ident">NativeEndian</span>};
-    <span class="kw">use</span> <span class="ident">color</span>::<span class="ident">ColorType</span>;
-    <span class="kw">use</span> <span class="ident">image</span>::<span class="ident">ImageDecoder</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">color</span>::<span class="ident">ColorType</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">image</span>::<span class="ident">ImageDecoder</span>;
 
     <span class="kw">fn</span> <span class="ident">execute_roundtrip_default</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">color</span>: <span class="ident">ColorType</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">encoded_buffer</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
@@ -181,11 +184,12 @@
         }
 
         <span class="kw">let</span> (<span class="ident">header</span>, <span class="ident">loaded_color</span>, <span class="ident">loaded_image</span>) <span class="op">=</span> {
-            <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">PNMDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>();
-            <span class="kw">let</span> <span class="ident">colortype</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">colortype</span>();
-            <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">read_image</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed to decode the image&quot;</span>);
-            <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">header</span>) <span class="op">=</span> <span class="ident">PNMDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>().<span class="ident">into_inner</span>();
-            (<span class="ident">header</span>, <span class="ident">colortype</span>, <span class="ident">image</span>)
+            <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">PnmDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">color_type</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">color_type</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">decoder</span>.<span class="ident">total_bytes</span>() <span class="kw">as</span> <span class="ident">usize</span>];
+            <span class="ident">decoder</span>.<span class="ident">read_image</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">image</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to decode the image&quot;</span>);
+            <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">header</span>) <span class="op">=</span> <span class="ident">PnmDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>().<span class="ident">into_inner</span>();
+            (<span class="ident">header</span>, <span class="ident">color_type</span>, <span class="ident">image</span>)
         };
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">header</span>.<span class="ident">width</span>(), <span class="ident">width</span>);
@@ -211,11 +215,12 @@
         }
 
         <span class="kw">let</span> (<span class="ident">header</span>, <span class="ident">loaded_color</span>, <span class="ident">loaded_image</span>) <span class="op">=</span> {
-            <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">PNMDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>();
-            <span class="kw">let</span> <span class="ident">colortype</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">colortype</span>();
-            <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">read_image</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed to decode the image&quot;</span>);
-            <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">header</span>) <span class="op">=</span> <span class="ident">PNMDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>().<span class="ident">into_inner</span>();
-            (<span class="ident">header</span>, <span class="ident">colortype</span>, <span class="ident">image</span>)
+            <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">PnmDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">color_type</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">color_type</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">decoder</span>.<span class="ident">total_bytes</span>() <span class="kw">as</span> <span class="ident">usize</span>];
+            <span class="ident">decoder</span>.<span class="ident">read_image</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">image</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to decode the image&quot;</span>);
+            <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">header</span>) <span class="op">=</span> <span class="ident">PnmDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>().<span class="ident">into_inner</span>();
+            (<span class="ident">header</span>, <span class="ident">color_type</span>, <span class="ident">image</span>)
         };
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">header</span>.<span class="ident">width</span>(), <span class="ident">width</span>);
@@ -236,11 +241,12 @@
         }
 
         <span class="kw">let</span> (<span class="ident">header</span>, <span class="ident">loaded_color</span>, <span class="ident">loaded_image</span>) <span class="op">=</span> {
-            <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">PNMDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>();
-            <span class="kw">let</span> <span class="ident">colortype</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">colortype</span>();
-            <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">read_image</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed to decode the image&quot;</span>);
-            <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">header</span>) <span class="op">=</span> <span class="ident">PNMDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>().<span class="ident">into_inner</span>();
-            (<span class="ident">header</span>, <span class="ident">colortype</span>, <span class="ident">image</span>)
+            <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">PnmDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">color_type</span> <span class="op">=</span> <span class="ident">decoder</span>.<span class="ident">color_type</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">decoder</span>.<span class="ident">total_bytes</span>() <span class="kw">as</span> <span class="ident">usize</span>];
+            <span class="ident">decoder</span>.<span class="ident">read_image</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">image</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to decode the image&quot;</span>);
+            <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">header</span>) <span class="op">=</span> <span class="ident">PnmDecoder</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">encoded_buffer</span>[..]).<span class="ident">unwrap</span>().<span class="ident">into_inner</span>();
+            (<span class="ident">header</span>, <span class="ident">color_type</span>, <span class="ident">image</span>)
         };
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer_u8</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">*</span> <span class="number">2</span>];
@@ -266,20 +272,20 @@
             <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>,
             <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>,
         ];
-        <span class="ident">execute_roundtrip_default</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>));
-        <span class="ident">execute_roundtrip_with_subtype</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>), <span class="ident">PNMSubtype</span>::<span class="ident">ArbitraryMap</span>);
+        <span class="ident">execute_roundtrip_default</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="ident">ColorType</span>::<span class="ident">Rgb8</span>);
+        <span class="ident">execute_roundtrip_with_subtype</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="ident">ColorType</span>::<span class="ident">Rgb8</span>, <span class="ident">PNMSubtype</span>::<span class="ident">ArbitraryMap</span>);
         <span class="ident">execute_roundtrip_with_subtype</span>(
             <span class="kw-2">&amp;</span><span class="ident">buf</span>,
             <span class="number">3</span>,
             <span class="number">3</span>,
-            <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>),
+            <span class="ident">ColorType</span>::<span class="ident">Rgb8</span>,
             <span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Binary</span>),
         );
         <span class="ident">execute_roundtrip_with_subtype</span>(
             <span class="kw-2">&amp;</span><span class="ident">buf</span>,
             <span class="number">3</span>,
             <span class="number">3</span>,
-            <span class="ident">ColorType</span>::<span class="ident">RGB</span>(<span class="number">8</span>),
+            <span class="ident">ColorType</span>::<span class="ident">Rgb8</span>,
             <span class="ident">PNMSubtype</span>::<span class="ident">Pixmap</span>(<span class="ident">SampleEncoding</span>::<span class="ident">Ascii</span>),
         );
     }
@@ -288,7 +294,7 @@
     <span class="kw">fn</span> <span class="ident">roundtrip_u16</span>() {
         <span class="kw">let</span> <span class="ident">buf</span>: [<span class="ident">u16</span>; <span class="number">6</span>] <span class="op">=</span> [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0xFFFF</span>, <span class="number">0x1234</span>, <span class="number">0x3412</span>, <span class="number">0xBEAF</span>];
 
-        <span class="ident">execute_roundtrip_u16</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="ident">ColorType</span>::<span class="ident">Gray</span>(<span class="number">16</span>));
+        <span class="ident">execute_roundtrip_u16</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="ident">ColorType</span>::<span class="ident">L16</span>);
     }
 }
 </pre></div>

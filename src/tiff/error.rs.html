@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/tiff-0.3.1/src/error.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>error.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tiff/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/tiff-0.4.0/src/error.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>error.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tiff/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -156,6 +156,54 @@
 <span id="156">156</span>
 <span id="157">157</span>
 <span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -164,24 +212,32 @@
 
 <span class="kw">use</span> <span class="ident">decoder</span>::<span class="ident">ifd</span>::{<span class="ident">Tag</span>, <span class="ident">Value</span>};
 <span class="kw">use</span> <span class="ident">decoder</span>::{<span class="ident">CompressionMethod</span>, <span class="ident">PhotometricInterpretation</span>, <span class="ident">PlanarConfiguration</span>};
+<span class="kw">use</span> <span class="ident">miniz_oxide</span>::<span class="ident">inflate</span>::<span class="ident">TINFLStatus</span>;
 <span class="kw">use</span> <span class="ident">ColorType</span>;
 
 <span class="doccomment">/// Tiff error kinds.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TiffError</span> {
-    <span class="doccomment">/// The Image is not formatted properly</span>
+    <span class="doccomment">/// The Image is not formatted properly.</span>
     <span class="ident">FormatError</span>(<span class="ident">TiffFormatError</span>),
 
-    <span class="doccomment">/// The Decoder does not support this image format</span>
+    <span class="doccomment">/// The Decoder does not support features required by the image.</span>
     <span class="ident">UnsupportedError</span>(<span class="ident">TiffUnsupportedError</span>),
 
-    <span class="doccomment">/// An I/O Error occurred while decoding the image</span>
+    <span class="doccomment">/// An I/O Error occurred while decoding the image.</span>
     <span class="ident">IoError</span>(<span class="ident">io</span>::<span class="ident">Error</span>),
 
-    <span class="doccomment">/// The Limits of the Decoder is exceeded,</span>
+    <span class="doccomment">/// The Limits of the Decoder is exceeded.</span>
     <span class="ident">LimitsExceeded</span>,
 }
 
+<span class="doccomment">/// The image is not formatted properly.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This indicates that the encoder producing the image might behave incorrectly or that the input</span>
+<span class="doccomment">/// file has been corrupted.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The list of variants may grow to incorporate errors of future features. Matching against this</span>
+<span class="doccomment">/// exhaustively is not covered by interface stability guarantees.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TiffFormatError</span> {
     <span class="ident">TiffSignatureNotFound</span>,
@@ -192,6 +248,11 @@
     <span class="ident">RequiredTagNotFound</span>(<span class="ident">Tag</span>),
     <span class="ident">UnknownPredictor</span>(<span class="ident">u32</span>),
     <span class="ident">UnsignedIntegerExpected</span>(<span class="ident">Value</span>),
+    <span class="ident">SignedIntegerExpected</span>(<span class="ident">Value</span>),
+    <span class="ident">InflateError</span>(<span class="ident">InflateError</span>),
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+    <span class="doccomment">/// Do not match against this variant. It may get removed.</span>
+    <span class="ident">__NonExhaustive</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">TiffFormatError</span> {
@@ -210,10 +271,41 @@
             <span class="ident">UnsignedIntegerExpected</span>(<span class="kw-2">ref</span> <span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Expected unsigned integer, {:?} found.&quot;</span>, <span class="ident">val</span>)
             }
+            <span class="ident">SignedIntegerExpected</span>(<span class="kw-2">ref</span> <span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Expected signed integer, {:?} found.&quot;</span>, <span class="ident">val</span>)
+            }
+            <span class="ident">InflateError</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to decode inflate data.&quot;</span>),
+            <span class="ident">__NonExhaustive</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }
     }
 }
 
+<span class="doccomment">/// Decompression failed due to faulty compressed data.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InflateError</span> {
+    <span class="ident">status</span>: <span class="ident">TINFLStatus</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">InflateError</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">status</span>: <span class="ident">TINFLStatus</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">status</span> }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">TiffError</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">from_inflate_status</span>(<span class="ident">status</span>: <span class="ident">TINFLStatus</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="ident">TiffError</span>::<span class="ident">FormatError</span>(<span class="ident">TiffFormatError</span>::<span class="ident">InflateError</span>(<span class="ident">InflateError</span>::<span class="ident">new</span>(<span class="ident">status</span>)))
+    }
+}
+
+<span class="doccomment">/// The Decoder does not support features required by the image.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This only captures known failures for which the standard either does not require support or an</span>
+<span class="doccomment">/// implementation has been planned but not yet completed. Some variants may become unused over</span>
+<span class="doccomment">/// time and will then get deprecated before being removed.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The list of variants may grow. Matching against this exhaustively is not covered by interface</span>
+<span class="doccomment">/// stability guarantees.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TiffUnsupportedError</span> {
     <span class="ident">HorizontalPredictor</span>(<span class="ident">ColorType</span>),
@@ -226,6 +318,9 @@
     <span class="ident">UnsupportedBitsPerChannel</span>(<span class="ident">u8</span>),
     <span class="ident">UnsupportedPlanarConfig</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PlanarConfiguration</span><span class="op">&gt;</span>),
     <span class="ident">UnsupportedDataType</span>,
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+    <span class="doccomment">/// Do not match against this variant. It may get removed.</span>
+    <span class="ident">__NonExhaustive</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">TiffUnsupportedError</span> {
@@ -263,6 +358,7 @@
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Unsupported planar configuration “{:?}”.&quot;</span>, <span class="ident">config</span>)
             }
             <span class="ident">UnsupportedDataType</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Unsupported data type.&quot;</span>),
+            <span class="ident">__NonExhaustive</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }
     }
 }
@@ -293,7 +389,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">TiffError</span>::<span class="ident">IoError</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
