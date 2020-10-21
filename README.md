@@ -42,6 +42,23 @@ will work on x86_64 and i686.
 
 See the [repository README](https://debian.nabijaczleweli.xyz/README) for more information.
 
+#### From AUR
+
+There are three AUR packages, [maintained](https://github.com/orhun/PKGBUILDs) by [ohrun](https://github.com/orhun):
+  * [`termimage`](https://aur.archlinux.org/packages/termimage), which builds the latest released version,
+  * [`termimage-git`](https://aur.archlinux.org/packages/termimage-git), which builds the latest git revision, and
+  * [`termimage-bin`](https://aur.archlinux.org/packages/termimage-git), which downloads the latest official build artifacts.
+
+If you use an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers), you should be able to
+```sh
+yay -S termimage
+```
+
+Otherwise, you should be able to clone an individual package repository and compile it with [`makepkg`](https://wiki.archlinux.org/index.php/Makepkg) by running
+```sh
+git clone https://aur.archlinux.org/termimage.git && cd termimage && makepkg -si
+```
+
 #### From pre-built executables
 
 Alternatively, have a glance over at the [releases page](https://github.com/nabijaczleweli/termimage/releases), which should host Windows and Linux x86_64 binaries.
