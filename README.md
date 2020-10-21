@@ -42,6 +42,20 @@ will work on x86_64 and i686.
 
 See the [repository README](https://debian.nabijaczleweli.xyz/README) for more information.
 
+#### From AUR
+
+`termimage` can be installed from available [AUR packages](https://aur.archlinux.org/packages/?O=0&SeB=b&K=termimage&outdated=&SB=n&SO=a&PP=50&do_Search=Go) using an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers). For example,
+
+```sh
+yay -S termimage
+```
+
+If you prefer, you can clone the [AUR packages](https://aur.archlinux.org/packages/?O=0&SeB=b&K=termimage&outdated=&SB=n&SO=a&PP=50&do_Search=Go) and then compile them with [makepkg](https://wiki.archlinux.org/index.php/Makepkg). For example,
+
+```sh
+git clone https://aur.archlinux.org/termimage.git && cd termimage && makepkg -si
+```
+
 #### From pre-built executables
 
 Alternatively, have a glance over at the [releases page](https://github.com/nabijaczleweli/termimage/releases), which should host Windows and Linux x86_64 binaries.
