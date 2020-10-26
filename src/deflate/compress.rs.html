@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.8.3/src/compress.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compress.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.8.6/src/compress.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compress.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -351,6 +352,13 @@
 <span id="351">351</span>
 <span id="352">352</span>
 <span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
@@ -396,7 +404,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Currently only used in tests.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compress_data_fixed</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compress_data_fixed</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">lz77</span>::<span class="ident">lz77_compress</span>;
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">EncoderState</span>::<span class="ident">fixed</span>(<span class="ident">Vec</span>::<span class="ident">new</span>());
@@ -418,7 +426,7 @@
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">chunk</span>) <span class="op">=</span> <span class="ident">i</span>.<span class="ident">next</span>() {
             <span class="kw">let</span> <span class="ident">last_chunk</span> <span class="op">=</span> <span class="ident">i</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>();
             <span class="comment">// Write the block header</span>
-            <span class="ident">write_stored_header</span>(<span class="ident">writer</span>, <span class="ident">final_block</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">last_chunk</span>);
+            <span class="ident">write_stored_header</span>(<span class="ident">writer</span>, <span class="ident">final_block</span> <span class="op">&amp;&amp;</span> <span class="ident">last_chunk</span>);
 
             <span class="comment">// Write the actual data.</span>
             <span class="ident">compress_block_stored</span>(<span class="ident">chunk</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">writer</span>).<span class="ident">expect</span>(<span class="string">&quot;Write error&quot;</span>);
@@ -435,12 +443,14 @@
     <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
     <span class="ident">deflate_state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DeflateState</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>,
     <span class="ident">flush</span>: <span class="ident">Flush</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes_written</span> <span class="op">=</span> <span class="number">0</span>;
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">slice</span> <span class="op">=</span> <span class="ident">input</span>;
 
-    <span class="kw">loop</span> {
+    <span class="comment">// enter the decompression loop unless we did a sync flush, in case we want to make sure</span>
+    <span class="comment">// everything is output before continuing.</span>
+    <span class="kw">while</span> <span class="ident">deflate_state</span>.<span class="ident">needs_flush</span> <span class="op">!=</span> <span class="bool-val">true</span> {
         <span class="kw">let</span> <span class="ident">output_buf_len</span> <span class="op">=</span> <span class="ident">deflate_state</span>.<span class="ident">output_buf</span>().<span class="ident">len</span>();
         <span class="kw">let</span> <span class="ident">output_buf_pos</span> <span class="op">=</span> <span class="ident">deflate_state</span>.<span class="ident">output_buf_pos</span>;
         <span class="comment">// If the output buffer has too much data in it already, flush it before doing anything</span>
@@ -454,14 +464,15 @@
 
             <span class="kw">if</span> <span class="ident">written</span> <span class="op">&lt;</span> <span class="ident">output_buf_len</span>.<span class="ident">checked_sub</span>(<span class="ident">output_buf_pos</span>).<span class="ident">unwrap</span>() {
                 <span class="comment">// Only some of the data was flushed, so keep track of where we were.</span>
-                <span class="ident">deflate_state</span>.<span class="ident">output_buf_pos</span> <span class="op">+</span><span class="op">=</span> <span class="ident">written</span>;
+                <span class="ident">deflate_state</span>.<span class="ident">output_buf_pos</span> <span class="op">+=</span> <span class="ident">written</span>;
             } <span class="kw">else</span> {
                 <span class="comment">// If we flushed all of the output, reset the output buffer.</span>
+                <span class="ident">deflate_state</span>.<span class="ident">needs_flush</span> <span class="op">=</span> <span class="bool-val">false</span>;
                 <span class="ident">deflate_state</span>.<span class="ident">output_buf_pos</span> <span class="op">=</span> <span class="number">0</span>;
                 <span class="ident">deflate_state</span>.<span class="ident">output_buf</span>().<span class="ident">clear</span>();
             }
 
-            <span class="kw">if</span> <span class="ident">bytes_written</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">bytes_written</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="comment">// If the buffer was already full when the function was called, this has to be</span>
                 <span class="comment">// returned rather than Ok(0) to indicate that we didn&#39;t write anything, but are</span>
                 <span class="comment">// not done yet.</span>
@@ -475,7 +486,7 @@
         }
 
         <span class="kw">if</span> <span class="ident">deflate_state</span>.<span class="ident">lz77_state</span>.<span class="ident">is_last_block</span>() {
-            <span class="comment">// The last block has already been written, so we don&#39;t ave anything to compress.</span>
+            <span class="comment">// The last block has already been written, so we don&#39;t have anything to compress.</span>
             <span class="kw">break</span>;
         }
 
@@ -488,12 +499,12 @@
         );
 
         <span class="comment">// Bytes written in this call</span>
-        <span class="ident">bytes_written</span> <span class="op">+</span><span class="op">=</span> <span class="ident">written</span>;
+        <span class="ident">bytes_written</span> <span class="op">+=</span> <span class="ident">written</span>;
         <span class="comment">// Total bytes written since the compression process started</span>
         <span class="comment">// TODO: Should we realistically have to worry about overflowing here?</span>
-        <span class="ident">deflate_state</span>.<span class="ident">bytes_written</span> <span class="op">+</span><span class="op">=</span> <span class="ident">written</span> <span class="kw">as</span> <span class="ident">u64</span>;
+        <span class="ident">deflate_state</span>.<span class="ident">bytes_written</span> <span class="op">+=</span> <span class="ident">written</span> <span class="kw">as</span> <span class="ident">u64</span>;
 
-        <span class="kw">if</span> <span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">LZ77Status</span>::<span class="ident">NeedInput</span> {
+        <span class="kw">if</span> <span class="ident">status</span> <span class="op">==</span> <span class="ident">LZ77Status</span>::<span class="ident">NeedInput</span> {
             <span class="comment">// If we&#39;ve consumed all the data input so far, and we&#39;re not</span>
             <span class="comment">// finishing or syncing or ending the block here, simply return</span>
             <span class="comment">// the number of bytes consumed so far.</span>
@@ -536,7 +547,7 @@
         <span class="comment">// Check if we&#39;ve actually managed to compress the input, and output stored blocks</span>
         <span class="comment">// if not.</span>
         <span class="kw">match</span> <span class="ident">res</span> {
-            <span class="ident">BlockType</span>::<span class="ident">Dynamic</span>(<span class="ident">header</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">BlockType</span>::<span class="ident">Dynamic</span>(<span class="ident">header</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// Write the block header.</span>
                 <span class="ident">deflate_state</span>
                     .<span class="ident">encoder_state</span>
@@ -563,7 +574,7 @@
                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">deflate_state</span>.<span class="ident">encoder_state</span>,
                 );
             }
-            <span class="ident">BlockType</span>::<span class="ident">Fixed</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">BlockType</span>::<span class="ident">Fixed</span> <span class="op">=&gt;</span> {
                 <span class="comment">// Write the block header for fixed code blocks.</span>
                 <span class="ident">deflate_state</span>
                     .<span class="ident">encoder_state</span>
@@ -578,13 +589,13 @@
                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">deflate_state</span>.<span class="ident">encoder_state</span>,
                 );
             }
-            <span class="ident">BlockType</span>::<span class="ident">Stored</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">BlockType</span>::<span class="ident">Stored</span> <span class="op">=&gt;</span> {
                 <span class="comment">// If compression fails, output a stored block instead.</span>
 
                 <span class="kw">let</span> <span class="ident">start_pos</span> <span class="op">=</span> <span class="ident">position</span>.<span class="ident">saturating_sub</span>(<span class="ident">current_block_input_bytes</span> <span class="kw">as</span> <span class="ident">usize</span>);
 
                 <span class="macro">assert</span><span class="macro">!</span>(
-                    <span class="ident">position</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">current_block_input_bytes</span> <span class="kw">as</span> <span class="ident">usize</span>,
+                    <span class="ident">position</span> <span class="op">&gt;=</span> <span class="ident">current_block_input_bytes</span> <span class="kw">as</span> <span class="ident">usize</span>,
                     <span class="string">&quot;Error! Trying to output a stored block with forgotten data!\
                      if you encounter this error, please file an issue!&quot;</span>
                 );
@@ -592,7 +603,7 @@
                 <span class="ident">write_stored_block</span>(
                     <span class="kw-2">&amp;</span><span class="ident">deflate_state</span>.<span class="ident">input_buffer</span>.<span class="ident">get_buffer</span>()[<span class="ident">start_pos</span>..<span class="ident">position</span>],
                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">deflate_state</span>.<span class="ident">encoder_state</span>.<span class="ident">writer</span>,
-                    <span class="ident">flush</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Flush</span>::<span class="ident">Finish</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">last_block</span>,
+                    <span class="ident">flush</span> <span class="op">==</span> <span class="ident">Flush</span>::<span class="ident">Finish</span> <span class="op">&amp;&amp;</span> <span class="ident">last_block</span>,
                 );
             }
         };
@@ -604,10 +615,12 @@
         <span class="ident">deflate_state</span>.<span class="ident">lz77_state</span>.<span class="ident">reset_input_bytes</span>();
 
         <span class="comment">// We are done for now.</span>
-        <span class="kw">if</span> <span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">LZ77Status</span>::<span class="ident">Finished</span> {
+        <span class="kw">if</span> <span class="ident">status</span> <span class="op">==</span> <span class="ident">LZ77Status</span>::<span class="ident">Finished</span> {
             <span class="comment">// This flush mode means that there should be an empty stored block at the end.</span>
-            <span class="kw">if</span> <span class="ident">flush</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Flush</span>::<span class="ident">Sync</span> {
+            <span class="kw">if</span> <span class="ident">flush</span> <span class="op">==</span> <span class="ident">Flush</span>::<span class="ident">Sync</span> {
                 <span class="ident">write_stored_block</span>(<span class="kw-2">&amp;</span>[], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">deflate_state</span>.<span class="ident">encoder_state</span>.<span class="ident">writer</span>, <span class="bool-val">false</span>);
+                <span class="comment">// Indicate that we need to flush the buffers before doing anything else.</span>
+                <span class="ident">deflate_state</span>.<span class="ident">needs_flush</span> <span class="op">=</span> <span class="bool-val">true</span>;
             } <span class="kw">else</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">deflate_state</span>.<span class="ident">lz77_state</span>.<span class="ident">is_last_block</span>() {
                 <span class="comment">// Make sure a block with the last block header has been output.</span>
                 <span class="comment">// Not sure this can actually happen, but we make sure to finish properly</span>
@@ -639,12 +652,14 @@
             .<span class="ident">checked_sub</span>(<span class="ident">output_buf_pos</span>)
             .<span class="ident">unwrap</span>()
     {
-        <span class="ident">deflate_state</span>.<span class="ident">output_buf_pos</span> <span class="op">+</span><span class="op">=</span> <span class="ident">written_to_writer</span>;
+        <span class="ident">deflate_state</span>.<span class="ident">output_buf_pos</span> <span class="op">+=</span> <span class="ident">written_to_writer</span>;
     } <span class="kw">else</span> {
         <span class="comment">// If we sucessfully wrote all the data, we can clear the output buffer.</span>
         <span class="ident">deflate_state</span>.<span class="ident">output_buf_pos</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="ident">deflate_state</span>.<span class="ident">output_buf</span>().<span class="ident">clear</span>();
+        <span class="ident">deflate_state</span>.<span class="ident">needs_flush</span> <span class="op">=</span> <span class="bool-val">false</span>;
     }
+
     <span class="prelude-val">Ok</span>(<span class="ident">bytes_written</span>)
 }
 
@@ -702,8 +717,8 @@
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">len</span>(), <span class="ident">result</span>.<span class="ident">len</span>());
         <span class="comment">// Not using assert_eq here deliberately to avoid massive amounts of output spam.</span>
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">input</span> <span class="op">=</span><span class="op">=</span> <span class="ident">result</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">input</span> <span class="op">==</span> <span class="ident">result</span>);
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "deflate";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "deflate";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.18/src/idct.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>idct.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../jpeg_decoder/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/jpeg-decoder-0.1.20/src/idct.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>idct.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../jpeg_decoder/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -313,17 +314,141 @@
 <span id="313">313</span>
 <span id="314">314</span>
 <span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Malicious JPEG files can cause operations in the idct to overflow.</span>
 <span class="comment">// One example is tests/crashtest/images/imagetestsuite/b0b8914cc5f7a6eff409f16d8cc236c5.jpg</span>
 <span class="comment">// That&#39;s why wrapping operators are needed.</span>
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">parser</span>::<span class="ident">Dimensions</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{
+    <span class="ident">convert</span>::<span class="ident">TryFrom</span>,
+    <span class="ident">num</span>::<span class="ident">Wrapping</span>,
+};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">choose_idct_size</span>(<span class="ident">full_size</span>: <span class="ident">Dimensions</span>, <span class="ident">requested_size</span>: <span class="ident">Dimensions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-    <span class="kw">fn</span> <span class="ident">scaled</span>(<span class="ident">len</span>: <span class="ident">u16</span>, <span class="ident">scale</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> { ((<span class="ident">len</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="ident">scale</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">/</span> <span class="number">8</span> <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u16</span> }
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">choose_idct_size</span>(<span class="ident">full_size</span>: <span class="ident">Dimensions</span>, <span class="ident">requested_size</span>: <span class="ident">Dimensions</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">scaled</span>(<span class="ident">len</span>: <span class="ident">u16</span>, <span class="ident">scale</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u16</span> { ((<span class="ident">len</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="ident">scale</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">/</span> <span class="number">8</span> <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u16</span> }
 
     <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">scale</span> <span class="kw">in</span> <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>] {
-        <span class="kw">if</span> <span class="ident">scaled</span>(<span class="ident">full_size</span>.<span class="ident">width</span>, <span class="ident">scale</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">requested_size</span>.<span class="ident">width</span> <span class="op">|</span><span class="op">|</span> <span class="ident">scaled</span>(<span class="ident">full_size</span>.<span class="ident">height</span>, <span class="ident">scale</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">requested_size</span>.<span class="ident">height</span> {
+        <span class="kw">if</span> <span class="ident">scaled</span>(<span class="ident">full_size</span>.<span class="ident">width</span>, <span class="ident">scale</span>) <span class="op">&gt;=</span> <span class="ident">requested_size</span>.<span class="ident">width</span> <span class="op">||</span> <span class="ident">scaled</span>(<span class="ident">full_size</span>.<span class="ident">height</span>, <span class="ident">scale</span>) <span class="op">&gt;=</span> <span class="ident">requested_size</span>.<span class="ident">height</span> {
             <span class="kw">return</span> <span class="ident">scale</span>;
         }
     }
@@ -343,7 +468,7 @@
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">685</span>, <span class="ident">height</span>: <span class="number">999</span>}), <span class="number">2</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">1000</span>, <span class="ident">height</span>: <span class="number">1000</span>}), <span class="number">2</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">1400</span>, <span class="ident">height</span>: <span class="number">1400</span>}), <span class="number">4</span>);
-    
+
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}), <span class="number">8</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">5472</span>, <span class="ident">height</span>: <span class="number">3648</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">16384</span>, <span class="ident">height</span>: <span class="number">16384</span>}), <span class="number">8</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">choose_idct_size</span>(<span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">1</span>, <span class="ident">height</span>: <span class="number">1</span>}, <span class="ident">Dimensions</span>{<span class="ident">width</span>: <span class="number">65535</span>, <span class="ident">height</span>: <span class="number">65535</span>}), <span class="number">8</span>);
@@ -352,144 +477,96 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">dequantize_and_idct_block</span>(<span class="ident">scale</span>: <span class="ident">usize</span>, <span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
     <span class="kw">match</span> <span class="ident">scale</span> {
-        <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">dequantize_and_idct_block_8x8</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
-        <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">dequantize_and_idct_block_4x4</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
-        <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">dequantize_and_idct_block_2x2</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
-        <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">dequantize_and_idct_block_1x1</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unsupported IDCT scale {}/8&quot;</span>, <span class="ident">scale</span>),
+        <span class="number">8</span> <span class="op">=&gt;</span> <span class="ident">dequantize_and_idct_block_8x8</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
+        <span class="number">4</span> <span class="op">=&gt;</span> <span class="ident">dequantize_and_idct_block_4x4</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
+        <span class="number">2</span> <span class="op">=&gt;</span> <span class="ident">dequantize_and_idct_block_2x2</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
+        <span class="number">1</span> <span class="op">=&gt;</span> <span class="ident">dequantize_and_idct_block_1x1</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output_linestride</span>, <span class="ident">output</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unsupported IDCT scale {}/8&quot;</span>, <span class="ident">scale</span>),
     }
 }
 
-<span class="comment">// This is based on stb_image&#39;s &#39;stbi__idct_block&#39;.</span>
-<span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_8x8</span>(<span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_8x8</span>(
+    <span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>],
+    <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>],
+    <span class="ident">output_linestride</span>: <span class="ident">usize</span>,
+    <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]
+) {
     <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">coefficients</span>.<span class="ident">len</span>(), <span class="number">64</span>);
+    <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">output</span>
+        .<span class="ident">chunks_mut</span>(<span class="ident">output_linestride</span>);
+    <span class="ident">dequantize_and_idct_block_8x8_inner</span>(<span class="ident">coefficients</span>, <span class="ident">quantization_table</span>, <span class="ident">output</span>)
+}
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> <span class="op">=</span> [<span class="number">0i32</span>; <span class="number">64</span>];
+<span class="comment">// This is based on stb_image&#39;s &#39;stbi__idct_block&#39;.</span>
+<span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_8x8_inner</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span>(
+    <span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>],
+    <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>],
+    <span class="ident">output</span>: <span class="ident">I</span>,
+) <span class="kw">where</span>
+    <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
+    <span class="ident">I</span>::<span class="ident">IntoIter</span>: <span class="ident">ExactSizeIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
+{
+    <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">output</span>.<span class="ident">into_iter</span>();
+    <span class="macro">debug_assert</span><span class="macro">!</span>(
+        <span class="ident">output</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="number">8</span>,
+        <span class="string">&quot;Output iterator has the wrong length: {}&quot;</span>,
+        <span class="ident">output</span>.<span class="ident">len</span>()
+    );
+
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> <span class="op">=</span> [<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="number">64</span>];
 
     <span class="comment">// columns</span>
-    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="number">8</span> {
-        <span class="comment">// if all zeroes, shortcut -- this avoids dequantizing 0s and IDCTing</span>
-        <span class="kw">if</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span>
-                <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span>
-                <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>] <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="kw">let</span> <span class="ident">dcterm</span> <span class="op">=</span> (<span class="ident">coefficients</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">i32</span>).<span class="ident">wrapping_shl</span>(<span class="number">2</span>);
-            <span class="ident">temp</span>[<span class="ident">i</span>]      <span class="op">=</span> <span class="ident">dcterm</span>;
-            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>]  <span class="op">=</span> <span class="ident">dcterm</span>;
+    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
+        <span class="kw">if</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>] <span class="op">==</span> <span class="number">0</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>] <span class="op">==</span> <span class="number">0</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>] <span class="op">==</span> <span class="number">0</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>] <span class="op">==</span> <span class="number">0</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>] <span class="op">==</span> <span class="number">0</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>] <span class="op">==</span> <span class="number">0</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>] <span class="op">==</span> <span class="number">0</span>
+        {
+            <span class="kw">let</span> <span class="ident">dcterm</span> <span class="op">=</span> <span class="ident">dequantize</span>(<span class="ident">coefficients</span>[<span class="ident">i</span>], <span class="ident">quantization_table</span>[<span class="ident">i</span>]) <span class="op">&lt;&lt;</span> <span class="number">2</span>;
+            <span class="ident">temp</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
+            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
             <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
             <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
             <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
             <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
             <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
             <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
-        }
-        <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">i32</span>      <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-            <span class="kw">let</span> <span class="ident">s1</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>] <span class="kw">as</span> <span class="ident">i32</span>  <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-            <span class="kw">let</span> <span class="ident">s2</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-            <span class="kw">let</span> <span class="ident">s3</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-            <span class="kw">let</span> <span class="ident">s4</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-            <span class="kw">let</span> <span class="ident">s5</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-            <span class="kw">let</span> <span class="ident">s6</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-            <span class="kw">let</span> <span class="ident">s7</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> <span class="ident">dequantize</span>(<span class="ident">coefficients</span>[<span class="ident">i</span>], <span class="ident">quantization_table</span>[<span class="ident">i</span>]);
+            <span class="kw">let</span> <span class="ident">s1</span> <span class="op">=</span> <span class="ident">dequantize</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>], <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>]);
+            <span class="kw">let</span> <span class="ident">s2</span> <span class="op">=</span> <span class="ident">dequantize</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>], <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>]);
+            <span class="kw">let</span> <span class="ident">s3</span> <span class="op">=</span> <span class="ident">dequantize</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>], <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>]);
+            <span class="kw">let</span> <span class="ident">s4</span> <span class="op">=</span> <span class="ident">dequantize</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>], <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>]);
+            <span class="kw">let</span> <span class="ident">s5</span> <span class="op">=</span> <span class="ident">dequantize</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>], <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>]);
+            <span class="kw">let</span> <span class="ident">s6</span> <span class="op">=</span> <span class="ident">dequantize</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>], <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>]);
+            <span class="kw">let</span> <span class="ident">s7</span> <span class="op">=</span> <span class="ident">dequantize</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>], <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>]);
 
-            <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">s2</span>;
-            <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">s6</span>;
-            <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">p2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>).<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.5411961</span>));
-            <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.847759065</span>)));
-            <span class="kw">let</span> <span class="ident">t3</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p2</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.765366865</span>)));
-            <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">s0</span>;
-            <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">s4</span>;
-            <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">stbi_fsh</span>(<span class="ident">p2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>));
-            <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">stbi_fsh</span>(<span class="ident">p2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">p3</span>));
-            <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t3</span>);
-            <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t3</span>);
-            <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>);
-            <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t2</span>);
-            <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">s7</span>;
-            <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">s5</span>;
-            <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">s3</span>;
-            <span class="kw">let</span> <span class="ident">t3</span> <span class="op">=</span> <span class="ident">s1</span>;
-            <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>);
-            <span class="kw">let</span> <span class="ident">p4</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_add</span>(<span class="ident">t3</span>);
-            <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t3</span>);
-            <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>);
-            <span class="kw">let</span> <span class="ident">p5</span> <span class="op">=</span> <span class="ident">p3</span>.<span class="ident">wrapping_add</span>(<span class="ident">p4</span>).<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">1.175875602</span>));
-            <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.298631336</span>));
-            <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">2.053119869</span>));
-            <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">t2</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">3.072711026</span>));
-            <span class="kw">let</span> <span class="ident">t3</span> <span class="op">=</span> <span class="ident">t3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">1.501321110</span>));
-            <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">p5</span>.<span class="ident">wrapping_add</span>(<span class="ident">p1</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">0.899976223</span>)));
-            <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">p5</span>.<span class="ident">wrapping_add</span>(<span class="ident">p2</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">2.562915447</span>)));
-            <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">p3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.961570560</span>));
-            <span class="kw">let</span> <span class="ident">p4</span> <span class="op">=</span> <span class="ident">p4</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">0.390180644</span>));
-            <span class="kw">let</span> <span class="ident">t3</span> <span class="op">=</span> <span class="ident">t3</span>.<span class="ident">wrapping_add</span>(<span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p4</span>));
-            <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">t2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>));
-            <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p4</span>));
-            <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_add</span>(<span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>));
+            <span class="kw">let</span> <span class="ident">Kernel</span> {
+                <span class="ident">xs</span>: [<span class="ident">x0</span>, <span class="ident">x1</span>, <span class="ident">x2</span>, <span class="ident">x3</span>],
+                <span class="ident">ts</span>: [<span class="ident">t0</span>, <span class="ident">t1</span>, <span class="ident">t2</span>, <span class="ident">t3</span>],
+            } <span class="op">=</span> <span class="ident">kernel</span>(
+                [<span class="ident">s0</span>, <span class="ident">s1</span>, <span class="ident">s2</span>, <span class="ident">s3</span>, <span class="ident">s4</span>, <span class="ident">s5</span>, <span class="ident">s6</span>, <span class="ident">s7</span>],
+                <span class="comment">// constants scaled things up by 1&lt;&lt;12; let&#39;s bring them back</span>
+                <span class="comment">// down, but keep 2 extra bits of precision</span>
+                <span class="number">512</span>,
+            );
 
-            <span class="comment">// constants scaled things up by 1&lt;&lt;12; let&#39;s bring them back</span>
-            <span class="comment">// down, but keep 2 extra bits of precision</span>
-            <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="number">512</span>);
-            <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">x1</span>.<span class="ident">wrapping_add</span>(<span class="number">512</span>);
-            <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="number">512</span>);
-            <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">x3</span>.<span class="ident">wrapping_add</span>(<span class="number">512</span>);
-
-            <span class="ident">temp</span>[<span class="ident">i</span>]      <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t3</span>).<span class="ident">wrapping_shr</span>(<span class="number">10</span>);
-            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>] <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t3</span>).<span class="ident">wrapping_shr</span>(<span class="number">10</span>);
-            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>]  <span class="op">=</span> <span class="ident">x1</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>).<span class="ident">wrapping_shr</span>(<span class="number">10</span>);
-            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>] <span class="op">=</span> <span class="ident">x1</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t2</span>).<span class="ident">wrapping_shr</span>(<span class="number">10</span>);
-            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>] <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="ident">t1</span>).<span class="ident">wrapping_shr</span>(<span class="number">10</span>);
-            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>] <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t1</span>).<span class="ident">wrapping_shr</span>(<span class="number">10</span>);
-            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>] <span class="op">=</span> <span class="ident">x3</span>.<span class="ident">wrapping_add</span>(<span class="ident">t0</span>).<span class="ident">wrapping_shr</span>(<span class="number">10</span>);
-            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>] <span class="op">=</span> <span class="ident">x3</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t0</span>).<span class="ident">wrapping_shr</span>(<span class="number">10</span>);
+            <span class="ident">temp</span>[<span class="ident">i</span>] <span class="op">=</span> (<span class="ident">x0</span> <span class="op">+</span> <span class="ident">t3</span>) <span class="op">&gt;&gt;</span> <span class="number">10</span>;
+            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">56</span>] <span class="op">=</span> (<span class="ident">x0</span> <span class="op">-</span> <span class="ident">t3</span>) <span class="op">&gt;&gt;</span> <span class="number">10</span>;
+            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span>] <span class="op">=</span> (<span class="ident">x1</span> <span class="op">+</span> <span class="ident">t2</span>) <span class="op">&gt;&gt;</span> <span class="number">10</span>;
+            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">48</span>] <span class="op">=</span> (<span class="ident">x1</span> <span class="op">-</span> <span class="ident">t2</span>) <span class="op">&gt;&gt;</span> <span class="number">10</span>;
+            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">16</span>] <span class="op">=</span> (<span class="ident">x2</span> <span class="op">+</span> <span class="ident">t1</span>) <span class="op">&gt;&gt;</span> <span class="number">10</span>;
+            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">40</span>] <span class="op">=</span> (<span class="ident">x2</span> <span class="op">-</span> <span class="ident">t1</span>) <span class="op">&gt;&gt;</span> <span class="number">10</span>;
+            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">24</span>] <span class="op">=</span> (<span class="ident">x3</span> <span class="op">+</span> <span class="ident">t0</span>) <span class="op">&gt;&gt;</span> <span class="number">10</span>;
+            <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">32</span>] <span class="op">=</span> (<span class="ident">x3</span> <span class="op">-</span> <span class="ident">t0</span>) <span class="op">&gt;&gt;</span> <span class="number">10</span>;
         }
     }
 
-    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="number">8</span> {
-        <span class="comment">// no fast case since the first 1D IDCT spread components out</span>
-        <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">8</span>];
-        <span class="kw">let</span> <span class="ident">s1</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">8</span> <span class="op">+</span> <span class="number">1</span>];
-        <span class="kw">let</span> <span class="ident">s2</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">8</span> <span class="op">+</span> <span class="number">2</span>];
-        <span class="kw">let</span> <span class="ident">s3</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">8</span> <span class="op">+</span> <span class="number">3</span>];
-        <span class="kw">let</span> <span class="ident">s4</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">8</span> <span class="op">+</span> <span class="number">4</span>];
-        <span class="kw">let</span> <span class="ident">s5</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">8</span> <span class="op">+</span> <span class="number">5</span>];
-        <span class="kw">let</span> <span class="ident">s6</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">8</span> <span class="op">+</span> <span class="number">6</span>];
-        <span class="kw">let</span> <span class="ident">s7</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">8</span> <span class="op">+</span> <span class="number">7</span>];
-
-        <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">s2</span>;
-        <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">s6</span>;
-        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">p2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>).<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.5411961</span>));
-        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.847759065</span>)));
-        <span class="kw">let</span> <span class="ident">t3</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p2</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.765366865</span>)));
-        <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">s0</span>;
-        <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">s4</span>;
-        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">stbi_fsh</span>(<span class="ident">p2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>));
-        <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">stbi_fsh</span>(<span class="ident">p2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">p3</span>));
-        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t3</span>);
-        <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t3</span>);
-        <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>);
-        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t2</span>);
-        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">s7</span>;
-        <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">s5</span>;
-        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">s3</span>;
-        <span class="kw">let</span> <span class="ident">t3</span> <span class="op">=</span> <span class="ident">s1</span>;
-        <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>);
-        <span class="kw">let</span> <span class="ident">p4</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_add</span>(<span class="ident">t3</span>);
-        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t3</span>);
-        <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>);
-        <span class="kw">let</span> <span class="ident">p5</span> <span class="op">=</span> <span class="ident">p3</span>.<span class="ident">wrapping_add</span>(<span class="ident">p4</span>).<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">1.175875602</span>));
-        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.298631336</span>));
-        <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">2.053119869</span>));
-        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">t2</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">3.072711026</span>));
-        <span class="kw">let</span> <span class="ident">t3</span> <span class="op">=</span> <span class="ident">t3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">1.501321110</span>));
-        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">p5</span>.<span class="ident">wrapping_add</span>(<span class="ident">p1</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">0.899976223</span>)));
-        <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">p5</span>.<span class="ident">wrapping_add</span>(<span class="ident">p2</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">2.562915447</span>)));
-        <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">p3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.961570560</span>));
-        <span class="kw">let</span> <span class="ident">p4</span> <span class="op">=</span> <span class="ident">p4</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">0.390180644</span>));
-        <span class="kw">let</span> <span class="ident">t3</span> <span class="op">=</span> <span class="ident">t3</span>.<span class="ident">wrapping_add</span>(<span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p4</span>));
-        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">t2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>));
-        <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">t1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p2</span>.<span class="ident">wrapping_add</span>(<span class="ident">p4</span>));
-        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">t0</span>.<span class="ident">wrapping_add</span>(<span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">p3</span>));
+    <span class="kw">for</span> (<span class="ident">chunk</span>, <span class="ident">output_chunk</span>) <span class="kw">in</span> <span class="ident">temp</span>.<span class="ident">chunks_exact</span>(<span class="number">8</span>).<span class="ident">zip</span>(<span class="ident">output</span>) {
+        <span class="kw">let</span> <span class="ident">chunk</span> <span class="op">=</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="kw">_</span>; <span class="number">8</span>]<span class="op">&gt;</span>::<span class="ident">try_from</span>(<span class="ident">chunk</span>).<span class="ident">unwrap</span>();
 
         <span class="comment">// constants scaled things up by 1&lt;&lt;12, plus we had 1&lt;&lt;2 from first</span>
         <span class="comment">// loop, plus horizontal and vertical each scale by sqrt(8) so together</span>
@@ -497,50 +574,149 @@
         <span class="comment">// so we want to round that, which means adding 0.5 * 1&lt;&lt;17,</span>
         <span class="comment">// aka 65536. Also, we&#39;ll end up with -128 to 127 that we want</span>
         <span class="comment">// to encode as 0..255 by adding 128, so we&#39;ll add that before the shift</span>
-        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>));
-        <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">x1</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>));
-        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>));
-        <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">x3</span>.<span class="ident">wrapping_add</span>(<span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>));
+        <span class="kw">const</span> <span class="ident">X_SCALE</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">65536</span> <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;&lt;</span> <span class="number">17</span>);
 
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span>]     <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t3</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">7</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t3</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x1</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">6</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x1</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t2</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">2</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="ident">t1</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">5</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t1</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">3</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x3</span>.<span class="ident">wrapping_add</span>(<span class="ident">t0</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">4</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x3</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t0</span>).<span class="ident">wrapping_shr</span>(<span class="number">17</span>));
+        <span class="comment">// TODO When the minimum rust version supports it</span>
+        <span class="comment">// let [s0, rest @ ..] = chunk;</span>
+        <span class="kw">let</span> (<span class="ident">s0</span>, <span class="ident">rest</span>) <span class="op">=</span> <span class="ident">chunk</span>.<span class="ident">split_first</span>().<span class="ident">unwrap</span>();
+        <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">rest</span> <span class="op">==</span> [<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="number">7</span>] {
+            <span class="kw">let</span> <span class="ident">dcterm</span> <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">stbi_fsh</span>(<span class="kw-2">*</span><span class="ident">s0</span>) <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="ident">X_SCALE</span>)) <span class="op">&gt;&gt;</span> <span class="number">17</span>);
+            <span class="ident">output_chunk</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
+            <span class="ident">output_chunk</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
+            <span class="ident">output_chunk</span>[<span class="number">2</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
+            <span class="ident">output_chunk</span>[<span class="number">3</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
+            <span class="ident">output_chunk</span>[<span class="number">4</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
+            <span class="ident">output_chunk</span>[<span class="number">5</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
+            <span class="ident">output_chunk</span>[<span class="number">6</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
+            <span class="ident">output_chunk</span>[<span class="number">7</span>] <span class="op">=</span> <span class="ident">dcterm</span>;
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="ident">Kernel</span> {
+                <span class="ident">xs</span>: [<span class="ident">x0</span>, <span class="ident">x1</span>, <span class="ident">x2</span>, <span class="ident">x3</span>],
+                <span class="ident">ts</span>: [<span class="ident">t0</span>, <span class="ident">t1</span>, <span class="ident">t2</span>, <span class="ident">t3</span>],
+            } <span class="op">=</span> <span class="ident">kernel</span>(<span class="kw-2">*</span><span class="ident">chunk</span>, <span class="ident">X_SCALE</span>);
+
+            <span class="ident">output_chunk</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x0</span> <span class="op">+</span> <span class="ident">t3</span>) <span class="op">&gt;&gt;</span> <span class="number">17</span>);
+            <span class="ident">output_chunk</span>[<span class="number">7</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x0</span> <span class="op">-</span> <span class="ident">t3</span>) <span class="op">&gt;&gt;</span> <span class="number">17</span>);
+            <span class="ident">output_chunk</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x1</span> <span class="op">+</span> <span class="ident">t2</span>) <span class="op">&gt;&gt;</span> <span class="number">17</span>);
+            <span class="ident">output_chunk</span>[<span class="number">6</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x1</span> <span class="op">-</span> <span class="ident">t2</span>) <span class="op">&gt;&gt;</span> <span class="number">17</span>);
+            <span class="ident">output_chunk</span>[<span class="number">2</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x2</span> <span class="op">+</span> <span class="ident">t1</span>) <span class="op">&gt;&gt;</span> <span class="number">17</span>);
+            <span class="ident">output_chunk</span>[<span class="number">5</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x2</span> <span class="op">-</span> <span class="ident">t1</span>) <span class="op">&gt;&gt;</span> <span class="number">17</span>);
+            <span class="ident">output_chunk</span>[<span class="number">3</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x3</span> <span class="op">+</span> <span class="ident">t0</span>) <span class="op">&gt;&gt;</span> <span class="number">17</span>);
+            <span class="ident">output_chunk</span>[<span class="number">4</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x3</span> <span class="op">-</span> <span class="ident">t0</span>) <span class="op">&gt;&gt;</span> <span class="number">17</span>);
+        }
     }
+}
+
+<span class="kw">struct</span> <span class="ident">Kernel</span> {
+    <span class="ident">xs</span>: [<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>; <span class="number">4</span>],
+    <span class="ident">ts</span>: [<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>; <span class="number">4</span>],
+}
+
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">fn</span> <span class="ident">kernel_x</span>([<span class="ident">s0</span>, <span class="ident">s2</span>, <span class="ident">s4</span>, <span class="ident">s6</span>]: [<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>; <span class="number">4</span>], <span class="ident">x_scale</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> [<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>; <span class="number">4</span>] {
+    <span class="comment">// Even `chunk` indicies</span>
+    <span class="kw">let</span> (<span class="ident">t2</span>, <span class="ident">t3</span>);
+    {
+        <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">s2</span>;
+        <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">s6</span>;
+
+        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> (<span class="ident">p2</span> <span class="op">+</span> <span class="ident">p3</span>) <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="number">0.5411961</span>);
+        <span class="ident">t2</span> <span class="op">=</span> <span class="ident">p1</span> <span class="op">+</span> <span class="ident">p3</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.847759065</span>);
+        <span class="ident">t3</span> <span class="op">=</span> <span class="ident">p1</span> <span class="op">+</span> <span class="ident">p2</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="number">0.765366865</span>);
+    }
+
+    <span class="kw">let</span> (<span class="ident">t0</span>, <span class="ident">t1</span>);
+    {
+        <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">s0</span>;
+        <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">s4</span>;
+
+        <span class="ident">t0</span> <span class="op">=</span> <span class="ident">stbi_fsh</span>(<span class="ident">p2</span> <span class="op">+</span> <span class="ident">p3</span>);
+        <span class="ident">t1</span> <span class="op">=</span> <span class="ident">stbi_fsh</span>(<span class="ident">p2</span> <span class="op">-</span> <span class="ident">p3</span>);
+    }
+
+    <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">t0</span> <span class="op">+</span> <span class="ident">t3</span>;
+    <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">t0</span> <span class="op">-</span> <span class="ident">t3</span>;
+    <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">t1</span> <span class="op">+</span> <span class="ident">t2</span>;
+    <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">t1</span> <span class="op">-</span> <span class="ident">t2</span>;
+
+    <span class="kw">let</span> <span class="ident">x_scale</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">x_scale</span>);
+
+    [<span class="ident">x0</span> <span class="op">+</span> <span class="ident">x_scale</span>, <span class="ident">x1</span> <span class="op">+</span> <span class="ident">x_scale</span>, <span class="ident">x2</span> <span class="op">+</span> <span class="ident">x_scale</span>, <span class="ident">x3</span> <span class="op">+</span> <span class="ident">x_scale</span>]
+}
+
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">fn</span> <span class="ident">kernel_t</span>([<span class="ident">s1</span>, <span class="ident">s3</span>, <span class="ident">s5</span>, <span class="ident">s7</span>]: [<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>; <span class="number">4</span>]) <span class="op">-&gt;</span> [<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>; <span class="number">4</span>] {
+    <span class="comment">// Odd `chunk` indicies</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">s7</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">s5</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">s3</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t3</span> <span class="op">=</span> <span class="ident">s1</span>;
+
+    <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">t0</span> <span class="op">+</span> <span class="ident">t2</span>;
+    <span class="kw">let</span> <span class="ident">p4</span> <span class="op">=</span> <span class="ident">t1</span> <span class="op">+</span> <span class="ident">t3</span>;
+    <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">t0</span> <span class="op">+</span> <span class="ident">t3</span>;
+    <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">t1</span> <span class="op">+</span> <span class="ident">t2</span>;
+    <span class="kw">let</span> <span class="ident">p5</span> <span class="op">=</span> (<span class="ident">p3</span> <span class="op">+</span> <span class="ident">p4</span>) <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="number">1.175875602</span>);
+
+    <span class="ident">t0</span> <span class="op">*=</span> <span class="ident">stbi_f2f</span>(<span class="number">0.298631336</span>);
+    <span class="ident">t1</span> <span class="op">*=</span> <span class="ident">stbi_f2f</span>(<span class="number">2.053119869</span>);
+    <span class="ident">t2</span> <span class="op">*=</span> <span class="ident">stbi_f2f</span>(<span class="number">3.072711026</span>);
+    <span class="ident">t3</span> <span class="op">*=</span> <span class="ident">stbi_f2f</span>(<span class="number">1.501321110</span>);
+
+    <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">p5</span> <span class="op">+</span> <span class="ident">p1</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">0.899976223</span>);
+    <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">p5</span> <span class="op">+</span> <span class="ident">p2</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">2.562915447</span>);
+    <span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">p3</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.961570560</span>);
+    <span class="kw">let</span> <span class="ident">p4</span> <span class="op">=</span> <span class="ident">p4</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">0.390180644</span>);
+
+    <span class="ident">t3</span> <span class="op">+=</span> <span class="ident">p1</span> <span class="op">+</span> <span class="ident">p4</span>;
+    <span class="ident">t2</span> <span class="op">+=</span> <span class="ident">p2</span> <span class="op">+</span> <span class="ident">p3</span>;
+    <span class="ident">t1</span> <span class="op">+=</span> <span class="ident">p2</span> <span class="op">+</span> <span class="ident">p4</span>;
+    <span class="ident">t0</span> <span class="op">+=</span> <span class="ident">p1</span> <span class="op">+</span> <span class="ident">p3</span>;
+
+    [<span class="ident">t0</span>, <span class="ident">t1</span>, <span class="ident">t2</span>, <span class="ident">t3</span>]
+}
+
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">fn</span> <span class="ident">kernel</span>([<span class="ident">s0</span>, <span class="ident">s1</span>, <span class="ident">s2</span>, <span class="ident">s3</span>, <span class="ident">s4</span>, <span class="ident">s5</span>, <span class="ident">s6</span>, <span class="ident">s7</span>]: [<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>; <span class="number">8</span>], <span class="ident">x_scale</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">Kernel</span> {
+    <span class="ident">Kernel</span> {
+        <span class="ident">xs</span>: <span class="ident">kernel_x</span>([<span class="ident">s0</span>, <span class="ident">s2</span>, <span class="ident">s4</span>, <span class="ident">s6</span>], <span class="ident">x_scale</span>),
+        <span class="ident">ts</span>: <span class="ident">kernel_t</span>([<span class="ident">s1</span>, <span class="ident">s3</span>, <span class="ident">s5</span>, <span class="ident">s7</span>]),
+    }
+}
+
+<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+<span class="kw">fn</span> <span class="ident">dequantize</span>(<span class="ident">c</span>: <span class="ident">i16</span>, <span class="ident">q</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
+    <span class="ident">Wrapping</span>(<span class="ident">i32</span>::<span class="ident">from</span>(<span class="ident">c</span>) <span class="op">*</span> <span class="ident">i32</span>::<span class="ident">from</span>(<span class="ident">q</span>))
 }
 
 <span class="comment">// 4x4 and 2x2 IDCT based on Rakesh Dugad and Narendra Ahuja: &quot;A Fast Scheme for Image Size Change in the Compressed Domain&quot; (2001).</span>
 <span class="comment">// http://sylvana.net/jpegcrop/jidctred/</span>
 <span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_4x4</span>(<span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
     <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">coefficients</span>.<span class="ident">len</span>(), <span class="number">64</span>);
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> <span class="op">=</span> [<span class="number">0i32</span>; <span class="number">4</span><span class="kw-2">*</span><span class="number">4</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> <span class="op">=</span> [<span class="ident">Wrapping</span>(<span class="number">0i32</span>); <span class="number">4</span> <span class="op">*</span> <span class="number">4</span>];
 
-    <span class="kw">const</span> <span class="ident">CONST_BITS</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">12</span>;
-    <span class="kw">const</span> <span class="ident">PASS1_BITS</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">2</span>;
-    <span class="kw">const</span> <span class="ident">FINAL_BITS</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="ident">CONST_BITS</span> <span class="op">+</span> <span class="ident">PASS1_BITS</span> <span class="op">+</span> <span class="number">3</span>;
+    <span class="kw">const</span> <span class="ident">CONST_BITS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">12</span>;
+    <span class="kw">const</span> <span class="ident">PASS1_BITS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span>;
+    <span class="kw">const</span> <span class="ident">FINAL_BITS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">CONST_BITS</span> <span class="op">+</span> <span class="ident">PASS1_BITS</span> <span class="op">+</span> <span class="number">3</span>;
 
     <span class="comment">// columns</span>
-    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="number">4</span> {
-        <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-        <span class="kw">let</span> <span class="ident">s1</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-        <span class="kw">let</span> <span class="ident">s2</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">2</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">2</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-        <span class="kw">let</span> <span class="ident">s3</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">3</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span><span class="kw-2">*</span><span class="number">3</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-    
-        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">s0</span>.<span class="ident">wrapping_add</span>(<span class="ident">s2</span>).<span class="ident">wrapping_shl</span>(<span class="ident">PASS1_BITS</span>);
-        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">s0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">s2</span>).<span class="ident">wrapping_shl</span>(<span class="ident">PASS1_BITS</span>);
+    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">4</span> {
+        <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span> <span class="op">*</span> <span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span> <span class="op">*</span> <span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span>);
+        <span class="kw">let</span> <span class="ident">s1</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span> <span class="op">*</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span> <span class="op">*</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>);
+        <span class="kw">let</span> <span class="ident">s2</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span> <span class="op">*</span> <span class="number">2</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span> <span class="op">*</span> <span class="number">2</span>] <span class="kw">as</span> <span class="ident">i32</span>);
+        <span class="kw">let</span> <span class="ident">s3</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">coefficients</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span> <span class="op">*</span> <span class="number">3</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">8</span> <span class="op">*</span> <span class="number">3</span>] <span class="kw">as</span> <span class="ident">i32</span>);
 
-        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">s1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s3</span>).<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.541196100</span>));
-        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.847759065</span>))).<span class="ident">wrapping_add</span>(<span class="number">512</span>).<span class="ident">wrapping_shr</span>(<span class="ident">CONST_BITS</span> <span class="op">-</span> <span class="ident">PASS1_BITS</span>);
-        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s1</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>( <span class="number">0.765366865</span>))).<span class="ident">wrapping_add</span>(<span class="number">512</span>).<span class="ident">wrapping_shr</span>(<span class="ident">CONST_BITS</span> <span class="op">-</span> <span class="ident">PASS1_BITS</span>);
+        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> (<span class="ident">s0</span> <span class="op">+</span> <span class="ident">s2</span>) <span class="op">&lt;&lt;</span> <span class="ident">PASS1_BITS</span>;
+        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> (<span class="ident">s0</span> <span class="op">-</span> <span class="ident">s2</span>) <span class="op">&lt;&lt;</span> <span class="ident">PASS1_BITS</span>;
 
-        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span><span class="kw-2">*</span><span class="number">0</span>] <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>);
-        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span><span class="kw-2">*</span><span class="number">3</span>] <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t2</span>);
-        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span><span class="kw-2">*</span><span class="number">1</span>] <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="ident">t0</span>);
-        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span><span class="kw-2">*</span><span class="number">2</span>] <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t0</span>);
+        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> (<span class="ident">s1</span> <span class="op">+</span> <span class="ident">s3</span>) <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="number">0.541196100</span>);
+        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> (<span class="ident">p1</span> <span class="op">+</span> <span class="ident">s3</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.847759065</span>) <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">512</span>)) <span class="op">&gt;&gt;</span> (<span class="ident">CONST_BITS</span> <span class="op">-</span> <span class="ident">PASS1_BITS</span>);
+        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> (<span class="ident">p1</span> <span class="op">+</span> <span class="ident">s1</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="number">0.765366865</span>) <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">512</span>)) <span class="op">&gt;&gt;</span> (<span class="ident">CONST_BITS</span> <span class="op">-</span> <span class="ident">PASS1_BITS</span>);
+
+        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span> <span class="op">*</span> <span class="number">0</span>] <span class="op">=</span> <span class="ident">x0</span> <span class="op">+</span> <span class="ident">t2</span>;
+        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span> <span class="op">*</span> <span class="number">3</span>] <span class="op">=</span> <span class="ident">x0</span> <span class="op">-</span> <span class="ident">t2</span>;
+        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span> <span class="op">*</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">x2</span> <span class="op">+</span> <span class="ident">t0</span>;
+        <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">4</span> <span class="op">*</span> <span class="number">2</span>] <span class="op">=</span> <span class="ident">x2</span> <span class="op">-</span> <span class="ident">t0</span>;
     }
 
     <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="number">4</span> {
@@ -549,12 +725,12 @@
         <span class="kw">let</span> <span class="ident">s2</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">4</span> <span class="op">+</span> <span class="number">2</span>];
         <span class="kw">let</span> <span class="ident">s3</span> <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">4</span> <span class="op">+</span> <span class="number">3</span>];
 
-        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">s0</span>.<span class="ident">wrapping_add</span>(<span class="ident">s2</span>).<span class="ident">wrapping_shl</span>(<span class="ident">CONST_BITS</span>);
-        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">s0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">s2</span>).<span class="ident">wrapping_shl</span>(<span class="ident">CONST_BITS</span>);
+        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> (<span class="ident">s0</span> <span class="op">+</span> <span class="ident">s2</span>) <span class="op">&lt;&lt;</span> <span class="ident">CONST_BITS</span>;
+        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> (<span class="ident">s0</span> <span class="op">-</span> <span class="ident">s2</span>) <span class="op">&lt;&lt;</span> <span class="ident">CONST_BITS</span>;
 
-        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">s1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s3</span>).<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.541196100</span>));
-        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s3</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.847759065</span>)));
-        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">p1</span>.<span class="ident">wrapping_add</span>(<span class="ident">s1</span>.<span class="ident">wrapping_mul</span>(<span class="ident">stbi_f2f</span>(<span class="number">0.765366865</span>)));
+        <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> (<span class="ident">s1</span> <span class="op">+</span> <span class="ident">s3</span>) <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="number">0.541196100</span>);
+        <span class="kw">let</span> <span class="ident">t0</span> <span class="op">=</span> <span class="ident">p1</span> <span class="op">+</span> <span class="ident">s3</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="op">-</span><span class="number">1.847759065</span>);
+        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">p1</span> <span class="op">+</span> <span class="ident">s1</span> <span class="op">*</span> <span class="ident">stbi_f2f</span>(<span class="number">0.765366865</span>);
 
         <span class="comment">// constants scaled things up by 1&lt;&lt;12, plus we had 1&lt;&lt;2 from first</span>
         <span class="comment">// loop, plus horizontal and vertical each scale by sqrt(8) so together</span>
@@ -562,72 +738,137 @@
         <span class="comment">// so we want to round that, which means adding 0.5 * 1&lt;&lt;17,</span>
         <span class="comment">// aka 65536. Also, we&#39;ll end up with -128 to 127 that we want</span>
         <span class="comment">// to encode as 0..255 by adding 128, so we&#39;ll add that before the shift</span>
-        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">FINAL_BITS</span> <span class="op">-</span> <span class="number">1</span>)) <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">FINAL_BITS</span>));
-        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">FINAL_BITS</span> <span class="op">-</span> <span class="number">1</span>)) <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">FINAL_BITS</span>));
+        <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span> <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> (<span class="ident">FINAL_BITS</span> <span class="op">-</span> <span class="number">1</span>)) <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">128</span> <span class="op">&lt;&lt;</span> <span class="ident">FINAL_BITS</span>);
+        <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span> <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> (<span class="ident">FINAL_BITS</span> <span class="op">-</span> <span class="number">1</span>)) <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">128</span> <span class="op">&lt;&lt;</span> <span class="ident">FINAL_BITS</span>);
 
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="ident">t2</span>).<span class="ident">wrapping_shr</span>(<span class="ident">FINAL_BITS</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">3</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t2</span>).<span class="ident">wrapping_shr</span>(<span class="ident">FINAL_BITS</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="ident">t0</span>).<span class="ident">wrapping_shr</span>(<span class="ident">FINAL_BITS</span>));
-        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">2</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">t0</span>).<span class="ident">wrapping_shr</span>(<span class="ident">FINAL_BITS</span>));
+        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x0</span> <span class="op">+</span> <span class="ident">t2</span>) <span class="op">&gt;&gt;</span> <span class="ident">FINAL_BITS</span>);
+        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">3</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x0</span> <span class="op">-</span> <span class="ident">t2</span>) <span class="op">&gt;&gt;</span> <span class="ident">FINAL_BITS</span>);
+        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x2</span> <span class="op">+</span> <span class="ident">t0</span>) <span class="op">&gt;&gt;</span> <span class="ident">FINAL_BITS</span>);
+        <span class="ident">output</span>[<span class="ident">i</span> <span class="op">*</span> <span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">2</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x2</span> <span class="op">-</span> <span class="ident">t0</span>) <span class="op">&gt;&gt;</span> <span class="ident">FINAL_BITS</span>);
     }
 }
 
 <span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_2x2</span>(<span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
     <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">coefficients</span>.<span class="ident">len</span>(), <span class="number">64</span>);
 
-    <span class="kw">const</span> <span class="ident">SCALE_BITS</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">3</span>;
+    <span class="kw">const</span> <span class="ident">SCALE_BITS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">3</span>;
 
     <span class="comment">// Column 0</span>
-    <span class="kw">let</span> <span class="ident">s00</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-    <span class="kw">let</span> <span class="ident">s10</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+    <span class="kw">let</span> <span class="ident">s00</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">coefficients</span>[<span class="number">8</span> <span class="op">*</span> <span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span> <span class="op">*</span> <span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span>);
+    <span class="kw">let</span> <span class="ident">s10</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">coefficients</span>[<span class="number">8</span> <span class="op">*</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span> <span class="op">*</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>);
 
-    <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">s00</span>.<span class="ident">wrapping_add</span>(<span class="ident">s10</span>);
-    <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">s00</span>.<span class="ident">wrapping_sub</span>(<span class="ident">s10</span>);
+    <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">s00</span> <span class="op">+</span> <span class="ident">s10</span>;
+    <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">s00</span> <span class="op">-</span> <span class="ident">s10</span>;
 
     <span class="comment">// Column 1</span>
-    <span class="kw">let</span> <span class="ident">s01</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">0</span><span class="op">+</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">0</span><span class="op">+</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-    <span class="kw">let</span> <span class="ident">s11</span> <span class="op">=</span> <span class="ident">coefficients</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">1</span><span class="op">+</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span><span class="kw-2">*</span><span class="number">1</span><span class="op">+</span><span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>;
+    <span class="kw">let</span> <span class="ident">s01</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">coefficients</span>[<span class="number">8</span> <span class="op">*</span> <span class="number">0</span> <span class="op">+</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span> <span class="op">*</span> <span class="number">0</span> <span class="op">+</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>);
+    <span class="kw">let</span> <span class="ident">s11</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">coefficients</span>[<span class="number">8</span> <span class="op">*</span> <span class="number">1</span> <span class="op">+</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">8</span> <span class="op">*</span> <span class="number">1</span> <span class="op">+</span> <span class="number">1</span>] <span class="kw">as</span> <span class="ident">i32</span>);
 
-    <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">s01</span>.<span class="ident">wrapping_add</span>(<span class="ident">s11</span>);
-    <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">s01</span>.<span class="ident">wrapping_sub</span>(<span class="ident">s11</span>);
+    <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">s01</span> <span class="op">+</span> <span class="ident">s11</span>;
+    <span class="kw">let</span> <span class="ident">x3</span> <span class="op">=</span> <span class="ident">s01</span> <span class="op">-</span> <span class="ident">s11</span>;
 
-    <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span>.<span class="ident">wrapping_add</span>((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">SCALE_BITS</span><span class="op">-</span><span class="number">1</span>)) <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">SCALE_BITS</span>));
-    <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span>.<span class="ident">wrapping_add</span>((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">SCALE_BITS</span><span class="op">-</span><span class="number">1</span>)) <span class="op">+</span> (<span class="number">128</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">SCALE_BITS</span>));
+    <span class="kw">let</span> <span class="ident">x0</span> <span class="op">=</span> <span class="ident">x0</span> <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> (<span class="ident">SCALE_BITS</span> <span class="op">-</span> <span class="number">1</span>)) <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">128</span> <span class="op">&lt;&lt;</span> <span class="ident">SCALE_BITS</span>);
+    <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">x2</span> <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> (<span class="ident">SCALE_BITS</span> <span class="op">-</span> <span class="number">1</span>)) <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">128</span> <span class="op">&lt;&lt;</span> <span class="ident">SCALE_BITS</span>);
 
     <span class="comment">// Row 0</span>
-    <span class="ident">output</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_add</span>(<span class="ident">x1</span>).<span class="ident">wrapping_shr</span>(<span class="ident">SCALE_BITS</span>));
-    <span class="ident">output</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x0</span>.<span class="ident">wrapping_sub</span>(<span class="ident">x1</span>).<span class="ident">wrapping_shr</span>(<span class="ident">SCALE_BITS</span>));
+    <span class="ident">output</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x0</span> <span class="op">+</span> <span class="ident">x1</span>) <span class="op">&gt;&gt;</span> <span class="ident">SCALE_BITS</span>);
+    <span class="ident">output</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x0</span> <span class="op">-</span> <span class="ident">x1</span>) <span class="op">&gt;&gt;</span> <span class="ident">SCALE_BITS</span>);
 
     <span class="comment">// Row 1</span>
-    <span class="ident">output</span>[<span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_add</span>(<span class="ident">x3</span>).<span class="ident">wrapping_shr</span>(<span class="ident">SCALE_BITS</span>));
-    <span class="ident">output</span>[<span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">x2</span>.<span class="ident">wrapping_sub</span>(<span class="ident">x3</span>).<span class="ident">wrapping_shr</span>(<span class="ident">SCALE_BITS</span>));
+    <span class="ident">output</span>[<span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x2</span> <span class="op">+</span> <span class="ident">x3</span>) <span class="op">&gt;&gt;</span> <span class="ident">SCALE_BITS</span>);
+    <span class="ident">output</span>[<span class="ident">output_linestride</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>((<span class="ident">x2</span> <span class="op">-</span> <span class="ident">x3</span>) <span class="op">&gt;&gt;</span> <span class="ident">SCALE_BITS</span>);
 }
 
 <span class="kw">fn</span> <span class="ident">dequantize_and_idct_block_1x1</span>(<span class="ident">coefficients</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">quantization_table</span>: <span class="kw-2">&amp;</span>[<span class="ident">u16</span>; <span class="number">64</span>], <span class="ident">_output_linestride</span>: <span class="ident">usize</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
     <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">coefficients</span>.<span class="ident">len</span>(), <span class="number">64</span>);
 
-    <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> (<span class="ident">coefficients</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span>).<span class="ident">wrapping_add</span>(<span class="number">128</span> <span class="op">*</span> <span class="number">8</span>) <span class="op">/</span> <span class="number">8</span>;
+    <span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> (<span class="ident">Wrapping</span>(<span class="ident">coefficients</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span> <span class="op">*</span> <span class="ident">quantization_table</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">i32</span>) <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="number">128</span> <span class="op">*</span> <span class="number">8</span>)) <span class="op">/</span> <span class="ident">Wrapping</span>(<span class="number">8</span>);
     <span class="ident">output</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">stbi_clamp</span>(<span class="ident">s0</span>);
 }
 
 <span class="comment">// take a -128..127 value and stbi__clamp it and convert to 0..255</span>
-<span class="kw">fn</span> <span class="ident">stbi_clamp</span>(<span class="ident">x</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u8</span>
+<span class="kw">fn</span> <span class="ident">stbi_clamp</span>(<span class="ident">x</span>: <span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">u8</span>
 {
-   <span class="comment">// trick to use a single test to catch both cases</span>
-   <span class="kw">if</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">&gt;</span> <span class="number">255</span> {
-      <span class="kw">if</span> <span class="ident">x</span> <span class="op">&lt;</span> <span class="number">0</span> { <span class="kw">return</span> <span class="number">0</span>; }
-      <span class="kw">if</span> <span class="ident">x</span> <span class="op">&gt;</span> <span class="number">255</span> { <span class="kw">return</span> <span class="number">255</span>; }
-   }
-
-   <span class="ident">x</span> <span class="kw">as</span> <span class="ident">u8</span>
+    <span class="ident">x</span>.<span class="number">0</span>.<span class="ident">max</span>(<span class="number">0</span>).<span class="ident">min</span>(<span class="number">255</span>) <span class="kw">as</span> <span class="ident">u8</span>
 }
 
-<span class="kw">fn</span> <span class="ident">stbi_f2f</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
-    (<span class="ident">x</span> <span class="op">*</span> <span class="number">4096.0</span> <span class="op">+</span> <span class="number">0.5</span>) <span class="kw">as</span> <span class="ident">i32</span>
+<span class="kw">fn</span> <span class="ident">stbi_f2f</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
+    <span class="ident">Wrapping</span>((<span class="ident">x</span> <span class="op">*</span> <span class="number">4096.0</span> <span class="op">+</span> <span class="number">0.5</span>) <span class="kw">as</span> <span class="ident">i32</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">stbi_fsh</span>(<span class="ident">x</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
-    <span class="ident">x</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">12</span>
+<span class="kw">fn</span> <span class="ident">stbi_fsh</span>(<span class="ident">x</span>: <span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
+    <span class="ident">x</span> <span class="op">&lt;&lt;</span> <span class="number">12</span>
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">test_dequantize_and_idct_block_8x8</span>() {
+    <span class="kw">let</span> <span class="ident">coefficients</span>: [<span class="ident">i16</span>; <span class="number">8</span> <span class="op">*</span> <span class="number">8</span>] <span class="op">=</span> [
+        <span class="op">-</span><span class="number">14</span>, <span class="op">-</span><span class="number">39</span>, <span class="number">58</span>, <span class="op">-</span><span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">1</span>,
+        <span class="number">11</span>, <span class="number">27</span>, <span class="number">4</span>, <span class="op">-</span><span class="number">3</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>,
+        <span class="op">-</span><span class="number">6</span>, <span class="op">-</span><span class="number">13</span>, <span class="op">-</span><span class="number">9</span>, <span class="op">-</span><span class="number">1</span>, <span class="op">-</span><span class="number">2</span>, <span class="op">-</span><span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="op">-</span><span class="number">4</span>, <span class="number">0</span>, <span class="op">-</span><span class="number">1</span>, <span class="op">-</span><span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="op">-</span><span class="number">3</span>, <span class="op">-</span><span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>];
+
+    <span class="kw">let</span> <span class="ident">quantization_table</span>: [<span class="ident">u16</span>; <span class="number">8</span> <span class="op">*</span> <span class="number">8</span>] <span class="op">=</span> [
+        <span class="number">8</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">20</span>, <span class="number">26</span>, <span class="number">31</span>,
+        <span class="number">6</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">10</span>, <span class="number">13</span>, <span class="number">29</span>, <span class="number">30</span>, <span class="number">28</span>,
+        <span class="number">7</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">20</span>, <span class="number">29</span>, <span class="number">35</span>, <span class="number">28</span>,
+        <span class="number">7</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">15</span>, <span class="number">26</span>, <span class="number">44</span>, <span class="number">40</span>, <span class="number">31</span>,
+        <span class="number">9</span>, <span class="number">11</span>, <span class="number">19</span>, <span class="number">28</span>, <span class="number">34</span>, <span class="number">55</span>, <span class="number">52</span>, <span class="number">39</span>,
+        <span class="number">12</span>, <span class="number">18</span>, <span class="number">28</span>, <span class="number">32</span>, <span class="number">41</span>, <span class="number">52</span>, <span class="number">57</span>, <span class="number">46</span>,
+        <span class="number">25</span>, <span class="number">32</span>, <span class="number">39</span>, <span class="number">44</span>, <span class="number">52</span>, <span class="number">61</span>, <span class="number">60</span>, <span class="number">51</span>,
+        <span class="number">36</span>, <span class="number">46</span>, <span class="number">48</span>, <span class="number">49</span>, <span class="number">56</span>, <span class="number">50</span>, <span class="number">52</span>, <span class="number">50</span>];
+    <span class="kw">let</span> <span class="ident">output_linestride</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">8</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">8</span> <span class="op">*</span> <span class="number">8</span>];
+    <span class="ident">dequantize_and_idct_block_8x8</span>(
+        <span class="kw-2">&amp;</span><span class="ident">coefficients</span>,
+        <span class="kw-2">&amp;</span><span class="ident">quantization_table</span>,
+        <span class="ident">output_linestride</span>,
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">output</span>);
+    <span class="kw">let</span> <span class="ident">expected_output</span> <span class="op">=</span> [
+        <span class="number">118</span>, <span class="number">92</span>, <span class="number">110</span>, <span class="number">83</span>, <span class="number">77</span>, <span class="number">93</span>, <span class="number">144</span>, <span class="number">198</span>,
+        <span class="number">172</span>, <span class="number">116</span>, <span class="number">114</span>, <span class="number">87</span>, <span class="number">78</span>, <span class="number">93</span>, <span class="number">146</span>, <span class="number">191</span>,
+        <span class="number">194</span>, <span class="number">107</span>, <span class="number">91</span>, <span class="number">76</span>, <span class="number">71</span>, <span class="number">93</span>, <span class="number">160</span>, <span class="number">198</span>,
+        <span class="number">196</span>, <span class="number">100</span>, <span class="number">80</span>, <span class="number">74</span>, <span class="number">67</span>, <span class="number">92</span>, <span class="number">174</span>, <span class="number">209</span>,
+        <span class="number">182</span>, <span class="number">104</span>, <span class="number">88</span>, <span class="number">81</span>, <span class="number">68</span>, <span class="number">89</span>, <span class="number">178</span>, <span class="number">206</span>,
+        <span class="number">105</span>, <span class="number">64</span>, <span class="number">59</span>, <span class="number">59</span>, <span class="number">63</span>, <span class="number">94</span>, <span class="number">183</span>, <span class="number">201</span>,
+        <span class="number">35</span>, <span class="number">27</span>, <span class="number">28</span>, <span class="number">37</span>, <span class="number">72</span>, <span class="number">121</span>, <span class="number">203</span>, <span class="number">204</span>,
+        <span class="number">37</span>, <span class="number">45</span>, <span class="number">41</span>, <span class="number">47</span>, <span class="number">98</span>, <span class="number">154</span>, <span class="number">223</span>, <span class="number">208</span>];
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>[..], <span class="kw-2">&amp;</span><span class="ident">expected_output</span>[..]);
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">test_dequantize_and_idct_block_8x8_all_zero</span>() {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">8</span> <span class="op">*</span> <span class="number">8</span>];
+    <span class="ident">dequantize_and_idct_block_8x8</span>(
+        <span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">8</span><span class="kw-2">*</span><span class="number">8</span>],
+        <span class="kw-2">&amp;</span>[<span class="number">666</span>; <span class="number">8</span><span class="kw-2">*</span><span class="number">8</span>],
+        <span class="number">8</span>,
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">output</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>[..], <span class="kw-2">&amp;</span>[<span class="number">128</span>; <span class="number">8</span><span class="kw-2">*</span><span class="number">8</span>][..]);
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">test_dequantize_and_idct_block_8x8_saturated</span>() {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">8</span> <span class="op">*</span> <span class="number">8</span>];
+    <span class="ident">dequantize_and_idct_block_8x8</span>(
+        <span class="kw-2">&amp;</span>[<span class="ident">std</span>::<span class="ident">i16</span>::<span class="ident">MAX</span>; <span class="number">8</span><span class="kw-2">*</span><span class="number">8</span>],
+        <span class="kw-2">&amp;</span>[<span class="ident">std</span>::<span class="ident">u16</span>::<span class="ident">MAX</span>; <span class="number">8</span><span class="kw-2">*</span><span class="number">8</span>],
+        <span class="number">8</span>,
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">output</span>);
+    <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> [
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">215</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>,
+        <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">170</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>,
+        <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>];
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>[..], <span class="kw-2">&amp;</span><span class="ident">expected</span>[..]);
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "jpeg_decoder";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "jpeg_decoder";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

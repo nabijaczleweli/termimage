@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.8.3/src/input_buffer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>input_buffer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/deflate-0.8.6/src/input_buffer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>input_buffer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../deflate/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -161,13 +162,13 @@
 
 <span class="kw">impl</span> <span class="ident">InputBuffer</span> {
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">InputBuffer</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> (<span class="ident">InputBuffer</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">InputBuffer</span>::<span class="ident">empty</span>();
         <span class="kw">let</span> <span class="ident">rem</span> <span class="op">=</span> <span class="ident">b</span>.<span class="ident">add_data</span>(<span class="ident">data</span>);
         (<span class="ident">b</span>, <span class="ident">rem</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">InputBuffer</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-&gt;</span> <span class="ident">InputBuffer</span> {
         <span class="ident">InputBuffer</span> {
             <span class="ident">buffer</span>: <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">BUFFER_SIZE</span>),
         }
@@ -176,8 +177,8 @@
     <span class="doccomment">/// Add data to the buffer.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a slice of the data that was not added (including the lookahead if any).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_data</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
-        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_end</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">BUFFER_SIZE</span>);
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_data</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
+        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_end</span>() <span class="op">&lt;=</span> <span class="ident">BUFFER_SIZE</span>);
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">current_end</span>() <span class="op">+</span> <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">BUFFER_SIZE</span> {
             <span class="comment">// Add data and return how much was left.</span>
             <span class="kw">let</span> <span class="ident">consumed</span> <span class="op">=</span> {
@@ -194,14 +195,14 @@
     }
 
     <span class="doccomment">/// Get the current amount of data in the buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">current_end</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">current_end</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">len</span>()
     }
 
     <span class="doccomment">/// Slide the input window and add new data.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a slice containing the data that did not fit, or `None` if all data was consumed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">slide</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">slide</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
         <span class="comment">// This should only be used when the buffer is full</span>
         <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">WINDOW_SIZE</span> <span class="op">*</span> <span class="number">2</span>);
 
@@ -215,7 +216,7 @@
                 <span class="comment">// Copy the lookahead to the start of the upper window</span>
                 <span class="kw">let</span> (<span class="ident">upper_2</span>, <span class="ident">lookahead</span>) <span class="op">=</span> <span class="ident">upper</span>.<span class="ident">split_at_mut</span>(<span class="ident">WINDOW_SIZE</span>);
                 <span class="kw">let</span> <span class="ident">lookahead_len</span> <span class="op">=</span> <span class="ident">lookahead</span>.<span class="ident">len</span>();
-                <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">lookahead_len</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">MAX_MATCH</span>);
+                <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">lookahead_len</span> <span class="op">&lt;=</span> <span class="ident">MAX_MATCH</span>);
                 <span class="ident">upper_2</span>[..<span class="ident">lookahead_len</span>].<span class="ident">copy_from_slice</span>(<span class="ident">lookahead</span>);
                 <span class="ident">lookahead_len</span>
             };
@@ -239,7 +240,7 @@
     }
 
     <span class="doccomment">/// Get a mutable slice of the used part of the buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>] {
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">buffer</span>
     }
 }
@@ -253,7 +254,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_add_full</span>() {
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> [<span class="number">10u8</span>; <span class="ident">BUFFER_SIZE</span> <span class="op">+</span> <span class="number">10</span>];
         <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">buf</span>, <span class="ident">extra</span>) <span class="op">=</span> <span class="ident">InputBuffer</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[..]);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">extra</span>.<span class="ident">unwrap</span>() <span class="op">=</span><span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="number">10</span>; <span class="number">10</span>]);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">extra</span>.<span class="ident">unwrap</span>() <span class="op">==</span> <span class="kw-2">&amp;</span>[<span class="number">10</span>; <span class="number">10</span>]);
         <span class="kw">let</span> <span class="ident">to_add</span> <span class="op">=</span> [<span class="number">2</span>, <span class="number">5</span>, <span class="number">3</span>];
         <span class="kw">let</span> <span class="ident">not_added</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add_data</span>(<span class="kw-2">&amp;</span><span class="ident">to_add</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">not_added</span>.<span class="ident">unwrap</span>(), <span class="ident">to_add</span>);
@@ -284,7 +285,7 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">rem</span>.<span class="ident">is_none</span>());
         {
             <span class="kw">let</span> <span class="ident">slice</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">get_buffer</span>();
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">slice</span>[..<span class="ident">WINDOW_SIZE</span> <span class="op">+</span> <span class="ident">MAX_MATCH</span>] <span class="op">=</span><span class="op">=</span> <span class="ident">data</span>[<span class="ident">WINDOW_SIZE</span>..]);
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">slice</span>[..<span class="ident">WINDOW_SIZE</span> <span class="op">+</span> <span class="ident">MAX_MATCH</span>] <span class="op">==</span> <span class="ident">data</span>[<span class="ident">WINDOW_SIZE</span>..]);
             <span class="macro">assert_eq</span><span class="macro">!</span>(
                 <span class="ident">slice</span>[<span class="ident">WINDOW_SIZE</span> <span class="op">+</span> <span class="ident">MAX_MATCH</span>..<span class="ident">WINDOW_SIZE</span> <span class="op">+</span> <span class="ident">MAX_MATCH</span> <span class="op">+</span> <span class="number">5</span>],
                 <span class="ident">to_add</span>
@@ -294,4 +295,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "deflate";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "deflate";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

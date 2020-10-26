@@ -1,16 +1,3 @@
 (function() {var implementors = {};
-implementors["enum_primitive"] = [];
-implementors["flate2"] = [];
-implementors["image"] = [];
-implementors["libc"] = [];
-implementors["rayon"] = [];
-implementors["regex_syntax"] = [];
-implementors["termimage"] = [];
-
-            if (window.register_implementors) {
-                window.register_implementors(implementors);
-            } else {
-                window.pending_implementors = implementors;
-            }
-        
-})()
+implementors["image"] = [{"text":"impl&lt;R:&nbsp;Read + Seek&gt; Seek for FarbfeldReader&lt;R&gt;","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

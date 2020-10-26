@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/memoffset-0.5.4/src/offset_of.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>offset_of.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../memoffset/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/memoffset-0.5.6/src/offset_of.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>offset_of.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../memoffset/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -210,26 +211,6 @@
 <span id="210">210</span>
 <span id="211">211</span>
 <span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
-<span id="228">228</span>
-<span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2017 Gilad Naaman</span>
 <span class="comment">//</span>
@@ -257,61 +238,46 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">_memoffset__let_base_ptr</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">path</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">path</span>) <span class="op">=&gt;</span> {
         <span class="comment">// No UB here, and the pointer does not dangle, either.</span>
         <span class="comment">// But we have to make sure that `uninit` lives long enough,</span>
         <span class="comment">// so it has to be in the same scope as `$name`. That&#39;s why</span>
         <span class="comment">// `let_base_ptr` declares a variable (several, actually)</span>
         <span class="comment">// instead of returning one.</span>
         <span class="kw">let</span> <span class="ident">uninit</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">type</span><span class="op">&gt;</span>::<span class="macro-nonterminal">uninit</span>();
-        <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">=</span> <span class="ident">uninit</span>.<span class="ident">as_ptr</span>();
+        <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="kw">type</span> <span class="op">=</span> <span class="macro-nonterminal">uninit</span>.<span class="ident">as_ptr</span>();
     };
 }
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">maybe_uninit</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">_memoffset__let_base_ptr</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">path</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">path</span>) <span class="op">=&gt;</span> {
         <span class="comment">// No UB right here, but we will later dereference this pointer to</span>
-        <span class="comment">// offset into a field, and that is UB when the pointer is dangling.</span>
+        <span class="comment">// offset into a field, and that is UB because the pointer is dangling.</span>
         <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">mem</span>::<span class="ident">align_of</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">type</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="kw">type</span>;
     };
 }
 
-<span class="doccomment">/// Deref-coercion protection macro.</span>
-<span class="attribute">#[<span class="macro-nonterminal">macro_export</span>]</span>
+<span class="doccomment">/// Macro to compute the distance between two pointers.</span>
+<span class="attribute">#[<span class="macro-nonterminal">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable_const&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">_memoffset__field_check</span> {
-    (<span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">path</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">tt</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="comment">// Make sure the field actually exists. This line ensures that a</span>
-        <span class="comment">// compile-time error is generated if $field is accessed through a</span>
-        <span class="comment">// Deref impl.</span>
-        <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">allow_clippy</span>, <span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">unneeded_field_pattern</span>))]</span>
-        <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="kw">type</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>: <span class="kw">_</span>, .. };
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">_memoffset_offset_from</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">base</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+        <span class="comment">// Compute offset, with unstable `offset_from` for const-compatibility.</span>
+        <span class="comment">// (Requires the pointers to not dangle, but we already need that for `raw_field!` anyway.)</span>
+        <span class="kw">unsafe</span> { (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>).<span class="ident">offset_from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">base</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>) <span class="kw">as</span> <span class="ident">usize</span> }
     };
 }
-
-<span class="doccomment">/// Computes a const raw pointer to the given field of the given base pointer</span>
-<span class="doccomment">/// to the given parent type.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The `base` pointer *must not* be dangling, but it *may* point to</span>
-<span class="doccomment">/// uninitialized memory.</span>
-<span class="attribute">#[<span class="ident">macro_export</span>(<span class="ident">local_inner_macros</span>)]</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">raw_field</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">base</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span>:<span class="ident">path</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">tt</span>) <span class="op">=</span><span class="op">&gt;</span> {{
-        <span class="macro">_memoffset__field_check</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>);
-        <span class="kw">let</span> <span class="ident">base_ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">base</span>;
-
-        <span class="comment">// Get the field address. This is UB because we are creating a reference to</span>
-        <span class="comment">// the uninitialized field. Will be updated to use `&amp;raw` before rustc</span>
-        <span class="comment">// starts exploiting such UB.</span>
-        <span class="comment">// Crucially, we know that this will not trigger a deref coercion because</span>
-        <span class="comment">// of the `field_check!` we did above.</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_unsafe</span>)]</span> <span class="comment">// for when the macro is used in an unsafe block</span>
-        <span class="kw">unsafe</span> {
-            <span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="ident">base_ptr</span>).<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>
-        }
-    }};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable_const&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">_memoffset_offset_from</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">base</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+        <span class="comment">// Compute offset.</span>
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">base</span> <span class="kw">as</span> <span class="ident">usize</span>)
+    };
 }
 
 <span class="doccomment">/// Calculates the offset of the specified field from the start of the struct.</span>
@@ -333,37 +299,15 @@
 <span class="doccomment">///     assert_eq!(offset_of!(Foo, b), 4);</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable_const&quot;</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>(<span class="ident">local_inner_macros</span>)]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">offset_of</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span>:<span class="ident">path</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">tt</span>) <span class="op">=</span><span class="op">&gt;</span> {{
-        <span class="comment">// Get a base pointer.</span>
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span>:<span class="ident">path</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">tt</span>) <span class="op">=&gt;</span> {{
+        <span class="comment">// Get a base pointer (non-dangling if rustc supports `MaybeUninit`).</span>
         <span class="macro">_memoffset__let_base_ptr</span><span class="macro">!</span>(<span class="ident">base_ptr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span>);
         <span class="comment">// Get field pointer.</span>
         <span class="kw">let</span> <span class="ident">field_ptr</span> <span class="op">=</span> <span class="macro">raw_field</span><span class="macro">!</span>(<span class="ident">base_ptr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>);
         <span class="comment">// Compute offset.</span>
-        (<span class="ident">field_ptr</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> (<span class="ident">base_ptr</span> <span class="kw">as</span> <span class="ident">usize</span>)
-    }};
-}
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable_const&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">macro_export</span>(<span class="ident">local_inner_macros</span>)]</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">offset_of</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span>:<span class="ident">path</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">tt</span>) <span class="op">=</span><span class="op">&gt;</span> {{
-        <span class="comment">// Get a base pointer.</span>
-        <span class="comment">// No UB here, and the pointer does not dangle, either.</span>
-        <span class="kw">let</span> <span class="ident">uninit</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_unsafe</span>)]</span> <span class="comment">// for when the macro is used in an unsafe block</span>
-        <span class="kw">unsafe</span> {
-            <span class="comment">// This, on the other hand, *is* UB, since we&#39;re creating a reference</span>
-            <span class="comment">// to uninitialized data.</span>
-            <span class="comment">// Unfortunately it&#39;s the best we can do at the moment.</span>
-            <span class="kw">let</span> <span class="ident">base_ptr</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">mem</span>::<span class="ident">transmute</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">uninit</span>) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span>;
-            <span class="comment">// Get a field pointer.</span>
-            <span class="kw">let</span> <span class="ident">field_ptr</span> <span class="op">=</span> <span class="macro">raw_field</span><span class="macro">!</span>(<span class="ident">base_ptr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">parent</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>);
-            <span class="comment">// Compute offset.</span>
-            (<span class="ident">field_ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>).<span class="ident">offset_from</span>(<span class="ident">base_ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>) <span class="kw">as</span> <span class="ident">usize</span>
-        }
+        <span class="macro">_memoffset_offset_from</span><span class="macro">!</span>(<span class="ident">field_ptr</span>, <span class="ident">base_ptr</span>)
     }};
 }
 
@@ -423,7 +367,7 @@
     <span class="kw">fn</span> <span class="ident">inside_generic_method</span>() {
         <span class="kw">struct</span> <span class="ident">Pair</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="ident">T</span>, <span class="ident">U</span>);
 
-        <span class="kw">fn</span> <span class="ident">foo</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="kw">_</span>: <span class="ident">Pair</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+        <span class="kw">fn</span> <span class="ident">foo</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="kw">_</span>: <span class="ident">Pair</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
             <span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">Pair</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>, <span class="number">1</span>)
         }
 
@@ -462,6 +406,23 @@
 
         <span class="macro">assert_eq</span><span class="macro">!</span>([<span class="number">0</span>; <span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">Foo</span>, <span class="ident">b</span>)].<span class="ident">len</span>(), <span class="number">4</span>);
     }
+
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable_const&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">const_fn_offset</span>() {
+        <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">test_fn</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+            <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+            <span class="kw">struct</span> <span class="ident">Foo</span> {
+                <span class="ident">a</span>: <span class="ident">u32</span>,
+                <span class="ident">b</span>: [<span class="ident">u8</span>; <span class="number">2</span>],
+                <span class="ident">c</span>: <span class="ident">i64</span>,
+            }
+
+            <span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">Foo</span>, <span class="ident">b</span>)
+        }
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>([<span class="number">0</span>; <span class="ident">test_fn</span>()].<span class="ident">len</span>(), <span class="number">4</span>);
+    }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "memoffset";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "memoffset";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

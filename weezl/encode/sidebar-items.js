@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Encoder","The state for encoding data with an LZW algorithm."],["IntoStream","A encoding stream sink."]]});

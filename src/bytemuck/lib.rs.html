@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.2.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../bytemuck/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.4.1/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../bytemuck/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -431,6 +432,15 @@
 <span id="431">431</span>
 <span id="432">432</span>
 <span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">no_std</span>]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
@@ -485,10 +495,13 @@
 <span class="kw">pub</span> <span class="kw">use</span> ::<span class="ident">core</span> <span class="kw">as</span> <span class="ident">__core</span>;
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_unsafe_marker_for_array</span> {
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">marker</span>:<span class="ident">ident</span> , $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">expr</span> ),<span class="op">*</span> ) <span class="op">=</span><span class="op">&gt;</span> {
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">marker</span>:<span class="ident">ident</span> , $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">expr</span> ),<span class="op">*</span> ) <span class="op">=&gt;</span> {
     $(<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">marker</span> <span class="kw">for</span> [<span class="ident">T</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>] <span class="kw">where</span> <span class="ident">T</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">marker</span> {})<span class="op">*</span>
   }
 }
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;extern_crate_std&quot;</span>)]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">std</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;extern_crate_alloc&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">alloc</span>;
@@ -512,6 +525,9 @@
 <span class="kw">mod</span> <span class="ident">transparent</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">transparent</span>::<span class="kw-2">*</span>;
 
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;derive&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bytemuck_derive</span>::{<span class="ident">Zeroable</span>, <span class="ident">Pod</span>, <span class="ident">TransparentWrapper</span>, <span class="ident">Contiguous</span>};
+
 <span class="comment">/*
 
 Note(Lokathor): We&#39;ve switched all of the `unwrap` to `match` because there is
@@ -527,7 +543,7 @@ possibility code branch.
 <span class="doccomment">/// Immediately panics.</span>
 <span class="attribute">#[<span class="ident">cold</span>]</span>
 <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">never</span>)]</span>
-<span class="kw">fn</span> <span class="ident">something_went_wrong</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">err</span>: <span class="ident">PodCastError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="op">!</span> {
+<span class="kw">fn</span> <span class="ident">something_went_wrong</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">err</span>: <span class="ident">PodCastError</span>) <span class="op">-&gt;</span> <span class="op">!</span> {
   <span class="comment">// Note(Lokathor): Keeping the panic here makes the panic _formatting_ go</span>
   <span class="comment">// here too, which helps assembly readability and also helps keep down</span>
   <span class="comment">// the inline pressure.</span>
@@ -539,10 +555,10 @@ possibility code branch.
 <span class="doccomment">/// Any ZST becomes an empty slice, and in that case the pointer value of that</span>
 <span class="doccomment">/// empty slice might not match the pointer value of the input reference.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bytes_of</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bytes_of</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
   <span class="kw">match</span> <span class="ident">try_cast_slice</span>::<span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">u8</span><span class="op">&gt;</span>(<span class="ident">core</span>::<span class="ident">slice</span>::<span class="ident">from_ref</span>(<span class="ident">t</span>)) {
-    <span class="prelude-val">Ok</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">s</span>,
-    <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+    <span class="prelude-val">Ok</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">s</span>,
+    <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
   }
 }
 
@@ -551,10 +567,10 @@ possibility code branch.
 <span class="doccomment">/// Any ZST becomes an empty slice, and in that case the pointer value of that</span>
 <span class="doccomment">/// empty slice might not match the pointer value of the input reference.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bytes_of_mut</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>] {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bytes_of_mut</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>] {
   <span class="kw">match</span> <span class="ident">try_cast_slice_mut</span>::<span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">u8</span><span class="op">&gt;</span>(<span class="ident">core</span>::<span class="ident">slice</span>::<span class="ident">from_mut</span>(<span class="ident">t</span>)) {
-    <span class="prelude-val">Ok</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">s</span>,
-    <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+    <span class="prelude-val">Ok</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">s</span>,
+    <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
   }
 }
 
@@ -564,10 +580,10 @@ possibility code branch.
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is [`try_from_bytes`] but will panic on error.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_bytes</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_bytes</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> {
   <span class="kw">match</span> <span class="ident">try_from_bytes</span>(<span class="ident">s</span>) {
-    <span class="prelude-val">Ok</span>(<span class="ident">t</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">t</span>,
-    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;from_bytes&quot;</span>, <span class="ident">e</span>),
+    <span class="prelude-val">Ok</span>(<span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">t</span>,
+    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;from_bytes&quot;</span>, <span class="ident">e</span>),
   }
 }
 
@@ -577,10 +593,10 @@ possibility code branch.
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is [`try_from_bytes_mut`] but will panic on error.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_bytes_mut</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_bytes_mut</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> {
   <span class="kw">match</span> <span class="ident">try_from_bytes_mut</span>(<span class="ident">s</span>) {
-    <span class="prelude-val">Ok</span>(<span class="ident">t</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">t</span>,
-    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;from_bytes_mut&quot;</span>, <span class="ident">e</span>),
+    <span class="prelude-val">Ok</span>(<span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">t</span>,
+    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;from_bytes_mut&quot;</span>, <span class="ident">e</span>),
   }
 }
 
@@ -591,11 +607,11 @@ possibility code branch.
 <span class="doccomment">/// * If the slice isn&#39;t aligned for the new type</span>
 <span class="doccomment">/// * If the slice&#39;s length isn’t exactly the size of the new type</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_from_bytes</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
-  <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_from_bytes</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
+  <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">SizeMismatch</span>)
-  } <span class="kw">else</span> <span class="kw">if</span> (<span class="ident">s</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-    <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">AlignmentMismatch</span>)
+  } <span class="kw">else</span> <span class="kw">if</span> (<span class="ident">s</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">!=</span> <span class="number">0</span> {
+    <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">TargetAlignmentGreaterAndInputNotAligned</span>)
   } <span class="kw">else</span> {
     <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">s</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">T</span>) })
   }
@@ -610,18 +626,18 @@ possibility code branch.
 <span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_from_bytes_mut</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(
   <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>],
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
-  <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
+  <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">SizeMismatch</span>)
-  } <span class="kw">else</span> <span class="kw">if</span> (<span class="ident">s</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-    <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">AlignmentMismatch</span>)
+  } <span class="kw">else</span> <span class="kw">if</span> (<span class="ident">s</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">!=</span> <span class="number">0</span> {
+    <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">TargetAlignmentGreaterAndInputNotAligned</span>)
   } <span class="kw">else</span> {
     <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="ident">s</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">T</span>) })
   }
 }
 
 <span class="doccomment">/// The things that can go wrong when casting between [`Pod`] data forms.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PodCastError</span> {
   <span class="doccomment">/// You tried to cast a slice to an element type with a higher alignment</span>
   <span class="doccomment">/// requirement but the slice wasn&#39;t aligned.</span>
@@ -636,27 +652,31 @@ possibility code branch.
   <span class="ident">SizeMismatch</span>,
   <span class="doccomment">/// For this type of cast the alignments must be exactly the same and they</span>
   <span class="doccomment">/// were not so now you&#39;re sad.</span>
+  <span class="doccomment">///</span>
+  <span class="doccomment">/// This error is generated **only** by operations that cast allocated types</span>
+  <span class="doccomment">/// (such as `Box` and `Vec`), because in that case the alignment must stay</span>
+  <span class="doccomment">/// exact.</span>
   <span class="ident">AlignmentMismatch</span>,
 }
+<span class="kw">impl</span> <span class="ident">core</span>::<span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">PodCastError</span> {
+  <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">core</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">core</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="self">self</span>)
+  }
+}
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;extern_crate_std&quot;</span>)]</span>
+<span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">PodCastError</span> {}
 
 <span class="doccomment">/// Cast `T` into `U`</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Panics</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This is [`try_cast`] but will panic on error.</span>
+<span class="doccomment">/// * This is like [`try_cast`](try_cast), but will panic on a size mismatch.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">B</span> {
-  <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() {
-    <span class="comment">// Plz mr compiler, just notice that we can&#39;t ever hit Err in this case.</span>
-    <span class="kw">match</span> <span class="ident">try_cast</span>(<span class="ident">a</span>) {
-      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
-      <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
-    }
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">A</span>) <span class="op">-&gt;</span> <span class="ident">B</span> {
+  <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() {
+    <span class="kw">unsafe</span> { <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>) }
   } <span class="kw">else</span> {
-    <span class="kw">match</span> <span class="ident">try_cast</span>(<span class="ident">a</span>) {
-      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
-      <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast&quot;</span>, <span class="ident">e</span>),
-    }
+    <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast&quot;</span>, <span class="ident">PodCastError</span>::<span class="ident">SizeMismatch</span>)
   }
 }
 
@@ -666,17 +686,17 @@ possibility code branch.
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is [`try_cast_mut`] but will panic on error.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast_mut</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span> {
-  <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast_mut</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">A</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span> {
+  <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">&amp;&amp;</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">&gt;=</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() {
     <span class="comment">// Plz mr compiler, just notice that we can&#39;t ever hit Err in this case.</span>
     <span class="kw">match</span> <span class="ident">try_cast_mut</span>(<span class="ident">a</span>) {
-      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
-      <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">b</span>,
+      <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     }
   } <span class="kw">else</span> {
     <span class="kw">match</span> <span class="ident">try_cast_mut</span>(<span class="ident">a</span>) {
-      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
-      <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast_mut&quot;</span>, <span class="ident">e</span>),
+      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">b</span>,
+      <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast_mut&quot;</span>, <span class="ident">e</span>),
     }
   }
 }
@@ -687,31 +707,31 @@ possibility code branch.
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is [`try_cast_ref`] but will panic on error.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast_ref</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span> {
-  <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast_ref</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">A</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span> {
+  <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">&amp;&amp;</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">&gt;=</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() {
     <span class="comment">// Plz mr compiler, just notice that we can&#39;t ever hit Err in this case.</span>
     <span class="kw">match</span> <span class="ident">try_cast_ref</span>(<span class="ident">a</span>) {
-      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
-      <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">b</span>,
+      <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     }
   } <span class="kw">else</span> {
     <span class="kw">match</span> <span class="ident">try_cast_ref</span>(<span class="ident">a</span>) {
-      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
-      <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast_ref&quot;</span>, <span class="ident">e</span>),
+      <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">b</span>,
+      <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast_ref&quot;</span>, <span class="ident">e</span>),
     }
   }
 }
 
-<span class="doccomment">/// Cast `&amp;[T]` into `&amp;[U]`.</span>
+<span class="doccomment">/// Cast `&amp;[A]` into `&amp;[B]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Panics</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is [`try_cast_slice`] but will panic on error.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast_slice</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span>[<span class="ident">A</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">B</span>] {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast_slice</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span>[<span class="ident">A</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">B</span>] {
   <span class="kw">match</span> <span class="ident">try_cast_slice</span>(<span class="ident">a</span>) {
-    <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
-    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast_slice&quot;</span>, <span class="ident">e</span>),
+    <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">b</span>,
+    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast_slice&quot;</span>, <span class="ident">e</span>),
   }
 }
 
@@ -721,16 +741,16 @@ possibility code branch.
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is [`try_cast_slice_mut`] but will panic on error.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast_slice_mut</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">A</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">B</span>] {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast_slice_mut</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">A</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">B</span>] {
   <span class="kw">match</span> <span class="ident">try_cast_slice_mut</span>(<span class="ident">a</span>) {
-    <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b</span>,
-    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast_slice_mut&quot;</span>, <span class="ident">e</span>),
+    <span class="prelude-val">Ok</span>(<span class="ident">b</span>) <span class="op">=&gt;</span> <span class="ident">b</span>,
+    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">something_went_wrong</span>(<span class="string">&quot;cast_slice_mut&quot;</span>, <span class="ident">e</span>),
   }
 }
 
 <span class="doccomment">/// As `align_to`, but safe because of the [`Pod`] bound.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pod_align_to</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span>, <span class="ident">U</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">vals</span>: <span class="kw-2">&amp;</span>[<span class="ident">T</span>]) <span class="op">-</span><span class="op">&gt;</span> (<span class="kw-2">&amp;</span>[<span class="ident">T</span>], <span class="kw-2">&amp;</span>[<span class="ident">U</span>], <span class="kw-2">&amp;</span>[<span class="ident">T</span>]) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pod_align_to</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span>, <span class="ident">U</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">vals</span>: <span class="kw-2">&amp;</span>[<span class="ident">T</span>]) <span class="op">-&gt;</span> (<span class="kw-2">&amp;</span>[<span class="ident">T</span>], <span class="kw-2">&amp;</span>[<span class="ident">U</span>], <span class="kw-2">&amp;</span>[<span class="ident">T</span>]) {
   <span class="kw">unsafe</span> { <span class="ident">vals</span>.<span class="ident">align_to</span>::<span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>() }
 }
 
@@ -738,25 +758,24 @@ possibility code branch.
 <span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pod_align_to_mut</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Pod</span>, <span class="ident">U</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(
   <span class="ident">vals</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>],
-) <span class="op">-</span><span class="op">&gt;</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">U</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>]) {
+) <span class="op">-&gt;</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">U</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>]) {
   <span class="kw">unsafe</span> { <span class="ident">vals</span>.<span class="ident">align_to_mut</span>::<span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>() }
 }
 
 <span class="doccomment">/// Try to cast `T` into `U`.</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// Note that for this particular type of cast, alignment isn&#39;t a factor. The</span>
+<span class="doccomment">/// input value is semantically copied into the function and then returned to a</span>
+<span class="doccomment">/// new memory location which will have whatever the required alignment of the</span>
+<span class="doccomment">/// output type is.</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// ## Failure</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// * If the types don&#39;t have the same size this fails.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_cast</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
-  <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">zeroed</span>();
-    <span class="comment">// Note(Lokathor): We copy in terms of `u8` because that allows us to bypass</span>
-    <span class="comment">// any potential alignment difficulties.</span>
-    <span class="kw">let</span> <span class="ident">ap</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">a</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">A</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>;
-    <span class="kw">let</span> <span class="ident">bp</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">b</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">B</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>;
-    <span class="kw">unsafe</span> { <span class="ident">ap</span>.<span class="ident">copy_to_nonoverlapping</span>(<span class="ident">bp</span>, <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>()) };
-    <span class="prelude-val">Ok</span>(<span class="ident">b</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_cast</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">A</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
+  <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() {
+    <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">transmute_copy</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>) })
   } <span class="kw">else</span> {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">SizeMismatch</span>)
   }
@@ -769,14 +788,14 @@ possibility code branch.
 <span class="doccomment">/// * If the reference isn&#39;t aligned in the new type</span>
 <span class="doccomment">/// * If the source type and target type aren&#39;t the same size.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_cast_ref</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">B</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_cast_ref</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">A</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">B</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
   <span class="comment">// Note(Lokathor): everything with `align_of` and `size_of` will optimize away</span>
   <span class="comment">// after monomorphization.</span>
   <span class="kw">if</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">&gt;</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>()
-    <span class="kw-2">&amp;</span><span class="op">&amp;</span> (<span class="ident">a</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">A</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
+    <span class="op">&amp;&amp;</span> (<span class="ident">a</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">A</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">!=</span> <span class="number">0</span>
   {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">TargetAlignmentGreaterAndInputNotAligned</span>)
-  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() {
+  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() {
     <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">a</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">A</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">B</span>) })
   } <span class="kw">else</span> {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">SizeMismatch</span>)
@@ -787,21 +806,21 @@ possibility code branch.
 <span class="doccomment">///</span>
 <span class="doccomment">/// As [`try_cast_ref`], but `mut`.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_cast_mut</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_cast_mut</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">A</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span>, <span class="ident">PodCastError</span><span class="op">&gt;</span> {
   <span class="comment">// Note(Lokathor): everything with `align_of` and `size_of` will optimize away</span>
   <span class="comment">// after monomorphization.</span>
   <span class="kw">if</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">&gt;</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>()
-    <span class="kw-2">&amp;</span><span class="op">&amp;</span> (<span class="ident">a</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">A</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
+    <span class="op">&amp;&amp;</span> (<span class="ident">a</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">A</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">!=</span> <span class="number">0</span>
   {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">TargetAlignmentGreaterAndInputNotAligned</span>)
-  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() {
+  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() {
     <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="ident">a</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">A</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">B</span>) })
   } <span class="kw">else</span> {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">SizeMismatch</span>)
   }
 }
 
-<span class="doccomment">/// Try to convert `&amp;[T]` into `&amp;[U]` (possibly with a change in length).</span>
+<span class="doccomment">/// Try to convert `&amp;[A]` into `&amp;[B]` (possibly with a change in length).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// * `input.as_ptr() as usize == output.as_ptr() as usize`</span>
 <span class="doccomment">/// * `input.len() * size_of::&lt;A&gt;() == output.len() * size_of::&lt;B&gt;()`</span>
@@ -814,22 +833,21 @@ possibility code branch.
 <span class="doccomment">///   type, and the output slice wouldn&#39;t be a whole number of elements when</span>
 <span class="doccomment">///   accounting for the size change (eg: 3 `u16` values is 1.5 `u32` values, so</span>
 <span class="doccomment">///   that&#39;s a failure).</span>
-<span class="doccomment">/// * Similarly, you can&#39;t convert between a</span>
-<span class="doccomment">///   [ZST](https://doc.rust-lang.org/nomicon/exotic-sizes.html#zero-sized-types-zsts)</span>
+<span class="doccomment">/// * Similarly, you can&#39;t convert between a [ZST](https://doc.rust-lang.org/nomicon/exotic-sizes.html#zero-sized-types-zsts)</span>
 <span class="doccomment">///   and a non-ZST.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_cast_slice</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span>[<span class="ident">A</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">B</span>], <span class="ident">PodCastError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_cast_slice</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span>[<span class="ident">A</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">B</span>], <span class="ident">PodCastError</span><span class="op">&gt;</span> {
   <span class="comment">// Note(Lokathor): everything with `align_of` and `size_of` will optimize away</span>
   <span class="comment">// after monomorphization.</span>
   <span class="kw">if</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">&gt;</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>()
-    <span class="kw-2">&amp;</span><span class="op">&amp;</span> (<span class="ident">a</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
+    <span class="op">&amp;&amp;</span> (<span class="ident">a</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">!=</span> <span class="number">0</span>
   {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">TargetAlignmentGreaterAndInputNotAligned</span>)
-  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() {
+  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() {
     <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="ident">core</span>::<span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(<span class="ident">a</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">B</span>, <span class="ident">a</span>.<span class="ident">len</span>()) })
-  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="number">0</span> {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">SizeMismatch</span>)
-  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>(<span class="ident">a</span>) <span class="op">%</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>(<span class="ident">a</span>) <span class="op">%</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="number">0</span> {
     <span class="kw">let</span> <span class="ident">new_len</span> <span class="op">=</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>(<span class="ident">a</span>) <span class="op">/</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>();
     <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="ident">core</span>::<span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(<span class="ident">a</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">B</span>, <span class="ident">new_len</span>) })
   } <span class="kw">else</span> {
@@ -837,26 +855,27 @@ possibility code branch.
   }
 }
 
-<span class="doccomment">/// Try to convert `&amp;mut [T]` into `&amp;mut [U]` (possibly with a change in length).</span>
+<span class="doccomment">/// Try to convert `&amp;mut [A]` into `&amp;mut [B]` (possibly with a change in</span>
+<span class="doccomment">/// length).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// As [`try_cast_slice`], but `&amp;mut`.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_cast_slice_mut</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Pod</span>, <span class="ident">B</span>: <span class="ident">Pod</span><span class="op">&gt;</span>(
   <span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">A</span>],
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">B</span>], <span class="ident">PodCastError</span><span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">B</span>], <span class="ident">PodCastError</span><span class="op">&gt;</span> {
   <span class="comment">// Note(Lokathor): everything with `align_of` and `size_of` will optimize away</span>
   <span class="comment">// after monomorphization.</span>
   <span class="kw">if</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">&gt;</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>()
-    <span class="kw-2">&amp;</span><span class="op">&amp;</span> (<span class="ident">a</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
+    <span class="op">&amp;&amp;</span> (<span class="ident">a</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">align_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">!=</span> <span class="number">0</span>
   {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">TargetAlignmentGreaterAndInputNotAligned</span>)
-  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() {
+  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() {
     <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> {
       <span class="ident">core</span>::<span class="ident">slice</span>::<span class="ident">from_raw_parts_mut</span>(<span class="ident">a</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">B</span>, <span class="ident">a</span>.<span class="ident">len</span>())
     })
-  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="number">0</span> {
     <span class="prelude-val">Err</span>(<span class="ident">PodCastError</span>::<span class="ident">SizeMismatch</span>)
-  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>(<span class="ident">a</span>) <span class="op">%</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+  } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>(<span class="ident">a</span>) <span class="op">%</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>() <span class="op">==</span> <span class="number">0</span> {
     <span class="kw">let</span> <span class="ident">new_len</span> <span class="op">=</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>(<span class="ident">a</span>) <span class="op">/</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>();
     <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> {
       <span class="ident">core</span>::<span class="ident">slice</span>::<span class="ident">from_raw_parts_mut</span>(<span class="ident">a</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">B</span>, <span class="ident">new_len</span>)
@@ -866,4 +885,4 @@ possibility code branch.
   }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "bytemuck";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "bytemuck";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Tag","TIFF tags"],["Type","The type of an IFD entry (a 2 byte field)."],["Value",""]],"struct":[["Entry",""]],"type":[["Directory","Type representing an Image File Directory"]]});
+initSidebarItems({"enum":[["Value",""]],"struct":[["Entry",""]],"type":[["Directory","Type representing an Image File Directory"]]});

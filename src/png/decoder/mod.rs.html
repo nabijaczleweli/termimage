@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/png-0.16.1/src/decoder/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../png/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/png-0.16.7/src/decoder/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../png/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -541,19 +542,376 @@
 <span id="541">541</span>
 <span id="542">542</span>
 <span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">mod</span> <span class="ident">stream</span>;
+<span class="kw">mod</span> <span class="ident">zlib</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">stream</span>::{<span class="ident">StreamingDecoder</span>, <span class="ident">Decoded</span>, <span class="ident">DecodingError</span>};
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">stream</span>::{<span class="ident">CHUNCK_BUFFER_SIZE</span>, <span class="ident">get_info</span>};
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">stream</span>::{<span class="ident">get_info</span>, <span class="ident">CHUNCK_BUFFER_SIZE</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">stream</span>::{<span class="ident">Decoded</span>, <span class="ident">DecodingError</span>, <span class="ident">StreamingDecoder</span>};
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">Read</span>, <span class="ident">Write</span>, <span class="ident">BufReader</span>, <span class="ident">BufRead</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">BufRead</span>, <span class="ident">BufReader</span>, <span class="ident">Read</span>, <span class="ident">Write</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Range</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">common</span>::{<span class="ident">ColorType</span>, <span class="ident">BitDepth</span>, <span class="ident">Info</span>, <span class="ident">Transformations</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">chunk</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">common</span>::{<span class="ident">BitDepth</span>, <span class="ident">BytesPerPixel</span>, <span class="ident">ColorType</span>, <span class="ident">Info</span>, <span class="ident">Transformations</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">filter</span>::{<span class="ident">unfilter</span>, <span class="ident">FilterType</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">chunk</span>::<span class="ident">IDAT</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">utils</span>;
 
 <span class="comment">/*
@@ -568,7 +926,7 @@ pub enum InterlaceHandling {
 */</span>
 
 <span class="doccomment">/// Output info</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OutputInfo</span> {
     <span class="kw">pub</span> <span class="ident">width</span>: <span class="ident">u32</span>,
     <span class="kw">pub</span> <span class="ident">height</span>: <span class="ident">u32</span>,
@@ -579,7 +937,7 @@ pub enum InterlaceHandling {
 
 <span class="kw">impl</span> <span class="ident">OutputInfo</span> {
     <span class="doccomment">/// Returns the size needed to hold a decoded frame</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">line_size</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>
     }
 }
@@ -592,9 +950,9 @@ pub enum InterlaceHandling {
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Limits</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Limits</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">Limits</span> {
         <span class="ident">Limits</span> {
-            <span class="ident">bytes</span>: <span class="number">1024</span><span class="kw-2">*</span><span class="number">1024</span><span class="kw-2">*</span><span class="number">64</span>,
+            <span class="ident">bytes</span>: <span class="number">1024</span> <span class="op">*</span> <span class="number">1024</span> <span class="op">*</span> <span class="number">64</span>,
         }
     }
 }
@@ -609,15 +967,27 @@ pub enum InterlaceHandling {
     <span class="ident">limits</span>: <span class="ident">Limits</span>,
 }
 
+<span class="kw">struct</span> <span class="ident">InterlacedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;data</span><span class="op">&gt;</span> {
+    <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;data</span> [<span class="ident">u8</span>],
+    <span class="ident">interlace</span>: <span class="ident">InterlaceInfo</span>,
+}
+
+<span class="kw">enum</span> <span class="ident">InterlaceInfo</span> {
+    <span class="prelude-val">None</span>,
+    <span class="ident">Adam7</span> { <span class="ident">pass</span>: <span class="ident">u8</span>, <span class="ident">line</span>: <span class="ident">u32</span>, <span class="ident">width</span>: <span class="ident">u32</span> },
+}
+
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="ident">Decoder</span>::<span class="ident">new_with_limits</span>(<span class="ident">r</span>, <span class="ident">Limits</span>::<span class="ident">default</span>())
     }
-    
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_limits</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="ident">limits</span>: <span class="ident">Limits</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_limits</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="ident">limits</span>: <span class="ident">Limits</span>) <span class="op">-&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="ident">Decoder</span> {
             <span class="ident">r</span>,
-            <span class="ident">transform</span>: <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>,
+            <span class="ident">transform</span>: <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>
+                <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span>
+                <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>,
             <span class="ident">limits</span>,
         }
     }
@@ -643,9 +1013,27 @@ pub enum InterlaceHandling {
     }
 
     <span class="doccomment">/// Reads all meta data until the first IDAT chunk</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_info</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OutputInfo</span>, <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_info</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OutputInfo</span>, <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">Reader</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">r</span>, <span class="ident">StreamingDecoder</span>::<span class="ident">new</span>(), <span class="self">self</span>.<span class="ident">transform</span>, <span class="self">self</span>.<span class="ident">limits</span>);
         <span class="ident">r</span>.<span class="ident">init</span>()<span class="question-mark">?</span>;
+
+        <span class="kw">let</span> <span class="ident">color_type</span> <span class="op">=</span> <span class="ident">r</span>.<span class="ident">info</span>().<span class="ident">color_type</span>;
+        <span class="kw">let</span> <span class="ident">bit_depth</span> <span class="op">=</span> <span class="ident">r</span>.<span class="ident">info</span>().<span class="ident">bit_depth</span>;
+        <span class="kw">if</span> <span class="ident">color_type</span>.<span class="ident">is_combination_invalid</span>(<span class="ident">bit_depth</span>) {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
+                <span class="macro">format</span><span class="macro">!</span>(
+                    <span class="string">&quot;Invalid color/depth combination in header: {:?}/{:?}&quot;</span>,
+                    <span class="ident">color_type</span>, <span class="ident">bit_depth</span>
+                )
+                .<span class="ident">into</span>(),
+            ));
+        }
+
+        <span class="comment">// Check if the output buffer can be represented at all.</span>
+        <span class="kw">if</span> <span class="ident">r</span>.<span class="ident">checked_output_buffer_size</span>().<span class="ident">is_none</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">LimitsExceeded</span>);
+        }
+
         <span class="kw">let</span> (<span class="ident">ct</span>, <span class="ident">bits</span>) <span class="op">=</span> <span class="ident">r</span>.<span class="ident">output_color_type</span>();
         <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> {
             <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="ident">r</span>.<span class="ident">info</span>();
@@ -672,34 +1060,54 @@ pub enum InterlaceHandling {
 <span class="kw">struct</span> <span class="ident">ReadDecoder</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> {
     <span class="ident">reader</span>: <span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
     <span class="ident">decoder</span>: <span class="ident">StreamingDecoder</span>,
-    <span class="ident">at_eof</span>: <span class="ident">bool</span>
+    <span class="ident">at_eof</span>: <span class="ident">bool</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">ReadDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Returns the next decoded chunk. If the chunk is an ImageData chunk, its contents are written</span>
     <span class="doccomment">/// into image_data.</span>
-    <span class="kw">fn</span> <span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">image_data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Decoded</span><span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">image_data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Decoded</span><span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="kw">while</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">at_eof</span> {
             <span class="kw">let</span> (<span class="ident">consumed</span>, <span class="ident">result</span>) <span class="op">=</span> {
                 <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">fill_buf</span>()<span class="question-mark">?</span>;
                 <span class="kw">if</span> <span class="ident">buf</span>.<span class="ident">is_empty</span>() {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
-                        <span class="string">&quot;unexpected EOF&quot;</span>.<span class="ident">into</span>()
-                    ))
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;unexpected EOF&quot;</span>.<span class="ident">into</span>()));
                 }
                 <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">update</span>(<span class="ident">buf</span>, <span class="ident">image_data</span>)<span class="question-mark">?</span>
             };
             <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">consume</span>(<span class="ident">consumed</span>);
             <span class="kw">match</span> <span class="ident">result</span> {
-                <span class="ident">Decoded</span>::<span class="ident">Nothing</span> <span class="op">=</span><span class="op">&gt;</span> (),
-                <span class="ident">Decoded</span>::<span class="ident">ImageEnd</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">at_eof</span> <span class="op">=</span> <span class="bool-val">true</span>,
-                <span class="ident">result</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">result</span>))
+                <span class="ident">Decoded</span>::<span class="ident">Nothing</span> <span class="op">=&gt;</span> (),
+                <span class="ident">Decoded</span>::<span class="ident">ImageEnd</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">at_eof</span> <span class="op">=</span> <span class="bool-val">true</span>,
+                <span class="ident">result</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">result</span>)),
             }
         }
         <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Info</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">finished_decoding</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+        <span class="kw">while</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">at_eof</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">fill_buf</span>()<span class="question-mark">?</span>;
+            <span class="kw">if</span> <span class="ident">buf</span>.<span class="ident">is_empty</span>() {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;unexpected EOF after image&quot;</span>.<span class="ident">into</span>()));
+            }
+            <span class="kw">let</span> (<span class="ident">consumed</span>, <span class="ident">event</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">update</span>(<span class="ident">buf</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="macro">vec</span><span class="macro">!</span>[])<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">consume</span>(<span class="ident">consumed</span>);
+            <span class="kw">match</span> <span class="ident">event</span> {
+                <span class="ident">Decoded</span>::<span class="ident">Nothing</span> <span class="op">=&gt;</span> (),
+                <span class="ident">Decoded</span>::<span class="ident">ImageEnd</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">at_eof</span> <span class="op">=</span> <span class="bool-val">true</span>,
+                <span class="comment">// ignore more data</span>
+                <span class="ident">Decoded</span>::<span class="ident">ChunkComplete</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">|</span> <span class="ident">Decoded</span>::<span class="ident">ChunkBegin</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">|</span> <span class="ident">Decoded</span>::<span class="ident">ImageData</span> <span class="op">=&gt;</span> {}
+                <span class="ident">Decoded</span>::<span class="ident">ImageDataFlushed</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
+                <span class="ident">Decoded</span>::<span class="ident">PartialChunk</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {}
+                <span class="ident">new</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">new</span>),
+            }
+        }
+
+        <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;unexpected EOF after image&quot;</span>.<span class="ident">into</span>()))
+    }
+
+    <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Info</span><span class="op">&gt;</span> {
         <span class="ident">get_info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">decoder</span>)
     }
 }
@@ -709,13 +1117,19 @@ pub enum InterlaceHandling {
 <span class="doccomment">/// Provides a high level that iterates over lines or whole images.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> {
     <span class="ident">decoder</span>: <span class="ident">ReadDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
-    <span class="ident">bpp</span>: <span class="ident">usize</span>,
-    <span class="ident">rowlen</span>: <span class="ident">usize</span>,
-    <span class="ident">adam7</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">utils</span>::<span class="ident">Adam7Iterator</span><span class="op">&gt;</span>,
+    <span class="ident">bpp</span>: <span class="ident">BytesPerPixel</span>,
+    <span class="ident">subframe</span>: <span class="ident">SubframeInfo</span>,
+    <span class="doccomment">/// Number of frame control chunks read.</span>
+    <span class="doccomment">/// By the APNG specification the total number must equal the count specified in the animation</span>
+    <span class="doccomment">/// control chunk. The IDAT image _may_ have such a chunk applying to it.</span>
+    <span class="ident">fctl_read</span>: <span class="ident">u32</span>,
+    <span class="ident">next_frame</span>: <span class="ident">SubframeIdx</span>,
     <span class="doccomment">/// Previous raw line</span>
     <span class="ident">prev</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Current raw line</span>
     <span class="ident">current</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Start index of the current scan line.</span>
+    <span class="ident">scan_start</span>: <span class="ident">usize</span>,
     <span class="doccomment">/// Output transformations</span>
     <span class="ident">transform</span>: <span class="ident">Transformations</span>,
     <span class="doccomment">/// Processed line</span>
@@ -723,189 +1137,340 @@ pub enum InterlaceHandling {
     <span class="ident">limits</span>: <span class="ident">Limits</span>,
 }
 
+<span class="doccomment">/// The subframe specific information.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// In APNG the frames are constructed by combining previous frame and a new subframe (through a</span>
+<span class="doccomment">/// combination of `dispose_op` and `overlay_op`). These sub frames specify individual dimension</span>
+<span class="doccomment">/// information and reuse the global interlace options. This struct encapsulates the state of where</span>
+<span class="doccomment">/// in a particular IDAT-frame or subframe we are.</span>
+<span class="kw">struct</span> <span class="ident">SubframeInfo</span> {
+    <span class="ident">width</span>: <span class="ident">u32</span>,
+    <span class="ident">rowlen</span>: <span class="ident">usize</span>,
+    <span class="ident">interlace</span>: <span class="ident">InterlaceIter</span>,
+    <span class="ident">consumed_and_flushed</span>: <span class="ident">bool</span>,
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
+<span class="kw">enum</span> <span class="ident">InterlaceIter</span> {
+    <span class="prelude-val">None</span>(<span class="ident">Range</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>),
+    <span class="ident">Adam7</span>(<span class="ident">utils</span>::<span class="ident">Adam7Iterator</span>),
+}
+
+<span class="doccomment">/// Denote a frame as given by sequence numbers.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>)]</span>
+<span class="kw">enum</span> <span class="ident">SubframeIdx</span> {
+    <span class="doccomment">/// The info has not yet been decoded.</span>
+    <span class="ident">Uninit</span>,
+    <span class="doccomment">/// The initial frame in an IDAT chunk without fcTL chunk applying to it.</span>
+    <span class="doccomment">/// Note that this variant precedes `Some` as IDAT frames precede fdAT frames and all fdAT</span>
+    <span class="doccomment">/// frames must have a fcTL applying to it.</span>
+    <span class="ident">Initial</span>,
+    <span class="doccomment">/// An IDAT frame with fcTL or an fdAT frame.</span>
+    <span class="prelude-val">Some</span>(<span class="ident">u32</span>),
+    <span class="doccomment">/// The past-the-end index.</span>
+    <span class="ident">End</span>,
+}
+
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">get_info</span>(
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">this</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">this</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">this</span>.<span class="ident">decoder</span>.<span class="ident">info</span>().<span class="ident">unwrap</span>()
     }
 );
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a new PNG reader</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="ident">d</span>: <span class="ident">StreamingDecoder</span>, <span class="ident">t</span>: <span class="ident">Transformations</span>, <span class="ident">limits</span>: <span class="ident">Limits</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">r</span>: <span class="ident">R</span>, <span class="ident">d</span>: <span class="ident">StreamingDecoder</span>, <span class="ident">t</span>: <span class="ident">Transformations</span>, <span class="ident">limits</span>: <span class="ident">Limits</span>) <span class="op">-&gt;</span> <span class="ident">Reader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="ident">Reader</span> {
             <span class="ident">decoder</span>: <span class="ident">ReadDecoder</span> {
                 <span class="ident">reader</span>: <span class="ident">BufReader</span>::<span class="ident">with_capacity</span>(<span class="ident">CHUNCK_BUFFER_SIZE</span>, <span class="ident">r</span>),
                 <span class="ident">decoder</span>: <span class="ident">d</span>,
-                <span class="ident">at_eof</span>: <span class="bool-val">false</span>
+                <span class="ident">at_eof</span>: <span class="bool-val">false</span>,
             },
-            <span class="ident">bpp</span>: <span class="number">0</span>,
-            <span class="ident">rowlen</span>: <span class="number">0</span>,
-            <span class="ident">adam7</span>: <span class="prelude-val">None</span>,
+            <span class="ident">bpp</span>: <span class="ident">BytesPerPixel</span>::<span class="ident">One</span>,
+            <span class="ident">subframe</span>: <span class="ident">SubframeInfo</span>::<span class="ident">not_yet_init</span>(),
+            <span class="ident">fctl_read</span>: <span class="number">0</span>,
+            <span class="ident">next_frame</span>: <span class="ident">SubframeIdx</span>::<span class="ident">Initial</span>,
             <span class="ident">prev</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
             <span class="ident">current</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">scan_start</span>: <span class="number">0</span>,
             <span class="ident">transform</span>: <span class="ident">t</span>,
             <span class="ident">processed</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
             <span class="ident">limits</span>,
         }
     }
 
-    <span class="doccomment">/// Reads all meta data until the first IDAT chunk</span>
-    <span class="kw">fn</span> <span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Decoded</span>::<span class="kw-2">*</span>;
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">info</span>().<span class="ident">is_some</span>() {
-            <span class="prelude-val">Ok</span>(())
-        } <span class="kw">else</span> {
-            <span class="kw">loop</span> {
-                <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span>::<span class="ident">new</span>())<span class="question-mark">?</span> {
-                    <span class="prelude-val">Some</span>(<span class="ident">ChunkBegin</span>(<span class="kw">_</span>, <span class="ident">IDAT</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
-                        <span class="string">&quot;IDAT chunk missing&quot;</span>.<span class="ident">into</span>()
-                    )),
-                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (),
-                }
-            }
-            {
-                <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">info</span>() {
-                    <span class="prelude-val">Some</span>(<span class="ident">info</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">info</span>,
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
-                      <span class="string">&quot;IHDR chunk missing&quot;</span>.<span class="ident">into</span>()
-                    ))
-                };
-                <span class="self">self</span>.<span class="ident">bpp</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">bytes_per_pixel</span>();
-                <span class="self">self</span>.<span class="ident">rowlen</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">raw_row_length</span>();
-                <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">interlaced</span> {
-                    <span class="self">self</span>.<span class="ident">adam7</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">utils</span>::<span class="ident">Adam7Iterator</span>::<span class="ident">new</span>(<span class="ident">info</span>.<span class="ident">width</span>, <span class="ident">info</span>.<span class="ident">height</span>))
-                }
-            }
-            <span class="self">self</span>.<span class="ident">allocate_out_buf</span>()<span class="question-mark">?</span>;
-            <span class="self">self</span>.<span class="ident">prev</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="self">self</span>.<span class="ident">rowlen</span>];
-            <span class="prelude-val">Ok</span>(())
+    <span class="doccomment">/// Reads all meta data until the next frame data starts.</span>
+    <span class="doccomment">/// Requires IHDR before the IDAT and fcTL before fdAT.</span>
+    <span class="kw">fn</span> <span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next_frame</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">subframe_idx</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next_frame</span> <span class="op">==</span> <span class="ident">SubframeIdx</span>::<span class="ident">End</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Other</span>(<span class="string">&quot;End of image has been reached&quot;</span>.<span class="ident">into</span>()));
         }
+
+        <span class="kw">loop</span> {
+            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span>::<span class="ident">new</span>())<span class="question-mark">?</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">ChunkBegin</span>(<span class="kw">_</span>, <span class="ident">chunk</span>::<span class="ident">IDAT</span>))
+                <span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">ChunkBegin</span>(<span class="kw">_</span>, <span class="ident">chunk</span>::<span class="ident">fdAT</span>)) <span class="op">=&gt;</span> <span class="kw">break</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">FrameControl</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {
+                    <span class="self">self</span>.<span class="ident">subframe</span> <span class="op">=</span> <span class="ident">SubframeInfo</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">info</span>());
+                    <span class="comment">// The next frame is the one to which this chunk applies.</span>
+                    <span class="self">self</span>.<span class="ident">next_frame</span> <span class="op">=</span> <span class="ident">SubframeIdx</span>::<span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">fctl_read</span>);
+                    <span class="comment">// TODO: what about overflow here? That would imply there are more fctl chunks</span>
+                    <span class="comment">// than can be specified in the animation control but also that we have read</span>
+                    <span class="comment">// several gigabytes of data.</span>
+                    <span class="self">self</span>.<span class="ident">fctl_read</span> <span class="op">+=</span> <span class="number">1</span>;
+                }
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;IDAT chunk missing&quot;</span>.<span class="ident">into</span>())),
+                <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">Header</span> { .. }) <span class="op">=&gt;</span> {
+                    <span class="self">self</span>.<span class="ident">validate_buffer_sizes</span>()<span class="question-mark">?</span>;
+                }
+                <span class="comment">// Ignore all other chunk events. Any other chunk may be between IDAT chunks, fdAT</span>
+                <span class="comment">// chunks and their control chunks.</span>
+                <span class="kw">_</span> <span class="op">=&gt;</span> {}
+            }
+        }
+        {
+            <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">info</span>() {
+                <span class="prelude-val">Some</span>(<span class="ident">info</span>) <span class="op">=&gt;</span> <span class="ident">info</span>,
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;IHDR chunk missing&quot;</span>.<span class="ident">into</span>())),
+            };
+            <span class="self">self</span>.<span class="ident">bpp</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">bpp_in_prediction</span>();
+            <span class="comment">// Check if the output buffer can be represented at all.</span>
+            <span class="comment">// Now we can init the subframe info.</span>
+            <span class="comment">// TODO: reuse the results obtained during the above check.</span>
+            <span class="self">self</span>.<span class="ident">subframe</span> <span class="op">=</span> <span class="ident">SubframeInfo</span>::<span class="ident">new</span>(<span class="ident">info</span>);
+        }
+        <span class="self">self</span>.<span class="ident">allocate_out_buf</span>()<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">prev</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="self">self</span>.<span class="ident">subframe</span>.<span class="ident">rowlen</span>];
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Info</span> {
+    <span class="kw">fn</span> <span class="ident">reset_current</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="self">self</span>.<span class="ident">current</span>.<span class="ident">clear</span>();
+        <span class="self">self</span>.<span class="ident">scan_start</span> <span class="op">=</span> <span class="number">0</span>;
+    }
+
+    <span class="doccomment">/// Get information on the image.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The structure will change as new frames of an animated image are decoded.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Info</span> {
         <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>)
     }
 
-    <span class="doccomment">/// Decodes the next frame into `buf`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Get the subframe index of the current info.</span>
+    <span class="kw">fn</span> <span class="ident">subframe_idx</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">SubframeIdx</span> {
+        <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">info</span>() {
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">SubframeIdx</span>::<span class="ident">Uninit</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">info</span>) <span class="op">=&gt;</span> <span class="ident">info</span>,
+        };
+
+        <span class="kw">match</span> <span class="ident">info</span>.<span class="ident">frame_control</span>() {
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">SubframeIdx</span>::<span class="ident">Initial</span>,
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">SubframeIdx</span>::<span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">fctl_read</span> <span class="op">-</span> <span class="number">1</span>),
+        }
+    }
+
+    <span class="doccomment">/// Call after decoding an image, to advance expected state to the next.</span>
+    <span class="kw">fn</span> <span class="ident">finished_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="comment">// Should only be called after frame is done, so we have an info.</span>
+        <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">info</span>();
+
+        <span class="kw">let</span> <span class="ident">past_end_subframe</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">info</span>.<span class="ident">animation_control</span>() {
+            <span class="comment">// a non-APNG has no subframes</span>
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+            <span class="comment">// otherwise the count is the past-the-end index. It can not be 0 per spec.</span>
+            <span class="prelude-val">Some</span>(<span class="ident">ac</span>) <span class="op">=&gt;</span> <span class="ident">ac</span>.<span class="ident">num_frames</span>,
+        };
+
+        <span class="self">self</span>.<span class="ident">next_frame</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_frame</span> {
+            <span class="ident">SubframeIdx</span>::<span class="ident">Uninit</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Next frame can never be initial&quot;</span>),
+            <span class="ident">SubframeIdx</span>::<span class="ident">End</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Next frame called when already at image end&quot;</span>),
+            <span class="comment">// Reached the end of non-animated image.</span>
+            <span class="ident">SubframeIdx</span>::<span class="ident">Initial</span> <span class="kw">if</span> <span class="ident">past_end_subframe</span> <span class="op">==</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="ident">SubframeIdx</span>::<span class="ident">End</span>,
+            <span class="comment">// An animated image, expecting first subframe.</span>
+            <span class="ident">SubframeIdx</span>::<span class="ident">Initial</span> <span class="op">=&gt;</span> <span class="ident">SubframeIdx</span>::<span class="prelude-val">Some</span>(<span class="number">0</span>),
+            <span class="comment">// This was the last subframe, slightly fuzzy condition in case of programmer error.</span>
+            <span class="ident">SubframeIdx</span>::<span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="kw">if</span> <span class="ident">past_end_subframe</span> <span class="op">&lt;=</span> <span class="ident">idx</span> <span class="op">+</span> <span class="number">1</span> <span class="op">=&gt;</span> <span class="ident">SubframeIdx</span>::<span class="ident">End</span>,
+            <span class="comment">// Expecting next subframe.</span>
+            <span class="ident">SubframeIdx</span>::<span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=&gt;</span> <span class="ident">SubframeIdx</span>::<span class="prelude-val">Some</span>(<span class="ident">idx</span> <span class="op">+</span> <span class="number">1</span>),
+        }
+    }
+
+    <span class="doccomment">/// Decodes the next frame into `buf`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note that this decodes raw subframes that need to be mixed according to blend-op and</span>
+    <span class="doccomment">/// dispose-op by the caller.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The caller must always provide a buffer large enough to hold a complete frame (the APNG</span>
+    <span class="doccomment">/// specification restricts subframes to the dimensions given in the image header). The region</span>
+    <span class="doccomment">/// that has been written be checked afterwards by calling `info` after a successful call and</span>
+    <span class="doccomment">/// inspecting the `frame_control` data. This requirement may be lifted in a later version of</span>
+    <span class="doccomment">/// `png`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Output lines will be written in row-major, packed matrix with width and height of the read</span>
+    <span class="doccomment">/// frame (or subframe), all samples are in big endian byte order where this matters.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+        <span class="comment">// Advance until we&#39;ve read the info / fcTL for this frame.</span>
+        <span class="self">self</span>.<span class="ident">init</span>()<span class="question-mark">?</span>;
         <span class="comment">// TODO 16 bit</span>
         <span class="kw">let</span> (<span class="ident">color_type</span>, <span class="ident">bit_depth</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_color_type</span>();
-        <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">width</span>;
         <span class="kw">if</span> <span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">output_buffer_size</span>() {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Other</span>(
-                <span class="string">&quot;supplied buffer is too small to hold the image&quot;</span>.<span class="ident">into</span>()
-            ))
+                <span class="string">&quot;supplied buffer is too small to hold the image&quot;</span>.<span class="ident">into</span>(),
+            ));
         }
+
+        <span class="self">self</span>.<span class="ident">reset_current</span>();
+        <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">width</span>;
         <span class="kw">if</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">interlaced</span> {
-             <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">row</span>, <span class="ident">adam7</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_interlaced_row</span>()<span class="question-mark">?</span> {
-                 <span class="kw">let</span> (<span class="ident">pass</span>, <span class="ident">line</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">adam7</span>.<span class="ident">unwrap</span>();
-                 <span class="kw">let</span> <span class="ident">samples</span> <span class="op">=</span> <span class="ident">color_type</span>.<span class="ident">samples</span>() <span class="kw">as</span> <span class="ident">u8</span>;
-                 <span class="ident">utils</span>::<span class="ident">expand_pass</span>(<span class="ident">buf</span>, <span class="ident">width</span>, <span class="ident">row</span>, <span class="ident">pass</span>, <span class="ident">line</span>, <span class="ident">samples</span> <span class="op">*</span> (<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>));
-             }
+            <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">row</span>, <span class="ident">adam7</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_interlaced_row</span>()<span class="question-mark">?</span> {
+                <span class="kw">let</span> (<span class="ident">pass</span>, <span class="ident">line</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">adam7</span>.<span class="ident">unwrap</span>();
+                <span class="kw">let</span> <span class="ident">samples</span> <span class="op">=</span> <span class="ident">color_type</span>.<span class="ident">samples</span>() <span class="kw">as</span> <span class="ident">u8</span>;
+                <span class="ident">utils</span>::<span class="ident">expand_pass</span>(<span class="ident">buf</span>, <span class="ident">width</span>, <span class="ident">row</span>, <span class="ident">pass</span>, <span class="ident">line</span>, <span class="ident">samples</span> <span class="op">*</span> (<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>));
+            }
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">row</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_row</span>()<span class="question-mark">?</span> {
-                <span class="ident">len</span> <span class="op">+</span><span class="op">=</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="ident">len</span>..]).<span class="ident">write</span>(<span class="ident">row</span>)<span class="question-mark">?</span>;
+                <span class="ident">len</span> <span class="op">+=</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="ident">len</span>..]).<span class="ident">write</span>(<span class="ident">row</span>)<span class="question-mark">?</span>;
             }
         }
+        <span class="comment">// Advance over the rest of data for this (sub-)frame.</span>
+        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">subframe</span>.<span class="ident">consumed_and_flushed</span> {
+            <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">finished_decoding</span>()<span class="question-mark">?</span>;
+        }
+        <span class="comment">// Advance our state to expect the next frame.</span>
+        <span class="self">self</span>.<span class="ident">finished_frame</span>();
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Returns the next processed row of the image</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">next_interlaced_row</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="number">0</span>))
     }
 
     <span class="doccomment">/// Returns the next processed row of the image</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_interlaced_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>)<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">common</span>::<span class="ident">ColorType</span>::<span class="kw-2">*</span>;
-        <span class="kw">let</span> <span class="ident">transform</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">transform</span>;
-        <span class="kw">if</span> <span class="ident">transform</span> <span class="op">=</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">IDENTITY</span> {
-            <span class="self">self</span>.<span class="ident">next_raw_interlaced_row</span>()
-        } <span class="kw">else</span> {
-            <span class="comment">// swap buffer to circumvent borrow issues</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">processed</span>, <span class="ident">Vec</span>::<span class="ident">new</span>());
-            <span class="kw">let</span> (<span class="ident">got_next</span>, <span class="ident">adam7</span>) <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">row</span>, <span class="ident">adam7</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_raw_interlaced_row</span>()<span class="question-mark">?</span> {
-                (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>[..]).<span class="ident">write_all</span>(<span class="ident">row</span>)<span class="question-mark">?</span>;
-                (<span class="bool-val">true</span>, <span class="ident">adam7</span>)
-            } <span class="kw">else</span> {
-                (<span class="bool-val">false</span>, <span class="prelude-val">None</span>)
-            };
-            <span class="comment">// swap back</span>
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">processed</span>, <span class="ident">buffer</span>);
-            <span class="kw">if</span> <span class="ident">got_next</span> {
-                <span class="kw">let</span> (<span class="ident">color_type</span>, <span class="ident">bit_depth</span>, <span class="ident">trns</span>) <span class="op">=</span> {
-                    <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>);
-                    (<span class="ident">info</span>.<span class="ident">color_type</span>, <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="ident">info</span>.<span class="ident">trns</span>.<span class="ident">is_some</span>())
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_interlaced_row</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>)<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_interlaced_row_impl</span>() {
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">row</span>)) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">interlace</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">row</span>.<span class="ident">interlace</span> {
+                    <span class="ident">InterlaceInfo</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+                    <span class="ident">InterlaceInfo</span>::<span class="ident">Adam7</span> { <span class="ident">pass</span>, <span class="ident">line</span>, <span class="ident">width</span> } <span class="op">=&gt;</span> <span class="prelude-val">Some</span>((<span class="ident">pass</span>, <span class="ident">line</span>, <span class="ident">width</span>)),
                 };
-                <span class="kw">let</span> <span class="ident">output_buffer</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="kw">_</span>, <span class="ident">width</span>)) <span class="op">=</span> <span class="ident">adam7</span> {
-                    <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">line_size</span>(<span class="ident">width</span>);
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">processed</span>[..<span class="ident">width</span>]
-                } <span class="kw">else</span> {
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">processed</span>
-                };
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">output_buffer</span>.<span class="ident">len</span>();
-                <span class="kw">if</span> <span class="ident">transform</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) {
-                    <span class="kw">match</span> <span class="ident">color_type</span> {
-                        <span class="ident">Indexed</span> <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="ident">expand_paletted</span>(<span class="ident">output_buffer</span>, <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>))<span class="question-mark">?</span>
-                        }
-                        <span class="ident">Grayscale</span> <span class="op">|</span> <span class="ident">GrayscaleAlpha</span> <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">&lt;</span> <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">expand_gray_u8</span>(
-                            <span class="ident">output_buffer</span>, <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>)
-                        ),
-                        <span class="ident">Grayscale</span> <span class="op">|</span> <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="kw">let</span> <span class="ident">channels</span> <span class="op">=</span> <span class="ident">color_type</span>.<span class="ident">samples</span>();
-                            <span class="kw">let</span> <span class="ident">trns</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">trns</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>();
-                            <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">8</span> {
-                                <span class="ident">utils</span>::<span class="ident">expand_trns_line</span>(<span class="ident">output_buffer</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">trns</span>, <span class="ident">channels</span>);
-                            } <span class="kw">else</span> {
-                                <span class="ident">utils</span>::<span class="ident">expand_trns_line16</span>(<span class="ident">output_buffer</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">trns</span>, <span class="ident">channels</span>);
-                            }
-                        },
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> ()
-                    }
-                }
-                <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">16</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">transform</span>.<span class="ident">intersects</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>) {
-                    <span class="ident">len</span> <span class="op">/</span><span class="op">=</span> <span class="number">2</span>;
-                    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">len</span> {
-                        <span class="ident">output_buffer</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">output_buffer</span>[<span class="number">2</span> <span class="op">*</span> <span class="ident">i</span>];
-                    }
-                }
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((
-                    <span class="kw-2">&amp;</span><span class="ident">output_buffer</span>[..<span class="ident">len</span>],
-                    <span class="ident">adam7</span>
-                )))
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
+
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((<span class="ident">row</span>.<span class="ident">data</span>, <span class="ident">interlace</span>)))
             }
         }
     }
 
+    <span class="doccomment">/// Fetch the next interlaced row and filter it according to our own transformations.</span>
+    <span class="kw">fn</span> <span class="ident">next_interlaced_row_impl</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InterlacedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">common</span>::<span class="ident">ColorType</span>::<span class="kw-2">*</span>;
+        <span class="kw">let</span> <span class="ident">transform</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">transform</span>;
+
+        <span class="kw">if</span> <span class="ident">transform</span> <span class="op">==</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">IDENTITY</span> {
+            <span class="kw">return</span> <span class="self">self</span>.<span class="ident">next_raw_interlaced_row</span>();
+        }
+
+        <span class="comment">// swap buffer to circumvent borrow issues</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">processed</span>, <span class="ident">Vec</span>::<span class="ident">new</span>());
+        <span class="kw">let</span> (<span class="ident">got_next</span>, <span class="ident">adam7</span>) <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">row</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_raw_interlaced_row</span>()<span class="question-mark">?</span> {
+            (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>[..]).<span class="ident">write_all</span>(<span class="ident">row</span>.<span class="ident">data</span>)<span class="question-mark">?</span>;
+            (<span class="bool-val">true</span>, <span class="ident">row</span>.<span class="ident">interlace</span>)
+        } <span class="kw">else</span> {
+            (<span class="bool-val">false</span>, <span class="ident">InterlaceInfo</span>::<span class="prelude-val">None</span>)
+        };
+        <span class="comment">// swap back</span>
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">processed</span>, <span class="ident">buffer</span>);
+
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">got_next</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
+        }
+
+        <span class="kw">let</span> (<span class="ident">color_type</span>, <span class="ident">bit_depth</span>, <span class="ident">trns</span>) <span class="op">=</span> {
+            <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>);
+            (<span class="ident">info</span>.<span class="ident">color_type</span>, <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="ident">info</span>.<span class="ident">trns</span>.<span class="ident">is_some</span>())
+        };
+        <span class="kw">let</span> <span class="ident">output_buffer</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">InterlaceInfo</span>::<span class="ident">Adam7</span> { <span class="ident">width</span>, .. } <span class="op">=</span> <span class="ident">adam7</span> {
+            <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>
+                .<span class="ident">line_size</span>(<span class="ident">width</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;Adam7 interlaced rows are shorter than the buffer.&quot;</span>);
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">processed</span>[..<span class="ident">width</span>]
+        } <span class="kw">else</span> {
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">processed</span>
+        };
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">output_buffer</span>.<span class="ident">len</span>();
+        <span class="kw">if</span> <span class="ident">transform</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) {
+            <span class="kw">match</span> <span class="ident">color_type</span> {
+                <span class="ident">Indexed</span> <span class="op">=&gt;</span> <span class="ident">expand_paletted</span>(<span class="ident">output_buffer</span>, <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>))<span class="question-mark">?</span>,
+                <span class="ident">Grayscale</span> <span class="op">|</span> <span class="ident">GrayscaleAlpha</span> <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">&lt;</span> <span class="number">8</span> <span class="op">=&gt;</span> {
+                    <span class="ident">expand_gray_u8</span>(<span class="ident">output_buffer</span>, <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>))
+                }
+                <span class="ident">Grayscale</span> <span class="op">|</span> <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">=&gt;</span> {
+                    <span class="kw">let</span> <span class="ident">channels</span> <span class="op">=</span> <span class="ident">color_type</span>.<span class="ident">samples</span>();
+                    <span class="kw">let</span> <span class="ident">trns</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">trns</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>();
+                    <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">==</span> <span class="number">8</span> {
+                        <span class="ident">utils</span>::<span class="ident">expand_trns_line</span>(<span class="ident">output_buffer</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">trns</span>, <span class="ident">channels</span>);
+                    } <span class="kw">else</span> {
+                        <span class="ident">utils</span>::<span class="ident">expand_trns_line16</span>(<span class="ident">output_buffer</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">trns</span>, <span class="ident">channels</span>);
+                    }
+                }
+                <span class="kw">_</span> <span class="op">=&gt;</span> (),
+            }
+        }
+
+        <span class="kw">if</span> <span class="ident">bit_depth</span> <span class="op">==</span> <span class="number">16</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">transform</span>
+                .<span class="ident">intersects</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>)
+        {
+            <span class="ident">len</span> <span class="op">/=</span> <span class="number">2</span>;
+            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">len</span> {
+                <span class="ident">output_buffer</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">output_buffer</span>[<span class="number">2</span> <span class="op">*</span> <span class="ident">i</span>];
+            }
+        }
+
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">InterlacedRow</span> {
+            <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">output_buffer</span>[..<span class="ident">len</span>],
+            <span class="ident">interlace</span>: <span class="ident">adam7</span>,
+        }))
+    }
+
     <span class="doccomment">/// Returns the color type and the number of bits per sample</span>
     <span class="doccomment">/// of the data returned by `Reader::next_row` and Reader::frames`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_color_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">ColorType</span>, <span class="ident">BitDepth</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_color_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">ColorType</span>, <span class="ident">BitDepth</span>) {
+        <span class="self">self</span>.<span class="ident">imm_output_color_type</span>()
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">imm_output_color_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">ColorType</span>, <span class="ident">BitDepth</span>) {
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">common</span>::<span class="ident">ColorType</span>::<span class="kw-2">*</span>;
         <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">transform</span>;
         <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>);
-        <span class="kw">if</span> <span class="ident">t</span> <span class="op">=</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">IDENTITY</span> {
+        <span class="kw">if</span> <span class="ident">t</span> <span class="op">==</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">IDENTITY</span> {
             (<span class="ident">info</span>.<span class="ident">color_type</span>, <span class="ident">info</span>.<span class="ident">bit_depth</span>)
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="ident">bits</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> {
                 <span class="number">16</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">intersects</span>(
-                    <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>
-                ) <span class="op">=</span><span class="op">&gt;</span> <span class="number">8</span>,
-                <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">8</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">8</span>,
-                <span class="ident">n</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">n</span>
+                    <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>,
+                ) <span class="op">=&gt;</span>
+                {
+                    <span class="number">8</span>
+                }
+                <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="number">8</span> <span class="op">&amp;&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> <span class="number">8</span>,
+                <span class="ident">n</span> <span class="op">=&gt;</span> <span class="ident">n</span>,
             };
             <span class="kw">let</span> <span class="ident">color_type</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) {
                 <span class="kw">let</span> <span class="ident">has_trns</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">trns</span>.<span class="ident">is_some</span>();
                 <span class="kw">match</span> <span class="ident">info</span>.<span class="ident">color_type</span> {
-                    <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">GrayscaleAlpha</span>,
-                    <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">RGBA</span>,
-                    <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">RGBA</span>,
-                    <span class="ident">Indexed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">RGB</span>,
-                    <span class="ident">ct</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ct</span>
+                    <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=&gt;</span> <span class="ident">GrayscaleAlpha</span>,
+                    <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=&gt;</span> <span class="ident">RGBA</span>,
+                    <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">has_trns</span> <span class="op">=&gt;</span> <span class="ident">RGBA</span>,
+                    <span class="ident">Indexed</span> <span class="op">=&gt;</span> <span class="ident">RGB</span>,
+                    <span class="ident">ct</span> <span class="op">=&gt;</span> <span class="ident">ct</span>,
                 }
             } <span class="kw">else</span> {
                 <span class="ident">info</span>.<span class="ident">color_type</span>
@@ -916,132 +1481,215 @@ pub enum InterlaceHandling {
 
     <span class="doccomment">/// Returns the number of bytes required to hold a deinterlaced image frame</span>
     <span class="doccomment">/// that is decoded using the given input transformations.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">size</span>();
         <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_line_size</span>(<span class="ident">width</span>);
         <span class="ident">size</span> <span class="op">*</span> <span class="ident">height</span> <span class="kw">as</span> <span class="ident">usize</span>
     }
 
-    <span class="doccomment">/// Returns the number of bytes required to hold a deinterlaced row.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_line_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">line_size</span>(<span class="ident">width</span>);
-        <span class="kw">if</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">=</span><span class="op">=</span> <span class="number">16</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">transform</span>.<span class="ident">intersects</span>(
-            <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">SCALE_16</span> <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">STRIP_16</span>
-        ) {
-            <span class="ident">size</span> <span class="op">/</span> <span class="number">2</span>
-        } <span class="kw">else</span> {
-            <span class="ident">size</span>
+    <span class="kw">fn</span> <span class="ident">validate_buffer_sizes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+        <span class="comment">// Check if the decoding buffer of a single raw line has a valid size.</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">info</span>().<span class="ident">checked_raw_row_length</span>().<span class="ident">is_none</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">LimitsExceeded</span>);
         }
+
+        <span class="comment">// Check if the output buffer has a valid size.</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">checked_output_buffer_size</span>().<span class="ident">is_none</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">LimitsExceeded</span>);
+        }
+
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="kw">fn</span> <span class="ident">checked_output_buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">size</span>();
+        <span class="kw">let</span> (<span class="ident">color</span>, <span class="ident">depth</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">imm_output_color_type</span>();
+        <span class="kw">let</span> <span class="ident">rowlen</span> <span class="op">=</span> <span class="ident">color</span>.<span class="ident">checked_raw_row_length</span>(<span class="ident">depth</span>, <span class="ident">width</span>)<span class="question-mark">?</span> <span class="op">-</span> <span class="number">1</span>;
+        <span class="kw">let</span> <span class="ident">height</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>::<span class="ident">try_from</span>(<span class="ident">height</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+        <span class="ident">rowlen</span>.<span class="ident">checked_mul</span>(<span class="ident">height</span>)
+    }
+
+    <span class="doccomment">/// Returns the number of bytes required to hold a deinterlaced row.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_line_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="kw">let</span> (<span class="ident">color</span>, <span class="ident">depth</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">imm_output_color_type</span>();
+        <span class="ident">color</span>.<span class="ident">raw_row_length_from_width</span>(<span class="ident">depth</span>, <span class="ident">width</span>) <span class="op">-</span> <span class="number">1</span>
     }
 
     <span class="doccomment">/// Returns the number of bytes required to decode a deinterlaced row.</span>
-    <span class="kw">fn</span> <span class="ident">line_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">line_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">width</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">common</span>::<span class="ident">ColorType</span>::<span class="kw-2">*</span>;
         <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">transform</span>;
         <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="ident">trns</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">trns</span>.<span class="ident">is_some</span>();
+
+        <span class="kw">let</span> <span class="ident">expanded</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="op">==</span> <span class="ident">BitDepth</span>::<span class="ident">Sixteen</span> {
+            <span class="ident">BitDepth</span>::<span class="ident">Sixteen</span>
+        } <span class="kw">else</span> {
+            <span class="ident">BitDepth</span>::<span class="ident">Eight</span>
+        };
+        <span class="comment">// The color type and depth representing the decoded line</span>
         <span class="comment">// TODO 16 bit</span>
-        <span class="kw">let</span> <span class="ident">bits</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">info</span>.<span class="ident">color_type</span> {
-            <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">4</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">3</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">4</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">2</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="ident">GrayscaleAlpha</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">2</span> <span class="op">*</span> <span class="number">8</span>,
-            <span class="comment">// divide by 2 as it will get mutiplied by two later</span>
-            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">=</span><span class="op">=</span> <span class="number">16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">info</span>.<span class="ident">bits_per_pixel</span>() <span class="op">/</span> <span class="number">2</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">info</span>.<span class="ident">bits_per_pixel</span>()
-        }
-        <span class="op">*</span> <span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span>
-        <span class="op">*</span> <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span> <span class="op">=</span><span class="op">=</span> <span class="number">16</span> { <span class="number">2</span> } <span class="kw">else</span> { <span class="number">1</span> };
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">bits</span> <span class="op">/</span> <span class="number">8</span>;
-        <span class="kw">let</span> <span class="ident">extra</span> <span class="op">=</span> <span class="ident">bits</span> <span class="op">%</span> <span class="number">8</span>;
-        <span class="ident">len</span> <span class="op">+</span> <span class="kw">match</span> <span class="ident">extra</span> { <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>, <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span> }
+        <span class="kw">let</span> (<span class="ident">color</span>, <span class="ident">depth</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">info</span>.<span class="ident">color_type</span> {
+            <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">&amp;&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> (<span class="ident">RGBA</span>, <span class="ident">expanded</span>),
+            <span class="ident">Indexed</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> (<span class="ident">RGB</span>, <span class="ident">expanded</span>),
+            <span class="ident">RGB</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">&amp;&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> (<span class="ident">RGBA</span>, <span class="ident">expanded</span>),
+            <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">trns</span> <span class="op">&amp;&amp;</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> (<span class="ident">GrayscaleAlpha</span>, <span class="ident">expanded</span>),
+            <span class="ident">Grayscale</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> (<span class="ident">Grayscale</span>, <span class="ident">expanded</span>),
+            <span class="ident">GrayscaleAlpha</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">contains</span>(<span class="ident">Transformations</span>::<span class="ident">EXPAND</span>) <span class="op">=&gt;</span> (<span class="ident">GrayscaleAlpha</span>, <span class="ident">expanded</span>),
+            <span class="ident">other</span> <span class="op">=&gt;</span> (<span class="ident">other</span>, <span class="ident">info</span>.<span class="ident">bit_depth</span>),
+        };
+
+        <span class="comment">// Without the filter method byte</span>
+        <span class="ident">color</span>.<span class="ident">checked_raw_row_length</span>(<span class="ident">depth</span>, <span class="ident">width</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">n</span><span class="op">|</span> <span class="ident">n</span> <span class="op">-</span> <span class="number">1</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">allocate_out_buf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">width</span>;
+    <span class="kw">fn</span> <span class="ident">allocate_out_buf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">subframe</span>.<span class="ident">width</span>;
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">limits</span>.<span class="ident">bytes</span>;
-        <span class="kw">if</span> <span class="ident">bytes</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">line_size</span>(<span class="ident">width</span>) {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">LimitsExceeded</span>);
-        }
-        <span class="self">self</span>.<span class="ident">processed</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="self">self</span>.<span class="ident">line_size</span>(<span class="ident">width</span>)];
+        <span class="kw">let</span> <span class="ident">buflen</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">line_size</span>(<span class="ident">width</span>) {
+            <span class="prelude-val">Some</span>(<span class="ident">buflen</span>) <span class="kw">if</span> <span class="ident">buflen</span> <span class="op">&lt;=</span> <span class="ident">bytes</span> <span class="op">=&gt;</span> <span class="ident">buflen</span>,
+            <span class="comment">// Should we differentiate between platform limits and others?</span>
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">LimitsExceeded</span>),
+        };
+        <span class="self">self</span>.<span class="ident">processed</span>.<span class="ident">resize</span>(<span class="ident">buflen</span>, <span class="number">0u8</span>);
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Returns the next raw row of the image</span>
-    <span class="kw">fn</span> <span class="ident">next_raw_interlaced_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>)<span class="op">&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>);
-        <span class="kw">let</span> <span class="ident">bpp</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bpp</span>;
-        <span class="kw">let</span> (<span class="ident">rowlen</span>, <span class="ident">passdata</span>) <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">adam7</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">adam7</span> {
-            <span class="kw">let</span> <span class="ident">last_pass</span> <span class="op">=</span> <span class="ident">adam7</span>.<span class="ident">current_pass</span>();
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">pass</span>, <span class="ident">line</span>, <span class="ident">len</span>)) <span class="op">=</span> <span class="ident">adam7</span>.<span class="ident">next</span>() {
-                <span class="kw">let</span> <span class="ident">rowlen</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">raw_row_length_from_width</span>(<span class="ident">len</span>);
-                <span class="kw">if</span> <span class="ident">last_pass</span> <span class="op">!</span><span class="op">=</span> <span class="ident">pass</span> {
+    <span class="kw">fn</span> <span class="ident">next_pass</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">InterlaceInfo</span>)<span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">subframe</span>.<span class="ident">interlace</span> {
+            <span class="ident">InterlaceIter</span>::<span class="ident">Adam7</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">adam7</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">last_pass</span> <span class="op">=</span> <span class="ident">adam7</span>.<span class="ident">current_pass</span>();
+                <span class="kw">let</span> (<span class="ident">pass</span>, <span class="ident">line</span>, <span class="ident">width</span>) <span class="op">=</span> <span class="ident">adam7</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">rowlen</span> <span class="op">=</span> <span class="macro">get_info</span><span class="macro">!</span>(<span class="self">self</span>).<span class="ident">raw_row_length_from_width</span>(<span class="ident">width</span>);
+                <span class="kw">if</span> <span class="ident">last_pass</span> <span class="op">!=</span> <span class="ident">pass</span> {
                     <span class="self">self</span>.<span class="ident">prev</span>.<span class="ident">clear</span>();
-                    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">rowlen</span> {
-                        <span class="self">self</span>.<span class="ident">prev</span>.<span class="ident">push</span>(<span class="number">0</span>);
-                    }
+                    <span class="self">self</span>.<span class="ident">prev</span>.<span class="ident">resize</span>(<span class="ident">rowlen</span>, <span class="number">0u8</span>);
                 }
-                (<span class="ident">rowlen</span>, <span class="prelude-val">Some</span>((<span class="ident">pass</span>, <span class="ident">line</span>, <span class="ident">len</span>)))
-            } <span class="kw">else</span> {
-                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
+                <span class="prelude-val">Some</span>((<span class="ident">rowlen</span>, <span class="ident">InterlaceInfo</span>::<span class="ident">Adam7</span> { <span class="ident">pass</span>, <span class="ident">line</span>, <span class="ident">width</span> }))
             }
-        } <span class="kw">else</span> {
-            (<span class="self">self</span>.<span class="ident">rowlen</span>, <span class="prelude-val">None</span>)
+            <span class="ident">InterlaceIter</span>::<span class="prelude-val">None</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">height</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">height</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
+                <span class="prelude-val">Some</span>((<span class="self">self</span>.<span class="ident">subframe</span>.<span class="ident">rowlen</span>, <span class="ident">InterlaceInfo</span>::<span class="prelude-val">None</span>))
+            }
+        }
+    }
+
+    <span class="doccomment">/// Returns the next raw scanline of the image interlace pass.</span>
+    <span class="doccomment">/// The scanline is filtered against the previous scanline according to the specification.</span>
+    <span class="kw">fn</span> <span class="ident">next_raw_interlaced_row</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InterlacedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;&gt;</span>, <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">bpp</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bpp</span>;
+        <span class="kw">let</span> (<span class="ident">rowlen</span>, <span class="ident">passdata</span>) <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_pass</span>() {
+            <span class="prelude-val">Some</span>((<span class="ident">rowlen</span>, <span class="ident">passdata</span>)) <span class="op">=&gt;</span> (<span class="ident">rowlen</span>, <span class="ident">passdata</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
         };
         <span class="kw">loop</span> {
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">current</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">rowlen</span> {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">filter</span>) <span class="op">=</span> <span class="ident">FilterType</span>::<span class="ident">from_u8</span>(<span class="self">self</span>.<span class="ident">current</span>[<span class="number">0</span>]) {
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">message</span>) <span class="op">=</span> <span class="ident">unfilter</span>(<span class="ident">filter</span>, <span class="ident">bpp</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">prev</span>[<span class="number">1</span>..<span class="ident">rowlen</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">current</span>[<span class="number">1</span>..<span class="ident">rowlen</span>]) {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">current</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="self">self</span>.<span class="ident">scan_start</span> <span class="op">&gt;=</span> <span class="ident">rowlen</span> {
+                <span class="kw">let</span> <span class="ident">row</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">current</span>[<span class="self">self</span>.<span class="ident">scan_start</span>..];
+                <span class="kw">let</span> <span class="ident">filter</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">FilterType</span>::<span class="ident">from_u8</span>(<span class="ident">row</span>[<span class="number">0</span>]) {
+                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
+                        <span class="self">self</span>.<span class="ident">scan_start</span> <span class="op">+=</span> <span class="ident">rowlen</span>;
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
-                            <span class="ident">borrow</span>::<span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">message</span>)
-                        ))
+                            <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;invalid filter method ({})&quot;</span>, <span class="ident">row</span>[<span class="number">0</span>]).<span class="ident">into</span>(),
+                        ));
                     }
-                    <span class="self">self</span>.<span class="ident">prev</span>[..<span class="ident">rowlen</span>].<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">current</span>[..<span class="ident">rowlen</span>]);
-                    <span class="self">self</span>.<span class="ident">current</span>.<span class="ident">drain</span>(<span class="number">0</span>..<span class="ident">rowlen</span>);
-                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(
-                        <span class="prelude-val">Some</span>((
-                            <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">prev</span>[<span class="number">1</span>..<span class="ident">rowlen</span>],
-                            <span class="ident">passdata</span>
-                        ))
-                    )
-                } <span class="kw">else</span> {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
-                        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;invalid filter method ({})&quot;</span>, <span class="self">self</span>.<span class="ident">current</span>[<span class="number">0</span>]).<span class="ident">into</span>()
-                    ))
+                    <span class="prelude-val">Some</span>(<span class="ident">filter</span>) <span class="op">=&gt;</span> <span class="ident">filter</span>,
+                };
+
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">message</span>) <span class="op">=</span>
+                    <span class="ident">unfilter</span>(<span class="ident">filter</span>, <span class="ident">bpp</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">prev</span>[<span class="number">1</span>..<span class="ident">rowlen</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">row</span>[<span class="number">1</span>..<span class="ident">rowlen</span>])
+                {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="ident">borrow</span>::<span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">message</span>)));
                 }
+
+                <span class="self">self</span>.<span class="ident">prev</span>[..<span class="ident">rowlen</span>].<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">row</span>[..<span class="ident">rowlen</span>]);
+                <span class="self">self</span>.<span class="ident">scan_start</span> <span class="op">+=</span> <span class="ident">rowlen</span>;
+
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">InterlacedRow</span> {
+                    <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">prev</span>[<span class="number">1</span>..<span class="ident">rowlen</span>],
+                    <span class="ident">interlace</span>: <span class="ident">passdata</span>,
+                }));
             } <span class="kw">else</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">subframe</span>.<span class="ident">consumed_and_flushed</span> {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
+                        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;not enough data for image&quot;</span>).<span class="ident">into</span>(),
+                    ));
+                }
+
+                <span class="comment">// Clear the current buffer before appending more data.</span>
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">scan_start</span> <span class="op">&gt;</span> <span class="number">0</span> {
+                    <span class="self">self</span>.<span class="ident">current</span>.<span class="ident">drain</span>(..<span class="self">self</span>.<span class="ident">scan_start</span>).<span class="ident">for_each</span>(<span class="ident">drop</span>);
+                    <span class="self">self</span>.<span class="ident">scan_start</span> <span class="op">=</span> <span class="number">0</span>;
+                }
+
                 <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">decoder</span>.<span class="ident">decode_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">current</span>)<span class="question-mark">?</span>;
                 <span class="kw">match</span> <span class="ident">val</span> {
-                    <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">ImageData</span>) <span class="op">=</span><span class="op">&gt;</span> {}
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">ImageData</span>) <span class="op">=&gt;</span> {}
+                    <span class="prelude-val">Some</span>(<span class="ident">Decoded</span>::<span class="ident">ImageDataFlushed</span>) <span class="op">=&gt;</span> {
+                        <span class="self">self</span>.<span class="ident">subframe</span>.<span class="ident">consumed_and_flushed</span> <span class="op">=</span> <span class="bool-val">true</span>;
+                    }
+                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
                         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">current</span>.<span class="ident">is_empty</span>() {
-                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
-                              <span class="string">&quot;file truncated&quot;</span>.<span class="ident">into</span>()
-                            ))
+                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;file truncated&quot;</span>.<span class="ident">into</span>()));
                         } <span class="kw">else</span> {
-                            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
+                            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
                         }
                     }
-                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> ()
+                    <span class="kw">_</span> <span class="op">=&gt;</span> (),
                 }
             }
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">expand_paletted</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">Info</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
+<span class="kw">impl</span> <span class="ident">SubframeInfo</span> {
+    <span class="kw">fn</span> <span class="ident">not_yet_init</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">SubframeInfo</span> {
+            <span class="ident">width</span>: <span class="number">0</span>,
+            <span class="ident">rowlen</span>: <span class="number">0</span>,
+            <span class="ident">interlace</span>: <span class="ident">InterlaceIter</span>::<span class="prelude-val">None</span>(<span class="number">0</span>..<span class="number">0</span>),
+            <span class="ident">consumed_and_flushed</span>: <span class="bool-val">false</span>,
+        }
+    }
+
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">Info</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="comment">// The apng fctnl overrides width and height.</span>
+        <span class="comment">// All other data is set by the main info struct.</span>
+        <span class="kw">let</span> (<span class="ident">width</span>, <span class="ident">height</span>) <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">fc</span>) <span class="op">=</span> <span class="ident">info</span>.<span class="ident">frame_control</span> {
+            (<span class="ident">fc</span>.<span class="ident">width</span>, <span class="ident">fc</span>.<span class="ident">height</span>)
+        } <span class="kw">else</span> {
+            (<span class="ident">info</span>.<span class="ident">width</span>, <span class="ident">info</span>.<span class="ident">height</span>)
+        };
+
+        <span class="kw">let</span> <span class="ident">interlace</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">interlaced</span> {
+            <span class="ident">InterlaceIter</span>::<span class="ident">Adam7</span>(<span class="ident">utils</span>::<span class="ident">Adam7Iterator</span>::<span class="ident">new</span>(<span class="ident">width</span>, <span class="ident">height</span>))
+        } <span class="kw">else</span> {
+            <span class="ident">InterlaceIter</span>::<span class="prelude-val">None</span>(<span class="number">0</span>..<span class="ident">height</span>)
+        };
+
+        <span class="ident">SubframeInfo</span> {
+            <span class="ident">width</span>,
+            <span class="ident">rowlen</span>: <span class="ident">info</span>.<span class="ident">raw_row_length_from_width</span>(<span class="ident">width</span>),
+            <span class="ident">interlace</span>,
+            <span class="ident">consumed_and_flushed</span>: <span class="bool-val">false</span>,
+        }
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">expand_paletted</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">Info</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DecodingError</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">palette</span>) <span class="op">=</span> <span class="ident">info</span>.<span class="ident">palette</span>.<span class="ident">as_ref</span>() {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">BitDepth</span>::<span class="ident">Sixteen</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(<span class="string">&quot;Bit depth &#39;16&#39; is not valid for paletted images&quot;</span>.<span class="ident">into</span>()))
+            <span class="prelude-val">Err</span>(<span class="ident">DecodingError</span>::<span class="ident">Format</span>(
+                <span class="string">&quot;Bit depth &#39;16&#39; is not valid for paletted images&quot;</span>.<span class="ident">into</span>(),
+            ))
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="ident">black</span> <span class="op">=</span> [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>];
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">trns</span>) <span class="op">=</span> <span class="ident">info</span>.<span class="ident">trns</span> {
                 <span class="ident">utils</span>::<span class="ident">unpack_bits</span>(<span class="ident">buffer</span>, <span class="number">4</span>, <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="op">|</span><span class="ident">i</span>, <span class="ident">chunk</span><span class="op">|</span> {
                     <span class="kw">let</span> (<span class="ident">rgb</span>, <span class="ident">a</span>) <span class="op">=</span> (
-                        <span class="ident">palette</span>.<span class="ident">get</span>(<span class="number">3</span><span class="kw-2">*</span><span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>..<span class="number">3</span><span class="kw-2">*</span><span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span><span class="op">+</span><span class="number">3</span>).<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">black</span>),
-                        <span class="kw-2">*</span><span class="ident">trns</span>.<span class="ident">get</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="number">0xFF</span>)
+                        <span class="ident">palette</span>
+                            .<span class="ident">get</span>(<span class="number">3</span> <span class="op">*</span> <span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>..<span class="number">3</span> <span class="op">*</span> <span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="number">3</span>)
+                            .<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">black</span>),
+                        <span class="kw-2">*</span><span class="ident">trns</span>.<span class="ident">get</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="number">0xFF</span>),
                     );
                     <span class="ident">chunk</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">rgb</span>[<span class="number">0</span>];
                     <span class="ident">chunk</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">rgb</span>[<span class="number">1</span>];
@@ -1050,7 +1698,9 @@ pub enum InterlaceHandling {
                 });
             } <span class="kw">else</span> {
                 <span class="ident">utils</span>::<span class="ident">unpack_bits</span>(<span class="ident">buffer</span>, <span class="number">3</span>, <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="op">|</span><span class="ident">i</span>, <span class="ident">chunk</span><span class="op">|</span> {
-                    <span class="kw">let</span> <span class="ident">rgb</span> <span class="op">=</span> <span class="ident">palette</span>.<span class="ident">get</span>(<span class="number">3</span><span class="kw-2">*</span><span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>..<span class="number">3</span><span class="kw-2">*</span><span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span><span class="op">+</span><span class="number">3</span>).<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">black</span>);
+                    <span class="kw">let</span> <span class="ident">rgb</span> <span class="op">=</span> <span class="ident">palette</span>
+                        .<span class="ident">get</span>(<span class="number">3</span> <span class="op">*</span> <span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>..<span class="number">3</span> <span class="op">*</span> <span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="number">3</span>)
+                        .<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">black</span>);
                     <span class="ident">chunk</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">rgb</span>[<span class="number">0</span>];
                     <span class="ident">chunk</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">rgb</span>[<span class="number">1</span>];
                     <span class="ident">chunk</span>[<span class="number">2</span>] <span class="op">=</span> <span class="ident">rgb</span>[<span class="number">2</span>];
@@ -1066,13 +1716,13 @@ pub enum InterlaceHandling {
 <span class="kw">fn</span> <span class="ident">expand_gray_u8</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">Info</span>) {
     <span class="kw">let</span> <span class="ident">rescale</span> <span class="op">=</span> <span class="bool-val">true</span>;
     <span class="kw">let</span> <span class="ident">scaling_factor</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">rescale</span> {
-        (<span class="number">255</span>)<span class="op">/</span>((<span class="number">1u16</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>) <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u8</span>
+        (<span class="number">255</span>) <span class="op">/</span> ((<span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>) <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u8</span>
     } <span class="kw">else</span> {
         <span class="number">1</span>
     };
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">trns</span>) <span class="op">=</span> <span class="ident">info</span>.<span class="ident">trns</span> {
         <span class="ident">utils</span>::<span class="ident">unpack_bits</span>(<span class="ident">buffer</span>, <span class="number">2</span>, <span class="ident">info</span>.<span class="ident">bit_depth</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="op">|</span><span class="ident">pixel</span>, <span class="ident">chunk</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="ident">pixel</span> <span class="op">=</span><span class="op">=</span> <span class="ident">trns</span>[<span class="number">0</span>] {
+            <span class="kw">if</span> <span class="ident">pixel</span> <span class="op">==</span> <span class="ident">trns</span>[<span class="number">0</span>] {
                 <span class="ident">chunk</span>[<span class="number">1</span>] <span class="op">=</span> <span class="number">0</span>
             } <span class="kw">else</span> {
                 <span class="ident">chunk</span>[<span class="number">1</span>] <span class="op">=</span> <span class="number">0xFF</span>
@@ -1085,5 +1735,66 @@ pub enum InterlaceHandling {
         })
     }
 }
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Decoder</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">BufRead</span>, <span class="ident">Read</span>, <span class="prelude-ty">Result</span>};
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">discriminant</span>;
+
+    <span class="doccomment">/// A reader that reads at most `n` bytes.</span>
+    <span class="kw">struct</span> <span class="ident">SmalBuf</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">BufRead</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">R</span>,
+        <span class="ident">cap</span>: <span class="ident">usize</span>,
+    }
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">BufRead</span><span class="op">&gt;</span> <span class="ident">SmalBuf</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">R</span>, <span class="ident">cap</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+            <span class="ident">SmalBuf</span> { <span class="ident">inner</span>, <span class="ident">cap</span> }
+        }
+    }
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">BufRead</span><span class="op">&gt;</span> <span class="ident">Read</span> <span class="kw">for</span> <span class="ident">SmalBuf</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>().<span class="ident">min</span>(<span class="self">self</span>.<span class="ident">cap</span>);
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..<span class="ident">len</span>])
+        }
+    }
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">BufRead</span><span class="op">&gt;</span> <span class="ident">BufRead</span> <span class="kw">for</span> <span class="ident">SmalBuf</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">fill_buf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">fill_buf</span>()<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>().<span class="ident">min</span>(<span class="self">self</span>.<span class="ident">cap</span>);
+            <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="ident">len</span>])
+        }
+
+        <span class="kw">fn</span> <span class="ident">consume</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">amt</span>: <span class="ident">usize</span>) {
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">amt</span> <span class="op">&lt;=</span> <span class="self">self</span>.<span class="ident">cap</span>);
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">consume</span>(<span class="ident">amt</span>)
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">no_data_dup_on_finish</span>() {
+        <span class="kw">const</span> <span class="ident">IMG</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="macro">include_bytes</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(
+            <span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>),
+            <span class="string">&quot;/tests/bugfixes/x_issue#214.png&quot;</span>
+        ));
+
+        <span class="kw">let</span> (<span class="ident">info</span>, <span class="kw-2">mut</span> <span class="ident">normal</span>) <span class="op">=</span> <span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">IMG</span>).<span class="ident">read_info</span>().<span class="ident">unwrap</span>();
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">info</span>.<span class="ident">buffer_size</span>()];
+        <span class="kw">let</span> <span class="ident">normal</span> <span class="op">=</span> <span class="ident">normal</span>.<span class="ident">next_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>).<span class="ident">unwrap_err</span>();
+
+        <span class="kw">let</span> <span class="ident">smal</span> <span class="op">=</span> <span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">SmalBuf</span>::<span class="ident">new</span>(<span class="ident">IMG</span>, <span class="number">1</span>))
+            .<span class="ident">read_info</span>()
+            .<span class="ident">unwrap</span>()
+            .<span class="number">1</span>
+            .<span class="ident">next_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>)
+            .<span class="ident">unwrap_err</span>();
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">discriminant</span>(<span class="kw-2">&amp;</span><span class="ident">normal</span>), <span class="ident">discriminant</span>(<span class="kw-2">&amp;</span><span class="ident">smal</span>));
+    }
+}
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "png";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "png";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

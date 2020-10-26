@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.23.2/./src/animation.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>animation.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.23.11/./src/animation.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>animation.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../image/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -334,17 +335,17 @@
 
 <span class="kw">use</span> <span class="ident">num_rational</span>::<span class="ident">Ratio</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">buffer</span>::<span class="ident">RgbaImage</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">RgbaImage</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">ImageResult</span>;
 
 <span class="doccomment">/// An implementation dependent iterator, reading the frames as requested</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Frames</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">iterator</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>
+    <span class="ident">iterator</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Frames</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a new `Frames` from an implementation specific iterator.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">iterator</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">iterator</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Frames</span> { <span class="ident">iterator</span> }
     }
 
@@ -353,14 +354,14 @@
     <span class="doccomment">/// If en error is encountered that error is returned instead.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Note: This is equivalent to `Frames::collect::&lt;ImageResult&lt;Vec&lt;Frame&gt;&gt;&gt;()`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">collect_frames</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">collect_frames</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;&gt;</span> {
         <span class="self">self</span>.<span class="ident">collect</span>()
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">Frames</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ImageResult</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;&gt;</span> {
         <span class="self">self</span>.<span class="ident">iterator</span>.<span class="ident">next</span>()
     }
 }
@@ -385,7 +386,7 @@
 
 <span class="kw">impl</span> <span class="ident">Frame</span> {
     <span class="doccomment">/// Contructs a new frame without any delay.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">buffer</span>: <span class="ident">RgbaImage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frame</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">buffer</span>: <span class="ident">RgbaImage</span>) <span class="op">-&gt;</span> <span class="ident">Frame</span> {
         <span class="ident">Frame</span> {
             <span class="ident">delay</span>: <span class="ident">Delay</span>::<span class="ident">from_ratio</span>(<span class="ident">Ratio</span>::<span class="ident">from_integer</span>(<span class="number">0</span>)),
             <span class="ident">left</span>: <span class="number">0</span>,
@@ -395,7 +396,7 @@
     }
 
     <span class="doccomment">/// Contructs a new frame</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_parts</span>(<span class="ident">buffer</span>: <span class="ident">RgbaImage</span>, <span class="ident">left</span>: <span class="ident">u32</span>, <span class="ident">top</span>: <span class="ident">u32</span>, <span class="ident">delay</span>: <span class="ident">Delay</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frame</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_parts</span>(<span class="ident">buffer</span>: <span class="ident">RgbaImage</span>, <span class="ident">left</span>: <span class="ident">u32</span>, <span class="ident">top</span>: <span class="ident">u32</span>, <span class="ident">delay</span>: <span class="ident">Delay</span>) <span class="op">-&gt;</span> <span class="ident">Frame</span> {
         <span class="ident">Frame</span> {
             <span class="ident">delay</span>,
             <span class="ident">left</span>,
@@ -405,27 +406,27 @@
     }
 
     <span class="doccomment">/// Delay of this frame</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delay</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Delay</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delay</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Delay</span> {
         <span class="self">self</span>.<span class="ident">delay</span>
     }
 
     <span class="doccomment">/// Returns the image buffer</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">RgbaImage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">RgbaImage</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">buffer</span>
     }
 
     <span class="doccomment">/// Returns the image buffer</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_buffer</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RgbaImage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_buffer</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RgbaImage</span> {
         <span class="self">self</span>.<span class="ident">buffer</span>
     }
 
     <span class="doccomment">/// Returns the x offset</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">left</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">left</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">left</span>
     }
 
     <span class="doccomment">/// Returns the y offset</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">top</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">top</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">top</span>
     }
 }
@@ -439,7 +440,7 @@
     <span class="doccomment">/// use image::Delay;</span>
     <span class="doccomment">/// let delay_10ms = Delay::from_numer_denom_ms(10, 1);</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_numer_denom_ms</span>(<span class="ident">numerator</span>: <span class="ident">u32</span>, <span class="ident">denominator</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_numer_denom_ms</span>(<span class="ident">numerator</span>: <span class="ident">u32</span>, <span class="ident">denominator</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Delay</span> { <span class="ident">ratio</span>: <span class="ident">Ratio</span>::<span class="ident">new_raw</span>(<span class="ident">numerator</span>, <span class="ident">denominator</span>) }
     }
 
@@ -457,7 +458,7 @@
     <span class="doccomment">/// let duration = Duration::from_millis(20);</span>
     <span class="doccomment">/// let delay = Delay::from_saturating_duration(duration);</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_saturating_duration</span>(<span class="ident">duration</span>: <span class="ident">Duration</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_saturating_duration</span>(<span class="ident">duration</span>: <span class="ident">Duration</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="comment">// A few notes: The largest number we can represent as a ratio is u32::MAX but we can</span>
         <span class="comment">// sometimes represent much smaller numbers.</span>
         <span class="comment">//</span>
@@ -486,15 +487,15 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is guaranteed to be an exact conversion if the `Delay` was previously created with the</span>
     <span class="doccomment">/// `from_numer_denom_ms` constructor.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">numer_denom_ms</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">numer_denom_ms</span>(<span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
         (<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">ratio</span>.<span class="ident">numer</span>(), <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">ratio</span>.<span class="ident">denom</span>())
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">from_ratio</span>(<span class="ident">ratio</span>: <span class="ident">Ratio</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">from_ratio</span>(<span class="ident">ratio</span>: <span class="ident">Ratio</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Delay</span> { <span class="ident">ratio</span> }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">into_ratio</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ratio</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">into_ratio</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Ratio</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">ratio</span>
     }
 
@@ -502,7 +503,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Note that `denom_bound` bounds nominator and denominator of all intermediate</span>
     <span class="doccomment">/// approximations and the end result.</span>
-    <span class="kw">fn</span> <span class="ident">closest_bounded_fraction</span>(<span class="ident">denom_bound</span>: <span class="ident">u32</span>, <span class="ident">nom</span>: <span class="ident">u32</span>, <span class="ident">denom</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
+    <span class="kw">fn</span> <span class="ident">closest_bounded_fraction</span>(<span class="ident">denom_bound</span>: <span class="ident">u32</span>, <span class="ident">nom</span>: <span class="ident">u32</span>, <span class="ident">denom</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
         <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>::{<span class="self">self</span>, <span class="kw-2">*</span>};
         <span class="macro">assert</span><span class="macro">!</span>(<span class="number">0</span> <span class="op">&lt;</span> <span class="ident">denom</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="number">0</span> <span class="op">&lt;</span> <span class="ident">denom_bound</span>);
@@ -513,12 +514,12 @@
         <span class="comment">// values without fears of overflow.</span>
 
         <span class="comment">// Compare two fractions whose parts fit into a u32.</span>
-        <span class="kw">fn</span> <span class="ident">compare_fraction</span>((<span class="ident">an</span>, <span class="ident">ad</span>): (<span class="ident">u64</span>, <span class="ident">u64</span>), (<span class="ident">bn</span>, <span class="ident">bd</span>): (<span class="ident">u64</span>, <span class="ident">u64</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ordering</span> {
+        <span class="kw">fn</span> <span class="ident">compare_fraction</span>((<span class="ident">an</span>, <span class="ident">ad</span>): (<span class="ident">u64</span>, <span class="ident">u64</span>), (<span class="ident">bn</span>, <span class="ident">bd</span>): (<span class="ident">u64</span>, <span class="ident">u64</span>)) <span class="op">-&gt;</span> <span class="ident">Ordering</span> {
             (<span class="ident">an</span><span class="kw-2">*</span><span class="ident">bd</span>).<span class="ident">cmp</span>(<span class="kw-2">&amp;</span>(<span class="ident">bn</span><span class="kw-2">*</span><span class="ident">ad</span>))
         }
 
         <span class="comment">// Computes the nominator of the absolute difference between two such fractions.</span>
-        <span class="kw">fn</span> <span class="ident">abs_diff_nom</span>((<span class="ident">an</span>, <span class="ident">ad</span>): (<span class="ident">u64</span>, <span class="ident">u64</span>), (<span class="ident">bn</span>, <span class="ident">bd</span>): (<span class="ident">u64</span>, <span class="ident">u64</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+        <span class="kw">fn</span> <span class="ident">abs_diff_nom</span>((<span class="ident">an</span>, <span class="ident">ad</span>): (<span class="ident">u64</span>, <span class="ident">u64</span>), (<span class="ident">bn</span>, <span class="ident">bd</span>): (<span class="ident">u64</span>, <span class="ident">u64</span>)) <span class="op">-&gt;</span> <span class="ident">u64</span> {
             <span class="kw">let</span> <span class="ident">c0</span> <span class="op">=</span> <span class="ident">an</span><span class="kw-2">*</span><span class="ident">bd</span>;
             <span class="kw">let</span> <span class="ident">c1</span> <span class="op">=</span> <span class="ident">ad</span><span class="kw-2">*</span><span class="ident">bn</span>;
 
@@ -539,7 +540,7 @@
         <span class="comment">// iterates the Farey sequence.</span>
         <span class="kw">loop</span> {
             <span class="comment">// Break if we are done.</span>
-            <span class="kw">if</span> <span class="ident">compare_fraction</span>(<span class="ident">guess</span>, <span class="ident">exact</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">Equal</span> {
+            <span class="kw">if</span> <span class="ident">compare_fraction</span>(<span class="ident">guess</span>, <span class="ident">exact</span>) <span class="op">==</span> <span class="ident">Equal</span> {
                 <span class="kw">break</span>;
             }
 
@@ -551,7 +552,7 @@
             <span class="comment">// Next Farey approximation n between a and b</span>
             <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> (<span class="ident">lower</span>.<span class="number">0</span> <span class="op">+</span> <span class="ident">upper</span>.<span class="number">0</span>, <span class="ident">lower</span>.<span class="number">1</span> <span class="op">+</span> <span class="ident">upper</span>.<span class="number">1</span>);
             <span class="comment">// if F &lt; n then replace the upper bound, else replace lower.</span>
-            <span class="kw">if</span> <span class="ident">compare_fraction</span>(<span class="ident">exact</span>, <span class="ident">next</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">Less</span> {
+            <span class="kw">if</span> <span class="ident">compare_fraction</span>(<span class="ident">exact</span>, <span class="ident">next</span>) <span class="op">==</span> <span class="ident">Less</span> {
                 <span class="ident">upper</span> <span class="op">=</span> <span class="ident">next</span>;
             } <span class="kw">else</span> {
                 <span class="ident">lower</span> <span class="op">=</span> <span class="ident">next</span>;
@@ -570,13 +571,13 @@
             <span class="comment">// fraction |n_diff_nom|/nd is smaller than the one of |g_diff_nom|/gd or if they are</span>
             <span class="comment">// the same but the fractional part is larger.</span>
             <span class="kw">if</span> <span class="kw">match</span> (<span class="ident">n_diff_nom</span><span class="op">/</span><span class="ident">next</span>.<span class="number">1</span>).<span class="ident">cmp</span>(<span class="kw-2">&amp;</span>(<span class="ident">g_diff_nom</span><span class="op">/</span><span class="ident">guess</span>.<span class="number">1</span>)) {
-                <span class="ident">Less</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-                <span class="ident">Greater</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">Less</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+                <span class="ident">Greater</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// Note that the nominator for the fractional part is smaller than its denominator</span>
                 <span class="comment">// which is smaller than u32 and can&#39;t overflow the multiplication with the other</span>
                 <span class="comment">// denominator, that is we can compare these fractions by multiplication with the</span>
                 <span class="comment">// respective other denominator.</span>
-                <span class="ident">Equal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">compare_fraction</span>((<span class="ident">n_diff_nom</span><span class="op">%</span><span class="ident">next</span>.<span class="number">1</span>, <span class="ident">next</span>.<span class="number">1</span>), (<span class="ident">g_diff_nom</span><span class="op">%</span><span class="ident">guess</span>.<span class="number">1</span>, <span class="ident">guess</span>.<span class="number">1</span>)) <span class="op">=</span><span class="op">=</span> <span class="ident">Less</span>,
+                <span class="ident">Equal</span> <span class="op">=&gt;</span> <span class="ident">compare_fraction</span>((<span class="ident">n_diff_nom</span><span class="op">%</span><span class="ident">next</span>.<span class="number">1</span>, <span class="ident">next</span>.<span class="number">1</span>), (<span class="ident">g_diff_nom</span><span class="op">%</span><span class="ident">guess</span>.<span class="number">1</span>, <span class="ident">guess</span>.<span class="number">1</span>)) <span class="op">==</span> <span class="ident">Less</span>,
             } {
                 <span class="ident">guess</span> <span class="op">=</span> <span class="ident">next</span>;
             }
@@ -587,7 +588,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Delay</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Duration</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">delay</span>: <span class="ident">Delay</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">delay</span>: <span class="ident">Delay</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">ratio</span> <span class="op">=</span> <span class="ident">delay</span>.<span class="ident">into_ratio</span>();
         <span class="kw">let</span> <span class="ident">ms</span> <span class="op">=</span> <span class="ident">ratio</span>.<span class="ident">to_integer</span>();
         <span class="kw">let</span> <span class="ident">rest</span> <span class="op">=</span> <span class="ident">ratio</span>.<span class="ident">numer</span>() <span class="op">%</span> <span class="ident">ratio</span>.<span class="ident">denom</span>();
@@ -651,7 +652,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">small</span>() {
         <span class="comment">// Not quite a delay of `1 ms`.</span>
-        <span class="kw">let</span> <span class="ident">delay</span> <span class="op">=</span> <span class="ident">Delay</span>::<span class="ident">from_numer_denom_ms</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span>, (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span>) <span class="op">+</span> <span class="number">1</span>);
+        <span class="kw">let</span> <span class="ident">delay</span> <span class="op">=</span> <span class="ident">Delay</span>::<span class="ident">from_numer_denom_ms</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">16</span>, (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">16</span>) <span class="op">+</span> <span class="number">1</span>);
         <span class="kw">let</span> <span class="ident">duration</span> <span class="op">=</span> <span class="ident">Duration</span>::<span class="ident">from</span>(<span class="ident">delay</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">duration</span>.<span class="ident">as_millis</span>(), <span class="number">0</span>);
         <span class="comment">// Not precisely the original but should be smaller than 0.</span>
@@ -660,4 +661,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "image";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "image";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

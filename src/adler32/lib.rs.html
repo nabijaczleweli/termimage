@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/adler32-1.0.4/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../adler32/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/adler32-1.2.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../adler32/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -305,6 +306,23 @@
 <span id="305">305</span>
 <span id="306">306</span>
 <span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! A minimal implementation of Adler32 for Rust.</span>
 <span class="doccomment">//!</span>
@@ -316,10 +334,9 @@
 <span class="doccomment">//! The adler32 code has been translated (as accurately as I could manage) from</span>
 <span class="doccomment">//! the zlib implementation.</span>
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rand</span>;
+<span class="attribute">#![<span class="ident">forbid</span>(<span class="ident">unsafe_code</span>)]</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 
 <span class="comment">// adler32 algorithm and implementation taken from zlib; http://www.zlib.net/</span>
 <span class="comment">// It was translated into Rust as accurately as I could manage</span>
@@ -359,8 +376,8 @@
 
 <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
 <span class="kw">fn</span> <span class="ident">do1</span>(<span class="ident">adler</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">u32</span>, <span class="ident">sum2</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">u32</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) {
-    <span class="kw-2">*</span><span class="ident">adler</span> <span class="op">+</span><span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">buf</span>[<span class="number">0</span>]);
-    <span class="kw-2">*</span><span class="ident">sum2</span> <span class="op">+</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">adler</span>;
+    <span class="kw-2">*</span><span class="ident">adler</span> <span class="op">+=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">buf</span>[<span class="number">0</span>]);
+    <span class="kw-2">*</span><span class="ident">sum2</span> <span class="op">+=</span> <span class="kw-2">*</span><span class="ident">adler</span>;
 }
 
 <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
@@ -392,40 +409,41 @@
 <span class="doccomment">/// Calling remove() will update the hash to the value it would have if that</span>
 <span class="doccomment">/// past byte had never been fed to the algorithm. This allows you to get the</span>
 <span class="doccomment">/// hash of a rolling window very efficiently.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RollingAdler32</span> {
     <span class="ident">a</span>: <span class="ident">u32</span>,
     <span class="ident">b</span>: <span class="ident">u32</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">RollingAdler32</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RollingAdler32</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">RollingAdler32</span> {
         <span class="ident">RollingAdler32</span>::<span class="ident">new</span>()
     }
 }
 
 <span class="kw">impl</span> <span class="ident">RollingAdler32</span> {
     <span class="doccomment">/// Creates an empty Adler32 context (with hash 1).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RollingAdler32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">RollingAdler32</span> {
         <span class="self">Self</span>::<span class="ident">from_value</span>(<span class="number">1</span>)
     }
 
     <span class="doccomment">/// Creates an Adler32 context with the given initial value.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_value</span>(<span class="ident">adler32</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RollingAdler32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_value</span>(<span class="ident">adler32</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">RollingAdler32</span> {
         <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">adler32</span> <span class="op">&amp;</span> <span class="number">0xFFFF</span>;
-        <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">adler32</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">16</span>;
+        <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">adler32</span> <span class="op">&gt;&gt;</span> <span class="number">16</span>;
         <span class="ident">RollingAdler32</span> { <span class="ident">a</span>, <span class="ident">b</span> }
     }
 
     <span class="doccomment">/// Convenience function initializing a context from the hash of a buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_buffer</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RollingAdler32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_buffer</span>(<span class="ident">buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">RollingAdler32</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">RollingAdler32</span>::<span class="ident">new</span>();
         <span class="ident">hash</span>.<span class="ident">update_buffer</span>(<span class="ident">buffer</span>);
         <span class="ident">hash</span>
     }
 
     <span class="doccomment">/// Returns the current hash.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hash</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
-        (<span class="self">self</span>.<span class="ident">b</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span>) <span class="op">|</span> <span class="self">self</span>.<span class="ident">a</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hash</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        (<span class="self">self</span>.<span class="ident">b</span> <span class="op">&lt;&lt;</span> <span class="number">16</span>) <span class="op">|</span> <span class="self">self</span>.<span class="ident">a</span>
     }
 
     <span class="doccomment">/// Removes the given `byte` that was fed to the algorithm `size` bytes ago.</span>
@@ -433,8 +451,8 @@
         <span class="kw">let</span> <span class="ident">byte</span> <span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">byte</span>);
         <span class="self">self</span>.<span class="ident">a</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">a</span> <span class="op">+</span> <span class="ident">BASE</span> <span class="op">-</span> <span class="ident">byte</span>) <span class="op">%</span> <span class="ident">BASE</span>;
         <span class="self">self</span>.<span class="ident">b</span> <span class="op">=</span> ((<span class="self">self</span>.<span class="ident">b</span> <span class="op">+</span> <span class="ident">BASE</span> <span class="op">-</span> <span class="number">1</span>)
-                      .<span class="ident">wrapping_add</span>(<span class="ident">BASE</span>.<span class="ident">wrapping_sub</span>(<span class="ident">size</span> <span class="kw">as</span> <span class="ident">u32</span>)
-                                        .<span class="ident">wrapping_mul</span>(<span class="ident">byte</span>))) <span class="op">%</span> <span class="ident">BASE</span>;
+            .<span class="ident">wrapping_add</span>(<span class="ident">BASE</span>.<span class="ident">wrapping_sub</span>(<span class="ident">size</span> <span class="kw">as</span> <span class="ident">u32</span>).<span class="ident">wrapping_mul</span>(<span class="ident">byte</span>)))
+            <span class="op">%</span> <span class="ident">BASE</span>;
     }
 
     <span class="doccomment">/// Feeds a new `byte` to the algorithm to update the hash.</span>
@@ -449,7 +467,7 @@
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">len</span>();
 
         <span class="comment">// in case user likes doing a byte at a time, keep it fast</span>
-        <span class="kw">if</span> <span class="ident">len</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="ident">len</span> <span class="op">==</span> <span class="number">1</span> {
             <span class="self">self</span>.<span class="ident">update</span>(<span class="ident">buffer</span>[<span class="number">0</span>]);
             <span class="kw">return</span>;
         }
@@ -457,81 +475,85 @@
         <span class="comment">// in case short lengths are provided, keep it somewhat fast</span>
         <span class="kw">if</span> <span class="ident">len</span> <span class="op">&lt;</span> <span class="number">16</span> {
             <span class="kw">for</span> <span class="ident">byte</span> <span class="kw">in</span> <span class="ident">buffer</span>.<span class="ident">iter</span>().<span class="ident">take</span>(<span class="ident">len</span>) {
-                <span class="self">self</span>.<span class="ident">a</span> <span class="op">+</span><span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="kw-2">*</span><span class="ident">byte</span>);
-                <span class="self">self</span>.<span class="ident">b</span> <span class="op">+</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">a</span>;
+                <span class="self">self</span>.<span class="ident">a</span> <span class="op">+=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="kw-2">*</span><span class="ident">byte</span>);
+                <span class="self">self</span>.<span class="ident">b</span> <span class="op">+=</span> <span class="self">self</span>.<span class="ident">a</span>;
             }
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">a</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">BASE</span> {
-                <span class="self">self</span>.<span class="ident">a</span> <span class="op">-</span><span class="op">=</span> <span class="ident">BASE</span>;
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">a</span> <span class="op">&gt;=</span> <span class="ident">BASE</span> {
+                <span class="self">self</span>.<span class="ident">a</span> <span class="op">-=</span> <span class="ident">BASE</span>;
             }
-            <span class="self">self</span>.<span class="ident">b</span> <span class="op">%</span><span class="op">=</span> <span class="ident">BASE</span>;
+            <span class="self">self</span>.<span class="ident">b</span> <span class="op">%=</span> <span class="ident">BASE</span>;
             <span class="kw">return</span>;
         }
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pos</span> <span class="op">=</span> <span class="number">0</span>;
 
         <span class="comment">// do length NMAX blocks -- requires just one modulo operation;</span>
-        <span class="kw">while</span> <span class="ident">pos</span> <span class="op">+</span> <span class="ident">NMAX</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">len</span> {
+        <span class="kw">while</span> <span class="ident">pos</span> <span class="op">+</span> <span class="ident">NMAX</span> <span class="op">&lt;=</span> <span class="ident">len</span> {
             <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">pos</span> <span class="op">+</span> <span class="ident">NMAX</span>;
             <span class="kw">while</span> <span class="ident">pos</span> <span class="op">&lt;</span> <span class="ident">end</span> {
                 <span class="comment">// 16 sums unrolled</span>
                 <span class="ident">do16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">b</span>, <span class="kw-2">&amp;</span><span class="ident">buffer</span>[<span class="ident">pos</span>..<span class="ident">pos</span> <span class="op">+</span> <span class="number">16</span>]);
-                <span class="ident">pos</span> <span class="op">+</span><span class="op">=</span> <span class="number">16</span>;
+                <span class="ident">pos</span> <span class="op">+=</span> <span class="number">16</span>;
             }
-            <span class="self">self</span>.<span class="ident">a</span> <span class="op">%</span><span class="op">=</span> <span class="ident">BASE</span>;
-            <span class="self">self</span>.<span class="ident">b</span> <span class="op">%</span><span class="op">=</span> <span class="ident">BASE</span>;
+            <span class="self">self</span>.<span class="ident">a</span> <span class="op">%=</span> <span class="ident">BASE</span>;
+            <span class="self">self</span>.<span class="ident">b</span> <span class="op">%=</span> <span class="ident">BASE</span>;
         }
 
         <span class="comment">// do remaining bytes (less than NMAX, still just one modulo)</span>
-        <span class="kw">if</span> <span class="ident">pos</span> <span class="op">&lt;</span> <span class="ident">len</span> { <span class="comment">// avoid modulos if none remaining</span>
-            <span class="kw">while</span> <span class="ident">len</span> <span class="op">-</span> <span class="ident">pos</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">16</span> {
+        <span class="kw">if</span> <span class="ident">pos</span> <span class="op">&lt;</span> <span class="ident">len</span> {
+            <span class="comment">// avoid modulos if none remaining</span>
+            <span class="kw">while</span> <span class="ident">len</span> <span class="op">-</span> <span class="ident">pos</span> <span class="op">&gt;=</span> <span class="number">16</span> {
                 <span class="ident">do16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">b</span>, <span class="kw-2">&amp;</span><span class="ident">buffer</span>[<span class="ident">pos</span>..<span class="ident">pos</span> <span class="op">+</span> <span class="number">16</span>]);
-                <span class="ident">pos</span> <span class="op">+</span><span class="op">=</span> <span class="number">16</span>;
+                <span class="ident">pos</span> <span class="op">+=</span> <span class="number">16</span>;
             }
             <span class="kw">while</span> <span class="ident">len</span> <span class="op">-</span> <span class="ident">pos</span> <span class="op">&gt;</span> <span class="number">0</span> {
-                <span class="self">self</span>.<span class="ident">a</span> <span class="op">+</span><span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">buffer</span>[<span class="ident">pos</span>]);
-                <span class="self">self</span>.<span class="ident">b</span> <span class="op">+</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">a</span>;
-                <span class="ident">pos</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                <span class="self">self</span>.<span class="ident">a</span> <span class="op">+=</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">buffer</span>[<span class="ident">pos</span>]);
+                <span class="self">self</span>.<span class="ident">b</span> <span class="op">+=</span> <span class="self">self</span>.<span class="ident">a</span>;
+                <span class="ident">pos</span> <span class="op">+=</span> <span class="number">1</span>;
             }
-            <span class="self">self</span>.<span class="ident">a</span> <span class="op">%</span><span class="op">=</span> <span class="ident">BASE</span>;
-            <span class="self">self</span>.<span class="ident">b</span> <span class="op">%</span><span class="op">=</span> <span class="ident">BASE</span>;
+            <span class="self">self</span>.<span class="ident">a</span> <span class="op">%=</span> <span class="ident">BASE</span>;
+            <span class="self">self</span>.<span class="ident">b</span> <span class="op">%=</span> <span class="ident">BASE</span>;
         }
     }
 }
 
 <span class="doccomment">/// Consume a Read object and returns the Adler32 hash.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">adler32</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">adler32</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Read</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">RollingAdler32</span>::<span class="ident">new</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="ident">NMAX</span>];
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">read</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>));
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">read</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>)<span class="question-mark">?</span>;
     <span class="kw">while</span> <span class="ident">read</span> <span class="op">&gt;</span> <span class="number">0</span> {
         <span class="ident">hash</span>.<span class="ident">update_buffer</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>[..<span class="ident">read</span>]);
-        <span class="ident">read</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>));
+        <span class="ident">read</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>)<span class="question-mark">?</span>;
     }
     <span class="prelude-val">Ok</span>(<span class="ident">hash</span>.<span class="ident">hash</span>())
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">test</span> {
-    <span class="kw">use</span> <span class="ident">rand</span>;
     <span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">Rng</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)]</span>
+    <span class="kw">use</span> <span class="ident">wasm_bindgen_test</span>::<span class="ident">wasm_bindgen_test</span>;
 
-    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">BASE</span>, <span class="ident">adler32</span>, <span class="ident">RollingAdler32</span>};
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">adler32</span>, <span class="ident">RollingAdler32</span>, <span class="ident">BASE</span>};
 
-    <span class="kw">fn</span> <span class="ident">adler32_slow</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">adler32_slow</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">1</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
 
         <span class="kw">for</span> <span class="ident">byte</span> <span class="kw">in</span> <span class="ident">reader</span>.<span class="ident">bytes</span>() {
-            <span class="kw">let</span> <span class="ident">byte</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">byte</span>) <span class="kw">as</span> <span class="ident">u32</span>;
+            <span class="kw">let</span> <span class="ident">byte</span> <span class="op">=</span> <span class="ident">byte</span><span class="question-mark">?</span> <span class="kw">as</span> <span class="ident">u32</span>;
             <span class="ident">a</span> <span class="op">=</span> (<span class="ident">a</span> <span class="op">+</span> <span class="ident">byte</span>) <span class="op">%</span> <span class="ident">BASE</span>;
             <span class="ident">b</span> <span class="op">=</span> (<span class="ident">b</span> <span class="op">+</span> <span class="ident">a</span>) <span class="op">%</span> <span class="ident">BASE</span>;
         }
 
-        <span class="prelude-val">Ok</span>((<span class="ident">b</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span>) <span class="op">|</span> <span class="ident">a</span>)
+        <span class="prelude-val">Ok</span>((<span class="ident">b</span> <span class="op">&lt;&lt;</span> <span class="number">16</span>) <span class="op">|</span> <span class="ident">a</span>)
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">wasm_bindgen_test</span>)]</span>
     <span class="kw">fn</span> <span class="ident">testvectors</span>() {
         <span class="kw">fn</span> <span class="ident">do_test</span>(<span class="ident">v</span>: <span class="ident">u32</span>, <span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">RollingAdler32</span>::<span class="ident">new</span>();
@@ -546,30 +568,42 @@
         <span class="ident">do_test</span>(<span class="number">0x024d0127</span>, <span class="string">b&quot;abc&quot;</span>);
         <span class="ident">do_test</span>(<span class="number">0x29750586</span>, <span class="string">b&quot;message digest&quot;</span>);
         <span class="ident">do_test</span>(<span class="number">0x90860b20</span>, <span class="string">b&quot;abcdefghijklmnopqrstuvwxyz&quot;</span>);
-        <span class="ident">do_test</span>(<span class="number">0x8adb150c</span>, <span class="string">b&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ\
+        <span class="ident">do_test</span>(
+            <span class="number">0x8adb150c</span>,
+            <span class="string">b&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ\
                               abcdefghijklmnopqrstuvwxyz\
-                              0123456789&quot;</span>);
-        <span class="ident">do_test</span>(<span class="number">0x97b61069</span>, <span class="string">b&quot;1234567890123456789012345678901234567890\
-                              1234567890123456789012345678901234567890&quot;</span>);
+                              0123456789&quot;</span>,
+        );
+        <span class="ident">do_test</span>(
+            <span class="number">0x97b61069</span>,
+            <span class="string">b&quot;1234567890123456789012345678901234567890\
+                              1234567890123456789012345678901234567890&quot;</span>,
+        );
         <span class="ident">do_test</span>(<span class="number">0xD6251498</span>, <span class="kw-2">&amp;</span>[<span class="number">255</span>; <span class="number">64000</span>]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">wasm_bindgen_test</span>)]</span>
     <span class="kw">fn</span> <span class="ident">compare</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">rand</span>::<span class="ident">thread_rng</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0u8</span>; <span class="number">5589</span>];
-        <span class="kw">for</span> <span class="ident">size</span> <span class="kw">in</span> [<span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">31</span>, <span class="number">32</span>, <span class="number">33</span>, <span class="number">67</span>,
-                     <span class="number">5550</span>, <span class="number">5552</span>, <span class="number">5553</span>, <span class="number">5568</span>, <span class="number">5584</span>, <span class="number">5589</span>].<span class="ident">iter</span>().<span class="ident">cloned</span>() {
-            <span class="ident">rng</span>.<span class="ident">fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data</span>[..<span class="ident">size</span>]);
+        <span class="kw">for</span> <span class="ident">size</span> <span class="kw">in</span> [
+            <span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">31</span>, <span class="number">32</span>, <span class="number">33</span>, <span class="number">67</span>, <span class="number">5550</span>, <span class="number">5552</span>, <span class="number">5553</span>, <span class="number">5568</span>, <span class="number">5584</span>, <span class="number">5589</span>,
+        ]
+        .<span class="ident">iter</span>()
+        .<span class="ident">cloned</span>()
+        {
+            <span class="ident">rng</span>.<span class="ident">fill</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data</span>[..<span class="ident">size</span>]);
             <span class="kw">let</span> <span class="ident">r1</span> <span class="op">=</span> <span class="ident">io</span>::<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">size</span>]);
             <span class="kw">let</span> <span class="ident">r2</span> <span class="op">=</span> <span class="ident">r1</span>.<span class="ident">clone</span>();
-            <span class="kw">if</span> <span class="ident">adler32_slow</span>(<span class="ident">r1</span>).<span class="ident">unwrap</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">adler32</span>(<span class="ident">r2</span>).<span class="ident">unwrap</span>() {
+            <span class="kw">if</span> <span class="ident">adler32_slow</span>(<span class="ident">r1</span>).<span class="ident">unwrap</span>() <span class="op">!=</span> <span class="ident">adler32</span>(<span class="ident">r2</span>).<span class="ident">unwrap</span>() {
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Comparison failed, size={}&quot;</span>, <span class="ident">size</span>);
             }
         }
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">wasm_bindgen_test</span>)]</span>
     <span class="kw">fn</span> <span class="ident">rolling</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">RollingAdler32</span>::<span class="ident">from_value</span>(<span class="number">0x01020304</span>).<span class="ident">hash</span>(), <span class="number">0x01020304</span>);
 
@@ -591,22 +625,23 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">wasm_bindgen_test</span>)]</span>
     <span class="kw">fn</span> <span class="ident">long_window_remove</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">RollingAdler32</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="number">65536</span>;
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">w</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">&gt;</span> <span class="ident">BASE</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">w</span><span class="kw-2">*</span><span class="number">3</span>];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">w</span> <span class="op">*</span> <span class="number">3</span>];
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">b</span>) <span class="kw">in</span> <span class="ident">bytes</span>.<span class="ident">iter_mut</span>().<span class="ident">enumerate</span>() {
             <span class="kw-2">*</span><span class="ident">b</span> <span class="op">=</span> <span class="ident">i</span> <span class="kw">as</span> <span class="ident">u8</span>;
         }
 
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">b</span>) <span class="kw">in</span> <span class="ident">bytes</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">w</span> {
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;=</span> <span class="ident">w</span> {
                 <span class="ident">hash</span>.<span class="ident">remove</span>(<span class="ident">w</span>, <span class="ident">bytes</span>[<span class="ident">i</span> <span class="op">-</span> <span class="ident">w</span>]);
             }
             <span class="ident">hash</span>.<span class="ident">update</span>(<span class="kw-2">*</span><span class="ident">b</span>);
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">i</span> <span class="op">%</span> <span class="ident">w</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">i</span> <span class="op">%</span> <span class="ident">w</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hash</span>.<span class="ident">hash</span>(), <span class="number">0x433a8772</span>);
             }
         }
@@ -614,4 +649,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "adler32";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "adler32";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
