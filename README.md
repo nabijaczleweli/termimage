@@ -15,7 +15,7 @@ cargo install termimage
 ```
 
 After the installation process finishes, running `termimage` should produce an error message.
-If it does, you're ready to move on to the Usage sexion below.
+If it does, you're ready to move on to the Usage section below.
 
 If, however, you've encountered a problem during the installation, do not hesitate to open an issue [here](https://github.com/nabijaczleweli/termimage/issues/new).
 
