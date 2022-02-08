@@ -1,4 +1,4 @@
-# termimage [![TravisCI build status](https://travis-ci.org/nabijaczleweli/termimage.svg?branch=master)](https://travis-ci.org/nabijaczleweli/termimage) [![AppVeyorCI build status](https://ci.appveyor.com/api/projects/status/kk34veg25wre0gqe/branch/master?svg=true)](https://ci.appveyor.com/project/nabijaczleweli/termimage/branch/master) [![Licence](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Crates.io version](https://meritbadge.herokuapp.com/termimage)](https://crates.io/crates/termimage)
+# termimage [![TravisCI build status](https://travis-ci.org/nabijaczleweli/termimage.svg?branch=master)](https://travis-ci.org/nabijaczleweli/termimage) [![AppVeyorCI build status](https://ci.appveyor.com/api/projects/status/kk34veg25wre0gqe/branch/master?svg=true)](https://ci.appveyor.com/project/nabijaczleweli/termimage/branch/master) [![Licence](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Crates.io version](https://img.shields.io/crates/v/termimage)](https://crates.io/crates/termimage)
 Display images in your terminal, kind of
 
 ## [Documentation](https://rawcdn.githack.com/nabijaczleweli/termimage/doc/termimage/index.html)
@@ -96,3 +96,5 @@ Linux with truecolor support:
 To all who support further development on Patreon, in particular:
 
   * ThePhD
+  * Embark Studios
+  * Jasper Bekkers
