@@ -26,11 +26,11 @@ The following line in `/etc/apt/sources.list`:
 deb https://debian.nabijaczleweli.xyz stable main
 ```
 
-With [my PGP key](https://keybase.io/nabijaczleweli) (the two URLs are interchangeable):
+With [my PGP key](https://debian.nabijaczleweli.xyz/nabijaczleweli.gpg.key) (the two URLs are interchangeable):
 ```sh
 wget -O- https://debian.nabijaczleweli.xyz/nabijaczleweli.gpg.key | sudo apt-key add
 # or
-sudo wget -O/etc/apt/trusted.gpg.d/nabijaczleweli.asc https://keybase.io/nabijaczleweli/pgp_keys.asc
+sudo wget -O/etc/apt/trusted.gpg.d/nabijaczleweli.asc https://nabijaczleweli.xyz/pgp.txt
 ```
 
 Then the usual
@@ -38,7 +38,7 @@ Then the usual
 sudo apt update
 sudo apt install termimage
 ```
-will work on x86_64 and i686.
+will work on x86_64, i686, and x32.
 
 See the [repository README](https://debian.nabijaczleweli.xyz/README) for more information.
 
