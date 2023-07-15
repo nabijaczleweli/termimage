@@ -178,7 +178,6 @@ pub fn write_ansi<W: Write, C: Index<usize, Output = u8>>(out: &mut W, img: &Dyn
         }
         writeln!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
     }
-    write!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
 }
 
 /// Display the specified image in the default console using ANSI 24-bit escape colour codes.
@@ -207,5 +206,4 @@ pub fn write_ansi_truecolor<W: Write>(out: &mut W, img: &DynamicImage) {
         }
         writeln!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
     }
-    write!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
 }
