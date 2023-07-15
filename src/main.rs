@@ -3,7 +3,7 @@ extern crate image;
 
 use std::process::exit;
 use image::GenericImageView;
-use std::io::{stdout, stderr};
+use std::io::{BufWriter, Write, stdout, stderr};
 
 
 fn main() {
@@ -30,9 +30,15 @@ fn result_main() -> Result<(), termimage::Error> {
     let resized = termimage::ops::resize_image(&img, img_s);
 
     match opts.ansi_out {
-        Some(termimage::AnsiOutputFormat::Truecolor) => termimage::ops::write_ansi_truecolor(&mut stdout(), &resized),
-        Some(termimage::AnsiOutputFormat::SimpleWhite) => termimage::ops::write_ansi(&mut stdout(), &resized, &termimage::util::ANSI_COLOURS_WHITE_BG),
-        Some(termimage::AnsiOutputFormat::SimpleBlack) => termimage::ops::write_ansi(&mut stdout(), &resized, &termimage::util::ANSI_COLOURS_BLACK_BG),
+        Some(ansi) => {
+            let mut out = BufWriter::new(stdout().lock());
+            match ansi {
+                termimage::AnsiOutputFormat::Truecolor => termimage::ops::write_ansi_truecolor(&mut out, &resized),
+                termimage::AnsiOutputFormat::SimpleWhite => termimage::ops::write_ansi(&mut out, &resized, &termimage::util::ANSI_COLOURS_WHITE_BG),
+                termimage::AnsiOutputFormat::SimpleBlack => termimage::ops::write_ansi(&mut out, &resized, &termimage::util::ANSI_COLOURS_BLACK_BG),
+            }
+            out.flush().unwrap();
+        }
         None => termimage::ops::write_no_ansi(&resized),
     }
 
