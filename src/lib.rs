@@ -164,13 +164,10 @@
 //! Note the --size option being specified, since it's required when outputting to a file.
 //! ```
 
-#[macro_use]
-extern crate lazy_static;
 extern crate term_size;
 #[cfg(target_os = "windows")]
 extern crate winapi;
 extern crate image;
-extern crate regex;
 #[macro_use]
 extern crate clap;
 

@@ -14,14 +14,8 @@
 use clap::{Arg, AppSettings};
 use std::path::PathBuf;
 use std::str::FromStr;
-use regex::Regex;
 use term_size;
 use std::fs;
-
-
-lazy_static! {
-    static ref SIZE_ARG_RGX: Regex = Regex::new(r"(\d+)[xX](\d+)").unwrap();
-}
 
 
 /// Supported ANSI output formats
@@ -92,7 +86,8 @@ impl Options {
     }
 
     fn parse_size(s: &str) -> Option<(u32, u32)> {
-        SIZE_ARG_RGX.captures(s).map(|c| (u32::from_str(c.get(1).unwrap().as_str()).unwrap(), u32::from_str(c.get(2).unwrap().as_str()).unwrap()))
+        let mut parts = s.splitn(2, |c| c == 'x' || c == 'X');
+        Some((u32::from_str(parts.next()?).ok()?, u32::from_str(parts.next()?).ok()?))
     }
 
     fn image_file_validator(s: String) -> Result<(), String> {
