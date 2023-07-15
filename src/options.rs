@@ -69,7 +69,7 @@ impl Options {
             .setting(AppSettings::ColoredHelp)
             .arg(Arg::from_usage("<IMAGE> 'Image file to display'").validator(Options::image_file_validator))
             .arg(szarg)
-            .arg(Arg::from_usage("-f --force 'Don\\'t preserve the image\\'s aspect ratio'"))
+            .arg(Arg::from_usage("-f --force 'Don't preserve the image's aspect ratio'"))
             .arg(Arg::from_usage("-a --ansi [ANSI] 'Force output ANSI escapes'").possible_values(&["truecolor", "simple-black", "simple-white"]))
             .get_matches();
 
