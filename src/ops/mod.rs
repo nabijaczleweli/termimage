@@ -176,7 +176,7 @@ pub fn write_ansi<W: Write, C: Index<usize, Output = u8>>(out: &mut W, img: &Dyn
                    ANSI_BG_COLOUR_ESCAPES[lower_clr])
                 .unwrap();
         }
-        writeln!(out, "{}{}", ANSI_COLOUR_ESCAPES[15], ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
+        writeln!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
     }
     write!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
 }
@@ -205,7 +205,7 @@ pub fn write_ansi_truecolor<W: Write>(out: &mut W, img: &DynamicImage) {
                    lower_pixel[2])
                 .unwrap();
         }
-        writeln!(out, "{}", ANSI_BG_COLOUR_ESCAPES[0]).unwrap();
+        writeln!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
     }
     write!(out, "{}", ANSI_RESET_ATTRIBUTES).unwrap();
 }
