@@ -97,4 +97,5 @@ To all who support further development on Patreon, in particular:
 
   * ThePhD
   * Embark Studios
-  * Jasper Bekkers
+  * Lars Strojny
+  * EvModder

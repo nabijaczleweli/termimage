@@ -71,13 +71,17 @@ with ANSI output a sane default is assumed.
 
 Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;,
            Josh Triplett &lt;<josh@joshtriplett.org>&gt;,
-       and Aaron Hill &lt;<aa1ronham@gmail.com>&gt;
+           Aaron Hill &lt;<aa1ronham@gmail.com>&gt;,
+       and caeklol
 
 ## SPECIAL THANKS
 
 To all who support further development, in particular:
 
   * ThePhD
+  * Embark Studios
+  * Lars Strojny
+  * EvModder
 
 ## REPORTING BUGS
 
