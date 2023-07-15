@@ -1,3 +1,6 @@
+image:
+  - Visual Studio 2022
+
 version: 1.2.1-{build}
 
 branches:
@@ -13,21 +16,9 @@ clone_folder: C:\termimage
 
 install:
   - set PATH=C:\msys64\mingw64\bin;C:\msys64\usr\bin;%PATH%;C:\Users\appveyor\.cargo\bin
-  # https://www.msys2.org/news/#2020-05-17-32-bit-msys2-no-longer-actively-supported
-  - curl -SL http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz -oC:\msys2-keyring.txz
-  - curl -SL http://repo.msys2.org/msys/x86_64/msys2-keyring-1~20210904-1-any.pkg.tar.zst -oC:\msys2-keyring.tzst
-  - curl -SL http://repo.msys2.org/msys/x86_64/zstd-1.4.7-1-x86_64.pkg.tar.xz -oC:\zstd.txz
-  - curl -SL http://repo.msys2.org/msys/x86_64/pacman-5.2.2-5-x86_64.pkg.tar.xz -oC:\pacman.txz
-  - pacman --noconfirm -U C:\msys2-keyring.txz
-  - pacman --noconfirm -U C:\zstd.txz
-  - pacman --noconfirm -U C:\pacman.txz
-  - pacman --noconfirm -U C:\msys2-keyring.tzst
-  - bash -lc "pacman --needed --noconfirm -Sy pacman-mirrors"
-  - bash -lc "pacman --noconfirm -Sy pacman"
-  - bash -lc "pacman --noconfirm -Sy"
-  - bash -lc "pacman --noconfirm -Su"
-  - bash -lc "pacman --noconfirm -Sy"
-  - bash -lc "pacman --noconfirm -S mingw-w64-x86_64-toolchain"
+  - bash -lc "pacman --noconfirm -Syyu"
+  - bash -lc "pacman --noconfirm -Syyu"
+  - bash -lc "pacman --noconfirm -S mingw-w64-x86_64-toolchain zip"
   -
   - curl -SL https://win.rustup.rs/ -oC:\rustup-init.exe
   - C:\rustup-init.exe -y --default-host="x86_64-pc-windows-gnu"
@@ -41,6 +32,7 @@ build_script:
 
 test: off
 test_script:
+  - target\release\termimage.exe -s 100x100 assets/rust-logo-truecolor.png
   - cargo test --verbose --release
 
 artifacts:
@@ -50,7 +42,7 @@ deploy:
   provider: GitHub
   artifact: termimage-v1.2.1.exe
   auth_token:
-    secure: 0NoQc4wdbVxU2Qf+OZVB2ris4DrRoEHqGvN5sJ0qtMjyX9cuiifhu0/ML0opLPvc
+    secure: F9auuxFPHvnELZYfPe7+uXqHbBMWZuI6OOIVZGcG4p28TNy3sF/qhVDvuW1jgm/5PMYDkKBs9E/O+j+3iffnkafpR7JipckY4aUZ1IaB1M0anTGALfenkPPJ7pefoJEk
   on:
     appveyor_repo_tag: true
 
