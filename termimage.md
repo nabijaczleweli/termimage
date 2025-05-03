@@ -72,7 +72,8 @@ with ANSI output a sane default is assumed.
 Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;,
            Josh Triplett &lt;<josh@joshtriplett.org>&gt;,
            Aaron Hill &lt;<aa1ronham@gmail.com>&gt;,
-       and caeklol
+           caeklol,
+       and Chris West (Faux) &lt;<git@goeswhere.com>&gt;
 
 ## SPECIAL THANKS
 
