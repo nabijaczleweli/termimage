@@ -178,5 +178,5 @@ pub mod ops;
 pub mod util;
 pub mod migration;
 
-pub use error::Error;
-pub use options::{Options, AnsiOutputFormat};
+pub use crate::error::Error;
+pub use crate::options::{Options, AnsiOutputFormat};
