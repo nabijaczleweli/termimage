@@ -10,8 +10,7 @@
 //! println!("Image to display: {}", options.image.0);
 //! ```
 
-
-use clap::{Arg, AppSettings};
+use std::ffi::OsString;
 use std::path::PathBuf;
 use std::str::FromStr;
 use term_size;
@@ -48,32 +47,29 @@ pub struct Options {
 impl Options {
     /// Parse `env`-wide command-line arguments into an `Options` instance
     pub fn parse() -> Options {
-        let szarg_def;
-        let mut szarg = Arg::from_usage("-s --size [size] 'Output image resolution'").validator(Options::size_validator);
+        let mut szarg = arg!(-s --size [size] "Output image resolution").value_parser(Options::size_validator);
         let have_dimms = if let Some((w, h)) = term_size::dimensions() {
-            szarg_def = format!("{}x{}", w, h - 1);
-            szarg = szarg.default_value(&szarg_def);
+            szarg = szarg.default_value(OsString::from(format!("{}x{}", w, h - 1)));
             true
         } else {
             szarg = szarg.required(true);
             false
         };
 
-        let matches = app_from_crate!("\n")
-            .setting(AppSettings::ColoredHelp)
-            .arg(Arg::from_usage("<IMAGE> 'Image file to display'").validator(Options::image_file_validator))
+        let matches = command!("\n")
+            .arg(arg!(<IMAGE> "Image file to display").value_parser(Options::image_file_validator))
             .arg(szarg)
-            .arg(Arg::from_usage("-f --force 'Don't preserve the image's aspect ratio'"))
-            .arg(Arg::from_usage("-a --ansi [ANSI] 'Force output ANSI escapes'").possible_values(&["truecolor", "simple-black", "simple-white"]))
+            .arg(arg!(-f --force "Don't preserve the image's aspect ratio"))
+            .arg(arg!(-a --ansi [ANSI] "Force output ANSI escapes").value_parser(["truecolor", "simple-black", "simple-white"]))
             .get_matches();
 
-        let image = matches.value_of("IMAGE").unwrap();
+        let image = matches.get_one::<PathBuf>("IMAGE").unwrap();
         Options {
-            image: (image.to_string(), fs::canonicalize(image).unwrap()),
-            size: Options::parse_size(matches.value_of("size").unwrap()).unwrap(),
-            preserve_aspect: !matches.is_present("force"),
-            ansi_out: if cfg!(not(target_os = "windows")) || !have_dimms || matches.is_present("ansi") {
-                match matches.value_of("ansi").unwrap_or("truecolor") {
+            image: (image.to_string_lossy().to_string(), image.to_path_buf()),
+            size: matches.get_one::<(u32, u32)>("size").unwrap().clone(),
+            preserve_aspect: !matches.get_flag("force"),
+            ansi_out: if cfg!(not(target_os = "windows")) || !have_dimms || matches.get_flag("ansi") {
+                match matches.get_one::<String>("ansi").map_or("truecolor", |v| v.as_str()) {
                     "truecolor" => Some(AnsiOutputFormat::Truecolor),
                     "simple-black" => Some(AnsiOutputFormat::SimpleBlack),
                     "simple-white" => Some(AnsiOutputFormat::SimpleWhite),
@@ -90,15 +86,15 @@ impl Options {
         Some((u32::from_str(parts.next()?).ok()?, u32::from_str(parts.next()?).ok()?))
     }
 
-    fn image_file_validator(s: &str) -> Result<(), String> {
-        fs::canonicalize(&s).map(|_| ()).map_err(|_| format!("Image file \"{}\" not found", s))
+    fn image_file_validator(s: &str) -> Result<PathBuf, String> {
+        fs::canonicalize(&s).map_err(|_| format!("Image file \"{}\" not found", s))
     }
 
-    fn size_validator(s: &str) -> Result<(), String> {
+    fn size_validator(s: &str) -> Result<(u32, u32), String> {
         match Options::parse_size(s) {
             None => Err(format!("\"{}\" is not a valid size (in format \"NNNxMMM\")", s)),
             Some((0, _)) | Some((_, 0)) => Err(format!("Can't resize image to size 0")),
-            Some(_) => Ok(()),
+            Some(other) => Ok(other),
         }
     }
 }
