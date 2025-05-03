@@ -90,12 +90,12 @@ impl Options {
         Some((u32::from_str(parts.next()?).ok()?, u32::from_str(parts.next()?).ok()?))
     }
 
-    fn image_file_validator(s: String) -> Result<(), String> {
+    fn image_file_validator(s: &str) -> Result<(), String> {
         fs::canonicalize(&s).map(|_| ()).map_err(|_| format!("Image file \"{}\" not found", s))
     }
 
-    fn size_validator(s: String) -> Result<(), String> {
-        match Options::parse_size(&s) {
+    fn size_validator(s: &str) -> Result<(), String> {
+        match Options::parse_size(s) {
             None => Err(format!("\"{}\" is not a valid size (in format \"NNNxMMM\")", s)),
             Some((0, _)) | Some((_, 0)) => Err(format!("Can't resize image to size 0")),
             Some(_) => Ok(()),
